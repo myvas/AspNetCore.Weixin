@@ -1,0 +1,26 @@
+@model SendSmsViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("SendSms", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <dl>
+        <dt>
+            @Html.LabelFor(x => x.Mobile)
+        </dt>
+        <dd>
+            @Html.EditorFor(x => x.Mobile)
+        </dd>
+        <dt>
+            @Html.LabelFor(x => x.Code)
+        </dt>
+        <dd>
+            @Html.EditorFor(x => x.Code)
+        </dd>
+    </dl>
+    <input type="submit" value="Submit" />
+}
