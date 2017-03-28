@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public static class Extensions
     {

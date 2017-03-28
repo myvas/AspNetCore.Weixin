@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 微信WiFi相关API返回值（JSON）

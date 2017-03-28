@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 二维码创建返回结果

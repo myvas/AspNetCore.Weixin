@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public static partial class WebHeaderCollectionExtensions
     {

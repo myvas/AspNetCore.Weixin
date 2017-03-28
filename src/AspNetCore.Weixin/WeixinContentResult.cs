@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
-    public class WeixinContentResult:ContentResult
+    public class WeixinContentResult : ContentResult
     {
         private IMessageHandlerDocument MessageHandlerDocument;
         public WeixinContentResult(IMessageHandlerDocument messageHandlerDocument)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 微信API返回值（JSON）

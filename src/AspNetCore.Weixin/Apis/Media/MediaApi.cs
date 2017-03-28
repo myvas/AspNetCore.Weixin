@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public class MaterialCountJson
     {

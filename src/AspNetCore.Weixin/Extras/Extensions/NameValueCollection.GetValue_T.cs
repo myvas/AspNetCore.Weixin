@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public static partial class NameValueCollectionExtensions
     {
@@ -15,7 +15,7 @@ namespace Myvas.AspNetCore.Weixin
         /// Request.QueryString.GetValue&lt;int?>("id") ?? 10;
         /// Request.QueryString.GetValue&lt;int?>("id", 10);
         /// Request.QueryString.GetValue&lt;int>("id", 10);
-        /// ConfigurationManager.AppSettings.GetValue&lt;string>("Token","SXT");
+        /// ConfigurationManager.AppSettings.GetValue&lt;string>("Token","Demo");
         /// </code></example>
         /// <typeparam name="T">参数值类型</typeparam>
         /// <param name="collection"></param>

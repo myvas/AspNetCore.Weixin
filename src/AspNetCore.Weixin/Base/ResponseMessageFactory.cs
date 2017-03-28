@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public static class ResponseMessageFactory
     {
@@ -18,7 +18,7 @@ namespace Myvas.AspNetCore.Weixin
         //  <MsgType>text</MsgType>
         //  <Content><![CDATA[您刚才发送了文字信息：中文
         //您还可以发送【位置】【图片】【语音】信息，查看不同格式的回复。
-        //SDK官方地址：http://weixin.sxtsoft.com]]></Content>
+        //SDK官方地址：http://...]]></Content>
         //  <FuncFlag>0</FuncFlag>
         //</xml>
 

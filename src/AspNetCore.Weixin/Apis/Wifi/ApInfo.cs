@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 微信WiFi无线访问点（AP）信息
@@ -91,7 +91,7 @@ namespace Myvas.AspNetCore.Weixin
         /// <summary>
         /// AP设备的SSID（无线访问点的名字）
         /// </summary>
-        /// <example>例如：SXTSOFT</example>
+        /// <example>例如：WIFI1</example>
         public string ssid { get; set; }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Myvas.AspNetCore.Weixin
         /// <summary>
         /// 联系方式-Email
         /// </summary>
-        /// <example>例如：webpromo@sxt.com.cn</example>
+        /// <example>例如：demo@test.com</example>
         public string storeMail { get; set; }
 
         /// <summary>

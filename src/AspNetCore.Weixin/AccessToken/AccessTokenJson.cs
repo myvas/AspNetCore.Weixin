@@ -1,5 +1,5 @@
 ﻿
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 微信全局访问票据数据。调用微信API接口时必须。</summary>

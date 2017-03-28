@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// Wi-Fi服务提供商通知微信触发验证通知，或Wi-Fi服务提供商通知微信用户登录结果

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 高级群发接口

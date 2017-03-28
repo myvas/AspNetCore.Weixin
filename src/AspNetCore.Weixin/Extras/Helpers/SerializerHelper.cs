@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public class SerializerHelper
     {

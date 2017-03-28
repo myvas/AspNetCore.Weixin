@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public class WeixinAccessTicket
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 微信API访问凭证（access_token）是公众号的全局唯一票据。公众号调用各接口时都需用到该凭证。

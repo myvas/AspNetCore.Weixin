@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     public static class HttpUtility
     {

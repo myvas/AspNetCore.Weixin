@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     interface IAccessTokenBagsRepository
     {

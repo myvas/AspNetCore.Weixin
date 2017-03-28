@@ -1,4 +1,4 @@
-﻿namespace Myvas.AspNetCore.Weixin
+﻿namespace AspNetCore.Weixin
 {
     public static partial class StringExtensions
     {

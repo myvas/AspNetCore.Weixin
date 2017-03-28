@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 百度地图静态图片API，文档：http://api.map.baidu.com/lbsapi/cloud/staticimg.htm

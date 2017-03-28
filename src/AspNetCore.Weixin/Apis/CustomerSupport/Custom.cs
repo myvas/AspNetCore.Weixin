@@ -1,21 +1,8 @@
-﻿// ***********************************************************************
-// Assembly         : SXT.Weixin
-// Author           : Administrator
-// Created          : 05-30-2014
-//
-// Last Modified By : Administrator
-// Last Modified On : 06-06-2014
-// ***********************************************************************
-// <copyright file="Custom.cs" company="">
-//     . All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 客服接口

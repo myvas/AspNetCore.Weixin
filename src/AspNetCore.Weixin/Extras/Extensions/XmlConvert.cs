@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Myvas.AspNetCore
+namespace AspNetCore
 {
     public static class XmlConvert
     {
