@@ -26,35 +26,21 @@ namespace AspNetCore.Weixin
             IOptions<WeixinWelcomePageOptions> options,
             ILoggerFactory loggerFactory)
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-            _next = next;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+            _logger = loggerFactory?.CreateLogger<WeixinWelcomePageMiddleware>() ?? throw new ArgumentNullException(nameof(loggerFactory));
+            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
 
-            if (loggerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(loggerFactory));
-            }
-            _logger = loggerFactory.CreateLogger<WeixinWelcomePageMiddleware>();
-
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-            _options = options.Value;
-            
             //入参检查
             if (string.IsNullOrEmpty(_options.WebsiteToken))
             {
                 throw new ArgumentException($"参数 {nameof(_options.WebsiteToken)} 不能为空。");
             }
-            
-            if (string.IsNullOrEmpty(_options.PathString))
+
+            if (string.IsNullOrEmpty(_options.Path))
             {
-                throw new ArgumentException($"参数 {nameof(_options.PathString)} 不能为空。");
+                throw new ArgumentException($"参数 {nameof(_options.Path)} 不能为空。");
             }
-            
+
             _backchannel = new HttpClient(new HttpClientHandler());
             _backchannel.DefaultRequestHeaders.UserAgent.ParseAdd("AspNetCoreWeixin");
             _backchannel.Timeout = TimeSpan.FromSeconds(60);

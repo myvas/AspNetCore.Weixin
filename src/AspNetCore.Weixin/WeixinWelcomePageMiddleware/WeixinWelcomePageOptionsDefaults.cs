@@ -9,6 +9,6 @@
         /// <summary>
         /// default as /weixin
         /// </summary>
-        public const string Path = "/weixin";
+        public const string Path = "/wx";
     }
 }

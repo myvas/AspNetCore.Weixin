@@ -96,6 +96,8 @@ namespace Demo
             }
 
             app.UseStaticFiles();
+            
+            app.UseWeixinWelcomePage();
 
             app.UseMvc(routes =>
             {
