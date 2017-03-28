@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Demo.Models
 {
-    public class SendArticleViewModel
+    public class WeixinArticleViewModel
     {
-        [Required]
-        public string Mobile { get; set; }
+        public string Title { get; set; }
 
         [Required]
-        public string Code { get; set; }
+        public string Content { get; set; }
     }
 }

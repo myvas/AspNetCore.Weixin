@@ -1,25 +1,24 @@
-@model SendSmsViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Index</h2>
 
-@using (Html.BeginForm("SendSms", "Home", FormMethod.Post))
+@using (Html.BeginForm("SendWeixinArticle", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <dl>
         <dt>
-            @Html.LabelFor(x => x.Mobile)
+            Title
         </dt>
         <dd>
-            @Html.EditorFor(x => x.Mobile)
+            <input type="text" name="Title" />
         </dd>
         <dt>
-            @Html.LabelFor(x => x.Code)
+            Content
         </dt>
         <dd>
-            @Html.EditorFor(x => x.Code)
+            <input type="text" name="Content" />
         </dd>
     </dl>
     <input type="submit" value="Submit" />

@@ -38,10 +38,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Views\Home\" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
   </ItemGroup>
 
