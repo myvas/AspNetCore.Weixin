@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using AspNetCore.Weixin;
+using Demo.Applications;
 
 namespace Demo
 {
@@ -42,6 +43,9 @@ namespace Demo
                 options.AppId = weixinOptions["AppId"];
                 options.AppSecret = weixinOptions["AppSecret"];
             });
+
+            services.AddSingleton<WeixinEventSink>();
+            var weixinEventSink = services.BuildServiceProvider().GetRequiredService<WeixinEventSink>();
             services.AddWeixinWelcomePage(options =>
             {
                 options.AppId = weixinOptions["AppId"];
@@ -50,31 +54,18 @@ namespace Demo
                 options.EncodingAESKey = weixinOptions["EncodingAESKey"];
                 options.Events = new WeixinMessageEvents()
                 {
-                    OnTextMessageReceived = ctx =>
-                    {
-                        var sender = ctx.Sender;
-                        var e = ctx.Args;
-
-                        _logger.LogInformation($"OnTextMessageRecived: {e.Content}");
-                        return true;
-                    },
-                    OnLinkMessageReceived = ctx =>
-                    {
-                        var sender = ctx.Sender;
-                        var e = ctx.Args;
-
-                        _logger.LogInformation($"OnLinkMessageReceived: {ctx.Args.Url}");
-
-                        var messageHandler = sender;
-                        var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
-                        responseMessage.Content = string.Format(@"您发送了一条连接信息：
-            Title：{0}
-            Description:{1}
-            Url:{2}", e.Title, e.Description, e.Url);
-                        messageHandler.ResponseMessage = responseMessage;
-
-                        return true;
-                    }
+                    OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx.Sender, ctx.Args),
+                    OnLinkMessageReceived = ctx => weixinEventSink.OnLinkMessageReceived(ctx.Sender, ctx.Args),
+                    OnClickMenuEventReceived = ctx => weixinEventSink.OnClickMenuEventReceived(ctx.Sender, ctx.Args),
+                    OnImageMessageReceived = ctx => weixinEventSink.OnImageMessageReceived(ctx.Sender, ctx.Args),
+                    OnLocationEventReceived = ctx => weixinEventSink.OnLocationEventReceived(ctx.Sender, ctx.Args),
+                    OnLocationMessageReceived = ctx => weixinEventSink.OnLocationMessageReceived(ctx.Sender, ctx.Args),
+                    OnQrscanEventReceived = ctx => weixinEventSink.OnQrscanEventReceived(ctx.Sender, ctx.Args),
+                    OnSubscribeEventReceived = ctx => weixinEventSink.OnSubscribeEventReceived(ctx.Sender, ctx.Args),
+                    OnUnsubscribeEventReceived = ctx => weixinEventSink.OnUnsubscribeEventReceived(ctx.Sender, ctx.Args),
+                    OnVideoMessageReceived = ctx => weixinEventSink.OnVideoMessageReceived(ctx.Sender, ctx.Args),
+                    OnViewMenuEventReceived = ctx => weixinEventSink.OnViewMenuEventReceived(ctx.Sender, ctx.Args),
+                    OnVoiceMessageReceived = ctx => weixinEventSink.OnVoiceMessageReceived(ctx.Sender, ctx.Args)
                 };
             });
 
@@ -96,7 +87,7 @@ namespace Demo
             }
 
             app.UseStaticFiles();
-            
+
             app.UseWeixinWelcomePage();
 
             app.UseMvc(routes =>

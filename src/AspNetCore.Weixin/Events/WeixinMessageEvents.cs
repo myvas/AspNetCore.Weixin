@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Weixin
 {
+    /// <summary>
+    /// "Official account services unavailable. Try again later." 
+    /// will be response while firing an event that returns "false".
+    /// </summary>
     public class WeixinMessageEvents
     {
         public Func<WeixinReceivedContext<ImageMessageReceivedEventArgs>, bool> OnImageMessageReceived { get; set; } = e => false;
