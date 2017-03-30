@@ -1,5 +1,6 @@
 ﻿logs/
 bower_components
+samples/**/wwwroot/lib/
 src/**/wwwroot/lib/
 src/**/wwwroot/*.xlsx
 src/**/wwwroot/js/*.min.js
