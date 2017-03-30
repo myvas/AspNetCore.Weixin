@@ -56,6 +56,11 @@ namespace AspNetCore.Weixin
         {
             get { return EventType.subscribe; }
         }
+
+        /// <summary>
+        /// 带场景码时，作为换二维码图的票据
+        /// </summary>
+        public string Ticket { get; set; }
     }
 
     /// <summary>
@@ -85,7 +90,7 @@ namespace AspNetCore.Weixin
         {
             get { return EventType.scan; }
         }
-
+        
         public string Ticket { get; set; }
     }
 

@@ -480,7 +480,10 @@ namespace AspNetCore.Weixin
             SubscribeEventReceived.Raise(this, new SubscribeEventReceivedEventArgs()
             {
                 FromUserName = requestMessage.FromUserName,
-                CreateTime = requestMessage.CreateTime
+                CreateTime = requestMessage.CreateTime,
+                //带场景码
+                EventKey = requestMessage.EventKey,
+                Ticket = requestMessage.Ticket
             });
         }
 
@@ -518,7 +521,8 @@ namespace AspNetCore.Weixin
             {
                 FromUserName = requestMessage.FromUserName,
                 CreateTime = requestMessage.CreateTime,
-                EventKey = requestMessage.EventKey
+                EventKey = requestMessage.EventKey,
+                Ticket = requestMessage.Ticket
             });
         }
 

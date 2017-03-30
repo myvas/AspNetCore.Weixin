@@ -55,7 +55,7 @@ namespace AspNetCore.Weixin
                     case RequestMsgType.Event:
                         //判断Event类型
                         string sEventValue = doc.Root.Element("Event").Value;
-                        EventType eventValue =  (EventType)Enum.Parse(typeof(EventType),sEventValue);
+                        EventType eventValue =  (EventType)Enum.Parse(typeof(EventType),sEventValue, true);
                         switch (eventValue)
                         {
                             case EventType.ENTER://进入会话
