@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -82,10 +84,23 @@ namespace AspNetCore.Weixin
         /// </summary>
         /// <param name="ticket"></param>
         /// <param name="stream">输出流</param>
-        public static async Task ShowQrCode(string ticket, Stream stream)
+        public static string ShowQrcode(string ticket)
         {
             var api = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
-            api = api.Replace("TICKET", UrlEncoder.Default.Encode(ticket));
+            api = api.Replace("TICKET", WebUtility.UrlEncode(ticket));
+            return api;
+        }
+
+        /// <summary>
+        /// 获取二维码（不需要AccessToken）
+        /// 错误情况下（如ticket非法）返回HTTP错误码404。
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="stream">输出流</param>
+        public static async Task ShowQrcode(string ticket, Stream stream)
+        {
+            var api = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
+            api = api.Replace("TICKET", WebUtility.UrlEncode(ticket));
             await HttpUtility.Download(api, stream);
         }
     }

@@ -14,7 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\AspNetCore.HechinaSmsMiddleware\AspNetCore.HechinaSmsMiddleware.csproj" />
     <ProjectReference Include="..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
   </ItemGroup>
 

@@ -27,7 +27,7 @@ namespace Demo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendWeixinArticle(WeixinArticleViewModel vm)
+        public IActionResult SendWeixinArticle(WeixinArticleViewModel vm)
         {
             if (!ModelState.IsValid)
             {

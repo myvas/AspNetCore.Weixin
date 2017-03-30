@@ -291,7 +291,7 @@ namespace AspNetCore.Weixin
             #endregion
 
             //client.ContentLength = postStream != null ? postStream.Length : 0;
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"));
+            //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"));
             //client..KeepAlive = true;
 
             if (!string.IsNullOrEmpty(refererUrl))

@@ -61,7 +61,7 @@ namespace AspNetCore.Weixin
                         //已设为只读
                         //prop.SetValue(entity, MsgTypeHelper.GetResponseMsgType(root.Element(propName).Value), null);
                     }
-                    else if (prop.PropertyType == typeof(WeixinEvent))
+                    else if (prop.PropertyType == typeof(EventType))
                     {
                         //已设为只读
                         //prop.SetValue(entity, EventHelper.GetEventType(root.Element(propName).Value), null);

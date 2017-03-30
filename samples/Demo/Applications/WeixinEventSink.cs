@@ -53,9 +53,9 @@ namespace Demo.Applications
 
             return true;
         }
-        
+
         public bool OnLinkMessageReceived(object sender, LinkMessageReceivedEventArgs e)
-        {            
+        {
             _logger.LogInformation($"OnLinkMessageReceived: {e.Url}");
 
             var messageHandler = sender as MessageHandler<MessageContext>;
@@ -68,7 +68,7 @@ namespace Demo.Applications
 
             return true;
         }
-        
+
         public bool OnVideoMessageReceived(object sender, VideoMessageReceivedEventArgs e)
         {
             var messageHandler = sender as MessageHandler<MessageContext>;
@@ -122,8 +122,8 @@ namespace Demo.Applications
             var markersList = new List<GoogleMapMarkers>();
             markersList.Add(new GoogleMapMarkers()
             {
-                Latitude = e.Latitude,
-                Longitude = e.Longitude,
+                Latitude = e.Location_X,
+                Longitude = e.Location_Y,
                 Color = "red",
                 Label = "S",
                 Size = GoogleMapMarkerSize.Default,
@@ -134,7 +134,7 @@ namespace Demo.Applications
             responseMessage.Articles.Add(new Article()
             {
                 Description = string.Format("您刚才发送了地理位置信息。Location_X：{0}，Location_Y：{1}，Scale：{2}，标签：{3}",
-                              e.Latitude, e.Longitude,
+                              e.Location_X, e.Location_Y,
                               e.Scale, e.Label),
                 PicUrl = mapUrl,
                 Title = "定位地点周边地图",
@@ -203,29 +203,47 @@ namespace Demo.Applications
 
         public bool OnSubscribeEventReceived(object sender, SubscribeEventReceivedEventArgs e)
         {
-            _logger.LogDebug("Subscribe: from:{0}", e.FromUserName);
-
             var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
-            responseMessage.Articles.Add(new Article()
+            if (string.IsNullOrWhiteSpace(e.EventKey))
             {
-                Title = "欢迎体验AspNetCore.Weixin演示系统",
-                Description = "由AspNetCore.Weixin提供",
-                PicUrl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?mode=large&source=file&fileId=200121314%3E&token=977619473&lang=zh_CN",
-                Url = "http://wx.demo.com"
-            });
-            messageHandler.ResponseMessage = responseMessage;
+                _logger.LogDebug("Subscribe: from:{0}", e.FromUserName);
+
+                var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+                responseMessage.Articles.Add(new Article()
+                {
+                    Title = "欢迎体验AspNetCore.Weixin演示系统",
+                    Description = "由AspNetCore.Weixin提供",
+                    PicUrl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?mode=large&source=file&fileId=200121314%3E&token=977619473&lang=zh_CN",
+                    Url = "http://wx.demo.com"
+                });
+                messageHandler.ResponseMessage = responseMessage;
+            }
+            else
+            {
+                _logger.LogDebug("Subscribe w/ scene({0}): {1}, {2}", e.FromUserName, e.EventKey, e.Ticket);
+
+
+                var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+                responseMessage.Articles.Add(new Article()
+                {
+                    Title = "欢迎体验AspNetCore.Weixin演示系统",
+                    Description = "由AspNetCore.Weixin提供。此消息带场景({e.EventKey}, {e.Ticket})",
+                    PicUrl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?mode=large&source=file&fileId=200121314%3E&token=977619473&lang=zh_CN",
+                    Url = "http://wx.demo.com"
+                });
+                messageHandler.ResponseMessage = responseMessage;
+            }
 
             return true;
         }
 
         public bool OnQrscanEventReceived(object sender, QrscanEventReceivedEventArgs e)
         {
-            _logger.LogDebug("Qrscan({0}): {1}, {2}", e.FromUserName, e.SceneId, e.Ticket);
+            _logger.LogDebug("Qrscan({0}): {1}, {2}", e.FromUserName, e.EventKey, e.Ticket);
 
             var messageHandler = sender as MessageHandler<MessageContext>;
             var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = string.Format("Qrscan({0}): {1}, {2}", e.FromUserName, e.SceneId, e.Ticket);
+            responseMessage.Content = string.Format("Qrscan({0}): {1}, {2}", e.FromUserName, e.EventKey, e.Ticket);
             messageHandler.ResponseMessage = responseMessage;
 
             return true;

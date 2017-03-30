@@ -10,7 +10,7 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        WeixinEvent Event { get; }
+        EventType Event { get; }
         /// <summary>
         /// 事件KEY值，与自定义菜单接口中KEY值对应
         /// </summary>
@@ -27,9 +27,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public virtual WeixinEvent Event
+        public virtual EventType Event
         {
-            get { return WeixinEvent.ENTER; }
+            get { return EventType.ENTER; }
         }
 
         /// <summary>

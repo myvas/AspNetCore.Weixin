@@ -13,9 +13,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override WeixinEvent Event
+        public override EventType Event
         {
-            get { return WeixinEvent.VIEW; }
+            get { return EventType.VIEW; }
         }
     }
 
@@ -27,9 +27,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override WeixinEvent Event
+        public override EventType Event
         {
-            get { return WeixinEvent.CLICK; }
+            get { return EventType.CLICK; }
         }
     }
 
@@ -38,9 +38,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override WeixinEvent Event
+        public override EventType Event
         {
-            get { return WeixinEvent.ENTER; }
+            get { return EventType.ENTER; }
         }
     }
 
@@ -52,9 +52,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override WeixinEvent Event
+        public override EventType Event
         {
-            get { return WeixinEvent.subscribe; }
+            get { return EventType.subscribe; }
         }
     }
 
@@ -66,9 +66,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override WeixinEvent Event
+        public override EventType Event
         {
-            get { return WeixinEvent.unsubscribe; }
+            get { return EventType.unsubscribe; }
         }
     }
 
@@ -81,9 +81,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override WeixinEvent Event
+        public override EventType Event
         {
-            get { return WeixinEvent.scan; }
+            get { return EventType.scan; }
         }
 
         public string Ticket { get; set; }
@@ -100,9 +100,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override WeixinEvent Event
+        public override EventType Event
         {
-            get { return WeixinEvent.LOCATION; }
+            get { return EventType.LOCATION; }
         }
 
         /// <summary>

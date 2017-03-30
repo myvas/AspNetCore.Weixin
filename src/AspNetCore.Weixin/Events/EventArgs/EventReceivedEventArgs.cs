@@ -10,7 +10,6 @@ namespace AspNetCore.Weixin
     /// </summary>
     public class EventReceivedEventArgs : ReceivedEventArgs
     {
-
-        public WeixinEvent Event { get; set; }
+        public EventType Event { get; set; }
     }
 }

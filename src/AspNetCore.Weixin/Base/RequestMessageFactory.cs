@@ -55,28 +55,28 @@ namespace AspNetCore.Weixin
                     case RequestMsgType.Event:
                         //判断Event类型
                         string sEventValue = doc.Root.Element("Event").Value;
-                        WeixinEvent eventValue =  (WeixinEvent)Enum.Parse(typeof(WeixinEvent),sEventValue);
+                        EventType eventValue =  (EventType)Enum.Parse(typeof(EventType),sEventValue);
                         switch (eventValue)
                         {
-                            case WeixinEvent.ENTER://进入会话
+                            case EventType.ENTER://进入会话
                                 requestMessage = new RequestMessageEventEnter();
                                 break;
-                            case WeixinEvent.LOCATION://地理位置
+                            case EventType.LOCATION://地理位置
                                 requestMessage = new RequestMessageEventLocation();
                                 break;
-                            case WeixinEvent.subscribe://订阅（关注）
+                            case EventType.subscribe://订阅（关注）
                                 requestMessage = new RequestMessageEventSubscribe();
                                 break;
-                            case WeixinEvent.unsubscribe://取消订阅（关注）
+                            case EventType.unsubscribe://取消订阅（关注）
                                 requestMessage = new RequestMessageEventUnsubscribe();
                                 break;
-                            case WeixinEvent.CLICK://菜单点击
+                            case EventType.CLICK://菜单点击
                                 requestMessage = new RequestMessageEventClick();
                                 break;
-                            case WeixinEvent.scan://二维码扫描
+                            case EventType.scan://二维码扫描
                                 requestMessage = new RequestMessageEventScan();
                                 break;
-                            case WeixinEvent.VIEW://URL跳转
+                            case EventType.VIEW://URL跳转
                                 requestMessage = new RequestMessageEventView();
                                 break;
                             default://其他意外类型（也可以选择抛出异常）

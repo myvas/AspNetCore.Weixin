@@ -77,7 +77,7 @@ namespace AspNetCore.Weixin
     /// <summary>
     /// 当RequestMsgType类型为Event时，Event属性的类型
     /// </summary>
-    public enum WeixinEvent
+    public enum EventType
     {
         /// <summary>
         /// 进入会话（似乎已从官方API中移除）

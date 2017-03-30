@@ -27,10 +27,5 @@ namespace AspNetCore.Weixin
         /// <example>40.000000</example>
         /// </summary>
         public decimal Precision { get; set; }
-
-        /// <summary>
-        /// 广州市番禺区天安科技园
-        /// </summary>
-        public string Label { get; set; }
     }
 }

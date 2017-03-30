@@ -14,13 +14,13 @@ namespace AspNetCore.Weixin
         /// Location_X, 纬度
         /// <example>23.134521</example>
         /// </summary>
-        public decimal Latitude { get; set; }
+        public decimal Location_X { get; set; }
 
         /// <summary>
         /// Location_Y, 经度
         /// <example>113.358803</example>
         /// </summary>
-        public decimal Longitude { get; set; }
+        public decimal Location_Y { get; set; }
 
         /// <summary>
         /// 缩放大小
@@ -30,9 +30,8 @@ namespace AspNetCore.Weixin
         public decimal Scale { get; set; }
 
         /// <summary>
-        /// 广州市番禺区天安科技园
+        /// 地址标注
         /// </summary>
         public string Label { get; set; }
-
     }
 }

@@ -29,9 +29,10 @@ namespace AspNetCore.Weixin
     {
         #region 事件
         /// <summary>
-        /// 收到订阅事件
+        /// 收到订阅事件。或，未订阅用户扫描带场景码事件（先订阅，再处理场景）。
         /// </summary>
         public event EventHandler<SubscribeEventReceivedEventArgs> SubscribeEventReceived;
+
         /// <summary>
         /// 收到二维码扫描事件
         /// <para>通常意味着用户通过扫描一个二维码订阅指定微信号服务。建议充分利用事件中的SceneId(场景码)区分各种不同来源的用户群。</para>
@@ -341,8 +342,8 @@ namespace AspNetCore.Weixin
             {
                 FromUserName = requestMessage.FromUserName,
                 CreateTime = requestMessage.CreateTime,
-                Latitude = requestMessage.Latitude,
-                Longitude = requestMessage.Longitude,
+                Location_X = requestMessage.Latitude,
+                Location_Y = requestMessage.Longitude,
                 Scale = requestMessage.Scale,
                 Label = requestMessage.Label
             });
@@ -415,25 +416,25 @@ namespace AspNetCore.Weixin
             var strongRequestMessage = RequestMessage as IRequestMessageEventBase;
             switch (strongRequestMessage.Event)
             {
-                case WeixinEvent.ENTER:
+                case EventType.ENTER:
                     OnEvent_EnterRequest(RequestMessage as RequestMessageEventEnter);
                     break;
-                case WeixinEvent.LOCATION://自动发送的用户当前位置
+                case EventType.LOCATION://自动发送的用户当前位置
                     OnEvent_LocationRequest(RequestMessage as RequestMessageEventLocation);
                     break;
-                case WeixinEvent.subscribe://订阅
+                case EventType.subscribe://订阅
                     OnEvent_SubscribeRequest(RequestMessage as RequestMessageEventSubscribe);
                     break;
-                case WeixinEvent.unsubscribe://退订
+                case EventType.unsubscribe://退订
                     OnEvent_UnsubscribeRequest(RequestMessage as RequestMessageEventUnsubscribe);
                     break;
-                case WeixinEvent.CLICK://菜单点击
+                case EventType.CLICK://菜单点击
                     OnEvent_ClickRequest(RequestMessage as RequestMessageEventClick);
                     break;
-                case WeixinEvent.scan://二维码
+                case EventType.scan://二维码
                     OnEvent_ScanRequest(RequestMessage as RequestMessageEventScan);
                     break;
-                case WeixinEvent.VIEW://URL跳转（view视图）
+                case EventType.VIEW://URL跳转（view视图）
                     OnEvent_ViewRequest(RequestMessage as RequestMessageEventView);
                     break;
                 default:
@@ -517,7 +518,7 @@ namespace AspNetCore.Weixin
             {
                 FromUserName = requestMessage.FromUserName,
                 CreateTime = requestMessage.CreateTime,
-                SceneId = requestMessage.EventKey
+                EventKey = requestMessage.EventKey
             });
         }
 
