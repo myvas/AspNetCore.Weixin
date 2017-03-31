@@ -17,10 +17,10 @@ namespace Demo.Applications
             _logger = loggerFactory?.CreateLogger<WeixinEventSink>() ?? throw new ArgumentNullException(nameof(loggerFactory));
         }
 
-        public bool OnTextMessageReceived(object sender, TextMessageReceivedEventArgs e)
+        public async Task<bool> OnTextMessageReceived(object sender, TextMessageReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             {
                 var s = XmlConvert.SerializeObject(e);
                 var result = new StringBuilder();
@@ -28,62 +28,62 @@ namespace Demo.Applications
 
                 responseMessage.Content = result.ToString();
             }
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnLinkMessageReceived(object sender, LinkMessageReceivedEventArgs e)
+        public async Task<bool> OnLinkMessageReceived(object sender, LinkMessageReceivedEventArgs e)
         {
             _logger.LogInformation($"OnLinkMessageReceived: {e.Url}");
 
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = string.Format(@"您发送了一条链接信息：
             Title：{0}
             Description:{1}
             Url:{2}", e.Title, e.Description, e.Url);
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnVideoMessageReceived(object sender, VideoMessageReceivedEventArgs e)
+        public async Task<bool> OnVideoMessageReceived(object sender, VideoMessageReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = "您发送了一条视频信息，ID：" + e.MediaId;
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnShortVideoMessageReceived(object sender, ShortVideoMessageReceivedEventArgs e)
+        public async Task<bool> OnShortVideoMessageReceived(object sender, ShortVideoMessageReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = "您发送了一条小视频信息，ID：" + e.MediaId;
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnVoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e)
+        public async Task<bool> OnVoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageMusic>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageMusic();
             responseMessage.Music.MusicUrl = e.MediaId;
             responseMessage.Music.Title = "语音";
             responseMessage.Music.Description = "这里是一条语音消息";
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnImageMessageReceived(object sender, ImageMessageReceivedEventArgs e)
+        public async Task<bool> OnImageMessageReceived(object sender, ImageMessageReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageNews();
             responseMessage.Articles.Add(new Article()
             {
                 Title = "您刚才发送了图片信息",
@@ -98,15 +98,15 @@ namespace Demo.Applications
                 PicUrl = e.PicUrl,
                 Url = "http://wx.demo.com"
             });
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnLocationMessageReceived(object sender, LocationMessageReceivedEventArgs e)
+        public async Task<bool> OnLocationMessageReceived(object sender, LocationMessageReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageNews();
 
             var markersList = new List<GoogleMapMarkers>();
             markersList.Add(new GoogleMapMarkers()
@@ -137,65 +137,65 @@ namespace Demo.Applications
                 Url = "http://wx.demo.com"
             });
 
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnLocationEventReceived(object sender, LocationEventReceivedEventArgs e)
+        public async Task<bool> OnLocationEventReceived(object sender, LocationEventReceivedEventArgs e)
         {
             //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = string.Format("刚刚上报了一条定位信息：(Lat={0},Lon={1},Prc={2})",
                 e.Latitude, e.Longitude, e.Precision);
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnClickMenuEventReceived(object sender, ClickMenuEventReceivedEventArgs e)
+        public async Task<bool> OnClickMenuEventReceived(object sender, ClickMenuEventReceivedEventArgs e)
         {
             _logger.LogDebug("点击了子菜单按钮({0}): {1}", e.FromUserName, e.MenuItemKey);
 
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = string.Format("点击了子菜单按钮({0}): {1}", e.FromUserName, e.MenuItemKey);
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnViewMenuEventReceived(object sender, ViewMenuEventReceivedEventArgs e)
+        public async Task<bool> OnViewMenuEventReceived(object sender, ViewMenuEventReceivedEventArgs e)
         {
             _logger.LogDebug("点击了子菜单按钮({0}): {1}", e.FromUserName, e.Url);
 
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = string.Format("点击了子菜单按钮({0}): {1}", e.FromUserName, e.Url);
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnUnsubscribeEventReceived(object sender, UnsubscribeEventReceivedEventArgs e)
+        public async Task<bool> OnUnsubscribeEventReceived(object sender, UnsubscribeEventReceivedEventArgs e)
         {
             _logger.LogDebug("Unsubscribe({0})", e.FromUserName);
 
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = string.Format("Unsubscribe({0})", e.FromUserName);
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnEnterEventReceived(object sender, EnterEventReceivedEventArgs e)
+        public async Task<bool> OnEnterEventReceived(object sender, EnterEventReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
+            var messageHandler = sender as WeixinMessageHandler;
             _logger.LogDebug("Subscribe: from:{0}", e.FromUserName);
 
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+            var responseMessage = new ResponseMessageNews();
             responseMessage.Articles.Add(new Article()
             {
                 Title = "欢迎进入AspNetCore.Weixin演示系统",
@@ -203,19 +203,19 @@ namespace Demo.Applications
                 PicUrl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?mode=large&source=file&fileId=200121314%3E&token=977619473&lang=zh_CN",
                 Url = "http://wx.demo.com"
             });
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }
 
-        public bool OnSubscribeEventReceived(object sender, SubscribeEventReceivedEventArgs e)
+        public async Task<bool> OnSubscribeEventReceived(object sender, SubscribeEventReceivedEventArgs e)
         {
-            var messageHandler = sender as MessageHandler<MessageContext>;
+            var messageHandler = sender as WeixinMessageHandler;
             if (string.IsNullOrWhiteSpace(e.EventKey))
             {
                 _logger.LogDebug("Subscribe: from:{0}", e.FromUserName);
 
-                var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+                var responseMessage = new ResponseMessageNews();
                 responseMessage.Articles.Add(new Article()
                 {
                     Title = "欢迎体验AspNetCore.Weixin演示系统",
@@ -223,14 +223,14 @@ namespace Demo.Applications
                     PicUrl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?mode=large&source=file&fileId=200121314%3E&token=977619473&lang=zh_CN",
                     Url = "http://wx.demo.com"
                 });
-                messageHandler.ResponseMessage = responseMessage;
+                await messageHandler.WriteAsync(responseMessage);
             }
             else
             {
                 _logger.LogDebug("Subscribe w/ scene({0}): {1}, {2}", e.FromUserName, e.EventKey, e.Ticket);
 
 
-                var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+                var responseMessage = new ResponseMessageNews();
                 responseMessage.Articles.Add(new Article()
                 {
                     Title = "欢迎体验AspNetCore.Weixin演示系统",
@@ -238,20 +238,20 @@ namespace Demo.Applications
                     PicUrl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?mode=large&source=file&fileId=200121314%3E&token=977619473&lang=zh_CN",
                     Url = "http://wx.demo.com"
                 });
-                messageHandler.ResponseMessage = responseMessage;
+                await messageHandler.WriteAsync(responseMessage);
             }
 
             return true;
         }
 
-        public bool OnQrscanEventReceived(object sender, QrscanEventReceivedEventArgs e)
+        public async Task<bool> OnQrscanEventReceived(object sender, QrscanEventReceivedEventArgs e)
         {
             _logger.LogDebug("Qrscan({0}): {1}, {2}", e.FromUserName, e.EventKey, e.Ticket);
 
-            var messageHandler = sender as MessageHandler<MessageContext>;
-            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            var messageHandler = sender as WeixinMessageHandler;
+            var responseMessage = new ResponseMessageText();
             responseMessage.Content = string.Format("Qrscan({0}): {1}, {2}", e.FromUserName, e.EventKey, e.Ticket);
-            messageHandler.ResponseMessage = responseMessage;
+            await messageHandler.WriteAsync(responseMessage);
 
             return true;
         }

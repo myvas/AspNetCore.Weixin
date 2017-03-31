@@ -15,7 +15,7 @@ namespace test
             string excepted = @"<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
 <FromUserName><![CDATA[fromUser]]></FromUserName>
-<CreateTime>12345678</CreateTime>
+<CreateTime>1490872329</CreateTime>
 <MsgType><![CDATA[text]]></MsgType>
 <Content><![CDATA[你好]]></Content>
 </xml>";
@@ -24,12 +24,15 @@ namespace test
             {
                 ToUserName = "toUser",
                 FromUserName = "fromUser",
-                CreateTime = new DateTime(12345678),
+                CreateTime = WeixinTimestampHelper.ToLocalTime(1490872329),
                 Content = "你好"
             };
 
-            var result = WeixinXmlConvert.SerializeObject(o);
-            //Assert.Equal(excepted, result);
+            var result = XmlConvert.SerializeObject(o);
+
+            var deserializedExcepted = XmlConvert.DeserializeObject<ResponseMessageText>(excepted);
+            var reserializedExcepted = XmlConvert.SerializeObject(deserializedExcepted);
+            Assert.Equal(reserializedExcepted, result);
         }
 
     }
