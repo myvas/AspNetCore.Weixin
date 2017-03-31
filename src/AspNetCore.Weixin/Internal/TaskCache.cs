@@ -19,5 +19,7 @@ namespace AspNetCore.Weixin
 #else
         public static readonly Task CompletedTask = Task.CompletedTask;
 #endif
+
+        public static readonly Task<bool> CompletedTaskFalse = Task.FromResult(false);
     }
 }

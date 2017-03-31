@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace AspNetCore.Weixin
 {
+    [XmlRoot("xml", Namespace = "")]
     public class ResponseMessageText : ResponseMessageBase, IResponseMessageBase
     {
-        new public virtual ResponseMsgType MsgType
+        public ResponseMessageText()
         {
-            get { return ResponseMsgType.Text; }
+            MsgType = ResponseMsgType.text;
         }
 
         /// <summary>
@@ -18,13 +20,9 @@ namespace AspNetCore.Weixin
         public string Content { get; set; }
     }
 
+    [XmlRoot("xml", Namespace = "")]
     public class ResponseMessageNews : ResponseMessageBase, IResponseMessageBase
     {
-        new public virtual ResponseMsgType MsgType
-        {
-            get { return ResponseMsgType.News; }
-        }
-
         public int ArticleCount
         {
             get { return (Articles ?? new List<Article>()).Count; }
@@ -41,38 +39,33 @@ namespace AspNetCore.Weixin
 
         public ResponseMessageNews()
         {
+            MsgType = ResponseMsgType.news;
             Articles = new List<Article>();
         }
     }
 
+    [XmlRoot("xml", Namespace = "")]
     public class ResponseMessageMusic : ResponseMessageBase, IResponseMessageBase
     {
-        public override ResponseMsgType MsgType
-        {
-            get { return ResponseMsgType.Music; }
-        }
-
         public Music Music { get; set; }
         public string ThumbMediaId { get; set; }
 
         public ResponseMessageMusic()
         {
+            MsgType = ResponseMsgType.music;
             Music = new Music();
         }
     }
 
 
+    [XmlRoot("xml", Namespace = "")]
     public class ResponseMessageImage : ResponseMessageBase, IResponseMessageBase
     {
-        new public virtual ResponseMsgType MsgType
-        {
-            get { return ResponseMsgType.Image; }
-        }
-
         public Image Image { get; set; }
 
         public ResponseMessageImage()
         {
+            MsgType = ResponseMsgType.image;
             Image = new Image();
         }
     }
@@ -81,17 +74,14 @@ namespace AspNetCore.Weixin
     /// <summary>
     /// 需要预先上传多媒体文件到微信服务器，只支持认证服务号。
     /// </summary>
+    [XmlRoot("xml", Namespace = "")]
     public class ResponseMessageVoice : ResponseMessageBase, IResponseMessageBase
     {
-        new public virtual ResponseMsgType MsgType
-        {
-            get { return ResponseMsgType.Voice; }
-        }
-
         public Voice Voice { get; set; }
 
         public ResponseMessageVoice()
         {
+            MsgType = ResponseMsgType.voice;
             Voice = new Voice();
         }
     }
@@ -100,22 +90,15 @@ namespace AspNetCore.Weixin
     /// <summary>
     /// 需要预先上传多媒体文件到微信服务器，只支持认证服务号。
     /// </summary>
+    [XmlRoot("xml", Namespace = "")]
     public class ResponseMessageVideo : ResponseMessageBase, IResponseMessageBase
     {
-        new public virtual ResponseMsgType MsgType
-        {
-            get { return ResponseMsgType.Video; }
-        }
-
         public Video Video { get; set; }
 
         public ResponseMessageVideo()
         {
+            MsgType = ResponseMsgType.video;
             Video = new Video();
         }
     }
-
-
-
-
 }

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace AspNetCore.Weixin
 {
     public interface IResponseMessageBase : IMessageBase
     {
         ResponseMsgType MsgType { get; }
-        //string Content { get; set; }
-        bool FuncFlag { get; set; }
     }
 
     /// <summary>
@@ -18,12 +17,15 @@ namespace AspNetCore.Weixin
     /// </summary>
     public class ResponseMessageBase : MessageBase, IResponseMessageBase
     {
-        public virtual ResponseMsgType MsgType
+        [XmlElement("MsgType", Namespace = "")]
+        public string MsgTypeText { get; set; }
+
+        [XmlIgnore]
+        public ResponseMsgType MsgType
         {
-            get { return ResponseMsgType.Text; }
+            get=> (ResponseMsgType)Enum.Parse(typeof(ResponseMsgType), MsgTypeText);
+            set => MsgTypeText = value.ToString();
         }
-        //public string Content { get; set; }
-        public bool FuncFlag { get; set; }
 
         /// <summary>
         /// 获取响应类型实例，并初始化
@@ -39,22 +41,22 @@ namespace AspNetCore.Weixin
             {
                 switch (msgType)
                 {
-                    case ResponseMsgType.Text:
+                    case ResponseMsgType.text:
                         responseMessage = new ResponseMessageText();
                         break;
-                    case ResponseMsgType.News:
+                    case ResponseMsgType.news:
                         responseMessage = new ResponseMessageNews();
                         break;
-                    case ResponseMsgType.Music:
+                    case ResponseMsgType.music:
                         responseMessage = new ResponseMessageMusic();
                         break;
-                    case ResponseMsgType.Image:
+                    case ResponseMsgType.image:
                         responseMessage = new ResponseMessageImage();
                         break;
-                    case ResponseMsgType.Voice:
+                    case ResponseMsgType.voice:
                         responseMessage = new ResponseMessageVoice();
                         break;
-                    case ResponseMsgType.Video:
+                    case ResponseMsgType.video:
                         responseMessage = new ResponseMessageVideo();
                         break;
                     default:
@@ -129,22 +131,22 @@ namespace AspNetCore.Weixin
                 var msgType = (ResponseMsgType)Enum.Parse(typeof(ResponseMsgType), sMsgType, true);
                 switch (msgType)
                 {
-                    case ResponseMsgType.Text:
+                    case ResponseMsgType.text:
                         responseMessage = new ResponseMessageText();
                         break;
-                    case ResponseMsgType.Image:
+                    case ResponseMsgType.image:
                         responseMessage = new ResponseMessageImage();
                         break;
-                    case ResponseMsgType.Voice:
+                    case ResponseMsgType.voice:
                         responseMessage = new ResponseMessageVoice();
                         break;
-                    case ResponseMsgType.Video:
+                    case ResponseMsgType.video:
                         responseMessage = new ResponseMessageVideo();
                         break;
-                    case ResponseMsgType.Music:
+                    case ResponseMsgType.music:
                         responseMessage = new ResponseMessageMusic();
                         break;
-                    case ResponseMsgType.News:
+                    case ResponseMsgType.news:
                         responseMessage = new ResponseMessageNews();
                         break;
                     default:

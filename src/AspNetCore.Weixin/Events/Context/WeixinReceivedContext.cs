@@ -23,7 +23,7 @@ namespace AspNetCore.Weixin
         /// <param name="sender">The sender respective for <see cref="MessageHandler{TC}}"/></param>
         /// <param name="args"><see cref="TEventArgs"/></param>
         public WeixinReceivedContext(
-            MessageHandler<MessageContext> sender,
+            WeixinMessageHandler sender,
             TEventArgs args)
         {
             Sender = sender;
@@ -33,7 +33,7 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// Gets the sender
         /// </summary>
-        public MessageHandler<MessageContext> Sender { get; }
+        public WeixinMessageHandler Sender { get; }
 
         /// <summary>
         /// Gets the event args

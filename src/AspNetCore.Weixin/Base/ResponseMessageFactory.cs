@@ -36,22 +36,22 @@ namespace AspNetCore.Weixin
                 msgType = MsgTypeHelper.GetResponseMsgType(doc);
                 switch (msgType)
                 {
-                    case ResponseMsgType.Text:
+                    case ResponseMsgType.text:
                         responseMessage = new ResponseMessageText();
                         break;
-                    case ResponseMsgType.Image:
+                    case ResponseMsgType.image:
                         responseMessage = new ResponseMessageImage();
                         break;
-                    case ResponseMsgType.Voice:
+                    case ResponseMsgType.voice:
                         responseMessage = new ResponseMessageVoice();
                         break;
-                    case ResponseMsgType.Video:
+                    case ResponseMsgType.video:
                         responseMessage = new ResponseMessageVideo();
                         break;
-                    case ResponseMsgType.Music:
+                    case ResponseMsgType.music:
                         responseMessage = new ResponseMessageMusic();
                         break;
-                    case ResponseMsgType.News:
+                    case ResponseMsgType.news:
                         responseMessage = new ResponseMessageNews();
                         break;
                     //case ResponseMsgType.Transfer_Customer_Service:

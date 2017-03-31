@@ -93,54 +93,34 @@ namespace AspNetCore.Weixin
 
             context.Response.Clear();
             context.Response.ContentType = "text/plain;charset=utf-8";
-
             if (_options.WeixinClientAccessOnly && !Signature.Check(signature, timestamp, nonce, token))
             {
                 var result = "这是一个微信程序，请用微信客户端访问。";
                 return context.Response.WriteAsync(result);
             }
 
-            //v4.2.2之后的版本，可以设置每个人上下文消息储存的最大数量，防止内存占用过多，如果该参数小于等于0，则不限制
-            int maxRecordCount = 0;
+            return InvokePostInternal(context);
+        }
 
-            //自定义MessageHandler，对微信请求的详细判断操作都在这里面。
-            WeixinMessageHandler messageHandler = new WeixinMessageHandler(request.Body, maxRecordCount);
-            //共6种事件
-            messageHandler.EnterEventReceived += messageHandler_EnterEventReceived;
-            messageHandler.SubscribeEventReceived += messageHandler_SubscribeEventReceived;
-            messageHandler.UnsubscribeEventReceived += messageHandler_UnsubscribeEventReceived;
-            messageHandler.ClickMenuEventReceived += messageHandler_ClickMenuEventReceived;
-            messageHandler.ViewMenuEventReceived += messageHandler_ViewMenuEventReceived;
-            messageHandler.LocationEventReceived += messageHandler_LocationEventReceived;
-            messageHandler.QrscanEventReceived += messageHandler_QrscanEventReceived;
-            //共6种消息
-            messageHandler.LocationMessageReceived += messageHandler_LocationMessageReceived;
-            messageHandler.ImageMessageReceived += messageHandler_ImageMessageReceived;
-            messageHandler.VoiceMessageReceived += messageHandler_VoiceMessageReceived;
-            messageHandler.VideoMessageReceived += messageHandler_VideoMessageReceived;
-            messageHandler.ShortVideoMessageReceived += messageHandler_ShortVideoMessageReceived;
-            messageHandler.LinkMessageReceived += messageHandler_LinkMessageReceived;
-            messageHandler.TextMessageReceived += messageHandler_TextMessageReceived;
-
+        public async Task InvokePostInternal(HttpContext context)
+        {
+            var messageHandler = new WeixinMessageHandler();
+            await messageHandler.InitializeAsync(_options, context, _logger);
             try
             {
-                _logger.LogDebug(messageHandler.RequestDocument.ToString());
-                messageHandler.Execute();
-                _logger.LogDebug(messageHandler.ResponseDocument.ToString());
-
-                if (messageHandler.ResponseDocument == null) return context.Response.WriteAsync("BadRequest");
-
-                return context.Response.WriteAsync(messageHandler.ResponseDocument.ToString());//v0.7-
-                //return new WeixinContentResult(messageHandler);//v0.8+
-            }
-            catch (Exception ex)
-            {
-                _logger.LogDebug("解析微信数据包时发生异常。", ex);
-                if (messageHandler.ResponseDocument != null)
+                var result = await messageHandler.HandleAsync();
+                if (!result.Handled)
                 {
-                    _logger.LogDebug(messageHandler.ResponseDocument.ToString());
+                    await _next(context);
                 }
-                return context.Response.WriteAsync("解析微信数据包时发生异常。请通知系统管理员。谢谢!");
+            }
+            finally
+            {
+                try { await messageHandler.TeardownAsync(); }
+                catch (Exception)
+                {
+                    // Don't mask the original exception, if any
+                }
             }
         }
 
@@ -181,92 +161,5 @@ namespace AspNetCore.Weixin
                 return context.Response.WriteAsync(result); //返回随机字符串则表示验证通过
             }
         }
-
-        #region 微信事件处理
-        void messageHandler_TextMessageReceived(object sender, TextMessageReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<TextMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnTextMessageReceived(ev)) return;
-        }
-
-        void messageHandler_LinkMessageReceived(object sender, LinkMessageReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<LinkMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnLinkMessageReceived(ev)) return;
-        }
-
-        void messageHandler_VideoMessageReceived(object sender, VideoMessageReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<VideoMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnVideoMessageReceived(ev)) return;
-        }
-
-        void messageHandler_ShortVideoMessageReceived(object sender, ShortVideoMessageReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<ShortVideoMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnShortVideoMessageReceived(ev)) return;
-        }
-
-        void messageHandler_VoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<VoiceMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnVoiceMessageReceived(ev)) return;
-        }
-
-        void messageHandler_ImageMessageReceived(object sender, ImageMessageReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<ImageMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnImageMessageReceived(ev)) return;
-        }
-
-        void messageHandler_LocationMessageReceived(object sender, LocationMessageReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<LocationMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnLocationMessageReceived(ev)) return;
-        }
-
-        void messageHandler_LocationEventReceived(object sender, LocationEventReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<LocationEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnLocationEventReceived(ev)) return;
-        }
-
-        void messageHandler_ClickMenuEventReceived(object sender, ClickMenuEventReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<ClickMenuEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnClickMenuEventReceived(ev)) return;
-        }
-
-        void messageHandler_ViewMenuEventReceived(object sender, ViewMenuEventReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<ViewMenuEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnViewMenuEventReceived(ev)) return;
-        }
-
-        void messageHandler_UnsubscribeEventReceived(object sender, UnsubscribeEventReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnUnsubscribeEventReceived(ev)) return;
-        }
-
-        void messageHandler_EnterEventReceived(object sender, EnterEventReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<EnterEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnEnterEventReceived(ev)) return;
-        }
-
-        void messageHandler_SubscribeEventReceived(object sender, SubscribeEventReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<SubscribeEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnSubscribeEventReceived(ev)) return;
-        }
-
-        void messageHandler_QrscanEventReceived(object sender, QrscanEventReceivedEventArgs e)
-        {
-            var ev = new WeixinReceivedContext<QrscanEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
-            if (_options.Events.OnQrscanEventReceived(ev)) return;
-        }
-        #endregion
-
     }
 }

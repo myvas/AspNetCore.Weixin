@@ -113,8 +113,7 @@ namespace AspNetCore.Weixin
                     //全局只在这一个地方使用MessageCollection[Key]写入
                     MessageCollection[userName] = new TM()
                     {
-                        UserName = userName,
-                        MaxRecordCount = MaxRecordCount
+                        UserName = userName
                     };
 
                     messageContext = GetMessageContext(userName);

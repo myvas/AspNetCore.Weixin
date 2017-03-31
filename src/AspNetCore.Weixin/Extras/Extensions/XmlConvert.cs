@@ -10,18 +10,20 @@ namespace AspNetCore.Weixin
 {
     public static class XmlConvert
     {
+
         /// <summary>
         /// 序列化
         /// </summary>
         /// <param name="objectInstance"></param>
         /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
         /// <returns></returns>
-        public static string SerializeObject(object objectInstance, Encoding encoding=null)
+        public static string SerializeObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null)
         {
             if (encoding == null) encoding = Encoding.UTF8;
 
             var serializer = new XmlSerializer(objectInstance.GetType());
             var settings = new XmlWriterSettings();
+            settings.OmitXmlDeclaration = omitAllXsiXsd;
             settings.Indent = true;
             settings.IndentChars = "    ";
             settings.NewLineChars = Environment.NewLine;
@@ -32,7 +34,16 @@ namespace AspNetCore.Weixin
 
             using (XmlWriter writer = XmlWriter.Create(sb, settings))
             {
-                serializer.Serialize(writer, objectInstance);
+                if (omitAllXsiXsd)
+                {
+                    XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                    ns.Add("", "");
+                    serializer.Serialize(writer, objectInstance, ns);
+                }
+                else
+                {
+                    serializer.Serialize(writer, objectInstance);
+                }
             }
 
             return sb.ToString();
@@ -61,7 +72,7 @@ namespace AspNetCore.Weixin
 
             return result;
         }
-        
+
         internal sealed class StringWriterWithEncoding : StringWriter
         {
             private readonly Encoding encoding;

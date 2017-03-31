@@ -13,27 +13,27 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 1 回复/发送文本消息
         /// </summary>
-        Text,
+        text,
         /// <summary>
         /// 6 回复/发送图文消息
         /// </summary>
-        News,
+        news,
         /// <summary>
         /// 5 回复/发送音乐消息
         /// </summary>
-        Music,
+        music,
         /// <summary>
         /// 2 回复/发送图片消息
         /// </summary>
-        Image,
+        image,
         /// <summary>
         /// 3 回复/发送语音消息
         /// </summary>
-        Voice,
+        voice,
         /// <summary>
         /// 4 回复/发送视频消息
         /// </summary>
-        Video
+        video
     }
     
     /// <summary>
