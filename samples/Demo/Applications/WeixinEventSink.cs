@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Demo.Applications
 {
@@ -21,31 +22,9 @@ namespace Demo.Applications
             var messageHandler = sender as MessageHandler<MessageContext>;
             var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
             {
+                var s = XmlConvert.SerializeObject(e);
                 var result = new StringBuilder();
-                result.AppendFormat("您刚才发送了文字信息：{0}\r\n\r\n", e.Content);
-
-                MessageContext CurrentMessageContext = messageHandler.CurrentMessageContext;
-                if (CurrentMessageContext.RequestMessages.Count > 1)
-                {
-                    result.AppendFormat("您刚才还发送了如下消息（{0}/{1}）：\r\n", CurrentMessageContext.RequestMessages.Count, CurrentMessageContext.StorageData);
-                    for (int i = CurrentMessageContext.RequestMessages.Count - 2; i >= 0; i--)
-                    {
-                        var historyMessage = CurrentMessageContext.RequestMessages[i];
-                        result.AppendFormat(
-                            "{0} 【{1}】{2}\r\n",
-                            historyMessage.CreateTime.ToString("yyyy-MM-dd"),
-                            historyMessage.MsgType.ToString(),
-                            (historyMessage is RequestMessageText)
-                            ? (historyMessage as RequestMessageText).Content
-                            : "[非文字类型]"
-                            );
-                    }
-                    result.AppendLine("\r\n");
-                }
-
-                result.AppendFormat("如果您在{0}分钟内连续发送消息，记录将被自动保留（当前设置：最多记录{1}条）。过期后记录将会自动清除。\r\n",
-                    messageHandler.WeixinContext.ExpireMinutes,
-                    messageHandler.WeixinContext.MaxRecordCount);
+                result.AppendFormat("您刚才发送了文本信息：{0}\r\n\r\n{1}", e.Content, s);
 
                 responseMessage.Content = result.ToString();
             }
@@ -122,8 +101,8 @@ namespace Demo.Applications
             var markersList = new List<GoogleMapMarkers>();
             markersList.Add(new GoogleMapMarkers()
             {
-                Latitude = e.Location_X,
-                Longitude = e.Location_Y,
+                Latitude = e.Latitude,
+                Longitude = e.Longitude,
                 Color = "red",
                 Label = "S",
                 Size = GoogleMapMarkerSize.Default,
@@ -134,7 +113,7 @@ namespace Demo.Applications
             responseMessage.Articles.Add(new Article()
             {
                 Description = string.Format("您刚才发送了地理位置信息。Location_X：{0}，Location_Y：{1}，Scale：{2}，标签：{3}",
-                              e.Location_X, e.Location_Y,
+                              e.Latitude, e.Longitude,
                               e.Scale, e.Label),
                 PicUrl = mapUrl,
                 Title = "定位地点周边地图",
