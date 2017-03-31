@@ -6,14 +6,14 @@
     <Version>1.1.0-alpha-70325</Version>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>Demo</AssemblyName>
+    <AssemblyName>wxdemo</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>AspNetCore.HechinaSmsService.Sample</PackageId>
-    <UserSecretsId>hechinasms</UserSecretsId>
+    <PackageId>AspNetCore.Weixin.Demo</PackageId>
+    <UserSecretsId>wxdemo</UserSecretsId>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wpa81+wp8</PackageTargetFallback>
     <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
     <RootNamespace>Demo</RootNamespace>
-    <Description>AspNetCore.HechinaSmsService.Sample</Description>
+    <Description>AspNetCore.Weixin.Demo</Description>
   </PropertyGroup>
 
   <ItemGroup>
