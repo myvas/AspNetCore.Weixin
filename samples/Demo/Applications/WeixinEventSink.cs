@@ -26,6 +26,8 @@ namespace Demo.Applications
                 var result = new StringBuilder();
                 result.AppendFormat("您刚才发送了文本信息：{0}\r\n\r\n{1}", e.Content, s);
 
+                responseMessage.FromUserName = e.ToUserName;
+                responseMessage.ToUserName = e.FromUserName;
                 responseMessage.Content = result.ToString();
             }
             await messageHandler.WriteAsync(responseMessage);

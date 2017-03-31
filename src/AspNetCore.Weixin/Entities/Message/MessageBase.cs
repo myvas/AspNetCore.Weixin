@@ -29,5 +29,10 @@ namespace AspNetCore.Weixin
             get => WeixinTimestampHelper.ToLocalTime(CreateTimestamp);
             set => CreateTimestamp = WeixinTimestampHelper.FromLocalTime(value);
         }
+
+        public MessageBase()
+        {
+            CreateTime = DateTime.Now;
+        }
     }
 }
