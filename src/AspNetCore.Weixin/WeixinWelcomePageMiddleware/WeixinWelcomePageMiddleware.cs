@@ -106,6 +106,7 @@ namespace AspNetCore.Weixin
             //自定义MessageHandler，对微信请求的详细判断操作都在这里面。
             WeixinMessageHandler messageHandler = new WeixinMessageHandler(request.Body, maxRecordCount);
             //共6种事件
+            messageHandler.EnterEventReceived += messageHandler_EnterEventReceived;
             messageHandler.SubscribeEventReceived += messageHandler_SubscribeEventReceived;
             messageHandler.UnsubscribeEventReceived += messageHandler_UnsubscribeEventReceived;
             messageHandler.ClickMenuEventReceived += messageHandler_ClickMenuEventReceived;
@@ -117,6 +118,7 @@ namespace AspNetCore.Weixin
             messageHandler.ImageMessageReceived += messageHandler_ImageMessageReceived;
             messageHandler.VoiceMessageReceived += messageHandler_VoiceMessageReceived;
             messageHandler.VideoMessageReceived += messageHandler_VideoMessageReceived;
+            messageHandler.ShortVideoMessageReceived += messageHandler_ShortVideoMessageReceived;
             messageHandler.LinkMessageReceived += messageHandler_LinkMessageReceived;
             messageHandler.TextMessageReceived += messageHandler_TextMessageReceived;
 
@@ -199,6 +201,12 @@ namespace AspNetCore.Weixin
             if (_options.Events.OnVideoMessageReceived(ev)) return;
         }
 
+        void messageHandler_ShortVideoMessageReceived(object sender, ShortVideoMessageReceivedEventArgs e)
+        {
+            var ev = new WeixinReceivedContext<ShortVideoMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
+            if (_options.Events.OnShortVideoMessageReceived(ev)) return;
+        }
+
         void messageHandler_VoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e)
         {
             var ev = new WeixinReceivedContext<VoiceMessageReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
@@ -239,6 +247,12 @@ namespace AspNetCore.Weixin
         {
             var ev = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
             if (_options.Events.OnUnsubscribeEventReceived(ev)) return;
+        }
+
+        void messageHandler_EnterEventReceived(object sender, EnterEventReceivedEventArgs e)
+        {
+            var ev = new WeixinReceivedContext<EnterEventReceivedEventArgs>(sender as MessageHandler<MessageContext>, e);
+            if (_options.Events.OnEnterEventReceived(ev)) return;
         }
 
         void messageHandler_SubscribeEventReceived(object sender, SubscribeEventReceivedEventArgs e)

@@ -58,6 +58,16 @@ namespace Demo.Applications
             return true;
         }
 
+        public bool OnShortVideoMessageReceived(object sender, ShortVideoMessageReceivedEventArgs e)
+        {
+            var messageHandler = sender as MessageHandler<MessageContext>;
+            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
+            responseMessage.Content = "您发送了一条小视频信息，ID：" + e.MediaId;
+            messageHandler.ResponseMessage = responseMessage;
+
+            return true;
+        }
+
         public bool OnVoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e)
         {
             var messageHandler = sender as MessageHandler<MessageContext>;
@@ -175,6 +185,24 @@ namespace Demo.Applications
             var messageHandler = sender as MessageHandler<MessageContext>;
             var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageText>();
             responseMessage.Content = string.Format("Unsubscribe({0})", e.FromUserName);
+            messageHandler.ResponseMessage = responseMessage;
+
+            return true;
+        }
+
+        public bool OnEnterEventReceived(object sender, EnterEventReceivedEventArgs e)
+        {
+            var messageHandler = sender as MessageHandler<MessageContext>;
+            _logger.LogDebug("Subscribe: from:{0}", e.FromUserName);
+
+            var responseMessage = messageHandler.CreateResponseMessage<ResponseMessageNews>();
+            responseMessage.Articles.Add(new Article()
+            {
+                Title = "欢迎进入AspNetCore.Weixin演示系统",
+                Description = "由AspNetCore.Weixin提供",
+                PicUrl = "https://mp.weixin.qq.com/cgi-bin/getimgdata?mode=large&source=file&fileId=200121314%3E&token=977619473&lang=zh_CN",
+                Url = "http://wx.demo.com"
+            });
             messageHandler.ResponseMessage = responseMessage;
 
             return true;

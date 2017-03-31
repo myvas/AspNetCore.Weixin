@@ -83,6 +83,10 @@ namespace AspNetCore.Weixin
         /// 收到视频信息
         /// </summary>
         public event EventHandler<VideoMessageReceivedEventArgs> VideoMessageReceived;
+        /// <summary>
+        /// 收到小视频信息
+        /// </summary>
+        public event EventHandler<ShortVideoMessageReceivedEventArgs> ShortVideoMessageReceived;
 
         /// <summary>
         /// 收到用户进入微信号（含订阅号和服务号）会话

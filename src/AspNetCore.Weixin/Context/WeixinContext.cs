@@ -35,13 +35,7 @@ namespace AspNetCore.Weixin
         /// 每一个MessageContext过期时间
         /// </summary>
         public Double ExpireMinutes { get; set; }
-
-        /// <summary>
-        /// 最大储存上下文数量（分别针对请求和响应信息）
-        /// </summary>
-        public int MaxRecordCount { get; set; }
-
-
+        
         public WeixinContext()
         {
             Restore();
