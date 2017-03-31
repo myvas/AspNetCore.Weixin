@@ -13,9 +13,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override EventType Event
+        public override ReceivedEventType Event
         {
-            get { return EventType.VIEW; }
+            get { return ReceivedEventType.VIEW; }
         }
     }
 
@@ -27,9 +27,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override EventType Event
+        public override ReceivedEventType Event
         {
-            get { return EventType.CLICK; }
+            get { return ReceivedEventType.CLICK; }
         }
     }
 
@@ -38,9 +38,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override EventType Event
+        public override ReceivedEventType Event
         {
-            get { return EventType.ENTER; }
+            get { return ReceivedEventType.ENTER; }
         }
     }
 
@@ -52,9 +52,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override EventType Event
+        public override ReceivedEventType Event
         {
-            get { return EventType.subscribe; }
+            get { return ReceivedEventType.subscribe; }
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override EventType Event
+        public override ReceivedEventType Event
         {
-            get { return EventType.unsubscribe; }
+            get { return ReceivedEventType.unsubscribe; }
         }
     }
 
@@ -86,9 +86,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override EventType Event
+        public override ReceivedEventType Event
         {
-            get { return EventType.scan; }
+            get { return ReceivedEventType.SCAN; }
         }
         
         public string Ticket { get; set; }
@@ -105,9 +105,9 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        public override EventType Event
+        public override ReceivedEventType Event
         {
-            get { return EventType.LOCATION; }
+            get { return ReceivedEventType.LOCATION; }
         }
 
         /// <summary>

@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace AspNetCore.Weixin
 {
+    /// <summary>
+    /// 视频消息
+    /// </summary>
+    [XmlRoot("xml", Namespace = "")]
     public class VideoMessageReceivedEventArgs : MessageReceivedEventArgs
     {
         /// <summary>

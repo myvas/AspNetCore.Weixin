@@ -244,7 +244,7 @@ namespace AspNetCore.Weixin
 
                 switch (RequestMessage.MsgType)
                 {
-                    case RequestMsgType.Text:
+                    case ReceivedMsgType.text:
                         {
                             var requestMessage = RequestMessage as RequestMessageText;
                             var x = OnTextOrEventRequest(requestMessage);
@@ -252,19 +252,19 @@ namespace AspNetCore.Weixin
                             if (ResponseMessage == null) ResponseMessage = x;
                         }
                         break;
-                    case RequestMsgType.Location:
+                    case ReceivedMsgType.location:
                         OnLocationRequest(RequestMessage as RequestMessageLocation);
                         break;
-                    case RequestMsgType.Image:
+                    case ReceivedMsgType.image:
                         OnImageRequest(RequestMessage as RequestMessageImage);
                         break;
-                    case RequestMsgType.Voice:
+                    case ReceivedMsgType.voice:
                         OnVoiceRequest(RequestMessage as RequestMessageVoice);
                         break;
-                    case RequestMsgType.Video:
+                    case ReceivedMsgType.video:
                         OnVideoRequest(RequestMessage as RequestMessageVideo);
                         break;
-                    case RequestMsgType.Event:
+                    case ReceivedMsgType.@event:
                         {
                             var requestMessageText = (RequestMessage as IRequestMessageEventBase).ConvertToRequestMessageText();
                             var x = OnTextOrEventRequest(requestMessageText);
@@ -342,8 +342,8 @@ namespace AspNetCore.Weixin
             {
                 FromUserName = requestMessage.FromUserName,
                 CreateTime = requestMessage.CreateTime,
-                Location_X = requestMessage.Latitude,
-                Location_Y = requestMessage.Longitude,
+                Latitude = requestMessage.Latitude,
+                Longitude = requestMessage.Longitude,
                 Scale = requestMessage.Scale,
                 Label = requestMessage.Label
             });
@@ -416,25 +416,25 @@ namespace AspNetCore.Weixin
             var strongRequestMessage = RequestMessage as IRequestMessageEventBase;
             switch (strongRequestMessage.Event)
             {
-                case EventType.ENTER:
+                case ReceivedEventType.ENTER:
                     OnEvent_EnterRequest(RequestMessage as RequestMessageEventEnter);
                     break;
-                case EventType.LOCATION://自动发送的用户当前位置
+                case ReceivedEventType.LOCATION://自动发送的用户当前位置
                     OnEvent_LocationRequest(RequestMessage as RequestMessageEventLocation);
                     break;
-                case EventType.subscribe://订阅
+                case ReceivedEventType.subscribe://订阅
                     OnEvent_SubscribeRequest(RequestMessage as RequestMessageEventSubscribe);
                     break;
-                case EventType.unsubscribe://退订
+                case ReceivedEventType.unsubscribe://退订
                     OnEvent_UnsubscribeRequest(RequestMessage as RequestMessageEventUnsubscribe);
                     break;
-                case EventType.CLICK://菜单点击
+                case ReceivedEventType.CLICK://菜单点击
                     OnEvent_ClickRequest(RequestMessage as RequestMessageEventClick);
                     break;
-                case EventType.scan://二维码
+                case ReceivedEventType.SCAN://二维码
                     OnEvent_ScanRequest(RequestMessage as RequestMessageEventScan);
                     break;
-                case EventType.VIEW://URL跳转（view视图）
+                case ReceivedEventType.VIEW://URL跳转（view视图）
                     OnEvent_ViewRequest(RequestMessage as RequestMessageEventView);
                     break;
                 default:

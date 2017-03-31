@@ -7,18 +7,18 @@ namespace AspNetCore.Weixin
 {
     public class RequestMessageText : RequestMessageBase, IRequestMessageBase
     {
-        public override RequestMsgType MsgType
+        public override ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Text; }
+            get { return ReceivedMsgType.text; }
         }
         public string Content { get; set; }
     }
 
     public class RequestMessageImage : RequestMessageBase, IRequestMessageBase
     {
-        public override RequestMsgType MsgType
+        public override ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Image; }
+            get { return ReceivedMsgType.image; }
         }
 
         public string MediaId { get; set; }
@@ -28,9 +28,9 @@ namespace AspNetCore.Weixin
 
     public class RequestMessageLink : RequestMessageBase, IRequestMessageBase
     {
-        public override RequestMsgType MsgType
+        public override ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Link; }
+            get { return ReceivedMsgType.link; }
         }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -40,9 +40,9 @@ namespace AspNetCore.Weixin
 
     public class RequestMessageLocation : RequestMessageBase, IRequestMessageBase
     {
-        public override RequestMsgType MsgType
+        public override ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Location; }
+            get { return ReceivedMsgType.location; }
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace AspNetCore.Weixin
 
     public class RequestMessageVoice : RequestMessageBase, IRequestMessageBase
     {
-        public override RequestMsgType MsgType
+        public override ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Voice; }
+            get { return ReceivedMsgType.voice; }
         }
 
         public string MediaId { get; set; }
@@ -80,9 +80,9 @@ namespace AspNetCore.Weixin
 
     public class RequestMessageVideo : RequestMessageBase, IRequestMessageBase
     {
-        public override RequestMsgType MsgType
+        public override ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Video; }
+            get { return ReceivedMsgType.video; }
         }
 
         public string MediaId { get; set; }

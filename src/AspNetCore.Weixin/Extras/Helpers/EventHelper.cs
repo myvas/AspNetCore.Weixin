@@ -8,14 +8,14 @@ namespace AspNetCore.Weixin
 {
     public static class EventHelper
     {
-        public static EventType GetEventType(XDocument doc)
+        public static ReceivedEventType GetEventType(XDocument doc)
         {
             return GetEventType(doc.Root.Element("Event").Value);
         }
 
-        public static EventType GetEventType(string str)
+        public static ReceivedEventType GetEventType(string str)
         {
-            return (EventType)Enum.Parse(typeof(EventType), str, true);
+            return (ReceivedEventType)Enum.Parse(typeof(ReceivedEventType), str, true);
         }
     }
 }

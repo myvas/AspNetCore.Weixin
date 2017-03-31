@@ -7,7 +7,7 @@ namespace AspNetCore.Weixin
 {
     public interface IRequestMessageBase : IMessageBase
     {
-        RequestMsgType MsgType { get; }
+        ReceivedMsgType MsgType { get; }
         long MsgId { get; set; }
     }
     public class RequestMessageBase : MessageBase, IRequestMessageBase
@@ -17,9 +17,9 @@ namespace AspNetCore.Weixin
 
         }
 
-        public virtual RequestMsgType MsgType
+        public virtual ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Text; }
+            get { return ReceivedMsgType.text; }
         }
 
         public long MsgId { get; set; }

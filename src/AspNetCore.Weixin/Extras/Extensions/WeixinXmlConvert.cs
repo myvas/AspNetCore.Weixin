@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
+using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace AspNetCore.Weixin
 {
-    public static class XmlConvert
+    public static class WeixinXmlConvert
     {
         /// <summary>
         /// 序列化
@@ -16,12 +17,13 @@ namespace AspNetCore.Weixin
         /// <param name="objectInstance"></param>
         /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
         /// <returns></returns>
-        public static string SerializeObject(object objectInstance, Encoding encoding=null)
+        public static string SerializeObject(object objectInstance, Encoding encoding = null)
         {
             if (encoding == null) encoding = Encoding.UTF8;
 
             var serializer = new XmlSerializer(objectInstance.GetType());
             var settings = new XmlWriterSettings();
+            settings.OmitXmlDeclaration = true;
             settings.Indent = true;
             settings.IndentChars = "    ";
             settings.NewLineChars = Environment.NewLine;
@@ -61,7 +63,7 @@ namespace AspNetCore.Weixin
 
             return result;
         }
-        
+
         internal sealed class StringWriterWithEncoding : StringWriter
         {
             private readonly Encoding encoding;

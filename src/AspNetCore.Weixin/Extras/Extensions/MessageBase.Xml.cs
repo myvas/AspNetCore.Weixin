@@ -28,7 +28,7 @@ namespace AspNetCore.Weixin
                 {
                     if (prop.PropertyType == typeof(DateTime))
                     {
-                        prop.SetValue(entity, DateTimeHelper.ConvertDateTimeFromXml(root.Element(propName).Value), null);
+                        prop.SetValue(entity, WeixinTimestampHelper.ToLocalTime(root.Element(propName).Value), null);
                     }
                     else if (prop.PropertyType == typeof(Boolean) && (propName == "FuncFlag"))
                     {
@@ -51,7 +51,7 @@ namespace AspNetCore.Weixin
                     {
                         prop.SetValue(entity, double.Parse(root.Element(propName).Value), null);
                     }
-                    else if (prop.PropertyType == typeof(RequestMsgType))
+                    else if (prop.PropertyType == typeof(ReceivedMsgType))
                     {
                         //已设为只读
                         //prop.SetValue(entity, MsgTypeHelper.GetRequestMsgType(root.Element(propName).Value), null);
@@ -61,7 +61,7 @@ namespace AspNetCore.Weixin
                         //已设为只读
                         //prop.SetValue(entity, MsgTypeHelper.GetResponseMsgType(root.Element(propName).Value), null);
                     }
-                    else if (prop.PropertyType == typeof(EventType))
+                    else if (prop.PropertyType == typeof(ReceivedEventType))
                     {
                         //已设为只读
                         //prop.SetValue(entity, EventHelper.GetEventType(root.Element(propName).Value), null);
@@ -194,7 +194,7 @@ namespace AspNetCore.Weixin
                                                   new XCData(prop.GetValue(entity, null) as string ?? "")));
                             break;
                         case "DateTime":
-                            root.Add(new XElement(propName, DateTimeHelper.ConvertToWeixinDateTime((DateTime)prop.GetValue(entity, null))));
+                            root.Add(new XElement(propName, WeixinTimestampHelper.FromBeijingTime((DateTime)prop.GetValue(entity, null))));
                             break;
                         case "Boolean":
                             if (propName == "FuncFlag")

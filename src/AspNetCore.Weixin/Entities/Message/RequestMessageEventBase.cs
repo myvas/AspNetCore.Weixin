@@ -10,7 +10,7 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 事件类型
         /// </summary>
-        EventType Event { get; }
+        ReceivedEventType Event { get; }
         /// <summary>
         /// 事件KEY值，与自定义菜单接口中KEY值对应
         /// </summary>
@@ -19,17 +19,17 @@ namespace AspNetCore.Weixin
 
     public class RequestMessageEventBase : RequestMessageBase, IRequestMessageBase
     {
-        public override RequestMsgType MsgType
+        public override ReceivedMsgType MsgType
         {
-            get { return RequestMsgType.Event; }
+            get { return ReceivedMsgType.@event; }
         }
 
         /// <summary>
         /// 事件类型
         /// </summary>
-        public virtual EventType Event
+        public virtual ReceivedEventType Event
         {
-            get { return EventType.ENTER; }
+            get { return ReceivedEventType.ENTER; }
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ namespace AspNetCore.Weixin
         /// 根据xml信息，返回RequestMsgType
         /// </summary>
         /// <returns></returns>
-        public static RequestMsgType GetRequestMsgType(XDocument doc)
+        public static ReceivedMsgType GetRequestMsgType(XDocument doc)
         {
             return GetRequestMsgType(doc.Root.Element("MsgType").Value);
         }
@@ -21,9 +21,9 @@ namespace AspNetCore.Weixin
         /// 根据xml信息，返回RequestMsgType
         /// </summary>
         /// <returns></returns>
-        public static RequestMsgType GetRequestMsgType(string str)
+        public static ReceivedMsgType GetRequestMsgType(string str)
         {
-            return (RequestMsgType)Enum.Parse(typeof(RequestMsgType), str, true);
+            return (ReceivedMsgType)Enum.Parse(typeof(ReceivedMsgType), str, true);
         }
 
         #endregion

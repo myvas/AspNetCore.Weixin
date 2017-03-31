@@ -28,55 +28,55 @@ namespace AspNetCore.Weixin
         public static IRequestMessageBase GetRequestEntity(XDocument doc)
         {
             RequestMessageBase requestMessage = null;
-            RequestMsgType msgType;
+            ReceivedMsgType msgType;
             try
             {
                 msgType = MessageTypeUtility.GetRequestMsgType(doc);
                 switch (msgType)
                 {
-                    case RequestMsgType.Text:
+                    case ReceivedMsgType.text:
                         requestMessage = new RequestMessageText();
                         break;
-                    case RequestMsgType.Location:
+                    case ReceivedMsgType.location:
                         requestMessage = new RequestMessageLocation();
                         break;
-                    case RequestMsgType.Image:
+                    case ReceivedMsgType.image:
                         requestMessage = new RequestMessageImage();
                         break;
-                    case RequestMsgType.Voice:
+                    case ReceivedMsgType.voice:
                         requestMessage = new RequestMessageVoice();
                         break;
-                    case RequestMsgType.Video:
+                    case ReceivedMsgType.video:
                         requestMessage = new RequestMessageVideo();
                         break;
-                    case RequestMsgType.Link:
+                    case ReceivedMsgType.link:
                         requestMessage = new RequestMessageLink();
                         break;
-                    case RequestMsgType.Event:
+                    case ReceivedMsgType.@event:
                         //判断Event类型
                         string sEventValue = doc.Root.Element("Event").Value;
-                        EventType eventValue =  (EventType)Enum.Parse(typeof(EventType),sEventValue, true);
+                        ReceivedEventType eventValue =  (ReceivedEventType)Enum.Parse(typeof(ReceivedEventType),sEventValue, true);
                         switch (eventValue)
                         {
-                            case EventType.ENTER://进入会话
+                            case ReceivedEventType.ENTER://进入会话
                                 requestMessage = new RequestMessageEventEnter();
                                 break;
-                            case EventType.LOCATION://地理位置
+                            case ReceivedEventType.LOCATION://地理位置
                                 requestMessage = new RequestMessageEventLocation();
                                 break;
-                            case EventType.subscribe://订阅（关注）
+                            case ReceivedEventType.subscribe://订阅（关注）
                                 requestMessage = new RequestMessageEventSubscribe();
                                 break;
-                            case EventType.unsubscribe://取消订阅（关注）
+                            case ReceivedEventType.unsubscribe://取消订阅（关注）
                                 requestMessage = new RequestMessageEventUnsubscribe();
                                 break;
-                            case EventType.CLICK://菜单点击
+                            case ReceivedEventType.CLICK://菜单点击
                                 requestMessage = new RequestMessageEventClick();
                                 break;
-                            case EventType.scan://二维码扫描
+                            case ReceivedEventType.SCAN://二维码扫描
                                 requestMessage = new RequestMessageEventScan();
                                 break;
-                            case EventType.VIEW://URL跳转
+                            case ReceivedEventType.VIEW://URL跳转
                                 requestMessage = new RequestMessageEventView();
                                 break;
                             default://其他意外类型（也可以选择抛出异常）
