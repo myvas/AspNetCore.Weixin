@@ -57,24 +57,22 @@ namespace AspNetCore.Weixin
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/>.</param>
         /// <returns></returns>
-        public Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context)
         {
             var welcomePath = _options.PathString;
 
             HttpRequest request = context.Request;
-            if (request.Path != welcomePath) return _next(context);
+            if (request.Path != welcomePath) await _next(context);
 
             // Dynamically generated for LOC.
             if (string.Compare(request.Method, "POST", true) == 0)
             {
-                InvokePost(context);
+                await InvokePost(context);
             }
             else
             {
-                InvokeGet(context);
+                await InvokeGet(context);
             }
-
-            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -82,7 +80,7 @@ namespace AspNetCore.Weixin
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task InvokePost(HttpContext context)
+        public async Task InvokePost(HttpContext context)
         {
             HttpRequest request = context.Request;
             var signature = request.Query["signature"];
@@ -96,23 +94,27 @@ namespace AspNetCore.Weixin
             if (_options.WeixinClientAccessOnly && !Signature.Check(signature, timestamp, nonce, token))
             {
                 var result = "这是一个微信程序，请用微信客户端访问。";
-                return context.Response.WriteAsync(result);
+                await context.Response.WriteAsync(result);
             }
 
-            return InvokePostInternal(context);
+            await InvokePostInternal(context);
         }
 
         public async Task InvokePostInternal(HttpContext context)
         {
             var messageHandler = new WeixinMessageHandler();
-            await messageHandler.InitializeAsync(_options, context, _logger);
             try
             {
+                await messageHandler.InitializeAsync(_options, context, _logger);
                 var result = await messageHandler.HandleAsync();
                 if (!result.Handled)
                 {
                     await _next(context);
                 }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(0, ex, "处理POST报文时发生异常");
             }
             finally
             {
@@ -129,7 +131,7 @@ namespace AspNetCore.Weixin
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task InvokeGet(HttpContext context)
+        public async Task InvokeGet(HttpContext context)
         {
             HttpRequest request = context.Request;
             var signature = request.Query["signature"];
@@ -151,14 +153,14 @@ namespace AspNetCore.Weixin
                     { "token",token.ToString() }
                 };
                 _logger.LogDebug(query.ToString());
-                return context.Response.WriteAsync(echostr); //返回随机字符串则表示验证通过
+                await context.Response.WriteAsync(echostr); //返回随机字符串则表示验证通过
             }
             else
             {
                 string signature2 = Signature.GetSignature(timestamp, nonce, token);
                 string result = "如果你在浏览器中看到这句话，说明这个地址可以用于微信公众号消息接口地址。(开发/基本配置/URL)";
                 //+"测试请用验证码(Signature)：" + signature2;
-                return context.Response.WriteAsync(result); //返回随机字符串则表示验证通过
+                await context.Response.WriteAsync(result); //返回随机字符串则表示验证通过
             }
         }
     }
