@@ -109,7 +109,7 @@ namespace Demo.Applications
             responseMessage.Articles.Add(new Article()
             {
                 Title = "第二条",
-                Description = "第二条带连接的内容",
+                Description = "第二条带链接的内容",
                 PicUrl = e.PicUrl,
                 Url = "http://wx.demo.com"
             });
