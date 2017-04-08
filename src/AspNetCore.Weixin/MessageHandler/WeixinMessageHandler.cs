@@ -188,10 +188,7 @@ namespace AspNetCore.Weixin
         {
             WeixinMessageHandleResult result = null;
 
-            var stream = _context.Request.Body;
-            byte[] buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, buffer.Length);
-            string xml = Encoding.UTF8.GetString(buffer);
+            var xml = new StreamReader(_context.Request.Body).ReadToEnd();
 
             var received = XmlConvert.DeserializeObject<ReceivedEventArgs>(xml);
             switch (received.MsgType)
