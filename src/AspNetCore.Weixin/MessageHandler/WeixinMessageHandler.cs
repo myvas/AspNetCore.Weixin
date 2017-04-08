@@ -186,10 +186,10 @@ namespace AspNetCore.Weixin
         /// </summary>
         public async Task<WeixinMessageHandleResult> HandleAsync()
         {
-            WeixinMessageHandleResult result = null;
+            bool handled = false;
 
             var xml = new StreamReader(_context.Request.Body).ReadToEnd();
-            _logger.LogDebug("Request Body({1}): {0}", xml, xml?.Length);
+            _logger.LogDebug("Request Body({0}): {1}", xml?.Length, xml);
 
             var received = XmlConvert.DeserializeObject<ReceivedEventArgs>(xml);
             switch (received.MsgType)
@@ -203,49 +203,49 @@ namespace AspNetCore.Weixin
                                 {
                                     var x = XmlConvert.DeserializeObject<SubscribeEventReceivedEventArgs>(xml);
                                     var ctx = new WeixinReceivedContext<SubscribeEventReceivedEventArgs>(this, x);
-                                    await _options.Events.SubscribeEventReceived(ctx);
+                                    handled = await _options.Events.SubscribeEventReceived(ctx);
                                 }
                                 break;
                             case ReceivedEventType.unsubscribe:
                                 {
                                     var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedEventArgs>(xml);
                                     var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(this, x);
-                                    await _options.Events.UnsubscribeEventReceived(ctx);
+                                    handled = await _options.Events.UnsubscribeEventReceived(ctx);
                                 }
                                 break;
                             case ReceivedEventType.SCAN:
                                 {
                                     var x = XmlConvert.DeserializeObject<QrscanEventReceivedEventArgs>(xml);
                                     var ctx = new WeixinReceivedContext<QrscanEventReceivedEventArgs>(this, x);
-                                    await _options.Events.QrscanEventReceived(ctx);
+                                    handled = await _options.Events.QrscanEventReceived(ctx);
                                 }
                                 break;
                             case ReceivedEventType.LOCATION:
                                 {
                                     var x = XmlConvert.DeserializeObject<LocationEventReceivedEventArgs>(xml);
                                     var ctx = new WeixinReceivedContext<LocationEventReceivedEventArgs>(this, x);
-                                    await _options.Events.LocationEventReceived(ctx);
+                                    handled = await _options.Events.LocationEventReceived(ctx);
                                 }
                                 break;
                             case ReceivedEventType.CLICK:
                                 {
                                     var x = XmlConvert.DeserializeObject<ClickMenuEventReceivedEventArgs>(xml);
                                     var ctx = new WeixinReceivedContext<ClickMenuEventReceivedEventArgs>(this, x);
-                                    await _options.Events.ClickMenuEventReceived(ctx);
+                                    handled = await _options.Events.ClickMenuEventReceived(ctx);
                                 }
                                 break;
                             case ReceivedEventType.VIEW:
                                 {
                                     var x = XmlConvert.DeserializeObject<ViewMenuEventReceivedEventArgs>(xml);
                                     var ctx = new WeixinReceivedContext<ViewMenuEventReceivedEventArgs>(this, x);
-                                    await _options.Events.ViewMenuEventReceived(ctx);
+                                    handled = await _options.Events.ViewMenuEventReceived(ctx);
                                 }
                                 break;
                             case ReceivedEventType.ENTER:
                                 {
                                     var x = XmlConvert.DeserializeObject<EnterEventReceivedEventArgs>(xml);
                                     var ctx = new WeixinReceivedContext<EnterEventReceivedEventArgs>(this, x);
-                                    await _options.Events.EnterEventReceived(ctx);
+                                    handled = await _options.Events.EnterEventReceived(ctx);
                                 }
                                 break;
                             default:
@@ -258,49 +258,49 @@ namespace AspNetCore.Weixin
                     {
                         var x = XmlConvert.DeserializeObject<TextMessageReceivedEventArgs>(xml);
                         var ctx = new WeixinReceivedContext<TextMessageReceivedEventArgs>(this, x);
-                        await _options.Events.TextMessageReceived(ctx);
+                        handled = await _options.Events.TextMessageReceived(ctx);
                     }
                     break;
                 case ReceivedMsgType.image:
                     {
                         var x = XmlConvert.DeserializeObject<ImageMessageReceivedEventArgs>(xml);
                         var ctx = new WeixinReceivedContext<ImageMessageReceivedEventArgs>(this, x);
-                        await _options.Events.ImageMessageReceived(ctx);
+                        handled = await _options.Events.ImageMessageReceived(ctx);
                     }
                     break;
                 case ReceivedMsgType.link:
                     {
                         var x = XmlConvert.DeserializeObject<LinkMessageReceivedEventArgs>(xml);
                         var ctx = new WeixinReceivedContext<LinkMessageReceivedEventArgs>(this, x);
-                        await _options.Events.LinkMessageReceived(ctx);
+                        handled = await _options.Events.LinkMessageReceived(ctx);
                     }
                     break;
                 case ReceivedMsgType.location:
                     {
                         var x = XmlConvert.DeserializeObject<LocationMessageReceivedEventArgs>(xml);
                         var ctx = new WeixinReceivedContext<LocationMessageReceivedEventArgs>(this, x);
-                        await _options.Events.LocationMessageReceived(ctx);
+                        handled = await _options.Events.LocationMessageReceived(ctx);
                     }
                     break;
                 case ReceivedMsgType.voice:
                     {
                         var x = XmlConvert.DeserializeObject<VoiceMessageReceivedEventArgs>(xml);
                         var ctx = new WeixinReceivedContext<VoiceMessageReceivedEventArgs>(this, x);
-                        await _options.Events.VoiceMessageReceived(ctx);
+                        handled = await _options.Events.VoiceMessageReceived(ctx);
                     }
                     break;
                 case ReceivedMsgType.video:
                     {
                         var x = XmlConvert.DeserializeObject<VideoMessageReceivedEventArgs>(xml);
                         var ctx = new WeixinReceivedContext<VideoMessageReceivedEventArgs>(this, x);
-                        await _options.Events.VideoMessageReceived(ctx);
+                        handled = await _options.Events.VideoMessageReceived(ctx);
                     }
                     break;
                 case ReceivedMsgType.shortvideo:
                     {
                         var x = XmlConvert.DeserializeObject<ShortVideoMessageReceivedEventArgs>(xml);
                         var ctx = new WeixinReceivedContext<ShortVideoMessageReceivedEventArgs>(this, x);
-                        await _options.Events.ShortVideoMessageReceived(ctx);
+                        handled = await _options.Events.ShortVideoMessageReceived(ctx);
                     }
                     break;
                 default:
@@ -309,8 +309,7 @@ namespace AspNetCore.Weixin
             }
 
             await Task.FromResult(0);
-            result = WeixinMessageHandleResult.Handle();
-            return result;
+            return handled ? WeixinMessageHandleResult.Handle() : WeixinMessageHandleResult.Fail("未处理");
         }
 
         public async Task WriteAsync(object o)

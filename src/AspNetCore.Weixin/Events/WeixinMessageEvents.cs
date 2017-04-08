@@ -27,19 +27,19 @@ namespace AspNetCore.Weixin
         public Func<WeixinReceivedContext<LocationMessageReceivedEventArgs>, Task<bool>> OnLocationMessageReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
         public Func<WeixinReceivedContext<LocationEventReceivedEventArgs>,  Task<bool>> OnLocationEventReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
 
-        public virtual Task ImageMessageReceived(WeixinReceivedContext<ImageMessageReceivedEventArgs> context) => OnImageMessageReceived(context);
-        public virtual Task ClickMenuEventReceived(WeixinReceivedContext<ClickMenuEventReceivedEventArgs> context) => OnClickMenuEventReceived(context);
-        public virtual Task ViewMenuEventReceived(WeixinReceivedContext<ViewMenuEventReceivedEventArgs> context) => OnViewMenuEventReceived(context);
-        public virtual Task UnsubscribeEventReceived(WeixinReceivedContext<UnsubscribeEventReceivedEventArgs> context) => OnUnsubscribeEventReceived(context);
-        public virtual Task EnterEventReceived(WeixinReceivedContext<EnterEventReceivedEventArgs> context) => OnEnterEventReceived(context);
-        public virtual Task SubscribeEventReceived(WeixinReceivedContext<SubscribeEventReceivedEventArgs> context) => OnSubscribeEventReceived(context);
-        public virtual Task QrscanEventReceived(WeixinReceivedContext<QrscanEventReceivedEventArgs> context) => OnQrscanEventReceived(context);
-        public virtual Task TextMessageReceived(WeixinReceivedContext<TextMessageReceivedEventArgs> context) => OnTextMessageReceived(context);
-        public virtual Task LinkMessageReceived(WeixinReceivedContext<LinkMessageReceivedEventArgs> context) => OnLinkMessageReceived(context);
-        public virtual Task VideoMessageReceived(WeixinReceivedContext<VideoMessageReceivedEventArgs> context) => OnVideoMessageReceived(context);
-        public virtual Task ShortVideoMessageReceived(WeixinReceivedContext<ShortVideoMessageReceivedEventArgs> context) => OnShortVideoMessageReceived(context);
-        public virtual Task VoiceMessageReceived(WeixinReceivedContext<VoiceMessageReceivedEventArgs> context) => OnVoiceMessageReceived(context);
-        public virtual Task LocationMessageReceived(WeixinReceivedContext<LocationMessageReceivedEventArgs> context) => OnLocationMessageReceived(context);
-        public virtual Task LocationEventReceived(WeixinReceivedContext<LocationEventReceivedEventArgs> context) => OnLocationEventReceived(context);
+        public virtual Task<bool> ImageMessageReceived(WeixinReceivedContext<ImageMessageReceivedEventArgs> context) => OnImageMessageReceived(context);
+        public virtual Task<bool> ClickMenuEventReceived(WeixinReceivedContext<ClickMenuEventReceivedEventArgs> context) => OnClickMenuEventReceived(context);
+        public virtual Task<bool> ViewMenuEventReceived(WeixinReceivedContext<ViewMenuEventReceivedEventArgs> context) => OnViewMenuEventReceived(context);
+        public virtual Task<bool> UnsubscribeEventReceived(WeixinReceivedContext<UnsubscribeEventReceivedEventArgs> context) => OnUnsubscribeEventReceived(context);
+        public virtual Task<bool> EnterEventReceived(WeixinReceivedContext<EnterEventReceivedEventArgs> context) => OnEnterEventReceived(context);
+        public virtual Task<bool> SubscribeEventReceived(WeixinReceivedContext<SubscribeEventReceivedEventArgs> context) => OnSubscribeEventReceived(context);
+        public virtual Task<bool> QrscanEventReceived(WeixinReceivedContext<QrscanEventReceivedEventArgs> context) => OnQrscanEventReceived(context);
+        public virtual Task<bool> TextMessageReceived(WeixinReceivedContext<TextMessageReceivedEventArgs> context) => OnTextMessageReceived(context);
+        public virtual Task<bool> LinkMessageReceived(WeixinReceivedContext<LinkMessageReceivedEventArgs> context) => OnLinkMessageReceived(context);
+        public virtual Task<bool> VideoMessageReceived(WeixinReceivedContext<VideoMessageReceivedEventArgs> context) => OnVideoMessageReceived(context);
+        public virtual Task<bool> ShortVideoMessageReceived(WeixinReceivedContext<ShortVideoMessageReceivedEventArgs> context) => OnShortVideoMessageReceived(context);
+        public virtual Task<bool> VoiceMessageReceived(WeixinReceivedContext<VoiceMessageReceivedEventArgs> context) => OnVoiceMessageReceived(context);
+        public virtual Task<bool> LocationMessageReceived(WeixinReceivedContext<LocationMessageReceivedEventArgs> context) => OnLocationMessageReceived(context);
+        public virtual Task<bool> LocationEventReceived(WeixinReceivedContext<LocationEventReceivedEventArgs> context) => OnLocationEventReceived(context);
     }
 }
