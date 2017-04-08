@@ -107,10 +107,10 @@ namespace AspNetCore.Weixin
             {
                 await messageHandler.InitializeAsync(_options, context, _logger);
                 var result = await messageHandler.HandleAsync();
-                if (!result.Handled)
-                {
-                    await _next(context);
-                }
+                //if (!result.Handled)
+                //{
+                //    await _next(context);
+                //}
             }
             catch (Exception ex)
             {
