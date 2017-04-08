@@ -44,6 +44,8 @@ namespace Demo.Applications
 
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = string.Format(@"您发送了一条链接信息：
             Title：{0}
             Description:{1}
@@ -57,6 +59,8 @@ namespace Demo.Applications
         {
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = "您发送了一条视频信息，ID：" + e.MediaId;
             await messageHandler.WriteAsync(responseMessage);
 
@@ -67,6 +71,8 @@ namespace Demo.Applications
         {
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = "您发送了一条小视频信息，ID：" + e.MediaId;
             await messageHandler.WriteAsync(responseMessage);
 
@@ -77,6 +83,8 @@ namespace Demo.Applications
         {
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageMusic();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Music.MusicUrl = e.MediaId;
             responseMessage.Music.Title = "语音";
             responseMessage.Music.Description = "这里是一条语音消息";
@@ -89,6 +97,8 @@ namespace Demo.Applications
         {
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageNews();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Articles.Add(new Article()
             {
                 Title = "您刚才发送了图片信息",
@@ -112,6 +122,8 @@ namespace Demo.Applications
         {
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageNews();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
 
             var markersList = new List<GoogleMapMarkers>();
             markersList.Add(new GoogleMapMarkers()
@@ -152,6 +164,8 @@ namespace Demo.Applications
             //这里是微信客户端（通过微信服务器）自动发送过来的位置信息
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = string.Format("刚刚上报了一条定位信息：(Lat={0},Lon={1},Prc={2})",
                 e.Latitude, e.Longitude, e.Precision);
             await messageHandler.WriteAsync(responseMessage);
@@ -165,6 +179,8 @@ namespace Demo.Applications
 
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = string.Format("点击了子菜单按钮({0}): {1}", e.FromUserName, e.MenuItemKey);
             await messageHandler.WriteAsync(responseMessage);
 
@@ -177,6 +193,8 @@ namespace Demo.Applications
 
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = string.Format("点击了子菜单按钮({0}): {1}", e.FromUserName, e.Url);
             await messageHandler.WriteAsync(responseMessage);
 
@@ -189,6 +207,8 @@ namespace Demo.Applications
 
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = string.Format("Unsubscribe({0})", e.FromUserName);
             await messageHandler.WriteAsync(responseMessage);
 
@@ -201,6 +221,8 @@ namespace Demo.Applications
             _logger.LogDebug("Subscribe: from:{0}", e.FromUserName);
 
             var responseMessage = new ResponseMessageNews();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Articles.Add(new Article()
             {
                 Title = "欢迎进入AspNetCore.Weixin演示系统",
@@ -221,6 +243,8 @@ namespace Demo.Applications
                 _logger.LogDebug("Subscribe: from:{0}", e.FromUserName);
 
                 var responseMessage = new ResponseMessageNews();
+                responseMessage.FromUserName = e.ToUserName;
+                responseMessage.ToUserName = e.FromUserName;
                 responseMessage.Articles.Add(new Article()
                 {
                     Title = "欢迎体验AspNetCore.Weixin演示系统",
@@ -236,6 +260,8 @@ namespace Demo.Applications
 
 
                 var responseMessage = new ResponseMessageNews();
+                responseMessage.FromUserName = e.ToUserName;
+                responseMessage.ToUserName = e.FromUserName;
                 responseMessage.Articles.Add(new Article()
                 {
                     Title = "欢迎体验AspNetCore.Weixin演示系统",
@@ -255,6 +281,8 @@ namespace Demo.Applications
 
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
+            responseMessage.FromUserName = e.ToUserName;
+            responseMessage.ToUserName = e.FromUserName;
             responseMessage.Content = string.Format("Qrscan({0}): {1}, {2}", e.FromUserName, e.EventKey, e.Ticket);
             await messageHandler.WriteAsync(responseMessage);
 
