@@ -101,7 +101,7 @@ namespace AspNetCore.Weixin
         private WeixinWelcomePageOptions _options;
         private ILogger _logger;
         protected WeixinMessageHandleResult InitializeResult { get; set; }
-        public async Task InitializeAsync(WeixinWelcomePageOptions options, HttpContext context, ILogger logger)
+        public async Task<bool> InitializeAsync(WeixinWelcomePageOptions options, HttpContext context, ILogger logger)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -112,13 +112,14 @@ namespace AspNetCore.Weixin
                 InitializeResult = await HandleOnceAsync();
                 if (InitializeResult?.Handled == true)
                 {
-                    return;
+                    return true;
                 }
                 if (InitializeResult?.Failure != null)
                 {
                     _logger.LogWarning(0, InitializeResult.Failure, InitializeResult.Failure.Message);
                 }
             }
+            return false;
         }
 
         #region Callback

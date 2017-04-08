@@ -105,9 +105,9 @@ namespace AspNetCore.Weixin
             var messageHandler = new WeixinMessageHandler();
             try
             {
-                await messageHandler.InitializeAsync(_options, context, _logger);
-                var result = await messageHandler.HandleAsync();
-                //if (!result.Handled)
+                var result = await messageHandler.InitializeAsync(_options, context, _logger);
+                //var result = await messageHandler.HandleAsync();
+                //if (!result)
                 //{
                 //    await _next(context);
                 //}
