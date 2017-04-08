@@ -19,18 +19,21 @@ namespace Demo.Applications
 
         public async Task<bool> OnTextMessageReceived(object sender, TextMessageReceivedEventArgs e)
         {
+            _logger.LogDebug(XmlConvert.SerializeObject(e));
+
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();
             {
-                var s = XmlConvert.SerializeObject(e);
                 var result = new StringBuilder();
-                result.AppendFormat("您刚才发送了文本信息：{0}\r\n\r\n{1}", e.Content, s);
+                result.AppendFormat("您刚才发送了文本信息：{0}", e.Content);
 
                 responseMessage.FromUserName = e.ToUserName;
                 responseMessage.ToUserName = e.FromUserName;
                 responseMessage.Content = result.ToString();
             }
             await messageHandler.WriteAsync(responseMessage);
+
+            _logger.LogDebug(XmlConvert.SerializeObject(responseMessage));
 
             return true;
         }

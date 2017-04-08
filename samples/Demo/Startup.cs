@@ -6,6 +6,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using AspNetCore.Weixin;
 using Demo.Applications;
+using System.Text;
+using System.IO;
+using Serilog.Events;
+using Serilog;
 
 namespace Demo
 {
@@ -27,7 +31,18 @@ namespace Demo
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets<Startup>();
+
+                loggerFactory.AddDebug();
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                loggerFactory.AddConsole();
             }
+
+            var logFileName = Path.Combine(env.ContentRootPath, "logs", "{Date}.log");
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.RollingFile(logFileName)
+                .MinimumLevel.Is(LogEventLevel.Debug)
+                .CreateLogger();
+            loggerFactory.AddSerilog();
 
             builder.AddEnvironmentVariables();
             _configuration = builder.Build();
