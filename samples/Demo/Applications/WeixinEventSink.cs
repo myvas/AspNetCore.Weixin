@@ -82,12 +82,13 @@ namespace Demo.Applications
         public async Task<bool> OnVoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e)
         {
             var messageHandler = sender as WeixinMessageHandler;
-            var responseMessage = new ResponseMessageMusic();
+            var responseMessage = new ResponseMessageVoice();
             responseMessage.FromUserName = e.ToUserName;
             responseMessage.ToUserName = e.FromUserName;
-            responseMessage.Music.MusicUrl = e.MediaId;
-            responseMessage.Music.Title = "语音";
-            responseMessage.Music.Description = "这里是一条语音消息";
+            responseMessage.Voice.MediaId = e.MediaId;
+            //responseMessage.Music.MusicUrl = e.MediaId;
+            //responseMessage.Music.Title = "语音";
+            //responseMessage.Music.Description = "这里是一条语音消息";
             await messageHandler.WriteAsync(responseMessage);
 
             return true;
