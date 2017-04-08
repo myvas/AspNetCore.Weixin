@@ -315,7 +315,7 @@ namespace AspNetCore.Weixin
 
         public async Task WriteAsync(object o)
         {
-            var s = XmlConvert.SerializeObject(0);
+            var s = XmlConvert.SerializeObject(o);
             _context.Response.Clear();
             _context.Response.ContentType = "text/plain;charset=utf-8";
             await _context.Response.WriteAsync(s);
