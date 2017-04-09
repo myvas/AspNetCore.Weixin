@@ -24,12 +24,12 @@ namespace AspNetCore.Weixin
             {
                 //可能发生错误
                 WeixinErrorJson errorResult = JsonConvert.DeserializeObject<WeixinErrorJson>(returnText);
-                if (errorResult.errcode != WeixinResponseStatus.OK)
+                if (!errorResult.Succeeded)
                 {
                     //发生错误
                     throw new WeixinErrorResultException(
                         string.Format("微信Post请求发生错误！错误代码：{0}，说明：{1}",
-                                      (int)errorResult.errcode,
+                                      errorResult.errcode,
                                       errorResult.errmsg),
                         null, errorResult);
                 }

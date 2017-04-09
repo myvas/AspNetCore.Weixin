@@ -47,7 +47,7 @@ namespace AspNetCore.Weixin
 
             var sResult = await new HttpClient().GetStringAsync(requestUri);
             AccessTokenJson result = JsonConvert.DeserializeObject<AccessTokenJson>(sResult);
-            if (result.errcode == 0)
+            if (result.Succeeded)
                 return result;
             else
                 throw new WeixinException(result);
