@@ -62,16 +62,21 @@ namespace AspNetCore.Weixin
             var welcomePath = _options.PathString;
 
             HttpRequest request = context.Request;
-            if (request.Path != welcomePath) await _next(context);
-
-            // Dynamically generated for LOC.
-            if (string.Compare(request.Method, "POST", true) == 0)
+            if (request.Path == welcomePath)
             {
-                await InvokePost(context);
+                // Dynamically generated for LOC.
+                if (string.Compare(request.Method, "POST", true) == 0)
+                {
+                    await InvokePost(context);
+                }
+                else
+                {
+                    await InvokeGet(context);
+                }
             }
             else
             {
-                await InvokeGet(context);
+                await _next(context);
             }
         }
 
