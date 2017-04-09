@@ -28,8 +28,7 @@ namespace AspNetCore.Weixin
                 case MessageSendType.GET:
                     return await HttpUtility.GetJson<T>(url);
                 case MessageSendType.POST:
-                    SerializerHelper serializer = new SerializerHelper();
-                    var jsonString = serializer.GetJsonString(data);
+                    var jsonString = WeixinJsonHelper.Serialize(data);
                     using (MemoryStream ms = new MemoryStream())
                     {
                         var bytes = Encoding.UTF8.GetBytes(jsonString);
@@ -63,8 +62,7 @@ namespace AspNetCore.Weixin
         /// <returns></returns>
         public static async Task<T> GetJson<T>(string url, object objRequest)
         {
-            SerializerHelper serializer = new SerializerHelper();
-            var jsonString = serializer.GetJsonString(objRequest);
+            var jsonString = WeixinJsonHelper.Serialize(objRequest);
             using (MemoryStream ms = new MemoryStream())
             {
                 var bytes = Encoding.UTF8.GetBytes(jsonString);
@@ -83,8 +81,7 @@ namespace AspNetCore.Weixin
                 case MessageSendType.GET:
                     return await HttpUtility.GetJson<T>(url);
                 case MessageSendType.POST:
-                    SerializerHelper serializer = new SerializerHelper();
-                    var jsonString = serializer.GetJsonString(data);
+                    var jsonString = WeixinJsonHelper.Serialize(data);
                     using (MemoryStream ms = new MemoryStream())
                     {
                         var bytes = Encoding.UTF8.GetBytes(jsonString);

@@ -10,10 +10,12 @@ namespace AspNetCore.Weixin
     /// </summary>
     public class WeixinErrorJson : WeixinJson
     {
+        public bool Succeeded { get { return !errcode.HasValue || errcode == WeixinResponseStatus.OK; } }
+
         /// <summary>
         /// 微信错误代码
         /// </summary>
-        public int errcode;
+        public int? errcode;
 
         /// <summary>
         /// 微信错误描述

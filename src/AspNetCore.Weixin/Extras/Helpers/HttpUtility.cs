@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -28,38 +27,11 @@ namespace AspNetCore.Weixin
             Debug.WriteLine("\turl:" + url);
             Debug.WriteLine("\treturn:" + returnText);
 
-            T result = JsonConvert.DeserializeObject<T>(returnText);
+            T result = WeixinJsonHelper.Deserialize<T>(returnText);
 
             return result;
         }
-
-        /// <summary>
-        /// 获取Post结果
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="returnText"></param>
-        /// <returns></returns>
-        public static T GetResult<T>(string returnText)
-        {
-            if (returnText.Contains("errcode"))
-            {
-                //可能发生错误
-                WeixinErrorJson errorResult = JsonConvert.DeserializeObject<WeixinErrorJson>(returnText);
-                if (errorResult.errcode != WeixinResponseStatus.OK)
-                {
-                    //发生错误
-                    throw new WeixinException(
-                        string.Format("微信Post请求发生错误！错误代码：{0}，说明：{1}",
-                                      errorResult.errcode,
-                                      errorResult.errmsg),
-                        null, errorResult);
-                }
-            }
-
-            T result = JsonConvert.DeserializeObject<T>(returnText);
-            return result;
-        }
-
+        
         /// <summary>
         /// 发起Post请求
         /// </summary>
@@ -70,7 +42,7 @@ namespace AspNetCore.Weixin
         public static async Task<T> PostFileGetJson<T>(string url, CookieContainer cookieContainer = null, Dictionary<string, string> fileDictionary = null, Encoding encoding = null)
         {
             string returnText = await HttpPost(url, cookieContainer, null, fileDictionary, null, encoding);
-            var result = GetResult<T>(returnText);
+            var result = WeixinJsonHelper.Deserialize<T>(returnText);
             return result;
         }
 
@@ -85,21 +57,21 @@ namespace AspNetCore.Weixin
         public static async Task<T> PostGetJson<T>(string url, CookieContainer cookieContainer = null, Stream fileStream = null, Encoding encoding = null)
         {
             string resultText = await HttpPost(url, cookieContainer, fileStream, null, null, encoding);
-            var result = GetResult<T>(resultText);
+            var result = WeixinJsonHelper.Deserialize<T>(resultText);
             return result;
         }
 
         public static async Task<T> PostGetJson<T>(string url, CookieContainer cookieContainer = null, Dictionary<string, string> formData = null, Encoding encoding = null)
         {
             string resultText = await HttpPost(url, cookieContainer, formData, encoding);
-            var result = GetResult<T>(resultText);
+            var result = WeixinJsonHelper.Deserialize<T>(resultText);
             return result;
         }
 
         public static async Task<T> PostGetJson<T>(string url, string json, CookieContainer cookieContainer = null, Encoding encoding = null)
         {
             string resultText = await HttpPostJson(url, json, encoding);
-            var result = GetResult<T>(resultText);
+            var result = WeixinJsonHelper.Deserialize<T>(resultText);
             return result;
         }
 
