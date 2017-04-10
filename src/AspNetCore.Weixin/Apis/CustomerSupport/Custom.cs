@@ -9,7 +9,7 @@ namespace AspNetCore.Weixin
     /// </summary>
     public static class Custom
     {
-        private const string WeixinApiUrlPattern = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={AccessToken}";
+        private const string WeixinApiUrlPattern = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={0}";
 
         /// <summary>
         /// 发送文本信息

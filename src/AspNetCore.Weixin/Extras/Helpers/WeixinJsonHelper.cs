@@ -44,7 +44,7 @@ namespace AspNetCore.Weixin
             {
                 //可能发生错误
                 WeixinErrorJson errorResult = JsonConvert.DeserializeObject<WeixinErrorJson>(jsonResult);
-                if (errorResult.Succeeded)
+                if (!errorResult.Succeeded)
                 {
                     //发生错误
                     throw new WeixinException(

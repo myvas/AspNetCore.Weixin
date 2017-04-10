@@ -37,6 +37,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
@@ -45,6 +46,13 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
+  </ItemGroup>
+
+
+  
+  <ItemGroup>
+    <Folder Include="Views\CustomerService\" />
+    <Folder Include="Views\WeixinMenu\" />
   </ItemGroup>
 
 </Project>

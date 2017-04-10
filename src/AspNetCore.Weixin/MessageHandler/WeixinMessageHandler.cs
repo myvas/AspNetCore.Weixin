@@ -251,7 +251,6 @@ namespace AspNetCore.Weixin
                                 break;
                             default:
                                 throw new NotSupportedException($"不支持的事件[{ev.Event.ToString()}]");
-                                break;
                         }
                     }
                     break;
@@ -306,7 +305,6 @@ namespace AspNetCore.Weixin
                     break;
                 default:
                     throw new NotSupportedException($"不支持的信息类型[{received.MsgType.ToString()}]");
-                    break;
             }
 
             await Task.FromResult(0);
