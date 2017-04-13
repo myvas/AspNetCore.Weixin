@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Content Include="wwwroot\css\site.css" />
-    <Content Include="wwwroot\css\sitex.css" />
     <Content Include="wwwroot\js\site.js" />
     <Content Include="wwwroot\js\sitex.js" />
   </ItemGroup>
