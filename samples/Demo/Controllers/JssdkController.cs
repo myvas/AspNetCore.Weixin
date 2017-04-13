@@ -16,7 +16,7 @@ namespace Demo.Controllers
         private readonly WeixinAccessTokenOptions _options;
 
         public JssdkController(
-            IWeixinAccessToken weixinAccessToken, 
+            IWeixinAccessToken weixinAccessToken,
             IOptions<WeixinAccessTokenOptions> optionsAccessor)
         {
             _weixinAccessToken = weixinAccessToken ?? throw new ArgumentNullException(nameof(weixinAccessToken));
@@ -34,7 +34,7 @@ namespace Demo.Controllers
             };
             var weixinAccessToken = _weixinAccessToken.GetToken();
             var jsapiTicket = JsapiTicket.Default.GetTicket(weixinAccessToken);
-            var refererUrl = Url.Action();
+            var refererUrl = Request.GetAbsoluteUri();// Url.AbsoluteContent(Url.Action());
             vm.ConfigJson = config.ToJson(jsapiTicket, refererUrl);
 
             vm.Title = "¡¥Ω”∑÷œÌ≤‚ ‘";
