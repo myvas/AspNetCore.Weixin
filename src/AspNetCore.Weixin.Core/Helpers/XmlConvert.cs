@@ -10,7 +10,6 @@ namespace AspNetCore.Weixin
 {
     public static class XmlConvert
     {
-
         /// <summary>
         /// 序列化
         /// </summary>
