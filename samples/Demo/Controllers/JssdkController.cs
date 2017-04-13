@@ -37,9 +37,9 @@ namespace Demo.Controllers
             var refererUrl = Request.GetAbsoluteUri();// Url.AbsoluteContent(Url.Action());
             vm.ConfigJson = config.ToJson(jsapiTicket, refererUrl);
 
-            vm.Title = "Á´½Ó·ÖÏí²âÊÔ";
-            vm.Link = "http://ruhu.daqianit.com/immigrationevals/creat/123456789012345678";
-            vm.Description = "Á´½Ó·ÖÏí²âÊÔ";
+            vm.Title = "é“¾æŽ¥åˆ†äº«æµ‹è¯•";
+            vm.Link = "http://ruhu.daqianit.com/immigrationevals/create/6e997009-5f9c-4f6b-a455-5167bff830ef";
+            vm.Description = "é“¾æŽ¥åˆ†äº«æµ‹è¯•";
             vm.ImgUrl = "http://www.warmwood.com/images/s1.jpg";
             return View(vm);
         }
