@@ -8,6 +8,6 @@ namespace Demo.Models
 {
     public class JweixinViewModel
     {
-        public WeixinJsConfig Config { get; set; }
+        public string ConfigJson { get; set; }
     }
 }

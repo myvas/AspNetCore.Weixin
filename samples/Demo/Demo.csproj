@@ -41,20 +41,19 @@
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
-
-
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\AspNetCore.Jweixin\AspNetCore.Jweixin.csproj" />
     <ProjectReference Include="..\..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
   </ItemGroup>
-
-
   
   <ItemGroup>
     <Folder Include="Views\CustomerService\" />
-    <Folder Include="Views\Jssdk\" />
     <Folder Include="Views\WeixinMenu\" />
   </ItemGroup>
 
+  <Target Name="PrecompileScript" BeforeTargets="BeforeBuild">
+    <Exec Command="bower install --allow-root" />
+    <Exec Command="dotnet bundle" />
+  </Target>
 </Project>
