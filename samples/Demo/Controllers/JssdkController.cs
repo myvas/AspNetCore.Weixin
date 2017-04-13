@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Demo.Models;
-using AspNetCore.Jweixin;
-using Microsoft.Extensions.Options;
 using AspNetCore.Weixin;
+using Microsoft.Extensions.Options;
 
 namespace Demo.Controllers
 {

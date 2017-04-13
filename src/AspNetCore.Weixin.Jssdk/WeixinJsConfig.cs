@@ -1,11 +1,9 @@
-﻿using AspNetCore.Weixin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AspNetCore.Jweixin
+namespace AspNetCore.Weixin
 {
-
     public class WeixinJsConfig
     {
         public bool debug = false;

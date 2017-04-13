@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AspNetCore.Jweixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 微信API访问凭证数据包。全局存储及更新。

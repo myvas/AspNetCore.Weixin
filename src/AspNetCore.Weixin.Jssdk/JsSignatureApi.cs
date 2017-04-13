@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AspNetCore.Jweixin
+namespace AspNetCore.Weixin
 {
     public static class JsSignatureApi
     {

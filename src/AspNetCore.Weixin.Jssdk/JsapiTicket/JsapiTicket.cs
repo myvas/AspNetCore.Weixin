@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AspNetCore.Jweixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// jsapi_ticket是公众号用于调用微信JS接口的临时票据。

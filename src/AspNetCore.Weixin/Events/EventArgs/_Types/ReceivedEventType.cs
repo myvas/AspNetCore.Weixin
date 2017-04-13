@@ -44,7 +44,7 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 进入会话（似乎已从官方API中移除）
         /// </summary>
-        [Obsolete("已从官方API中移除。", error: false)]
+        [Obsolete("It seems to be removed from Weixin APIs by Tencent.", error: false)]
         ENTER,
     }
 }

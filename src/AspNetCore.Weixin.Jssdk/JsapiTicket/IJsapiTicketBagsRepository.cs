@@ -1,5 +1,5 @@
 ﻿using System;
-namespace AspNetCore.Jweixin
+namespace AspNetCore.Weixin
 {
     interface IJsapiTicketBagsRepository
     {

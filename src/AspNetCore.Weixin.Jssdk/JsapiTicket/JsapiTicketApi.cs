@@ -6,7 +6,7 @@ using System.Globalization;
 using AspNetCore.Weixin;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Jweixin
+namespace AspNetCore.Weixin
 {
     /// <summary>
     /// 获取微信凭证数据服务接口

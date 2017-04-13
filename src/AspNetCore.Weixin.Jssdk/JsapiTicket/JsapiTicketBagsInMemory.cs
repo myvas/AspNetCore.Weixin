@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AspNetCore.Jweixin
+namespace AspNetCore.Weixin
 {
     public class JsapiTicketBagsInMemory : IJsapiTicketBagsRepository
     {

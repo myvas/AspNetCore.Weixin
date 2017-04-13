@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj" />
+    <ProjectReference Include="..\AspNetCore.Weixin.Jssdk\AspNetCore.Weixin.Jssdk.csproj" />
   </ItemGroup>
 
 </Project>

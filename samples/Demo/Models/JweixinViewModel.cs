@@ -1,4 +1,4 @@
-﻿using AspNetCore.Jweixin;
+﻿using AspNetCore.Weixin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
