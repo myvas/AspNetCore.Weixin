@@ -13,7 +13,7 @@
         $(document).ready(function () {
             wx.config(@Html.Raw(Model.ConfigJson));
             wx.ready(function () {
-                document.querySelector('#checkJsApi').onclick = function () {
+                $('#checkJsApi').onclick = function () {
                     wx.checkJsApi({
                         jsApiList: [
                             'getNetworkType',
@@ -23,26 +23,25 @@
                         success: function (res) {
                             alert(JSON.stringify(res));
                         }
-                    });
-
-                    wx.onMenuShareAppMessage({
-                        title: '@Model.Title', // 分享标题
-                        desc: '@Model.Description', // 分享描述
-                        link: '@Model.Link', // 分享链接
-                        imgUrl: '@Model.ImgUrl', // 分享图标
-                        type: '', // 分享类型,music、video或link，不填默认为link
-                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                        success: function () {
-                            // 用户确认分享后执行的回调函数
-                            alert("分享");
-                        },
-                        cancel: function () {
-                            // 用户取消分享后执行的回调函数
-                            alert("取消分享");
-                        }
-                    });
+                    })
                 };
 
+                wx.onMenuShareAppMessage({
+                    title: '@Html.Raw(Model.Title)', // 分享标题
+                    desc: '@Html.Raw(Model.Description)', // 分享描述
+                    link: '@Html.Raw(Model.Url)', // 分享链接
+                    imgUrl: '@Html.Raw(Model.ImgUrl)', // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        alert("分享");
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        alert("取消分享");
+                    }
+                });
             });
         });
     </script>

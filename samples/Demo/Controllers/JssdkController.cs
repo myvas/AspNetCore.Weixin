@@ -38,7 +38,7 @@ namespace Demo.Controllers
             vm.ConfigJson = config.ToJson(jsapiTicket, refererUrl);
 
             vm.Title = "链接分享测试";
-            vm.Link = "http://ruhu.daqianit.com/immigrationevals/create/6e997009-5f9c-4f6b-a455-5167bff830ef";
+            vm.Url = "http://ruhu.daqianit.com/immigrationevals/create/6e997009-5f9c-4f6b-a455-5167bff830ef";
             vm.Description = "链接分享测试";
             vm.ImgUrl = "http://www.warmwood.com/images/s1.jpg";
             return View(vm);
