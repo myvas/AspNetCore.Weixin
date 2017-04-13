@@ -1,4 +1,4 @@
-@model JweixinViewModel
+@model ShareJweixinViewModel
 @{
     Layout = "_LayoutJweixin";
     ViewData["Title"] = "Index";
@@ -11,13 +11,14 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            wx.config(@Html.Raw(ViewData["ConfigJson"]));
+            wx.config(@Html.Raw(Model.ConfigJson));
             wx.ready(function () {
                 document.querySelector('#checkJsApi').onclick = function () {
                     wx.checkJsApi({
                         jsApiList: [
                             'getNetworkType',
-                            'previewImage'
+                            'previewImage',
+                            'onMenuShareAppMessage'
                         ],
                         success: function (res) {
                             alert(JSON.stringify(res));
@@ -25,10 +26,10 @@
                     });
 
                     wx.onMenuShareAppMessage({
-                        title: '标题', // 分享标题
-                        desc: '描述', // 分享描述
-                        link: '@ViewData["Link"]', // 分享链接
-                        imgUrl: 'http://www.warmwood.com/images/s1.jpg', // 分享图标
+                        title: '@Model.Title', // 分享标题
+                        desc: '@Model.Description', // 分享描述
+                        link: '@Model.Link', // 分享链接
+                        imgUrl: '@Model.ImgUrl', // 分享图标
                         type: '', // 分享类型,music、video或link，不填默认为link
                         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                         success: function () {

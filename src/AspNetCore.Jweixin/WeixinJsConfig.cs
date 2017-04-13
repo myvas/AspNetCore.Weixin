@@ -13,10 +13,12 @@ namespace AspNetCore.Jweixin
         public long timestamp = WeixinTimestampHelper.FromLocalTime(DateTime.Now);
         public string nonceStr = Guid.NewGuid().ToString("N");
         public string signature;
-        public string[] jsApiList = new[] {"onMenuShareTimeline",
+        public string[] jsApiList = new[] {
+            "onMenuShareTimeline",
             "onMenuShareAppMessage",
             "onMenuShareQQ",
             "onMenuShareWeibo",
+            "onMenuShareQZone",
             "startRecord",
             "stopRecord",
             "onVoiceRecordEnd",
@@ -46,7 +48,8 @@ namespace AspNetCore.Jweixin
             "openProductSpecificView",
             "addCard",
             "chooseCard",
-            "openCard"};
+            "openCard"
+        };
         public string ToJson(string jsapiTicket, string refererUrl)
         {
             var elements = new Dictionary<string, object>();

@@ -25,21 +25,23 @@ namespace Demo.Controllers
 
         public IActionResult Index()
         {
-            var weixinAccessToken = _weixinAccessToken.GetToken();
-            var jsapiTicket = JsapiTicket.Default.GetTicket(weixinAccessToken);
+            var vm = new ShareJweixinViewModel();
 
-            var vm = new JweixinViewModel();
-            vm.Config = new WeixinJsConfig()
+            var config = new WeixinJsConfig()
             {
                 debug = true,
                 appId = _options.AppId
             };
-
+            var weixinAccessToken = _weixinAccessToken.GetToken();
+            var jsapiTicket = JsapiTicket.Default.GetTicket(weixinAccessToken);
             var refererUrl = Url.Action();
-            ViewData["ConfigJson"] = vm.Config.ToJson(jsapiTicket, refererUrl);
+            vm.ConfigJson = config.ToJson(jsapiTicket, refererUrl);
 
-            ViewData["Link"] = "http://ruhu.daqianit.com/immigrationevals/creat/123456789012345678";
-            return View();
+            vm.Title = "¡¥Ω”∑÷œÌ≤‚ ‘";
+            vm.Link = "http://ruhu.daqianit.com/immigrationevals/creat/123456789012345678";
+            vm.Description = "¡¥Ω”∑÷œÌ≤‚ ‘";
+            vm.ImgUrl = "http://www.warmwood.com/images/s1.jpg";
+            return View(vm);
         }
     }
 }
