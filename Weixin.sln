@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}"
 EndProject
@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Weixin", "src\As
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "samples\Demo\Demo.csproj", "{927AD981-2993-4A9B-8210-FF249EC6A6F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.Weixin.Core", "src\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj", "{1D44DC15-93EE-4779-BBF7-89156397C08B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Weixin.Core", "src\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj", "{1D44DC15-93EE-4779-BBF7-89156397C08B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Weixin.Jssdk", "src\AspNetCore.Weixin.Jssdk\AspNetCore.Weixin.Jssdk.csproj", "{6DE72631-538C-4F33-8891-D1F9E61634B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.Weixin.Apis", "src\AspNetCore.Weixin.Apis\AspNetCore.Weixin.Apis.csproj", "{C41E21EC-6ED4-4B9C-BF8B-1590A33245B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.Weixin.Apis", "src\AspNetCore.Weixin.Apis\AspNetCore.Weixin.Apis.csproj", "{C41E21EC-6ED4-4B9C-BF8B-1590A33245B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,5 +70,8 @@ Global
 		{1D44DC15-93EE-4779-BBF7-89156397C08B} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
 		{6DE72631-538C-4F33-8891-D1F9E61634B6} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
 		{C41E21EC-6ED4-4B9C-BF8B-1590A33245B4} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E316A19-467A-4E08-9E0C-03014C12FCC0}
 	EndGlobalSection
 EndGlobal
