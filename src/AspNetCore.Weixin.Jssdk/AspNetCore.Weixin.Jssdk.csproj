@@ -1,13 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <RootNamespace>AspNetCore.Weixin</RootNamespace>
-    <Version>2.0.0-alpha-70820</Version>
+    <Version>2.0.0-alpha-71130</Version>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectInPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj" />
+    <ProjectReference Include="..\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj">
+      <PrivateAssets>All</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
+
+  <Target Name="IncludeReferencedProjectInPackage">
+    <ItemGroup>
+      <BuildOutputInPackage Include="$(OutputPath)AspNetCore.Weixin.Core.dll" />
+    </ItemGroup>
+  </Target>
 
 </Project>
