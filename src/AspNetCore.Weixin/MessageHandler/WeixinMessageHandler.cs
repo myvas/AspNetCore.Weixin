@@ -27,7 +27,7 @@ namespace AspNetCore.Weixin
     /// </summary>
     public class WeixinMessageHandler
     {
-        private HttpContext _context;
+        public HttpContext HttpContext { get; private set; }
         private WeixinWelcomePageOptions _options;
         private ILogger _logger;
         protected WeixinMessageHandleResult InitializeResult { get; set; }
@@ -37,7 +37,7 @@ namespace AspNetCore.Weixin
             ILogger logger)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            HttpContext = context ?? throw new ArgumentNullException(nameof(context));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             context.Response.OnStarting(OnStartingCallback, this);
@@ -122,7 +122,7 @@ namespace AspNetCore.Weixin
         {
             bool handled = false;
 
-            var xml = new StreamReader(_context.Request.Body).ReadToEnd();
+            var xml = new StreamReader(HttpContext.Request.Body).ReadToEnd();
             _logger.LogDebug("Request Body({0}): {1}", xml?.Length, xml);
 
             var received = XmlConvert.DeserializeObject<ReceivedEventArgs>(xml);
@@ -249,9 +249,9 @@ namespace AspNetCore.Weixin
             var s = XmlConvert.SerializeObject(o);
             _logger.LogDebug("Response Body({0}): {1}", s?.Length, s);
 
-            _context.Response.Clear();
-            _context.Response.ContentType = "text/plain;charset=utf-8";
-            await _context.Response.WriteAsync(s);
+            HttpContext.Response.Clear();
+            HttpContext.Response.ContentType = "text/plain;charset=utf-8";
+            await HttpContext.Response.WriteAsync(s);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace AspNetCore.Weixin
         protected ILogger<WeixinAccessTokenManager> _logger { get; private set; }
 
         public WeixinAccessTokenManager(
-            IOptionsSnapshot<WeixinAccessTokenOptions> optionsAccessor,
+            IOptions<WeixinAccessTokenOptions> optionsAccessor,
             ILoggerFactory loggerFactory)
         {
             _options = optionsAccessor.Value;
