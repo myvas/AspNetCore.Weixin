@@ -13,26 +13,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.0" />
-    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="AspNetCore.QcloudSmsService" Version="2.0.0" />
+    <PackageReference Include="AspNetCore.ViewDivert" Version="2.0.0-alpha-70820" />
+    <PackageReference Include="AspNetCore.Weixin" Version="2.0.0-alpha-71217" />
+    <PackageReference Include="AspNetCore.WeixinOAuth" Version="2.0.0-beta-71203" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.4.337" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
   </ItemGroup>
-  
+    
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Views\CustomerService\" />
     <Folder Include="Views\WeixinMenu\" />
   </ItemGroup>
 

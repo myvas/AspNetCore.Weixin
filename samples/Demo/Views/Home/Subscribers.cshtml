@@ -1,0 +1,50 @@
+﻿@model ReturnableViewModel<IList<UserInfoJson>>
+
+@{
+    ViewData["Title"] = "Subscribers";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Item == null)
+{
+    <p>No items found.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>openid</th>
+                    <th>nickname</th>
+                    <th>sex</th>
+                    <th>headimgurl</th>
+                    <th>language</th>
+                    <th>province</th>
+                    <th>city</th>
+                    <th>subscribe</th>
+                    <th>subscribe time</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Item)
+                {
+                    <tr>
+                        <td>@item.openid</td>
+                        <td>@item.nickname</td>
+                        <td>@item.sex</td>
+                        <td><img src="@item.headimgurl" height="80" /></td>
+                        <td>@item.language</td>
+                        <td>@item.province</td>
+                        <td>@item.city</td>
+                        <td>@item.subscribe</td>
+                        <td>@WeixinTimestampHelper.ToLocalTime(item.subscribe_time)</td>
+                        <td><a asp-action="SendWeixin" asp-route-openid="@item.openid">发送微信消息</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

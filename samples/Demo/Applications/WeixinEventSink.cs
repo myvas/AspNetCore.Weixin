@@ -1,4 +1,6 @@
 ﻿using AspNetCore.Weixin;
+using Demo.Data;
+using Demo.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,14 +14,32 @@ namespace Demo.Applications
     public class WeixinEventSink
     {
         private readonly ILogger<WeixinEventSink> _logger;
-        public WeixinEventSink(ILoggerFactory loggerFactory)
+        private readonly AppDbContext _db;
+
+        public WeixinEventSink(ILoggerFactory loggerFactory,
+            AppDbContext db)
         {
             _logger = loggerFactory?.CreateLogger<WeixinEventSink>() ?? throw new ArgumentNullException(nameof(loggerFactory));
+            _db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
         public async Task<bool> OnTextMessageReceived(object sender, TextMessageReceivedEventArgs e)
         {
             _logger.LogDebug(XmlConvert.SerializeObject(e));
+
+            var msg = new ReceivedTextMessage();
+            msg.Content = e.Content;
+            msg.From = e.FromUserName;
+            msg.To = e.ToUserName;
+            msg.ReceivedTime = new DateTimeOffset(WeixinTimestampHelper.ToUtcTime(e.CreateTimeStr));
+            _db.ReceivedTextMessages.Add(msg);
+            var saveResult = await _db.SaveChangesAsync();
+            if (saveResult > 0)
+            {
+                _logger.LogDebug($"已将微信文本消息存入数据库。Result:{saveResult}, From:{msg.From}, To:{msg.To}, Time:{msg.ReceivedTime}, Content:{msg.Content}");
+            }
+            _logger.LogDebug($"微信文本消息在数据库中共{_db.ReceivedTextMessages.ToList().Count()}条记录。");
+
 
             var messageHandler = sender as WeixinMessageHandler;
             var responseMessage = new ResponseMessageText();

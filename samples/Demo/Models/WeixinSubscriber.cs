@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace Demo.Models
 {
-    public class SendTextViewModel
+    public class WeixinSubscriber :Entity
     {
         public string OpenId { get; set; }
-        public string Content { get; set; }
+        public string Gender { get; set; }
+        public string NickName { get; set; }
+        public string AvatorImage { get; set; }
     }
 }

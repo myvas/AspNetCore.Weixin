@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ReceivedTextMessage>
+
+@{
+    ViewData["Title"] = "Received Text";
+}
+
+<h2>@ViewData["Title"] (@Model.Count())</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.From)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.To)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.To)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

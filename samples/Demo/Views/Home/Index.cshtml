@@ -1,25 +1,13 @@
+﻿
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<div class="text-center">
+    <img src="~/img/mp-test.jpg" height="200" />
+    <div class="help-block">请用微信扫描二维码关注测试公众号</div>
 
-@using (Html.BeginForm("SendWeixinArticle", "Home", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    <dl>
-        <dt>
-            Title
-        </dt>
-        <dd>
-            <input type="text" name="Title" />
-        </dd>
-        <dt>
-            Content
-        </dt>
-        <dd>
-            <input type="text" name="Content" />
-        </dd>
-    </dl>
-    <input type="submit" value="Submit" />
-}
+    <a class="btn btn-primary" asp-action="Subscribers">Subscribers</a>
+    <a class="btn btn-default" asp-action="SendWeixin">Send Message</a>
+    <a class="btn btn-success" asp-action="ReceivedText">Received Text</a>
+</div>
