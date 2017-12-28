@@ -13,6 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\AspNetCore.Weixin.Apis\AspNetCore.Weixin.Apis.csproj" />
+    <ProjectReference Include="..\src\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj" />
+    <ProjectReference Include="..\src\AspNetCore.Weixin.Jssdk\AspNetCore.Weixin.Jssdk.csproj" />
     <ProjectReference Include="..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
   </ItemGroup>
 

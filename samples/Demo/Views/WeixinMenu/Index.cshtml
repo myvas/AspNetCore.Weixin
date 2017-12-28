@@ -1,5 +1,56 @@
-@{ 
-    ViewData["Title"] = "IAccessToken";
+﻿@*
+    WeixinMenu.cshtml
+*@
+
+@model WeixinJsonViewModel
+
+@{
+    ViewData["Title"] = "微信菜单管理";
 }
 
-<p>@ViewData["Token"]</p>
+<form asp-controller="WeixinMenu" asp-action="UpdateWeixinMenu" method="post">
+    <div class="container">
+        <div class="row">
+            <div class="form-group col-xs-6">
+                <label class="control-label">当前菜单</label>
+                <textarea rows="12" class="form-control" style="min-width:100%">@Model.Json</textarea>
+            </div>
+            <div class="form-group col-xs-6">
+                <label asp-for="Json">新菜单</label>
+                <textarea rows="12" class="form-control" asp-for="Json" style="min-width:100%"></textarea>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-12">
+                <input type="submit" class="btn btn-primary" value="提交" />
+            </div>
+        </div>
+    </div>
+    <hr />
+    <p class="help-block">菜单获取的Json格式与菜单更新的Json不一样，请手动复制以下内容粘贴到[新菜单]输入框，然后点击提交。</p>
+    <pre>
+{
+	"button": [
+	{
+			"type": "view",
+			"name": "Home",
+			"url": "http://weixinoauth.myvas.com/"
+	},{
+			"type": "view",
+			"name": "UserInfo",
+			"url": "http://weixinoauth.myvas.com/Home/UserInfo"
+	},
+	{
+			"type": "view",
+			"name": "About",
+			"url": "http://weixinoauth.myvas.com/Home/About"
+		
+	}]
+}
+    </pre>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label class="control-label">WeixinAccessToken</label>
+            <textarea class="form-control" style="min-width:100%">@Model.Token</textarea>
+        </div>
+    </div>
+</form>
