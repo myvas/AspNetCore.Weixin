@@ -33,7 +33,11 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 4 回复/发送视频消息
         /// </summary>
-        video
+        video,
+        /// <summary>
+        /// 将消息转发到客服
+        /// </summary>
+        transfer_customer_service
     }
     
     /// <summary>

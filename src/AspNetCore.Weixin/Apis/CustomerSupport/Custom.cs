@@ -108,7 +108,7 @@ namespace AspNetCore.Weixin
         /// <param name="hqMusicUrl">高品质音乐链接，wifi环境优先使用该链接播放音乐</param>
         /// <param name="thumbMediaId">视频缩略图的媒体ID</param>
         /// <returns></returns>
-        public static async Task< WeixinErrorJson> SendMusic(string accessToken, string openId, string title, string description,
+        public static async Task<WeixinErrorJson> SendMusic(string accessToken, string openId, string title, string description,
                                     string musicUrl, string hqMusicUrl, string thumbMediaId)
         {
             var data = new
@@ -143,12 +143,12 @@ namespace AspNetCore.Weixin
                 news = new
                 {
                     articles = articles.Select(z => new
-                                {
-                                    title = z.Title,
-                                    description = z.Description,
-                                    url = z.Url,
-                                    picurl = z.PicUrl//图文消息的图片链接，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80
-                                }).ToList()
+                    {
+                        title = z.Title,
+                        description = z.Description,
+                        url = z.Url,
+                        picurl = z.PicUrl//图文消息的图片链接，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80
+                    }).ToList()
                 }
             };
             return await MessageSend.Send(accessToken, WeixinApiUrlPattern, data);

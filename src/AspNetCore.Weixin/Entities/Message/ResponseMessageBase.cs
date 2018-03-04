@@ -59,6 +59,9 @@ namespace AspNetCore.Weixin
                     case ResponseMsgType.video:
                         responseMessage = new ResponseMessageVideo();
                         break;
+                    case ResponseMsgType.transfer_customer_service:
+                        responseMessage = new ResponseMessageTransferCustomerService();
+                        break;
                     default:
                         throw new WeixinUnknownRequestMsgTypeException(string.Format("ResponseMsgType没有为 {0} 提供对应处理程序。", msgType), new ArgumentOutOfRangeException());
                 }

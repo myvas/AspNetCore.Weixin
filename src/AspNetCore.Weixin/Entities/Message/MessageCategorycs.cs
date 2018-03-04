@@ -19,7 +19,7 @@ namespace AspNetCore.Weixin
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// 图片地址
+        /// 图片地址。支持JPG、PNG格式，较好的效果为大图360*200，小图200*200
         /// </summary>
         public string PicUrl { get; set; }
         /// <summary>
