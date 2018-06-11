@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.Sms.Tencent" Version="2.0.1" />
     <PackageReference Include="AspNetCore.ViewDivert" Version="2.0.1" />
+    <PackageReference Include="AspNetCore.Weixin" Version="2.1.301" />
     <PackageReference Include="AspNetCore.WeixinOAuth" Version="2.1.300-beta-80611" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
