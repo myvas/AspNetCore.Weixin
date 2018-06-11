@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <RootNamespace>AspNetCore.Weixin</RootNamespace>
-    <Version>2.0.0-alpha-71130</Version>
+    <RootNamespace>AspNetCore.Weixin.Jssdk</RootNamespace>
+    <PackageId>AspNetCore.Weixin.Jssdk</PackageId>
+    <Version>2.1.301</Version>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectInPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 

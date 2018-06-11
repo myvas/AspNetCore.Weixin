@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>2.0.0-alpha-71130</Version>
-    <RootNamespace>AspNetCore.Weixin</RootNamespace>
+    <RootNamespace>AspNetCore.Weixin.Core</RootNamespace>
+    <PackageId>AspNetCore.Weixin.Core</PackageId>
+    <Version>2.1.301</Version>
   </PropertyGroup>
 
   <ItemGroup>

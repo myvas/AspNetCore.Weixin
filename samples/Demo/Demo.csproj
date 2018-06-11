@@ -1,33 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>wxdemo</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>AspNetCore.Weixin.Demo</PackageId>
     <UserSecretsId>wxdemo</UserSecretsId>
-    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81</AssetTargetFallback>
     <RootNamespace>Demo</RootNamespace>
-    <Description>AspNetCore.Weixin.Demo</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.QcloudSmsService" Version="2.0.0" />
-    <PackageReference Include="AspNetCore.ViewDivert" Version="2.0.0-alpha-70820" />
-    <PackageReference Include="AspNetCore.Weixin" Version="2.0.0-alpha-71217" />
-    <PackageReference Include="AspNetCore.WeixinOAuth" Version="2.0.0-beta-71203" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="AspNetCore.Sms.Tencent" Version="2.0.1" />
+    <PackageReference Include="AspNetCore.ViewDivert" Version="2.0.1" />
+    <PackageReference Include="AspNetCore.WeixinOAuth" Version="2.1.300-beta-80611" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.4.337" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
   </ItemGroup>
 
   <Target Name="PrecompileScript" BeforeTargets="BeforeBuild">

@@ -1,15 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>2.0.0-alpha-80204</Version>
+    <Version>2.1.301</Version>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>AspNetCore.Weixin</AssemblyName>
     <Authors>AspNetCore</Authors>
     <PackageId>AspNetCore.Weixin</PackageId>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <Description>An AspNetCore middleware for (Tencent) Wechat/Weixin message handler and apis. (Windows/Linux works!)</Description>
+    <Description>AspNetCore middleware for Tencent Wechat(aka. Weixin) message handler and apis.</Description>
     <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
     <PackageTags>AspNetCore;Weixin</PackageTags>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectInPackage</TargetsForTfmSpecificBuildOutput>
