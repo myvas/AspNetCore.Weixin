@@ -1,4 +1,7 @@
-# Myvas.AspNetCore.Weixin
+# AspNetCore.Weixin
+
+## NuGet
+https://www.nuget.org/packages/AspNetCore.Weixin/
 
 ## Settings
 https://mp.weixin.qq.com
