@@ -54,5 +54,5 @@ app.UseWeixinWelcomePage();
 http://weixin.myvas.com
 
 ## 分支及规划
-- master分支：工作在ASP.NET Core的LTS版本，当前LTS版本为2.1。本程序现工作在SDK 2.1.504上。
+- master分支：工作在ASP.NET Core的LTS版本，当前LTS版本为2.1。
 - tag与发布：每次产生一个新的打包并正式发布到nuget上时，创建一个tag
