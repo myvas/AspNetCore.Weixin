@@ -14,56 +14,28 @@ namespace Demo
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args)
+			CreateWebHostBuilder(args)
+				.Build()
                 .MigrateDatabase()
                 .SeedDatabase()
                 .Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
-            var hostingConfiguration = BuildHostingConfiguration();
-
             var webhostBuilder = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-
                 .ConfigureAppConfiguration(ConfigureAppConfiguration)
                 .ConfigureLogging(ConfigureLogging)
-
                 .UseIISIntegration()
-                .UseDefaultServiceProvider(DefaultServiceProvider)
+                .UseDefaultServiceProvider(DefaultServiceProvider);
 
-                .UseConfiguration(hostingConfiguration);
-
-            var webHost = webhostBuilder
+            var webHostBuilder = webhostBuilder
                 //.CaptureStartupErrors(true)
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
 
-            return webHost;
-        }
-
-
-        private static IConfiguration BuildHostingConfiguration()
-        {
-            var envConfiguration = new ConfigurationBuilder()
-                .AddEnvironmentVariables(prefix: "ASPNETCORE_")
-                .Build();
-            var environmentName = envConfiguration[WebHostDefaults.EnvironmentKey];
-            if (string.IsNullOrEmpty(environmentName))
-            {
-                environmentName = "Production";
-            }
-
-            var hostingConfigurationBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory()) //AppContext.BaseDirectory is assembly's location
-                                                              //默认为Production环境配置
-                .AddJsonFile("hosting.json", optional: true)
-                //若Development环境须不同配置，请修改hosting.Development.json
-                .AddJsonFile($"hosting.{environmentName}.json", optional: true); // urls
-
-            return hostingConfigurationBuilder.Build();
+            return webHostBuilder;
         }
 
         private static void ConfigureAppConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder config)
@@ -77,18 +49,9 @@ namespace Demo
             //4。除了Development具有替换secret.json的能力，其他Environment也可能需要这种替换能力。
             config.SetBasePath(Directory.GetCurrentDirectory())
                 //.SetBasePath(AppContext.BaseDirectory)
-                //默认所有配置均填充注释说明，不作实际用途。
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-                //默认为Development环境配置
-                .AddJsonFile("logging.json", optional: false, reloadOnChange: false)
-                //通常在开发者个人计算机中创建secrets.json，用于存储开发者个人或小组的相关配置
                 .AddUserSecrets<Startup>()
-                //特别地，开发者可能使用本地数据库，此时可创建appsettings.Development.json以覆盖secrets.json中的数据库连接串。
-                //生产环境计算机，则通常会直接使用secrets.json作为正式部署的配置。
-                //建议不要使用appsettings.Production.json！
-                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
-                //若Production环境须不同配置，请创建logging.Production.json
-                .AddJsonFile($"logging.{environmentName}.json", optional: true, reloadOnChange: true);
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true);
         }
 
         private static void ConfigureLogging(WebHostBuilderContext hostingContext, ILoggingBuilder logging)

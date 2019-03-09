@@ -1,10 +1,19 @@
 # AspNetCore.Weixin
 
+## Migrate from ASP.NET Core 2.0 to 2.1
+https://docs.microsoft.com/en-us/aspnet/core/migration/20_21
+
 ## NuGet
 https://www.nuget.org/packages/AspNetCore.Weixin/
 
 ## Settings
 https://mp.weixin.qq.com
+
+- 获取AppSecret
+- 启用开发模式，部署网站并启用https/ssl，网址类似: https://xxx.xxx/wx
+- 在“网站Token”中填写一串较长的随机字符串作为WebsiteToken
+- 不要选择“加密模式”（本版本暂不支持）
+
 
 ## ConfigureServices
 ```
@@ -35,4 +44,16 @@ services.AddWeixin(options =>
       };
   });
 ```
-          
+
+## Configure
+```
+app.UseWeixinWelcomePage();
+```
+
+## Demo
+http://weixin.myvas.com
+
+## 分支及规划
+- master分支：一直保持及保证在ASP.NET Core的LTS版本中测试通过并正常工作。
+- branches分支：当出现新的ASP.NET Core的LTS版本时建立备份分支，master分支跳转到新的LTS版本。
+- tag与发布：每次产生一个新的打包并正式发布到nuget上时，创建一个tag

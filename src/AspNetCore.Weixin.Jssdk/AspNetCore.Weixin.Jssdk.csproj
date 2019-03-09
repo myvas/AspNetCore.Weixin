@@ -3,21 +3,22 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <RootNamespace>AspNetCore.Weixin.Jssdk</RootNamespace>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>AspNetCore.Weixin.Jssdk</PackageId>
-    <Version>2.1.301</Version>
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeReferencedProjectInPackage</TargetsForTfmSpecificBuildOutput>
+		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
+    <Version>2.1.504</Version>
+    <Authors>AspNetCore</Authors>
+    <Product>AspNetCore.Weixin</Product>
+    <Description>AspNetCore.Weixin.Jssdk</Description>
+    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj">
-      <PrivateAssets>All</PrivateAssets>
-    </ProjectReference>
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
 
-  <Target Name="IncludeReferencedProjectInPackage">
-    <ItemGroup>
-      <BuildOutputInPackage Include="$(OutputPath)AspNetCore.Weixin.Core.dll" />
-    </ItemGroup>
-  </Target>
-
+	<ItemGroup>
+		<ProjectReference Include="..\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj" />
+	</ItemGroup>
 </Project>

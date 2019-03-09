@@ -4,11 +4,20 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <RootNamespace>AspNetCore.Weixin.Core</RootNamespace>
     <PackageId>AspNetCore.Weixin.Core</PackageId>
-    <Version>2.1.301</Version>
+    <Version>2.1.504</Version>
+    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <Copyright />
+    <Description>AspNetCore.Weixin.Core</Description>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageTags>myvas;aspnetcore;weixin</PackageTags>
+    <Authors>AspNetCore</Authors>
+    <Product>AspNetCore.Weixin</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
 </Project>

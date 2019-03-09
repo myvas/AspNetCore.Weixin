@@ -8,22 +8,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Sms.Tencent" Version="2.0.1" />
-    <PackageReference Include="AspNetCore.ViewDivert" Version="2.0.1" />
-    <PackageReference Include="AspNetCore.Weixin" Version="2.1.301" />
-    <PackageReference Include="AspNetCore.WeixinOAuth" Version="2.1.300-beta-80611" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.8" />
+    <PackageReference Include="Myvas.AspNetCore.Authentication.QQConnect" Version="2.1.414" />
+    <PackageReference Include="Myvas.AspNetCore.Authentication.WeixinAuth" Version="2.1.414" />
+    <PackageReference Include="Myvas.AspNetCore.Authentication.WeixinOpen" Version="2.1.415-beta1" />
+    <PackageReference Include="Myvas.AspNetCore.TencentSms" Version="2.1.404" />
+    <PackageReference Include="Myvas.AspNetCore.ViewDivert" Version="2.1.405" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.7" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.4.337" />
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
+  </ItemGroup>
+  
   <Target Name="PrecompileScript" BeforeTargets="BeforeBuild">
-    <Exec Command="bower install --allow-root" />
     <Exec Command="dotnet bundle" />
   </Target>
 </Project>
