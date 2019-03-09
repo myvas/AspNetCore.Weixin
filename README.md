@@ -9,10 +9,10 @@ https://www.nuget.org/packages/AspNetCore.Weixin/
 ## Settings
 https://mp.weixin.qq.com
 
-- »ñÈ¡AppSecret
-- ÆôÓÃ¿ª·¢Ä£Ê½£¬²¿ÊðÍøÕ¾²¢ÆôÓÃhttps/ssl£¬ÍøÖ·ÀàËÆ: https://xxx.xxx/wx
-- ÔÚ¡°ÍøÕ¾Token¡±ÖÐÌîÐ´Ò»´®½Ï³¤µÄËæ»ú×Ö·û´®×÷ÎªWebsiteToken
-- ²»ÒªÑ¡Ôñ¡°¼ÓÃÜÄ£Ê½¡±£¨±¾°æ±¾ÔÝ²»Ö§³Ö£©
+- èŽ·å–AppSecret
+- å¯ç”¨å¼€å‘æ¨¡å¼ï¼Œéƒ¨ç½²ç½‘ç«™å¹¶å¯ç”¨https/sslï¼Œç½‘å€ç±»ä¼¼: https://xxx.xxx/wx
+- åœ¨â€œç½‘ç«™Tokenâ€ä¸­å¡«å†™ä¸€ä¸²è¾ƒé•¿çš„éšæœºå­—ç¬¦ä¸²ä½œä¸ºWebsiteToken
+- ä¸è¦é€‰æ‹©â€œåŠ å¯†æ¨¡å¼â€ï¼ˆæœ¬ç‰ˆæœ¬æš‚ä¸æ”¯æŒï¼‰
 
 
 ## ConfigureServices
@@ -53,7 +53,6 @@ app.UseWeixinWelcomePage();
 ## Demo
 http://weixin.myvas.com
 
-## ·ÖÖ§¼°¹æ»®
-- master·ÖÖ§£ºÒ»Ö±±£³Ö¼°±£Ö¤ÔÚASP.NET CoreµÄLTS°æ±¾ÖÐ²âÊÔÍ¨¹ý²¢Õý³£¹¤×÷¡£
-- branches·ÖÖ§£ºµ±³öÏÖÐÂµÄASP.NET CoreµÄLTS°æ±¾Ê±½¨Á¢±¸·Ý·ÖÖ§£¬master·ÖÖ§Ìø×ªµ½ÐÂµÄLTS°æ±¾¡£
-- tagÓë·¢²¼£ºÃ¿´Î²úÉúÒ»¸öÐÂµÄ´ò°ü²¢ÕýÊ½·¢²¼µ½nugetÉÏÊ±£¬´´½¨Ò»¸ötag
+## åˆ†æ”¯åŠè§„åˆ’
+- masteråˆ†æ”¯ï¼šå·¥ä½œåœ¨ASP.NET Coreçš„LTSç‰ˆæœ¬ï¼Œå½“å‰LTSç‰ˆæœ¬ä¸º2.1ã€‚æœ¬ç¨‹åºçŽ°å·¥ä½œåœ¨SDK 2.1.504ä¸Šã€‚
+- tagä¸Žå‘å¸ƒï¼šæ¯æ¬¡äº§ç”Ÿä¸€ä¸ªæ–°çš„æ‰“åŒ…å¹¶æ­£å¼å‘å¸ƒåˆ°nugetä¸Šæ—¶ï¼Œåˆ›å»ºä¸€ä¸ªtag
