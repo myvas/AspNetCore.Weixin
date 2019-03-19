@@ -19,20 +19,31 @@ namespace Demo.Data
 
                 try
                 {
-                    var db = services.GetRequiredService<AppDbContext>();
+                    var db = services.GetRequiredService<IdentityDbContext>();
                     db.Database.Migrate();
                 }
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while migrating the database.");
+                    logger.LogError(ex, "An error occurred while migrating the Identity db.");
                 }
-            }
 
-            return webHost;
-        }
+				try
+				{
+					var db = services.GetRequiredService<WeixinDbContext>();
+					db.Database.Migrate();
+				}
+				catch (Exception ex)
+				{
+					var logger = services.GetRequiredService<ILogger<Program>>();
+					logger.LogError(ex, "An error occurred while migrating the Weixin db.");
+				}
+			}
 
-        public static IWebHost SeedDatabase(this IWebHost webHost)
+			return webHost;
+		}
+
+		public static IWebHost SeedDatabase(this IWebHost webHost)
         {
             using (var scope = webHost.Services.CreateScope())
             {
@@ -40,7 +51,7 @@ namespace Demo.Data
 
                 try
                 {
-                    AppDbInitializer.Initialize(services).Wait();
+                    IdentityDbInitializer.Initialize(services).Wait();
                 }
                 catch (Exception ex)
                 {

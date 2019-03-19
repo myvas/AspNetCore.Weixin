@@ -13,11 +13,11 @@ namespace Demo.Controllers
 {
     public class WeixinMenuController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IdentityDbContext _context;
         private readonly IWeixinAccessToken _weixinAccessToken;
         private readonly ILogger<WeixinMenuController> _logger;
 
-        public WeixinMenuController(AppDbContext context,
+        public WeixinMenuController(IdentityDbContext context,
             IWeixinAccessToken weixinAccessToken,
             ILogger<WeixinMenuController> logger)
         {

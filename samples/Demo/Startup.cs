@@ -32,10 +32,11 @@ namespace Demo
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
 
-			services.AddDbContext<AppDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddDbContext<WeixinDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddIdentity<AppUser, IdentityRole>()
-				.AddEntityFrameworkStores<AppDbContext>()
+				.AddEntityFrameworkStores<IdentityDbContext>()
 				.AddUserManager<AppUserManager>()
 				.AddSignInManager<SignInManager<AppUser>>()
 				.AddDefaultTokenProviders();
@@ -84,8 +85,8 @@ namespace Demo
 				options.AppId = Configuration["Weixin:AppId"];
 				options.AppSecret = Configuration["Weixin:AppSecret"];
 			});
-			services.AddScoped<WeixinEventSink>();
-			var weixinEventSink = services.BuildServiceProvider().GetRequiredService<WeixinEventSink>();
+			services.AddScoped<IWeixinEventSink, WeixinEventSink>();
+			var weixinEventSink = services.BuildServiceProvider().GetRequiredService<IWeixinEventSink>();
 			services.AddWeixinWelcomePage(options =>
 			{
 				options.AppId = Configuration["Weixin:AppId"];

@@ -10,7 +10,7 @@ using System;
 
 namespace Demo.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(IdentityDbContext))]
     [Migration("20171228051742_Initial")]
     partial class Initial
     {

@@ -1,8 +1,5 @@
 # AspNetCore.Weixin
 
-## Migrate from ASP.NET Core 2.0 to 2.1
-https://docs.microsoft.com/en-us/aspnet/core/migration/20_21
-
 ## NuGet
 https://www.nuget.org/packages/AspNetCore.Weixin/
 
@@ -53,7 +50,10 @@ app.UseWeixinWelcomePage();
 ## Demo
 http://weixin.myvas.com
 
-## 分支及规划
-- master分支：一直保持及保证在ASP.NET Core的LTS版本中测试通过并正常工作。
-- branches分支：当出现新的ASP.NET Core的LTS版本时建立备份分支，master分支跳转到新的LTS版本。
-- tag与发布：每次产生一个新的打包并正式发布到nuget上时，创建一个tag
+## Branches
+- master: ASP.NET Core 2.1(LTS)
+- branches:
+- tags: create a tag when release to nuget
+
+## Migrate from ASP.NET Core 2.0 to 2.1
+https://docs.microsoft.com/en-us/aspnet/core/migration/20_21

@@ -11,13 +11,13 @@ using System.Xml.Serialization;
 
 namespace Demo.Applications
 {
-    public class WeixinEventSink
-    {
+    public class WeixinEventSink : IWeixinEventSink
+	{
         private readonly ILogger<WeixinEventSink> _logger;
-        private readonly AppDbContext _db;
+        private readonly WeixinDbContext _db;
 
         public WeixinEventSink(ILoggerFactory loggerFactory,
-            AppDbContext db)
+			WeixinDbContext db)
         {
             _logger = loggerFactory?.CreateLogger<WeixinEventSink>() ?? throw new ArgumentNullException(nameof(loggerFactory));
             _db = db ?? throw new ArgumentNullException(nameof(db));

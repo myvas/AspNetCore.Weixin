@@ -13,12 +13,12 @@ namespace Demo.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AppDbContext _db;
+        private readonly WeixinDbContext _db;
         private readonly ILogger<HomeController> _logger;
         private readonly IWeixinAccessToken _weixinAccessToken;
 
         public HomeController(
-            AppDbContext db,
+			WeixinDbContext db,
             ILoggerFactory loggerFactory,
             IWeixinAccessToken smsSender)
         {
