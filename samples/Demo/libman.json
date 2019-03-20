@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "defaultProvider": "cdnjs",
+	"version": "1.0",
+	"defaultProvider": "cdnjs",
 	"libraries": [
 		{
 			"library": "jquery@3.3.1",
@@ -24,16 +24,28 @@
 			"files": [
 				"jquery.validate.unobtrusive.min.js"
 			]
+		},
+		{
+			"provider": "cdnjs",
+			"library": "twitter-bootstrap@4.3.1",
+			"destination": "wwwroot/lib/twitter-bootstrap/",
+			"files": [
+				"js/bootstrap.bundle.min.js",
+				"css/bootstrap.min.css"
+			]
+		},
+		{
+			"provider": "cdnjs",
+			"library": "font-awesome@5.7.2",
+			"destination": "wwwroot/lib/font-awesome/",
+			"files": [
+				"webfonts/fa-solid-900.eot",
+				"webfonts/fa-solid-900.ttf",
+				"webfonts/fa-solid-900.svg",
+				"webfonts/fa-solid-900.woff",
+				"webfonts/fa-solid-900.woff2",
+				"css/all.min.css"
+			]
 		}
-	,
-{
-  "provider": "cdnjs",
-  "library": "twitter-bootstrap@4.3.1",
-  "destination": "wwwroot/lib/twitter-bootstrap/",
-  "files": [
-    "js/bootstrap.min.js",
-    "css/bootstrap.min.css"
-  ]
-}
-]
+	]
 }

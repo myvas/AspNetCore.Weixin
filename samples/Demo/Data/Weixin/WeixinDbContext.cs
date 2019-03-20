@@ -1,4 +1,5 @@
-﻿using Demo.Models;
+﻿using AspNetCore.Weixin;
+using Demo.Models;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,8 +14,8 @@ namespace Demo.Data
 		public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options)
 		{
 		}
-
-		//public DbSet<UserInfoJson> Subscribers { get; set; }
+	
+		public DbSet<WeixinSubscriber> Subscribers { get; set; }
 		public DbSet<ReceivedTextMessage> ReceivedTextMessages { get; set; }
 	}
 }

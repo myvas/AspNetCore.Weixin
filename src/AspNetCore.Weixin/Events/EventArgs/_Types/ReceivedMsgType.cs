@@ -8,7 +8,7 @@ namespace AspNetCore.Weixin
     /// <summary>
     /// 接收消息类型
     /// </summary>
-    ///<remarks>存储时建议使用.ToString()，而非数值。解析时应忽略大小写。</remarks>
+    ///<remarks>存储时建议使用.ToString()存储字符串，不要存储数值。解析时应忽略大小写。</remarks>
     public enum ReceivedMsgType
     {
         #region 接收普通消息
