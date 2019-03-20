@@ -47,6 +47,21 @@ services.AddWeixin(options =>
 app.UseWeixinWelcomePage();
 ```
 
+## Usage of IWeixinAccessToken
+```
+private readonly IWeixinAccessToken _weixinAccessToken;
+
+.ctor(IWeixinAccessToken weixinAccessToken)
+{
+    _weixinAccessToken = weixinAccessToken;
+}
+
+public IActionResult MethodA()
+{
+   var token = _weixinAccessToken.GetToken();
+}
+```
+
 ## Demo
 http://weixin.myvas.com
 
