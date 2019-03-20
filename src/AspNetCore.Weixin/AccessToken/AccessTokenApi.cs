@@ -10,10 +10,13 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Weixin
 {
-    /// <summary>
-    /// 获取微信凭证数据服务接口
-    /// </summary>
-    internal static class AccessTokenApi
+	/// <summary>
+	/// 获取微信凭证数据服务接口
+	/// </summary>
+	/// <remarks>
+	/// <see cref="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183">获取access_token接口官方说明</see>
+	/// </remarks>
+	internal static class AccessTokenApi
     {
         private const string GetAccessTokenEndpoint = "https://api.weixin.qq.com/cgi-bin/token";
 

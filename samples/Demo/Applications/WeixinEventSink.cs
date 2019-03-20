@@ -1,6 +1,6 @@
 ﻿using AspNetCore.Weixin;
 using Demo.Data;
-using Demo.Models;
+using Demo.Entities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

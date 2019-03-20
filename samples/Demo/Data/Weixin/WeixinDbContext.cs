@@ -1,5 +1,5 @@
 ﻿using AspNetCore.Weixin;
-using Demo.Models;
+using Demo.Entities;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System;

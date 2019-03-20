@@ -8,7 +8,7 @@ namespace Demo.Models
 {
     public class SendWeixinViewModel
     {
-        public IList<ReceivedTextMessage> Received { get; set; }
+        public IList<Entities.ReceivedTextMessage> Received { get; set; }
 
         [Required]
         public string OpenId { get; set; }

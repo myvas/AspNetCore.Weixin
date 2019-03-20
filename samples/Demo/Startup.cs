@@ -2,7 +2,7 @@
 using AspNetCore.Weixin;
 using Demo.Applications;
 using Demo.Data;
-using Demo.Models;
+using Demo.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

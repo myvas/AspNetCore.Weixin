@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>2.1.504</Version>
+    <Version>2.1.505</Version>
     <AssemblyName>AspNetCore.Weixin</AssemblyName>
     <Authors>AspNetCore</Authors>
     <PackageId>AspNetCore.Weixin</PackageId>
@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.1.2" />
   </ItemGroup>
 
 	<ItemGroup>
