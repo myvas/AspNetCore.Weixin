@@ -16,10 +16,11 @@ namespace AspNetCore.Weixin
         /// </summary>
         subscribe = 100,
 
-        /// <summary>
-        /// 1.2 取消订阅
-        /// </summary>
-        unsubscribe = 200,
+		/// <summary>
+		/// 1.2 取消订阅
+		/// </summary>
+		[Obsolete("It seems to be removed from Weixin APIs by Tencent.", error: false)]
+		unsubscribe = 200,
 
         /// <summary>
         /// 300 二维码扫描

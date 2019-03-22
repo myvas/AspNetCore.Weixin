@@ -21,4 +21,27 @@
 	<ItemGroup>
 		<ProjectReference Include="..\AspNetCore.Weixin.Jssdk\AspNetCore.Weixin.Jssdk.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="EntityManagers\" />
+	  <Folder Include="ProviderServices\InstantReplyService\" />
+	  <Folder Include="ProviderServices\CustomerMessagingService\" />
+	  <Folder Include="ProviderServices\BroadcastService\" />
+	  <Folder Include="ProviderServices\MaterialManager\" />
+	  <Folder Include="ProviderServices\LeaveCommentManager\" />
+	  <Folder Include="ProviderServices\AccountManager\" />
+	  <Folder Include="ProviderServices\GrouponManager\" />
+	  <Folder Include="ProviderServices\MerchantManager\" />
+	  <Folder Include="ProviderServices\IotTerminalManager\" />
+	  <Folder Include="ProviderServices\MerchantTerminalManager\" />
+	  <Folder Include="ProviderServices\DeviceManager\" />
+	  <Folder Include="ProviderServices\WeixinInvoiceManager\" />
+	  <Folder Include="ProviderServices\WeixinWifiManager\" />
+	  <Folder Include="ProviderServices\WeixinScanningManager\" />
+	  <Folder Include="ProviderServices\WeixinShakeManager\" />
+	  <Folder Include="ProviderServices\Statistics\" />
+	  <Folder Include="ProviderServices\SubscriberManager\" />
+	  <Folder Include="ProviderServices\SubscribeMessagingService\" />
+	  <Folder Include="ProviderServices\TemplateMessagingService\" />
+	</ItemGroup>
 </Project>

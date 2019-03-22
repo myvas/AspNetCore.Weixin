@@ -140,13 +140,6 @@ namespace AspNetCore.Weixin
                                     handled = await _options.Events.SubscribeEventReceived(ctx);
                                 }
                                 break;
-                            case ReceivedEventType.unsubscribe:
-                                {
-                                    var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedEventArgs>(xml);
-                                    var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(this, x);
-                                    handled = await _options.Events.UnsubscribeEventReceived(ctx);
-                                }
-                                break;
                             case ReceivedEventType.SCAN:
                                 {
                                     var x = XmlConvert.DeserializeObject<QrscanEventReceivedEventArgs>(xml);
@@ -182,7 +175,14 @@ namespace AspNetCore.Weixin
                                     handled = await _options.Events.EnterEventReceived(ctx);
                                 }
                                 break;
-                            default:
+							case ReceivedEventType.unsubscribe:
+								{
+									var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedEventArgs>(xml);
+									var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(this, x);
+									handled = await _options.Events.UnsubscribeEventReceived(ctx);
+								}
+								break;
+							default:
                                 throw new NotSupportedException($"不支持的事件[{ev.Event.ToString()}]");
                         }
                     }
@@ -201,13 +201,27 @@ namespace AspNetCore.Weixin
                         handled = await _options.Events.ImageMessageReceived(ctx);
                     }
                     break;
-                case ReceivedMsgType.link:
-                    {
-                        var x = XmlConvert.DeserializeObject<LinkMessageReceivedEventArgs>(xml);
-                        var ctx = new WeixinReceivedContext<LinkMessageReceivedEventArgs>(this, x);
-                        handled = await _options.Events.LinkMessageReceived(ctx);
-                    }
-                    break;
+				case ReceivedMsgType.voice:
+					{
+						var x = XmlConvert.DeserializeObject<VoiceMessageReceivedEventArgs>(xml);
+						var ctx = new WeixinReceivedContext<VoiceMessageReceivedEventArgs>(this, x);
+						handled = await _options.Events.VoiceMessageReceived(ctx);
+					}
+					break;
+				case ReceivedMsgType.video:
+					{
+						var x = XmlConvert.DeserializeObject<VideoMessageReceivedEventArgs>(xml);
+						var ctx = new WeixinReceivedContext<VideoMessageReceivedEventArgs>(this, x);
+						handled = await _options.Events.VideoMessageReceived(ctx);
+					}
+					break;
+				case ReceivedMsgType.shortvideo:
+					{
+						var x = XmlConvert.DeserializeObject<ShortVideoMessageReceivedEventArgs>(xml);
+						var ctx = new WeixinReceivedContext<ShortVideoMessageReceivedEventArgs>(this, x);
+						handled = await _options.Events.ShortVideoMessageReceived(ctx);
+					}
+					break;
                 case ReceivedMsgType.location:
                     {
                         var x = XmlConvert.DeserializeObject<LocationMessageReceivedEventArgs>(xml);
@@ -215,28 +229,14 @@ namespace AspNetCore.Weixin
                         handled = await _options.Events.LocationMessageReceived(ctx);
                     }
                     break;
-                case ReceivedMsgType.voice:
-                    {
-                        var x = XmlConvert.DeserializeObject<VoiceMessageReceivedEventArgs>(xml);
-                        var ctx = new WeixinReceivedContext<VoiceMessageReceivedEventArgs>(this, x);
-                        handled = await _options.Events.VoiceMessageReceived(ctx);
-                    }
-                    break;
-                case ReceivedMsgType.video:
-                    {
-                        var x = XmlConvert.DeserializeObject<VideoMessageReceivedEventArgs>(xml);
-                        var ctx = new WeixinReceivedContext<VideoMessageReceivedEventArgs>(this, x);
-                        handled = await _options.Events.VideoMessageReceived(ctx);
-                    }
-                    break;
-                case ReceivedMsgType.shortvideo:
-                    {
-                        var x = XmlConvert.DeserializeObject<ShortVideoMessageReceivedEventArgs>(xml);
-                        var ctx = new WeixinReceivedContext<ShortVideoMessageReceivedEventArgs>(this, x);
-                        handled = await _options.Events.ShortVideoMessageReceived(ctx);
-                    }
-                    break;
-                default:
+				case ReceivedMsgType.link:
+					{
+						var x = XmlConvert.DeserializeObject<LinkMessageReceivedEventArgs>(xml);
+						var ctx = new WeixinReceivedContext<LinkMessageReceivedEventArgs>(this, x);
+						handled = await _options.Events.LinkMessageReceived(ctx);
+					}
+					break;
+				default:
                     throw new NotSupportedException($"不支持的信息类型[{received.MsgType.ToString()}]");
             }
 
