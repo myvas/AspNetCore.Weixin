@@ -6,11 +6,14 @@ https://www.nuget.org/packages/AspNetCore.Weixin/
 ## Settings
 https://mp.weixin.qq.com
 
-- 获取AppSecret
-- 在“网站Token”中，填写一串较长的随机字符串作为WebsiteToken
-- 在“消息加解方式”中，**建议**选择“安全模式”
-- 在“服务器地址(URL)"中，填写地址: http://xxx.xxx/wx or https://xxx.xxx/wx
-- 启用开发模式
+开发/基本配置/公众号开发信息
+- 获取**AppSecret**
+
+开发/基本配置/服务器配置：***修改设置*** | ***启用***
+- 在“服务器地址(**URL**)"中，填写地址: http://xxx.xxx/wx or https://xxx.xxx/wx
+- 在“网站**Token**”中，填写一串较长的随机字符串作为WebsiteToken
+- 在“消息加解密密钥**EncodingAESKey**”中，生成一个
+- 在“消息加解方式”中，**建议**选择“***安全模式***”
 
 ## ConfigureServices
 ```
