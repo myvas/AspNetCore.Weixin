@@ -38,68 +38,68 @@ namespace AspNetCore.Weixin.DataProtection
 		/// <returns></returns>
 		public static string AesDecrypt(string data, string encodingAesKey, ref string appid)
 		{
-			byte[] Key;
-			Key = Convert.FromBase64String(encodingAesKey + "=");
-			byte[] Iv = new byte[16];
-			Array.Copy(Key, Iv, 16);
-			byte[] btmpMsg = AesDecrypt(data, Iv, Key);
+			byte[] key;
+			key = Convert.FromBase64String(encodingAesKey + "=");
+			byte[] iv = new byte[16];
+			Array.Copy(key, iv, 16);
+			byte[] decryptedData = AesDecrypt(data, iv, key);
 
-			int len = BitConverter.ToInt32(btmpMsg, 16);
+			int len = BitConverter.ToInt32(decryptedData, 16);
 			len = IPAddress.NetworkToHostOrder(len);
 
 
-			byte[] bMsg = new byte[len];
-			byte[] bAppid = new byte[btmpMsg.Length - 20 - len];
-			Array.Copy(btmpMsg, 20, bMsg, 0, len);
-			Array.Copy(btmpMsg, 20 + len, bAppid, 0, btmpMsg.Length - 20 - len);
+			byte[] buff = new byte[len];
+			byte[] buff2 = new byte[decryptedData.Length - 20 - len];
+			Array.Copy(decryptedData, 20, buff, 0, len);
+			Array.Copy(decryptedData, 20 + len, buff2, 0, decryptedData.Length - 20 - len);
 
-			string result = Encoding.UTF8.GetString(bMsg);
-			appid = Encoding.UTF8.GetString(bAppid);
+			string result = Encoding.UTF8.GetString(buff);
+			appid = Encoding.UTF8.GetString(buff2);
 
 			return result;
 		}
 
 		public static string AesEncrypt(string data, string encodingAesKey, string appid)
 		{
-			byte[] Key;
-			Key = Convert.FromBase64String(encodingAesKey + "=");
-			byte[] Iv = new byte[16];
-			Array.Copy(Key, Iv, 16);
-			string Randcode = CreateRandCode(16);
-			byte[] bRand = Encoding.UTF8.GetBytes(Randcode);
-			byte[] bAppid = Encoding.UTF8.GetBytes(appid);
-			byte[] btmpMsg = Encoding.UTF8.GetBytes(data);
-			byte[] bMsgLen = BitConverter.GetBytes(HostToNetworkOrder(btmpMsg.Length));
-			byte[] bMsg = new byte[bRand.Length + bMsgLen.Length + bAppid.Length + btmpMsg.Length];
+			byte[] key;
+			key = Convert.FromBase64String(encodingAesKey + "=");
+			byte[] iv = new byte[16];
+			Array.Copy(key, iv, 16);
+			string randomCode = CreateRandCode(16);
+			byte[] randomCodeArray = Encoding.UTF8.GetBytes(randomCode);
+			byte[] appIdArray = Encoding.UTF8.GetBytes(appid);
+			byte[] msgArray = Encoding.UTF8.GetBytes(data);
+			byte[] msgArray2 = BitConverter.GetBytes(HostToNetworkOrder(msgArray.Length));
+			byte[] result = new byte[randomCodeArray.Length + msgArray2.Length + appIdArray.Length + msgArray.Length];
 
-			Array.Copy(bRand, bMsg, bRand.Length);
-			Array.Copy(bMsgLen, 0, bMsg, bRand.Length, bMsgLen.Length);
-			Array.Copy(btmpMsg, 0, bMsg, bRand.Length + bMsgLen.Length, btmpMsg.Length);
-			Array.Copy(bAppid, 0, bMsg, bRand.Length + bMsgLen.Length + btmpMsg.Length, bAppid.Length);
+			Array.Copy(randomCodeArray, result, randomCodeArray.Length);
+			Array.Copy(msgArray2, 0, result, randomCodeArray.Length, msgArray2.Length);
+			Array.Copy(msgArray, 0, result, randomCodeArray.Length + msgArray2.Length, msgArray.Length);
+			Array.Copy(appIdArray, 0, result, randomCodeArray.Length + msgArray2.Length + msgArray.Length, appIdArray.Length);
 
-			return AesEncrypt(bMsg, Iv, Key);
+			return AesEncrypt(result, iv, key);
 
 		}
 
-		private static string CreateRandCode(int codeLen)
+		private static string CreateRandCode(int length)
 		{
 			string codeSerial = "2,3,4,5,6,7,a,c,d,e,f,h,i,j,k,m,n,p,r,s,t,A,C,D,E,F,G,H,J,K,M,N,P,Q,R,S,U,V,W,X,Y,Z";
-			if (codeLen == 0)
+			if (length == 0)
 			{
-				codeLen = 16;
+				length = 16;
 			}
 			string[] arr = codeSerial.Split(',');
 
-			string code = "";
+			string result = "";
 			int randValue = -1;
 			Random rand = new Random(unchecked((int)DateTime.Now.Ticks));
-			for (int i = 0; i < codeLen; i++)
+			for (int i = 0; i < length; i++)
 			{
 				randValue = rand.Next(0, arr.Length - 1);
-				code += arr[randValue];
+				result += arr[randValue];
 			}
 
-			return code;
+			return result;
 		}
 
 		private static string AesEncrypt(string data, byte[] iv, byte[] key)
@@ -115,7 +115,7 @@ namespace AspNetCore.Weixin.DataProtection
 			aes.Key = key;
 			aes.IV = iv;
 			var encrypt = aes.CreateEncryptor(aes.Key, aes.IV);
-			byte[] xBuff = null;
+			byte[] resultBuff = null;
 
 			using (var ms = new MemoryStream())
 			{
@@ -124,10 +124,10 @@ namespace AspNetCore.Weixin.DataProtection
 					byte[] xXml = Encoding.UTF8.GetBytes(data);
 					cs.Write(xXml, 0, xXml.Length);
 				}
-				xBuff = ms.ToArray();
+				resultBuff = ms.ToArray();
 			}
 
-			var result = Convert.ToBase64String(xBuff);
+			var result = Convert.ToBase64String(resultBuff);
 			return result;
 		}
 

@@ -79,7 +79,6 @@ namespace Demo
 			});
 			services.AddViewDivert();
 
-
 			services.AddWeixinAccessToken(options =>
 			{
 				options.AppId = Configuration["Weixin:AppId"];

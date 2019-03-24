@@ -1,4 +1,5 @@
-﻿using AspNetCore.Weixin.DataProtection;
+﻿using AspNetCore.Weixin;
+using AspNetCore.Weixin.DataProtection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -27,12 +28,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
 		private static void AddWeixinMessageProtectionServices(IServiceCollection services)
 		{
-			services.TryAddEnumerable(
-				ServiceDescriptor.Transient<IConfigureOptions<WeixinMessageProtectionOptions>, WeixinMessageProtectionOptionsSetup>());
-
 			services.TryAddSingleton<IWeixinMessageEncryptor>(s =>
 			{
-				var dpOptions = s.GetRequiredService<IOptions<WeixinMessageProtectionOptions>>();
+				var dpOptions = s.GetRequiredService<IOptions<WeixinWelcomePageOptions>>();
 				var loggerFactory = s.GetService<ILoggerFactory>() ?? NullLoggerFactory.Instance;
 
 				IWeixinMessageEncryptor encryptor = new WeixinMessageEncryptor(dpOptions, loggerFactory);

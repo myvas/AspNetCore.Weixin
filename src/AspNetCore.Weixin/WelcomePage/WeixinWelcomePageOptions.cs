@@ -21,7 +21,7 @@ namespace AspNetCore.Weixin
 		/// </summary>
 		public PathString PathString { get { return new PathString(Path); } }
 
-		public string MessageEncryptType { get; set; } = WeixinMessageEncodingTypes.Compatible;
+		public string EncodingMode { get; set; } = WeixinMessageEncodingTypes.Compatible;
 
 		public string EncodingAESKey { get; set; }
 

@@ -23,7 +23,7 @@ namespace AspNetCore.Weixin.DataProtection
 {
 	public class WeixinMessageEncryptor : IWeixinMessageEncryptor
 	{
-		private readonly WeixinMessageProtectionOptions _options;
+		private readonly WeixinWelcomePageOptions _options;
 		private readonly ILogger _logger;
 
 		/// <summary>
@@ -32,7 +32,7 @@ namespace AspNetCore.Weixin.DataProtection
 		/// <param name="websiteToken">公众平台后台由开发者指定的Token</param>
 		/// <param name="encodingAesKey">公众平台后台由开发者指定的EncodingAESKey</param>
 		/// <param name="appId">公众帐号的appid</param>
-		public WeixinMessageEncryptor(IOptions<WeixinMessageProtectionOptions> optionsAccessor, ILoggerFactory loggerFactory)
+		public WeixinMessageEncryptor(IOptions<WeixinWelcomePageOptions> optionsAccessor, ILoggerFactory loggerFactory)
 		{
 			_logger = loggerFactory?.CreateLogger<WeixinMessageEncryptor>() ?? throw new ArgumentNullException(nameof(loggerFactory));
 			_options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
@@ -41,13 +41,13 @@ namespace AspNetCore.Weixin.DataProtection
 		/// <summary>
 		/// 检验消息的真实性，并获取解密后的明文
 		/// </summary>
-		/// <param name="signature">签名串，对应URL参数的msg_signature</param>
+		/// <param name="msg_signature">签名串，对应URL参数的msg_signature</param>
 		/// <param name="timestamp">时间戳，对应URL参数的timestamp</param>
 		/// <param name="nonce">随机串，对应URL参数的nonce</param>
 		/// <param name="data">密文，对应POST请求的数据</param>
 		/// <returns>解密后的原文</returns>
 		/// <exception cref="WeixinMessageCryptographicException">异常</exception>
-		public string Decrypt(string signature, string timestamp, string nonce, string data)
+		public string Decrypt(string msg_signature, string timestamp, string nonce, string data)
 		{
 			string result = "";
 
@@ -56,29 +56,32 @@ namespace AspNetCore.Weixin.DataProtection
 				throw WeixinMessageEncryptorError.IllegalAesKey();
 			}
 
-			XmlDocument doc = new XmlDocument();
-			doc.XmlResolver = null;
+			string encryptBody;
+			XmlDocument doc = new XmlDocument
+			{
+				XmlResolver = null
+			};
 			XmlNode root;
-			string sEncryptMsg;
 			try
 			{
 				doc.LoadXml(data);
 				root = doc.FirstChild;
-				sEncryptMsg = root["Encrypt"].InnerText;
+				encryptBody = root["Encrypt"].InnerText;
 			}
 			catch (Exception ex)
 			{
 				throw WeixinMessageEncryptorError.ParseXmlFailed(ex);
 			}
 
-			//verify signature
-			bool ret = VerifySignature(_options.WebsiteToken, timestamp, nonce, sEncryptMsg, signature);
+			if (!SignatureHelper.ValidateSignature(msg_signature, _options.WebsiteToken, timestamp, nonce, encryptBody))
+			{
+				throw WeixinMessageEncryptorError.CalculateSignatureFailed();
+			}
 
-			//decrypt
-			string cpid = "";
+			string appId = "";
 			try
 			{
-				result = CryptographyHelper.AesDecrypt(sEncryptMsg, _options.EncodingAESKey, ref cpid);
+				result = CryptographyHelper.AesDecrypt(encryptBody, _options.EncodingAESKey, ref appId);
 			}
 			catch (FormatException ex)
 			{
@@ -88,7 +91,7 @@ namespace AspNetCore.Weixin.DataProtection
 			{
 				throw WeixinMessageEncryptorError.AesDecryptFailed(ex);
 			}
-			if (cpid != _options.AppId)
+			if (appId != _options.AppId)
 				throw WeixinMessageEncryptorError.ValidateAppidFailed();
 
 			return result;
@@ -110,6 +113,7 @@ namespace AspNetCore.Weixin.DataProtection
 			{
 				throw WeixinMessageEncryptorError.IllegalAesKey();
 			}
+
 			string raw = "";
 			try
 			{
@@ -119,70 +123,10 @@ namespace AspNetCore.Weixin.DataProtection
 			{
 				throw WeixinMessageEncryptorError.AesEncryptFailed(ex);
 			}
-			string MsgSigature = CalculateSignature(_options.WebsiteToken, timestamp, nonce, raw);
 
-			result = "";
-			string EncryptLabelHead = "<Encrypt><![CDATA[";
-			string EncryptLabelTail = "]]></Encrypt>";
-			string MsgSigLabelHead = "<MsgSignature><![CDATA[";
-			string MsgSigLabelTail = "]]></MsgSignature>";
-			string TimeStampLabelHead = "<TimeStamp><![CDATA[";
-			string TimeStampLabelTail = "]]></TimeStamp>";
-			string NonceLabelHead = "<Nonce><![CDATA[";
-			string NonceLabelTail = "]]></Nonce>";
-			result = result + "<xml>" + EncryptLabelHead + raw + EncryptLabelTail;
-			result = result + MsgSigLabelHead + MsgSigature + MsgSigLabelTail;
-			result = result + TimeStampLabelHead + timestamp + TimeStampLabelTail;
-			result = result + NonceLabelHead + nonce + NonceLabelTail;
-			result += "</xml>";
-			return result;
-		}
+			string msg_signature = SignatureHelper.CalculateSignature(_options.WebsiteToken, timestamp, nonce, raw);
 
-		private static bool VerifySignature(string token, string timestamp, string nonce, string data, string signature)
-		{
-			string hash = CalculateSignature(token, timestamp, nonce, data);
-			if (hash != signature)
-			{
-				throw WeixinMessageEncryptorError.ValidateSignatureFailed();
-			}
-
-			return true;
-		}
-
-		public static string CalculateSignature(string token, string timestamp, string nonce, string data)
-		{
-			string result = "";
-
-			ArrayList AL = new ArrayList();
-			AL.Add(token);
-			AL.Add(timestamp);
-			AL.Add(nonce);
-			AL.Add(data);
-			AL.Sort(new WeixinMessageDictionarySort());
-			string raw = "";
-			for (int i = 0; i < AL.Count; ++i)
-			{
-				raw += AL[i];
-			}
-
-			SHA1 sha;
-			ASCIIEncoding enc;
-			string hash = "";
-			try
-			{
-				sha = new SHA1CryptoServiceProvider();
-				enc = new ASCIIEncoding();
-				byte[] dataToHash = enc.GetBytes(raw);
-				byte[] dataHashed = sha.ComputeHash(dataToHash);
-				hash = BitConverter.ToString(dataHashed).Replace("-", "");
-				hash = hash.ToLower();
-			}
-			catch (Exception ex)
-			{
-				throw WeixinMessageEncryptorError.CalculateSignatureFailed(ex);
-			}
-
-			result = hash;
+			result = $"<xml><Encrypt><![CDATA[{raw}]]></Encrypt><MsgSignature><![CDATA[{msg_signature}]]></MsgSignature><TimeStamp><![CDATA[{timestamp}]]></TimeStamp><Nonce><![CDATA[{nonce}]]></Nonce></xml>";
 			return result;
 		}
 	}

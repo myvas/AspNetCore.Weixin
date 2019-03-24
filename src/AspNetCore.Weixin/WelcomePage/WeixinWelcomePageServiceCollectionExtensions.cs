@@ -1,49 +1,37 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AspNetCore.Weixin;
+using AspNetCore.Weixin.DataProtection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Microsoft.Extensions.DependencyInjection
 {
-    /// <summary>
-    /// Contains extension methods to <see cref="IServiceCollection"/> for configuring identity services.
-    /// </summary>
-    public static class WeixinWelcomePageServiceCollectionExtensions
-    {
-        /// <summary>
-        /// Adds the default identity system configuration for the specified User and Role types.
-        /// </summary>
-        /// <typeparam name="TUser">The type representing a User in the system.</typeparam>
-        /// <typeparam name="TRole">The type representing a Role in the system.</typeparam>
-        /// <param name="services">The services available in the application.</param>
-        /// <returns>An <see cref="IdentityBuilder"/> for creating and configuring the identity system.</returns>
-        public static IServiceCollection AddWeixinWelcomePage(
-            this IServiceCollection services,
-            Action<WeixinWelcomePageOptions> setupAction)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
+	/// <summary>
+	/// Contains extension methods to <see cref="IServiceCollection"/> for configuring identity services.
+	/// </summary>
+	public static class WeixinWelcomePageServiceCollectionExtensions
+	{
+		public static IServiceCollection AddWeixinWelcomePage(this IServiceCollection services)
+			=> services.AddWeixinWelcomePage(o => { });
 
-            if (setupAction != null)
-            {
-                services.Configure(setupAction);
-            }
-            return services;
-        }
+		/// <summary>
+		/// Adds the default identity system configuration for the specified User and Role types.
+		/// </summary>
+		public static IServiceCollection AddWeixinWelcomePage(this IServiceCollection services, Action<WeixinWelcomePageOptions> setupAction)
+		{
+			// Services Weixin depends on
+			services.AddOptions().AddLogging();
+			
+			if (setupAction != null)
+			{
+				services.Configure(setupAction);
+			}
 
-        /// <summary>
-        /// Adds the default identity system configuration for the specified User and Role types.
-        /// </summary>
-        /// <typeparam name="TUser">The type representing a User in the system.</typeparam>
-        /// <typeparam name="TRole">The type representing a Role in the system.</typeparam>
-        /// <param name="services">The services available in the application.</param>
-        /// <returns>An <see cref="IdentityBuilder"/> for creating and configuring the identity system.</returns>
-        public static IServiceCollection AddWeixinWelcomePage(
-            this IServiceCollection services)
-        {
-            return services.AddWeixinWelcomePage(setupAction: null);
-        }
+			services.TryAddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>(); //即使不启用加密，也把此不必要的加密服务接口提供出来了。
+
+			return services;
+		}
     }
 }
