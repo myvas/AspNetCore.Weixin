@@ -7,9 +7,10 @@ https://www.nuget.org/packages/AspNetCore.Weixin/
 https://mp.weixin.qq.com
 
 - 获取AppSecret
-- 启用开发模式，部署网站并启用https/ssl，网址类似: https://xxx.xxx/wx
-- 在“网站Token”中填写一串较长的随机字符串作为WebsiteToken
-
+- 在“网站Token”中，填写一串较长的随机字符串作为WebsiteToken
+- 在“消息加解方式”中，_建议_选择“安全模式”
+- 在“服务器地址(URL)"中，填写地址: http://xxx.xxx/wx or https://xxx.xxx/wx
+- 启用开发模式
 
 ## ConfigureServices
 ```
@@ -21,6 +22,10 @@ services.AddWeixin(options =>
       options.AppSecret = _configuration["Weixin:AppSecret"];
       options.WebsiteToken = _configuration["Weixin:WebsiteToken"];
       options.EncodingAESKey = _configuration["Weixin:EncodingAESKey"];
+      
+      options.Path = "/wx"; //默认值
+      options.Debug = false; //默认值，不允许使用微信web开发者工具(wechatdevtools)访问。若修改为true则允许。
+      
       options.Events = new WeixinMessageEvents()
       {
           OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx.Sender, ctx.Args),
