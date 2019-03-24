@@ -9,7 +9,6 @@ https://mp.weixin.qq.com
 - 获取AppSecret
 - 启用开发模式，部署网站并启用https/ssl，网址类似: https://xxx.xxx/wx
 - 在“网站Token”中填写一串较长的随机字符串作为WebsiteToken
-- 不要选择“加密模式”（本版本暂不支持）
 
 
 ## ConfigureServices

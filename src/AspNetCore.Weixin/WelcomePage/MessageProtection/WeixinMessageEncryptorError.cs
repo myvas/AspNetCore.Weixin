@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AspNetCore.Weixin.DataProtection
+namespace AspNetCore.Weixin
 {
 	internal static class WeixinMessageEncryptorError
 	{

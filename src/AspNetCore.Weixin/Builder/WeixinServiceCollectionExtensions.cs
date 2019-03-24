@@ -1,9 +1,6 @@
 ﻿using AspNetCore.Weixin;
-using AspNetCore.Weixin.DataProtection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

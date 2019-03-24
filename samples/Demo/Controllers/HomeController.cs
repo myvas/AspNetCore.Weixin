@@ -89,9 +89,7 @@ namespace Demo.Controllers
 
 			return RedirectToAction(nameof(Index));
 		}
-
-
-
+			   
 		public IActionResult About()
 		{
 			return View();

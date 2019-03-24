@@ -1,4 +1,4 @@
-﻿namespace AspNetCore.Weixin.DataProtection
+﻿namespace AspNetCore.Weixin
 {
 	public interface IWeixinMessageEncryptor
 	{

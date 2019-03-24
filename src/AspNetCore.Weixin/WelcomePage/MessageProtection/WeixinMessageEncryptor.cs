@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 //-40009 :  base64加密异常
 //-40010 :  base64解密异常
 
-namespace AspNetCore.Weixin.DataProtection
+namespace AspNetCore.Weixin
 {
 	public class WeixinMessageEncryptor : IWeixinMessageEncryptor
 	{

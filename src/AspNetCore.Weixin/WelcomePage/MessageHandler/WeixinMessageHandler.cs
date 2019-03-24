@@ -1,15 +1,8 @@
-﻿using AspNetCore.Weixin.DataProtection;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace AspNetCore.Weixin
 {
@@ -195,20 +188,20 @@ namespace AspNetCore.Weixin
 									handled = await _options.Events.ViewMenuEventReceived(ctx);
 								}
 								break;
-							case ReceivedEventType.ENTER:
-								{
-									var x = XmlConvert.DeserializeObject<EnterEventReceivedEventArgs>(xml);
-									var ctx = new WeixinReceivedContext<EnterEventReceivedEventArgs>(this, x, isEncrypted);
-									handled = await _options.Events.EnterEventReceived(ctx);
-								}
-								break;
-							case ReceivedEventType.unsubscribe:
-								{
-									var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedEventArgs>(xml);
-									var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(this, x, isEncrypted);
-									handled = await _options.Events.UnsubscribeEventReceived(ctx);
-								}
-								break;
+							//case ReceivedEventType.ENTER://已确认被腾讯移除！ 
+							//	{
+							//		var x = XmlConvert.DeserializeObject<EnterEventReceivedEventArgs>(xml);
+							//		var ctx = new WeixinReceivedContext<EnterEventReceivedEventArgs>(this, x, isEncrypted);
+							//		handled = await _options.Events.EnterEventReceived(ctx);
+							//	}
+							//	break;
+							//case ReceivedEventType.unsubscribe://已确认被腾讯移除！ 
+							//	{
+							//		var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedEventArgs>(xml);
+							//		var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(this, x, isEncrypted);
+							//		handled = await _options.Events.UnsubscribeEventReceived(ctx);
+							//	}
+							//	break;
 							default:
 								throw new NotSupportedException($"不支持的事件[{ev.Event.ToString()}]");
 						}
@@ -278,7 +271,13 @@ namespace AspNetCore.Weixin
 
 			HttpContext.Response.Clear();
 			HttpContext.Response.ContentType = "text/plain;charset=utf-8";
-			await HttpContext.Response.WriteAsync(s);
+
+			var timestamp = WeixinTimestampHelper.FromUtcTime(DateTime.UtcNow);
+			var nonce = new Random().Next(123456789, 987654321);
+			var encrypted = _encryptor.Encrypt(s, timestamp.ToString(), nonce.ToString());
+			_logger.LogDebug("Encrypted Response Body({0}): {1}", encrypted?.Length, encrypted);
+
+			await HttpContext.Response.WriteAsync(encrypted);
 		}
 	}
 }
