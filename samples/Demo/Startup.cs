@@ -92,6 +92,7 @@ namespace Demo
 				options.AppSecret = Configuration["Weixin:AppSecret"];
 				options.WebsiteToken = Configuration["Weixin:WebsiteToken"];
 				options.EncodingAESKey = Configuration["Weixin:EncodingAESKey"];
+				options.Path = "/wx";
 				options.Events = new WeixinMessageEvents()
 				{
 					OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx.Sender, ctx.Args),

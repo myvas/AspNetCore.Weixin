@@ -58,7 +58,7 @@ namespace AspNetCore.Weixin
 		/// <returns></returns>
 		public async Task Invoke(HttpContext context)
 		{
-			var welcomePath = _options.PathString;
+			var welcomePath = _options.Path;
 
 			HttpRequest request = context.Request;
 			if (request.Path == welcomePath)
@@ -130,7 +130,7 @@ namespace AspNetCore.Weixin
 
 			context.Response.Clear();
 			context.Response.ContentType = "text/plain;charset=utf-8";
-			if (!SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken) && _options.WeixinClientAccessOnly)
+			if (!SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken) && !_options.Debug)
 			{
 				var result = "这是一个微信程序，请用微信客户端访问!";
 				await context.Response.WriteAsync(result);

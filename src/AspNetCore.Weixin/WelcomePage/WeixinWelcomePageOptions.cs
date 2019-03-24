@@ -13,19 +13,14 @@ namespace AspNetCore.Weixin
 		/// </summary>
 		public string WebsiteToken { get; set; }
 
-		public bool WeixinClientAccessOnly { get; set; } = WeixinWelcomePageOptionsDefaults.WeixinClientAccessOnly;
+		public bool Debug { get; set; } = WeixinWelcomePageOptionsDefaults.Debug;
 
 		public string Path { get; set; } = WeixinWelcomePageOptionsDefaults.Path;
-		/// <summary>
-		/// Specifies which requests paths will be responded to. Exact matches only. Leave null to handle all requests.
-		/// </summary>
-		public PathString PathString { get { return new PathString(Path); } }
-
-		public string EncodingMode { get; set; } = WeixinMessageEncodingTypes.Compatible;
 
 		public string EncodingAESKey { get; set; }
 
 		public WeixinMessageEvents Events { get; set; }
+
 		public WeixinWelcomePageOptions()
 		{
 			Events = new WeixinMessageEvents();

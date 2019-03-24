@@ -5,7 +5,7 @@
     <RootNamespace>AspNetCore.Weixin.Jssdk</RootNamespace>
     <PackageId>AspNetCore.Weixin.Jssdk</PackageId>
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
-    <Version>2.1.506</Version>
+    <Version>2.1.507</Version>
     <Authors>AspNetCore</Authors>
     <Product>AspNetCore.Weixin</Product>
     <Description>AspNetCore.Weixin.Jssdk</Description>

@@ -18,7 +18,6 @@ namespace test
 				options.AppId = "wxaf5aa2d87ff3b700";
 				options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
 				options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
-				options.EncodingMode = WeixinMessageEncodingTypes.Encrypted;
 			}));
 			services.AddLogging();
 			services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
@@ -66,7 +65,6 @@ namespace test
 				options.AppId = "wxaf5aa2d87ff3b700";
 				options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
 				options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
-				options.EncodingMode = WeixinMessageEncodingTypes.Encrypted;
 			}));
 			services.AddLogging();
 			services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
