@@ -12,7 +12,7 @@ namespace AspNetCore.Weixin
 	/// <remarks>DI: Singleton</remarks>
 	public class MemoryCachedWeixinAccessToken : IWeixinAccessToken
 	{
-		private static string CachePrefix = Guid.NewGuid().ToString();
+		private static string CachePrefix = Guid.NewGuid().ToString("N");
 		private string GenerateCacheKey(string appId) { return $"{CachePrefix}_{appId}"; }
 
 		private readonly IMemoryCache _cache;
@@ -44,7 +44,7 @@ namespace AspNetCore.Weixin
 
 			try
 			{
-				AccessTokenJson json = AccessTokenApi.GetTokenAsync(appId, appSecret).Result;
+				var json = AccessTokenApi.GetTokenAsync(appId, appSecret).Result;
 				if (json == null
 					|| string.IsNullOrWhiteSpace(json.access_token)
 					|| json.expires_in < 1

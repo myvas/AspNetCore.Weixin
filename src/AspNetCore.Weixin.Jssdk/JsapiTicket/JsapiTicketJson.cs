@@ -13,7 +13,7 @@ namespace AspNetCore.Weixin
     public class JsapiTicketJson : WeixinErrorJson
     {
         /// <summary>
-        /// 
+        /// weixin jsapi ticket
         /// </summary>
         /// <example>bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA</example>
         public string ticket;

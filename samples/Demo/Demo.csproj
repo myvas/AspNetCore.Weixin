@@ -25,6 +25,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCore.Weixin.Jssdk\AspNetCore.Weixin.Jssdk.csproj" />
     <ProjectReference Include="..\..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
   </ItemGroup>
 

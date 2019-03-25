@@ -84,6 +84,10 @@ namespace Demo
 				options.AppId = Configuration["Weixin:AppId"];
 				options.AppSecret = Configuration["Weixin:AppSecret"];
 			});
+			services.AddWeixinJssdk(options =>
+			{
+				options.AppId = Configuration["Weixin:AppId"];
+			});
 			services.AddScoped<IWeixinEventSink, WeixinEventSink>();
 			var weixinEventSink = services.BuildServiceProvider().GetRequiredService<IWeixinEventSink>();
 			services.AddWeixinWelcomePage(options =>
