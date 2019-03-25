@@ -15,32 +15,7 @@ https://mp.weixin.qq.com
 - 在“消息加解密密钥**EncodingAESKey**”中，若空则初始化一个
 - 在“消息加解密方式”中，***建议***选择“**安全模式**”
 
-## IWeixinAccessToken
-* ConfigureServices
-```
-services.AddWeixinAccessToken(options => 
-  {
-      options.AppId = _configuration["Weixin:AppId"];
-      options.AppSecret = _configuration["Weixin:AppSecret"];
-  });
-```
-
-*  Controller
-```
-private readonly IWeixinAccessToken _weixinAccessToken;
-
-.ctor(IWeixinAccessToken weixinAccessToken)
-{
-    _weixinAccessToken = weixinAccessToken;
-}
-
-public IActionResult MethodA()
-{
-   var token = _weixinAccessToken.GetToken();
-}
-```
-
-## WeixinWelcomePageMiddleware
+## WeixinWelcomePage
 * ConfigureServices
 ```
 services.AddScoped<WeixinEventSink>();
@@ -81,6 +56,31 @@ services.AddWeixinWelcomePage(options =>
 * Configure
 ```
 app.UseWeixinWelcomePage();
+```
+
+## IWeixinAccessToken
+* ConfigureServices
+```
+services.AddWeixinAccessToken(options => 
+  {
+      options.AppId = _configuration["Weixin:AppId"];
+      options.AppSecret = _configuration["Weixin:AppSecret"];
+  });
+```
+
+*  Controller
+```
+private readonly IWeixinAccessToken _weixinAccessToken;
+
+.ctor(IWeixinAccessToken weixinAccessToken)
+{
+    _weixinAccessToken = weixinAccessToken;
+}
+
+public IActionResult MethodA()
+{
+   var token = _weixinAccessToken.GetToken();
+}
 ```
 
 ## Demo
