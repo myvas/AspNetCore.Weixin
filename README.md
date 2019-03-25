@@ -24,7 +24,7 @@ services.AddWeixin(options =>
       options.AppId = _configuration["Weixin:AppId"];
       options.AppSecret = _configuration["Weixin:AppSecret"];
       options.WebsiteToken = _configuration["Weixin:WebsiteToken"];
-      options.EncodingAESKey = _configuration["Weixin:EncodingAESKey"];
+      options.EncodingAESKey = _configuration["Weixin:EncodingAESKey"]; //请注意检查该值正确无误！（1）若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；（2）若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或直接删除此行代码。
       
       options.Path = "/wx"; //默认值
       options.Debug = false; //默认值，不允许使用微信web开发者工具(wechatdevtools)访问。若修改为true则允许。
