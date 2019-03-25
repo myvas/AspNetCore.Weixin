@@ -109,7 +109,12 @@ namespace AspNetCore.Weixin
 		{
 			string result = "";
 
-			if (_options.EncodingAESKey.Length != 43)
+			if (string.IsNullOrWhiteSpace(_options.EncodingAESKey))
+			{
+				return data; //不加密，直接返回原文，以便支持微信开发者测试号
+			}
+
+			if (_options.EncodingAESKey?.Length != 43)
 			{
 				throw WeixinMessageEncryptorError.IllegalAesKey();
 			}

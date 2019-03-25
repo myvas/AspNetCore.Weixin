@@ -6,15 +6,6 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Weixin
 {
-	public static class EventHandlerExtensions
-	{
-		public static void Raise<TEventArgs>(this EventHandler<TEventArgs> handler,
-			object sender, TEventArgs args)
-			where TEventArgs : EventArgs
-		{
-			handler?.Invoke(sender, args);
-		}
-	}
 
 	/// <summary>
 	/// 微信请求的集中处理方法
@@ -29,7 +20,7 @@ namespace AspNetCore.Weixin
 		protected WeixinMessageHandleResult InitializeResult { get; set; }
 
 
-		public async Task<bool> InitializeAsync(
+		internal async Task<bool> InitializeAsync(
 			WeixinWelcomePageOptions options,
 			HttpContext context,
 			ILogger logger,
@@ -95,7 +86,7 @@ namespace AspNetCore.Weixin
 		#endregion
 
 		private Task<WeixinMessageHandleResult> _handleTask;
-		public Task<WeixinMessageHandleResult> HandleOnceAsync()
+		protected Task<WeixinMessageHandleResult> HandleOnceAsync()
 		{
 			if (_handleTask == null)
 			{
@@ -118,7 +109,7 @@ namespace AspNetCore.Weixin
 		/// <summary>
 		/// 执行微信请求
 		/// </summary>
-		public async Task<WeixinMessageHandleResult> HandleAsync()
+		protected async Task<WeixinMessageHandleResult> HandleAsync()
 		{
 			bool handled = false;
 

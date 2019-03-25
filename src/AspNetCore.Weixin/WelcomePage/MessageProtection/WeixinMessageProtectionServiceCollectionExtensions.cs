@@ -29,10 +29,10 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			services.TryAddSingleton<IWeixinMessageEncryptor>(s =>
 			{
-				var dpOptions = s.GetRequiredService<IOptions<WeixinWelcomePageOptions>>();
+				var options = s.GetRequiredService<IOptions<WeixinWelcomePageOptions>>();
 				var loggerFactory = s.GetService<ILoggerFactory>() ?? NullLoggerFactory.Instance;
 
-				IWeixinMessageEncryptor encryptor = new WeixinMessageEncryptor(dpOptions, loggerFactory);
+				IWeixinMessageEncryptor encryptor = new WeixinMessageEncryptor(options, loggerFactory);
 
 				return encryptor;
 			});

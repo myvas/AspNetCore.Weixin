@@ -16,6 +16,7 @@ namespace Demo.Data
 		}
 	
 		public DbSet<WeixinSubscriber> Subscribers { get; set; }
+
 		public DbSet<ReceivedTextMessage> ReceivedTextMessages { get; set; }
 	}
 }
