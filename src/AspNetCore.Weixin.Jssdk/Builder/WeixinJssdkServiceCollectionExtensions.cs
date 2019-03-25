@@ -1,5 +1,9 @@
 ﻿using AspNetCore.Weixin;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -28,7 +32,9 @@ namespace Microsoft.Extensions.DependencyInjection
 			}
 
 			services.AddMemoryCache();
-			services.TryAddSingleton<IWeixinJsapiTicket, MemoryCachedWeixinJsapiTicket>();
+			//services.TryAddSingleton<IWeixinJsapiTicket, MemoryCachedWeixinJsapiTicket>();
+			AddWeixinJsapiTicketServices(services);
+
 			return services;
 		}
 
@@ -40,6 +46,22 @@ namespace Microsoft.Extensions.DependencyInjection
 		public static IServiceCollection AddWeixinJssdk(this IServiceCollection services)
 		{
 			return services.AddWeixinJssdk(setupAction: null);
+		}
+
+
+		private static void AddWeixinJsapiTicketServices(IServiceCollection services)
+		{
+			services.TryAddSingleton<IWeixinJsapiTicket>(s =>
+			{
+				var cache = s.GetRequiredService<IMemoryCache>();
+				var accessToken = s.GetRequiredService<IWeixinAccessToken>();
+				var optionsAccessor = s.GetRequiredService<IOptions<WeixinJssdkOptions>>();
+				var loggerFactory = s.GetService<ILoggerFactory>() ?? NullLoggerFactory.Instance;
+
+				var service = new MemoryCachedWeixinJsapiTicket(cache, optionsAccessor.Value, accessToken);
+
+				return service;
+			});
 		}
 	}
 }

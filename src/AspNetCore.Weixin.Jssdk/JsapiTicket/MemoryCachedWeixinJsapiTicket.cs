@@ -21,6 +21,13 @@ namespace AspNetCore.Weixin
 		private readonly WeixinJssdkOptions _options;
 		private readonly IWeixinAccessToken _AccessToken;
 
+		public MemoryCachedWeixinJsapiTicket(IMemoryCache cache, WeixinJssdkOptions options, IWeixinAccessToken AccessToken)
+		{
+			_cache = cache;
+			_options = options;
+			_AccessToken = AccessToken;
+		}
+
 		/// <summary>
 		/// 获取微信JSSDK访问凭证。仅在需要时调用微信JSSDK接口，即：若凭证尚在有效期内，则直接取回上一次得到的凭证。
 		/// </summary>

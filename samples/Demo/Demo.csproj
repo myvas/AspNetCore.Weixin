@@ -28,5 +28,14 @@
     <ProjectReference Include="..\..\src\AspNetCore.Weixin.Jssdk\AspNetCore.Weixin.Jssdk.csproj" />
     <ProjectReference Include="..\..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Update="Views\Shared\_LayoutJweixin.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="wwwroot\MP_verify_MQuINXpToN5ZYtjc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>

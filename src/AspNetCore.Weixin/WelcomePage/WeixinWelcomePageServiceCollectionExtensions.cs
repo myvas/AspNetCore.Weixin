@@ -25,8 +25,9 @@ namespace Microsoft.Extensions.DependencyInjection
 				services.Configure(setupAction);
 			}
 
-			services.TryAddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>(); //即使不启用加密，也把此不必要的加密服务接口提供出来了。
-
+			//services.TryAddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>(); //即使不启用加密，也把此不必要的加密服务接口提供出来了。
+			services.AddWeixinMessageProtection();
+			
 			return services;
 		}
     }
