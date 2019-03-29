@@ -32,7 +32,18 @@ namespace AspNetCore.Weixin
 			get { return ReceivedEventType.CLICK; }
 		}
 	}
-	
+
+	public class RequestMessageEventEnter : RequestMessageEventBase, IRequestMessageEventBase
+	{
+		/// <summary>
+		/// 事件类型
+		/// </summary>
+		public override ReceivedEventType Event
+		{
+			get { return ReceivedEventType.VIEW; }
+		}
+	}
+
 	/// <summary>
 	/// 事件之订阅
 	/// </summary>
@@ -79,7 +90,7 @@ namespace AspNetCore.Weixin
 		{
 			get { return ReceivedEventType.SCAN; }
 		}
-		
+
 		public string Ticket { get; set; }
 	}
 
