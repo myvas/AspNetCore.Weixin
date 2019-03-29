@@ -58,9 +58,6 @@ namespace AspNetCore.Weixin
                         ReceivedEventType eventValue =  (ReceivedEventType)Enum.Parse(typeof(ReceivedEventType),sEventValue, true);
                         switch (eventValue)
                         {
-                            case ReceivedEventType.ENTER://进入会话
-                                requestMessage = new RequestMessageEventEnter();
-                                break;
                             case ReceivedEventType.LOCATION://地理位置
                                 requestMessage = new RequestMessageEventLocation();
                                 break;
