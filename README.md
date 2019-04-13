@@ -162,10 +162,6 @@ $(document).ready(function () {
 ## Demo
 https://wx.myvas.com
 
-## Branches
-- master: ASP.NET Core 2.1(LTS)
-- branches:
-- tags: create a tag when release to nuget
-
-## Migrate from ASP.NET Core 2.0 to 2.1
-https://docs.microsoft.com/en-us/aspnet/core/migration/20_21
+## Dev
+* netstandard2.0
+* netcoreapp2.2
