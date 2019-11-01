@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		public static WeixinBuilder AddWeixin(this IServiceCollection services, Action<WeixinAccessTokenOptions> setupAction)
 		{
 			// Services Weixin depends on
-			services.AddOptions().AddLogging();
+			services.AddOptions();
 
 			// Services used by Weixin
 			services.TryAddScoped<IWeixinAccessToken, MemoryCachedWeixinAccessToken>();

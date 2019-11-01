@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		public static IServiceCollection AddWeixinWelcomePage(this IServiceCollection services, Action<WeixinWelcomePageOptions> setupAction)
 		{
 			// Services Weixin depends on
-			services.AddOptions().AddLogging();
+			services.AddOptions();
 			
 			if (setupAction != null)
 			{

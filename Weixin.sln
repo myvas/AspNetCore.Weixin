@@ -20,13 +20,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{6E6B9D58-9128-47E7-956E-8DB335D2247E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin", "src\AspNetCore.Weixin\Myvas.AspNetCore.Weixin.csproj", "{9B8E8031-ACD1-43A4-98A0-4142CEA57B94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin", "src\Weixin\Myvas.AspNetCore.Weixin.csproj", "{9B8E8031-ACD1-43A4-98A0-4142CEA57B94}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "samples\Demo\Demo.csproj", "{927AD981-2993-4A9B-8210-FF249EC6A6F1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Core", "src\AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Core.csproj", "{1D44DC15-93EE-4779-BBF7-89156397C08B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\AspNetCore.Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{6DE72631-538C-4F33-8891-D1F9E61634B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{6DE72631-538C-4F33-8891-D1F9E61634B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +44,6 @@ Global
 		{927AD981-2993-4A9B-8210-FF249EC6A6F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{927AD981-2993-4A9B-8210-FF249EC6A6F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{927AD981-2993-4A9B-8210-FF249EC6A6F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D44DC15-93EE-4779-BBF7-89156397C08B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D44DC15-93EE-4779-BBF7-89156397C08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D44DC15-93EE-4779-BBF7-89156397C08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D44DC15-93EE-4779-BBF7-89156397C08B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,7 +56,6 @@ Global
 		{74A3C863-09CC-4700-A688-1DF8B26C951B} = {73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}
 		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
 		{927AD981-2993-4A9B-8210-FF249EC6A6F1} = {6E6B9D58-9128-47E7-956E-8DB335D2247E}
-		{1D44DC15-93EE-4779-BBF7-89156397C08B} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
 		{6DE72631-538C-4F33-8891-D1F9E61634B6} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

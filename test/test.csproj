@@ -5,9 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Core.csproj" />
-    <ProjectReference Include="..\src\AspNetCore.Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj" />
-    <ProjectReference Include="..\src\AspNetCore.Weixin\Myvas.AspNetCore.Weixin.csproj" />
+    <ProjectReference Include="..\src\Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj" />
+    <ProjectReference Include="..\src\Weixin\Myvas.AspNetCore.Weixin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
