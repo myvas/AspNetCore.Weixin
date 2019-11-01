@@ -1,4 +1,7 @@
-# AspNetCore.Weixin
+# Myvas.AspNetCore.Weixin
+An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. (微信公众平台/接口调用服务)
+
+微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用服务。
 
 ## NuGet
 https://www.nuget.org/packages/AspNetCore.Weixin/
@@ -6,10 +9,10 @@ https://www.nuget.org/packages/AspNetCore.Weixin/
 ## Settings
 https://mp.weixin.qq.com
 
-开发/基本配置/公众号开发信息
+1.开发/基本配置/公众号开发信息
 - 获取**AppSecret**
 
-开发/基本配置/服务器配置：**修改设置** | **启用**
+2.开发/基本配置/服务器配置：**修改设置** | **启用**
 - 在“服务器地址(**URL**)”中，填写地址: http://xxx.xxx/wx or https://xxx.xxx/wx
 - 在“网站**Token**”中，填写一串较长的随机字符串作为WebsiteToken
 - 在“消息加解密密钥**EncodingAESKey**”中，若空则初始化一个
@@ -157,12 +160,8 @@ $(document).ready(function () {
 ```
 
 ## Demo
-http://weixin.myvas.com
+https://wx.myvas.com
 
-## Branches
-- master: ASP.NET Core 2.1(LTS)
-- branches:
-- tags: create a tag when release to nuget
-
-## Migrate from ASP.NET Core 2.0 to 2.1
-https://docs.microsoft.com/en-us/aspnet/core/migration/20_21
+## Dev
+* [.NET Core SDK 2.1 LTS](https://dotnet.microsoft.com/download/dotnet-core/2.1) 2.1.802
+* [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)

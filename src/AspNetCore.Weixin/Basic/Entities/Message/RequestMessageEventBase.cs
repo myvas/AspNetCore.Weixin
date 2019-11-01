@@ -17,7 +17,7 @@ namespace AspNetCore.Weixin
         string EventKey { get; set; }
     }
 
-    public class RequestMessageEventBase : RequestMessageBase, IRequestMessageBase
+    public abstract class RequestMessageEventBase : RequestMessageBase, IRequestMessageBase
     {
         public override ReceivedMsgType MsgType
         {
@@ -29,7 +29,7 @@ namespace AspNetCore.Weixin
         /// </summary>
         public virtual ReceivedEventType Event
         {
-            get { return ReceivedEventType.ENTER; }
+            get { return ReceivedEventType.VIEW; }
         }
 
         /// <summary>

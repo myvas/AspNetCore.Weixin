@@ -151,6 +151,13 @@ namespace AspNetCore.Weixin
 									handled = await _options.Events.SubscribeEventReceived(ctx);
 								}
 								break;
+							case ReceivedEventType.unsubscribe:
+								{
+									var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedEventArgs>(xml);
+									var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(this, x, isEncrypted);
+									handled = await _options.Events.UnsubscribeEventReceived(ctx);
+								}
+								break;
 							case ReceivedEventType.SCAN:
 								{
 									var x = XmlConvert.DeserializeObject<QrscanEventReceivedEventArgs>(xml);
@@ -179,18 +186,11 @@ namespace AspNetCore.Weixin
 									handled = await _options.Events.ViewMenuEventReceived(ctx);
 								}
 								break;
-							//case ReceivedEventType.ENTER://已确认被腾讯移除！ 
+							//case ReceivedEventType.ENTER://已确认被腾讯移除！
 							//	{
 							//		var x = XmlConvert.DeserializeObject<EnterEventReceivedEventArgs>(xml);
 							//		var ctx = new WeixinReceivedContext<EnterEventReceivedEventArgs>(this, x, isEncrypted);
 							//		handled = await _options.Events.EnterEventReceived(ctx);
-							//	}
-							//	break;
-							//case ReceivedEventType.unsubscribe://已确认被腾讯移除！ 
-							//	{
-							//		var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedEventArgs>(xml);
-							//		var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>(this, x, isEncrypted);
-							//		handled = await _options.Events.UnsubscribeEventReceived(ctx);
 							//	}
 							//	break;
 							default:

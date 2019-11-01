@@ -16,7 +16,6 @@ namespace AspNetCore.Weixin
         public Func<WeixinReceivedContext<ClickMenuEventReceivedEventArgs>, Task<bool>> OnClickMenuEventReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
         public Func<WeixinReceivedContext<ViewMenuEventReceivedEventArgs>, Task<bool>> OnViewMenuEventReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
         public Func<WeixinReceivedContext<UnsubscribeEventReceivedEventArgs>, Task<bool>> OnUnsubscribeEventReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
-        public Func<WeixinReceivedContext<EnterEventReceivedEventArgs>, Task<bool>> OnEnterEventReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
         public Func<WeixinReceivedContext<SubscribeEventReceivedEventArgs>, Task<bool>> OnSubscribeEventReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
         public Func<WeixinReceivedContext<QrscanEventReceivedEventArgs>, Task<bool>> OnQrscanEventReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
         public Func<WeixinReceivedContext<TextMessageReceivedEventArgs>, Task<bool>> OnTextMessageReceived { get; set; } = e => TaskCache.CompletedTaskFalse;
@@ -31,7 +30,6 @@ namespace AspNetCore.Weixin
         public virtual Task<bool> ClickMenuEventReceived(WeixinReceivedContext<ClickMenuEventReceivedEventArgs> context) => OnClickMenuEventReceived(context);
         public virtual Task<bool> ViewMenuEventReceived(WeixinReceivedContext<ViewMenuEventReceivedEventArgs> context) => OnViewMenuEventReceived(context);
         public virtual Task<bool> UnsubscribeEventReceived(WeixinReceivedContext<UnsubscribeEventReceivedEventArgs> context) => OnUnsubscribeEventReceived(context);
-        public virtual Task<bool> EnterEventReceived(WeixinReceivedContext<EnterEventReceivedEventArgs> context) => OnEnterEventReceived(context);
         public virtual Task<bool> SubscribeEventReceived(WeixinReceivedContext<SubscribeEventReceivedEventArgs> context) => OnSubscribeEventReceived(context);
         public virtual Task<bool> QrscanEventReceived(WeixinReceivedContext<QrscanEventReceivedEventArgs> context) => OnQrscanEventReceived(context);
         public virtual Task<bool> TextMessageReceived(WeixinReceivedContext<TextMessageReceivedEventArgs> context) => OnTextMessageReceived(context);

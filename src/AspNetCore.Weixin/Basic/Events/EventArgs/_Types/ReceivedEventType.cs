@@ -19,7 +19,6 @@ namespace AspNetCore.Weixin
 		/// <summary>
 		/// 1.2 取消订阅
 		/// </summary>
-		[Obsolete("It seems to be removed from Weixin APIs by Tencent.", error: false)]
 		unsubscribe = 200,
 
         /// <summary>
@@ -40,12 +39,6 @@ namespace AspNetCore.Weixin
         /// <summary>
         /// 600 自定义菜单事件：跳转链接
         /// </summary>
-        VIEW = 600,
-
-        /// <summary>
-        /// 进入会话（似乎已从官方API中移除）
-        /// </summary>
-        [Obsolete("It seems to be removed from Weixin APIs by Tencent.", error: false)]
-        ENTER,
+        VIEW = 600
     }
 }
