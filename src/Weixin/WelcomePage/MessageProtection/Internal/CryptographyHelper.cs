@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Net;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	internal static class CryptographyHelper
 	{

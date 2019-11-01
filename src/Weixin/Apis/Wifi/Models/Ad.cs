@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 微信WiFi无线访问点（AP）信息

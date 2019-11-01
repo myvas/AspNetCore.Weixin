@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Net.Http;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     public static class WeixinClientValidator
     {

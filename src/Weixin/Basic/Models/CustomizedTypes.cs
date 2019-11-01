@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 回复/发送消息类型

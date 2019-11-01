@@ -1,4 +1,4 @@
-﻿using AspNetCore.Weixin;
+﻿using Myvas.AspNetCore.Weixin;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 

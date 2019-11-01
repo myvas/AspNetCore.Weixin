@@ -5,7 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	/// <summary>
 	/// This middleware provides a default welcome/validation page for new Weixin App.

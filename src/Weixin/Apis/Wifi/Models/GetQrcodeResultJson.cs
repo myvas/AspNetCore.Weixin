@@ -1,5 +1,5 @@
 ﻿
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 获取微信WIFI二维码图片的接口返回Json。</summary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 微信框架异常类

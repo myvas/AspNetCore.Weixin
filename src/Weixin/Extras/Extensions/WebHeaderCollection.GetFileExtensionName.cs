@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
-    public static partial class WebHeaderCollectionExtensions
+    internal static partial class WebHeaderCollectionExtensions
     {
     //    /// <summary>
     //    /// 从Web Headers中取出文件扩展名

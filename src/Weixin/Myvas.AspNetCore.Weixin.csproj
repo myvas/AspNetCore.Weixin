@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <PackageId>Myvas.AspNetCore.Weixin</PackageId>
-    <Version>2.2.402.0</Version>
-    <Version>2.2.402-alpha0</Version>
+    <Version>2.2.403.3</Version>
+    <Version>2.2.403</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>Myvas.AspNetCore.Weixin</AssemblyName>
     <Authors>Myvas</Authors>
@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
   </ItemGroup>
 </Project>

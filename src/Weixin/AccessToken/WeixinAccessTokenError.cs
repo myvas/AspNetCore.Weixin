@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	internal static class WeixinAccessTokenError
 	{

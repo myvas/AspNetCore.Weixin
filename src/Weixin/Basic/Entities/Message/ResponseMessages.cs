@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 将消息转发到客服，暂不支持将消息转发到指定客服!!!

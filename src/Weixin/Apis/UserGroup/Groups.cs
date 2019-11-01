@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 用户组接口

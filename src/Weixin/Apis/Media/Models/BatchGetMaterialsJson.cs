@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	public class BatchGetMaterialsJson
     {

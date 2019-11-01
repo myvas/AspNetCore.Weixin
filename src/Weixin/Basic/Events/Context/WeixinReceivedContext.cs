@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	/// <summary>
 	/// Contains information about the login session as well as the user <see cref="System.Security.Claims.ClaimsIdentity"/>.

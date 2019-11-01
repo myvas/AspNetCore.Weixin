@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http.Extensions;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	/// <summary>
 	/// 获取微信凭证数据服务接口

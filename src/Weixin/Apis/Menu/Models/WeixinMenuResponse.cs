@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin.Menu
+namespace Myvas.AspNetCore.Weixin.Menu
 {
     public class WeixinMenuResponse
     {

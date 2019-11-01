@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 
     /// </summary>
-    public static partial class StringExtensions
+    internal static partial class StringExtensions
     {
         public static string FormatWith(this string format, object source)
         {

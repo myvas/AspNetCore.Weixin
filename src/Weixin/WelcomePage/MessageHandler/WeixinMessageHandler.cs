@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 
 	/// <summary>

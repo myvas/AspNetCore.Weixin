@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 收到事件（非普通消息）
