@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using AspNetCore.Weixin;
+using Myvas.AspNetCore.Weixin;
 using System.Net.Http.Headers;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     public static class MenuApi
     {

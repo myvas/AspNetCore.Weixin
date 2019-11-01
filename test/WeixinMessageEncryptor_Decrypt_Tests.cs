@@ -1,4 +1,4 @@
-﻿using AspNetCore.Weixin;
+﻿using Myvas.AspNetCore.Weixin;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;

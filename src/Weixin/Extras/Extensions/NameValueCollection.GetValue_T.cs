@@ -2,9 +2,9 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
-    public static partial class NameValueCollectionExtensions
+    internal static partial class NameValueCollectionExtensions
     {
         /// <summary>
         /// 获取<see cref="NameValueCollection"/>的值。

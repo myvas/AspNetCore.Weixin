@@ -1,4 +1,4 @@
-﻿namespace AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin
 {
 	/// <summary>
 	/// 可上传的多媒体文件格式

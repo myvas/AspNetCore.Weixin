@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 当MsgType字段值为<see cref="ReceivedMsgType.@event"/>时，Event字段值即为事件类型(<see cref="ReceivedEventType"/>)

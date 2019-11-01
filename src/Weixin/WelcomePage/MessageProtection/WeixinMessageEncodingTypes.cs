@@ -1,7 +1,7 @@
-﻿using AspNetCore.Weixin;
+﻿using Myvas.AspNetCore.Weixin;
 using Microsoft.AspNetCore.Http;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	public static class WeixinMessageEncodingTypes
 	{

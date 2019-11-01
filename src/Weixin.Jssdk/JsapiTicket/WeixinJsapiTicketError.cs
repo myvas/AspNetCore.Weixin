@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	internal static class WeixinJsapiTicketError
 	{
