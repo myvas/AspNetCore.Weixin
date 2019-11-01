@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>AspNetCore.Weixin.Apis</PackageId>
-    <Version>2.1.301</Version>
-  </PropertyGroup>
-
-</Project>
