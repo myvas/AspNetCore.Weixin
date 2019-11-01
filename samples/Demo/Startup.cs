@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Demo
 {
@@ -35,11 +36,6 @@ namespace Demo
 			services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddDbContext<WeixinDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-			services.AddIdentity<AppUser, IdentityRole>()
-				.AddEntityFrameworkStores<IdentityDbContext>()
-				.AddUserManager<AppUserManager>()
-				.AddSignInManager<SignInManager<AppUser>>()
-				.AddDefaultTokenProviders();
 			services.Configure<IdentityOptions>(options =>
 			{
 				options.Password = new PasswordOptions
@@ -56,11 +52,24 @@ namespace Demo
 			});
 			services.ConfigureApplicationCookie(options =>
 			{
+				// Cookie settings
+				options.Cookie.HttpOnly = true;
+				options.Cookie.Expiration = TimeSpan.FromDays(150);
+				// If the LoginPath isn't set, ASP.NET Core defaults 
+				// the path to /Account/Login.
 				options.LoginPath = "/Account/Login";
 				options.LogoutPath = "/Account/LogOff";
+				// If the AccessDeniedPath isn't set, ASP.NET Core defaults 
+				// the path to /Account/AccessDenied.
 				options.AccessDeniedPath = "/Account/AccessDenied";
+				options.SlidingExpiration = true;
 			});
-
+			services.AddIdentity<AppUser, IdentityRole>()
+				.AddEntityFrameworkStores<IdentityDbContext>()
+				.AddUserManager<AppUserManager>()
+				.AddSignInManager<SignInManager<AppUser>>()
+				.AddDefaultTokenProviders()
+                .AddDefaultUI();
 			services.AddAuthentication()
 				.AddWeixinOpen(options =>
 				{
@@ -118,6 +127,11 @@ namespace Demo
 
 			services.AddMvc()
 				.SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy("WeixinMenuManager", policy => policy.RequireUserName(IdentityDbInitializer.AdminUserName));
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

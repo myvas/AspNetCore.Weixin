@@ -1,26 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>test</AssemblyName>
-    <OutputType>Library</OutputType>
-    <PackageId>test</PackageId>
-    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wpa81+wp8</AssetTargetFallback>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <ApplicationIcon />
-    <OutputTypeEx>library</OutputTypeEx>
-    <StartupObject />
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\AspNetCore.Weixin.Core\AspNetCore.Weixin.Core.csproj" />
-    <ProjectReference Include="..\src\AspNetCore.Weixin.Jssdk\AspNetCore.Weixin.Jssdk.csproj" />
-    <ProjectReference Include="..\src\AspNetCore.Weixin\AspNetCore.Weixin.csproj" />
+    <ProjectReference Include="..\src\AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Core.csproj" />
+    <ProjectReference Include="..\src\AspNetCore.Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj" />
+    <ProjectReference Include="..\src\AspNetCore.Weixin\Myvas.AspNetCore.Weixin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
-    <PackageReference Include="Moq" Version="4.10.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

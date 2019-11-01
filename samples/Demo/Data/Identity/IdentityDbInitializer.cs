@@ -32,6 +32,8 @@ namespace Demo.Data
                 user = new AppUser()
                 {
                     UserName = AdminUserName,
+                    Email = "admin@myvas.com",
+                    EmailConfirmed = true,
                     PhoneNumber = "13800138000",
                     PhoneNumberConfirmed = true,
                 };

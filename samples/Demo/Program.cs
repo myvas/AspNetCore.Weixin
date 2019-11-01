@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Demo.Data;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,29 +15,18 @@ namespace Demo
     {
         public static void Main(string[] args)
         {
-			CreateWebHostBuilder(args)
-				.Build()
+            BuildWebHost(args)
                 .MigrateDatabase()
                 .SeedDatabase()
                 .Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            var webhostBuilder = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(ConfigureAppConfiguration)
                 .ConfigureLogging(ConfigureLogging)
-                .UseIISIntegration()
-                .UseDefaultServiceProvider(DefaultServiceProvider);
-
-            var webHostBuilder = webhostBuilder
-                //.CaptureStartupErrors(true)
-                .UseStartup<Startup>();
-
-            return webHostBuilder;
-        }
+                .UseStartup<Startup>()
+                .Build();
 
         private static void ConfigureAppConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder config)
         {
