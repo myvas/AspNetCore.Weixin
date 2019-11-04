@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 
@@ -23,7 +23,7 @@ namespace AspNetCore.Weixin
             if (returnText.Contains("errcode"))
             {
                 //可能发生错误
-                WeixinErrorJson errorResult = JsonConvert.DeserializeObject<WeixinErrorJson>(returnText);
+                WeixinErrorJson errorResult = JsonSerializer.Deserialize<WeixinErrorJson>(returnText);
                 if (!errorResult.Succeeded)
                 {
                     //发生错误
@@ -35,7 +35,7 @@ namespace AspNetCore.Weixin
                 }
             }
 
-            T result = JsonConvert.DeserializeObject<T>(returnText);
+            T result = JsonSerializer.Deserialize<T>(returnText);
             return result;
         }
 

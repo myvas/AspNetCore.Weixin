@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Globalization;
+﻿using Microsoft.AspNetCore.Http.Extensions;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http.Extensions;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
-	/// <summary>
-	/// 获取微信凭证数据服务接口
-	/// </summary>
-	/// <remarks>
-	/// <see cref="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183">获取access_token接口官方说明</see>
-	/// </remarks>
-	internal static class AccessTokenApi
+    /// <summary>
+    /// 获取微信凭证数据服务接口
+    /// </summary>
+    /// <remarks>
+    /// <see cref="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183">获取access_token接口官方说明</see>
+    /// </remarks>
+    internal static class AccessTokenApi
     {
         private const string GetAccessTokenEndpoint = "https://api.weixin.qq.com/cgi-bin/token";
 
@@ -49,7 +43,7 @@ namespace AspNetCore.Weixin
             var requestUri = GetAccessTokenEndpoint + query.ToString();
 
             var sResult = await new HttpClient().GetStringAsync(requestUri);
-            AccessTokenJson result = JsonConvert.DeserializeObject<AccessTokenJson>(sResult);
+            AccessTokenJson result = sResult.FromJson< AccessTokenJson>();
             if (result.Succeeded)
                 return result;
             else

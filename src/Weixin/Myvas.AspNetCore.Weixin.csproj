@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <PackageId>Myvas.AspNetCore.Weixin</PackageId>
-    <Version>2.2.402.0</Version>
-    <Version>2.2.402-alpha0</Version>
+    <Version>3.1.100.4</Version>
+    <Version>3.1.100-alpha4</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>Myvas.AspNetCore.Weixin</AssemblyName>
     <Authors>Myvas</Authors>
@@ -15,8 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="3.0.0-preview4-19123-01" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="3.0.0-preview4-19123-01" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.0.0" />
   </ItemGroup>
 </Project>

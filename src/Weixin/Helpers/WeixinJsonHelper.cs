@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     public static class WeixinJsonHelper
     {
@@ -24,7 +24,7 @@ namespace AspNetCore.Weixin
 
         public static string Serialize(object data)
         {
-            var jsonString = JsonConvert.SerializeObject(data);
+            var jsonString = JsonSerializer.Serialize(data);
 
             var evaluator = new MatchEvaluator(DecodeUnicode);
             var json = Regex.Replace(jsonString, @"\\u[0123456789abcdef]{4}", evaluator);//或：[\\u007f-\\uffff]，\对应为\u000a，但一般情况下会保持\
@@ -43,7 +43,7 @@ namespace AspNetCore.Weixin
             if (jsonResult.Contains("errcode"))
             {
                 //可能发生错误
-                WeixinErrorJson errorResult = JsonConvert.DeserializeObject<WeixinErrorJson>(jsonResult);
+                WeixinErrorJson errorResult = JsonSerializer.Deserialize<WeixinErrorJson>(jsonResult);
                 if (!errorResult.Succeeded)
                 {
                     //发生错误
@@ -55,7 +55,7 @@ namespace AspNetCore.Weixin
                 }
             }
 
-            T result = JsonConvert.DeserializeObject<T>(jsonResult);
+            T result = JsonSerializer.Deserialize<T>(jsonResult);
             return result;
         }
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
-    public static partial class DictionaryExtensions
+    internal static partial class DictionaryExtensions
     {
         /// <summary>
         /// 组装QueryString的方法

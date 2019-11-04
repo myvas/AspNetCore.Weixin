@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AspNetCore.Weixin.Core.Constants
+namespace Myvas.AspNetCore.Weixin.Constants
 {
 	/// <summary>
 	/// 公众平台接口域名

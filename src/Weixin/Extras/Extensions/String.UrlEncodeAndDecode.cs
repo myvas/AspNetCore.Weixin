@@ -1,6 +1,6 @@
-﻿namespace AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin
 {
-    public static partial class StringExtensions
+    internal static partial class StringExtensions
     {
         /// <summary>
         /// 封装System.Web.HttpUtility.UrlEncode

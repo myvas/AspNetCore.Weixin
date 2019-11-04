@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <PackageId>Myvas.AspNetCore.Weixin.Jssdk</PackageId>
-    <Version>2.2.402.0</Version>
-    <Version>2.2.402-alpha0</Version>
+    <Version>3.1.100.4</Version>
+    <Version>3.1.100-alpha4</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Myvas.AspNetCore.Weixin.Jssdk</RootNamespace>
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
@@ -14,10 +14,6 @@
     <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />

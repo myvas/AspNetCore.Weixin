@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Xml.Linq;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
-    public static class Extensions
+
+    internal static class Extensions
     {
         /// <summary>
         /// 根据XML信息填充实实体

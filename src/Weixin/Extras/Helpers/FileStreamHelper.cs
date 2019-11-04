@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     public static class FileStreamHelper
     {

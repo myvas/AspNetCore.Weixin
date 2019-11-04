@@ -1,21 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
-    public static class ObjectToNewtonJsonExtensions
+    internal static class ObjectToNewtonJsonExtensions
     {
         public static string ToJson(this object source)
         {
-            return JsonConvert.SerializeObject(source);
+            return JsonSerializer.Serialize(source);
         }
 
         public static T FromJson<T>(this string source)
         {
-            return JsonConvert.DeserializeObject<T>(source);
+            return JsonSerializer.Deserialize<T>(source);
         }
     }
 }

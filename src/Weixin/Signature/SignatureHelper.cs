@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 	/// <summary>
 	/// 微信签名验证

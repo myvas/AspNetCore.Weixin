@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 
 	/// <summary>
@@ -260,7 +260,7 @@ namespace AspNetCore.Weixin
 			var s = XmlConvert.SerializeObject(o);
 			_logger.LogDebug("Response Body({0}): {1}", s?.Length, s);
 
-			HttpContext.Response.Clear();
+			//HttpContext.Response.Clear();
 			HttpContext.Response.ContentType = "text/plain;charset=utf-8";
 
 			var timestamp = WeixinTimestampHelper.FromUtcTime(DateTime.UtcNow);

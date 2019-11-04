@@ -1,10 +1,10 @@
-﻿using AspNetCore.Weixin;
+﻿using Myvas.AspNetCore.Weixin;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// "Official account services unavailable. Try again later." 

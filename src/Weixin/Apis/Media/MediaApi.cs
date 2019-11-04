@@ -1,18 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Text;
-using Newtonsoft.Json;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
-namespace AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin
 {
 
-	/// <summary>
-	/// 多媒体文件接口
-	/// </summary>
-	public static partial class MediaApi
+    /// <summary>
+    /// 多媒体文件接口
+    /// </summary>
+    public static partial class MediaApi
     {
         /// <summary>
         /// 上传媒体文件。
@@ -38,7 +37,7 @@ namespace AspNetCore.Weixin
             byte[] responseData = await httpResponseMessage.Content.ReadAsByteArrayAsync();
             string resp = Encoding.UTF8.GetString(responseData);
 
-            var json = JsonConvert.DeserializeObject<MediaUploadResultJson>(resp);
+            var json = resp.FromJson<MediaUploadResultJson>();
 
             return json;
         }
@@ -56,7 +55,7 @@ namespace AspNetCore.Weixin
                 throw new HttpRequestException("An error occured while retrieving the user profile.");
             }
 
-            var payload = JObject.Parse(await response.Content.ReadAsStringAsync());
+            var payload = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
             int errorCode = WeixinApiHelper.GetErrorCode(payload);
             if (errorCode != 0)
             {
@@ -103,7 +102,7 @@ namespace AspNetCore.Weixin
             }
 
             var responseString = await response.Content.ReadAsStringAsync();
-            var payload = JObject.Parse(responseString);
+            var payload = JsonDocument.Parse(responseString);
             int errorCode = WeixinApiHelper.GetErrorCode(payload);
             if (errorCode != 0)
             {
@@ -111,7 +110,7 @@ namespace AspNetCore.Weixin
                 //Logger.LogError($"The remote server returned an error while retrieving the user profile. {errorCode} {errorMessage}");
                 throw new Exception($"The remote server returned an error while retrieving the user profile. {errorCode} {errorMessage}");
             }
-            var result = JsonConvert.DeserializeObject<BatchGetMaterialsJson>(responseString);
+            var result = responseString.FromJson<BatchGetMaterialsJson>();
             return result;
         }
 
