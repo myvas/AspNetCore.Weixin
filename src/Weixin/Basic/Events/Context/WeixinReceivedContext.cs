@@ -9,10 +9,10 @@ using System.Text;
 
 namespace Myvas.AspNetCore.Weixin
 {
-	/// <summary>
-	/// Contains information about the login session as well as the user <see cref="System.Security.Claims.ClaimsIdentity"/>.
-	/// </summary>
-	public class WeixinReceivedContext<TEventArgs> //: BaseWeixinContext
+    /// <summary>
+    /// Contains information about the login session as well as the user <see cref="System.Security.Claims.ClaimsIdentity"/>.
+    /// </summary>
+    public class WeixinReceivedContext<TEventArgs> //: BaseWeixinContext
 		where TEventArgs : ReceivedEventArgs
 	{
 		/// <summary>

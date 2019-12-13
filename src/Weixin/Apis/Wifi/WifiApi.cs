@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
@@ -67,7 +67,7 @@ namespace Myvas.AspNetCore.Weixin
             string api = "https://api.weixin.qq.com/wifi/setApInfo.xhtml?access_token=ACCESSTOKEN&format=json";
             api = api.Replace("ACCESSTOKEN", accessToken);
             
-            string json = JsonConvert.SerializeObject(apInfos);
+            string json = apInfos.ToJson();
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("apList", json);
 
@@ -97,7 +97,7 @@ namespace Myvas.AspNetCore.Weixin
             if (!string.IsNullOrEmpty(ad.backgroundImg)) param.Add("backgroundImg", ad.backgroundImg);
             if (!string.IsNullOrEmpty(ad.brandName)) param.Add("brandName", ad.brandName);
             if (!string.IsNullOrEmpty(ad.mpAccount)) param.Add("mpAccount", ad.mpAccount);
-            param.Add("deviceNos", JsonConvert.SerializeObject(ad.deviceNos));
+            param.Add("deviceNos", JsonSerializer.Serialize(ad.deviceNos));
             param.Add("adTemplet", ad.adTemplet.ToString());
             param.Add("adDetail", ad.adDetail);
 
@@ -184,7 +184,7 @@ namespace Myvas.AspNetCore.Weixin
 
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("statDate", statDate.ToString("yyyyMMdd"));
-            string statListJson = JsonConvert.SerializeObject(statList);
+            string statListJson = JsonSerializer.Serialize(statList);
             param.Add("statList", statListJson);
 
             WifiErrorJson result = await HttpUtility.PostGetJson<WifiErrorJson>(api, null, param);
@@ -255,7 +255,7 @@ namespace Myvas.AspNetCore.Weixin
             api = api.Replace("ACCESSTOKEN", accessToken);
             
             Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("apOnlineList", JsonConvert.SerializeObject(apOnlineList));
+            param.Add("apOnlineList", JsonSerializer.Serialize(apOnlineList));
 
             WifiErrorJson result = await HttpUtility.PostGetJson<WifiErrorJson>(api, null, param);
             return result;
@@ -284,7 +284,7 @@ namespace Myvas.AspNetCore.Weixin
             
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("adId", adId);
-            param.Add("deviceNos", JsonConvert.SerializeObject(deviceNos));
+            param.Add("deviceNos", JsonSerializer.Serialize(deviceNos));
 
             WifiErrorJson result = await HttpUtility.PostGetJson<WifiErrorJson>(api, null, param);
             return result;

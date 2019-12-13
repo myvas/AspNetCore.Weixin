@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
 using System.Net.Http;
-using Newtonsoft.Json.Linq;
 using Myvas.AspNetCore.Weixin;
 using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
 {
@@ -68,7 +66,7 @@ namespace Myvas.AspNetCore.Weixin
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<WeixinErrorJson>(json);
+            return json.FromJson<WeixinErrorJson>();
         }
 
         /// <summary>
@@ -92,7 +90,7 @@ namespace Myvas.AspNetCore.Weixin
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<WeixinErrorJson>(json);
+            return json.FromJson<WeixinErrorJson>();
         }
 
 
@@ -130,7 +128,7 @@ namespace Myvas.AspNetCore.Weixin
                 //@"{""menu"":{""button"":[{""UploadMediaType"":""click"",""name"":""单击测试"",""key"":""OneClick"",""sub_button"":[]},{""name"":""二级菜单"",""sub_button"":[{""UploadMediaType"":""click"",""name"":""返回文本"",""key"":""SubClickRoot_Text"",""sub_button"":[]},{""UploadMediaType"":""click"",""name"":""返回图文"",""key"":""SubClickRoot_News"",""sub_button"":[]},{""UploadMediaType"":""click"",""name"":""返回音乐"",""key"":""SubClickRoot_Music"",""sub_button"":[]}]}]}}"
                 object jsonResult = null;
 
-                jsonResult = JsonConvert.DeserializeObject<object>(json);
+                jsonResult = JsonSerializer.Deserialize<object>(json);
 
                 var fullResult = jsonResult as Dictionary<string, object>;
                 if (fullResult != null && fullResult.ContainsKey("menu"))
@@ -185,14 +183,14 @@ namespace Myvas.AspNetCore.Weixin
         /// </summary>
         /// <param name="accessToken"></param>
         /// <returns></returns>
-        public static async Task<JObject> GetMenuAsync(string accessToken)
+        public static async Task<JsonDocument> GetMenuAsync(string accessToken)
         {
             var url = string.Format("https://api.weixin.qq.com/cgi-bin/menu/get?access_token={0}", accessToken);
 
             var responseMessage = await new HttpClient().GetAsync(url);
             responseMessage.EnsureSuccessStatusCode();
             var s = await responseMessage.Content.ReadAsStringAsync();
-            var json = JsonConvert.DeserializeObject<JObject>(s);
+            var json = JsonDocument.Parse(s);
             return json;
         }
 
@@ -201,7 +199,7 @@ namespace Myvas.AspNetCore.Weixin
             GetMenuResult finalResult;
             try
             {
-                var jsonResult = JsonConvert.DeserializeObject<GetMenuResultFull>(json);
+                var jsonResult = JsonSerializer.Deserialize<GetMenuResultFull>(json);
                 if (jsonResult.menu == null || jsonResult.menu.button.Count == 0)
                 {
                     throw new WeixinException(jsonResult.errmsg);
@@ -345,7 +343,7 @@ namespace Myvas.AspNetCore.Weixin
             var response = await new HttpClient().GetAsync(url);
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<WeixinErrorJson>(json);
+            return JsonSerializer.Deserialize<WeixinErrorJson>(json);
         }
     }
 }

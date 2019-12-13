@@ -13,6 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{E9754587-13F5-4E
 		NuGet.Config = NuGet.Config
 		README.md = README.md
 	EndProjectSection
+	ProjectSection(FolderGlobals) = preProject
+		D_5_4Myvas_4dev_4AspNetCore_4Myvas_1AspNetCore_1Weixin_4Myvas_1AspNetCore_1Weixin_4global_1json__JsonSchema = 
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}"
 EndProject

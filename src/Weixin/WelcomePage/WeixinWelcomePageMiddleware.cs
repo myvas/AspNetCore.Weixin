@@ -98,7 +98,7 @@ namespace Myvas.AspNetCore.Weixin
 
 			var websiteToken = _options.WebsiteToken;
 
-			context.Response.Clear();
+			//context.Response.Clear();
 			context.Response.ContentType = "text/plain;charset=utf-8";
 
 			if (SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken)) //【腾讯微信公众号后台程序】发起服务器地址验证
@@ -128,7 +128,7 @@ namespace Myvas.AspNetCore.Weixin
 
 			var websiteToken = _options.WebsiteToken;
 
-			context.Response.Clear();
+			//context.Response.Clear();
 			context.Response.ContentType = "text/plain;charset=utf-8";
 			if (!SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken) && !_options.Debug)
 			{

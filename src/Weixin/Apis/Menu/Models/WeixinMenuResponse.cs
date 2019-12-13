@@ -1,30 +1,27 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin.Menu
 {
     public class WeixinMenuResponse
     {
-        public JObject Response { get; set; }
+        public JsonDocument Response { get; set; }
         public WeixinException Error { get; set; }
 
         public bool HasError { get; private set; }
 
-        private WeixinMenuResponse(JObject response)
+        private WeixinMenuResponse(JsonDocument response)
         {
             Response = response;
 
-            var errcode = response.Value<int>("errcode");
+            var errcode = response.RootElement.GetInt32("errcode");
             HasError = (errcode != 0);
             if (!HasError)
             {
             }
             else
             {
-                var errmsg = response.Value<string>("errmsg");
+                var errmsg = response.RootElement.GetString("errmsg");
                 Error = new WeixinException(errmsg);
             }
 
@@ -34,7 +31,7 @@ namespace Myvas.AspNetCore.Weixin.Menu
         {
         }
 
-        public static WeixinMenuResponse Parse(JObject response)
+        public static WeixinMenuResponse Parse(JsonDocument response)
         {
             return new WeixinMenuResponse(response);
         }

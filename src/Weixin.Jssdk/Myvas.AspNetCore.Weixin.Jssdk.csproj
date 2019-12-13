@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <PackageId>Myvas.AspNetCore.Weixin.Jssdk</PackageId>
-    <Version>2.2.403.3</Version>
-    <Version>2.2.403</Version>
+    <Version>3.1.100.5</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Myvas.AspNetCore.Weixin.Jssdk</RootNamespace>
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>

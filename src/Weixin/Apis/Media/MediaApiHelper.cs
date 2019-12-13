@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin
 {
 
-	public static class MediaApiHelper
+    public static class MediaApiHelper
     {
         public static string ExtractFileExtFromDisposition(string disposition)
         {
@@ -22,16 +19,16 @@ namespace Myvas.AspNetCore.Weixin
         /// <summary>
         ///  openid
         /// </summary>
-        public static bool GetAllCounts(JObject payload, out int voiceCount, out int videoCount, out int imageCount, out int newsCount)
+        public static bool GetAllCounts(JsonDocument payload, out int voiceCount, out int videoCount, out int imageCount, out int newsCount)
         {
             if (payload == null)
             {
                 throw new ArgumentNullException(nameof(payload));
             }
-            voiceCount = payload.Value<int>("voice_count");
-            videoCount = payload.Value<int>("video_count");
-            imageCount = payload.Value<int>("image_count");
-            newsCount = payload.Value<int>("news_count");
+            voiceCount = payload.RootElement.GetInt32("voice_count");
+            videoCount = payload.RootElement.GetInt32("video_count");
+            imageCount = payload.RootElement.GetInt32("image_count");
+            newsCount = payload.RootElement.GetInt32("news_count");
             return true;
         }
     }
