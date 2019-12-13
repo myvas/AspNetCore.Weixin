@@ -1,4 +1,6 @@
-﻿namespace Myvas.AspNetCore.Weixin
+using Microsoft.AspNetCore.Http;
+
+namespace Myvas.AspNetCore.Weixin
 {
     public static class WeixinMessageEncodingTypes
 	{

@@ -6,7 +6,6 @@ using System.Xml.Linq;
 
 namespace Myvas.AspNetCore.Weixin
 {
-
     internal static class Extensions
     {
         /// <summary>

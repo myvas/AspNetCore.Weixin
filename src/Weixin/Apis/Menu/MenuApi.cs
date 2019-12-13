@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Myvas.AspNetCore.Weixin;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;

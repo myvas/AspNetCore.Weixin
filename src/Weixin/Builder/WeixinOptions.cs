@@ -1,4 +1,7 @@
-﻿namespace Myvas.AspNetCore.Weixin
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+
+namespace Myvas.AspNetCore.Weixin
 {
     public class WeixinOptions
     {
