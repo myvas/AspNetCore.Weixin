@@ -1,18 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Authentication;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Text;
-
-namespace Myvas.AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin
 {
-    /// <summary>
-    /// Contains information about the login session as well as the user <see cref="System.Security.Claims.ClaimsIdentity"/>.
-    /// </summary>
-    public class WeixinReceivedContext<TEventArgs> //: BaseWeixinContext
+	/// <summary>
+	/// Contains information about the login session as well as the user <see cref="System.Security.Claims.ClaimsIdentity"/>.
+	/// </summary>
+	public class WeixinReceivedContext<TEventArgs> //: BaseWeixinContext
 		where TEventArgs : ReceivedEventArgs
 	{
 		/// <summary>
