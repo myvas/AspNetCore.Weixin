@@ -9,17 +9,26 @@ namespace test
 {
 	public class WeixinMessageEncryptor_Decrypt_Tests
 	{
-		[Fact]
-		public void ReceivedEventArgs_Compatible()
-		{
-			IServiceCollection services = new ServiceCollection();
-			services.Configure((Action<WeixinWelcomePageOptions>)(options =>
+		IServiceCollection services = new ServiceCollection();
+		public WeixinMessageEncryptor_Decrypt_Tests() {
+			services.Configure((Action<WeixinAccessTokenOptions>)(options =>
 			{
 				options.AppId = "wxaf5aa2d87ff3b700";
+			}));
+			services.Configure((Action<SiteOptions>)(options =>
+			{
 				options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
+			}));
+			services.Configure((Action<EncodingOptions>)(options =>
+			{
 				options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
 			}));
 			services.AddLogging();
+		}
+
+		[Fact]
+		public void ReceivedEventArgs_Compatible()
+		{
 			services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
 			var sp = services.BuildServiceProvider();
 			var _encryptor = sp.GetRequiredService<IWeixinMessageEncryptor>();
@@ -42,7 +51,7 @@ namespace test
 			var msg_signature = "a76bb4d3348628369b38e8fecebf5f0545d48786";
 			var encrypt_type = "aes";
 
-			var received = XmlConvert.DeserializeObject<ReceivedEventArgs>(xml);
+			var received = XmlConvert.DeserializeObject<ReceivedXml>(xml);
 			if (encrypt_type == "aes")
 			{
 				var decryptedXml = _encryptor.Decrypt(msg_signature, timestamp, nonce, xml);
@@ -51,22 +60,14 @@ namespace test
 				xml = decryptedXml;
 			}
 
-			var result = XmlConvert.DeserializeObject<ReceivedEventArgs>(xml);
+			var result = XmlConvert.DeserializeObject<ReceivedXml>(xml);
 			Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
-			Assert.Equal(ReceivedMsgType.text, result.MsgType);
+			Assert.Equal(RequestMsgType.text, result.MsgType);
 		}
 
 		[Fact]
 		public void ReceivedEventArgs_aes()
 		{
-			IServiceCollection services = new ServiceCollection();
-			services.Configure((Action<WeixinWelcomePageOptions>)(options =>
-			{
-				options.AppId = "wxaf5aa2d87ff3b700";
-				options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
-				options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
-			}));
-			services.AddLogging();
 			services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
 			var sp = services.BuildServiceProvider();
 			var _encryptor = sp.GetRequiredService<IWeixinMessageEncryptor>();
@@ -92,9 +93,9 @@ namespace test
 				xml = decryptedXml;
 			}
 
-			var result = XmlConvert.DeserializeObject<ReceivedEventArgs>(xml);
+			var result = XmlConvert.DeserializeObject<ReceivedXml>(xml);
 			Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
-			Assert.Equal(ReceivedMsgType.text, result.MsgType);
+			Assert.Equal(RequestMsgType.text, result.MsgType);
 		}
 	}
 }

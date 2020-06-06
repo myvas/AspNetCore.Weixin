@@ -20,12 +20,17 @@ namespace Myvas.AspNetCore.Weixin
 		private readonly IMemoryCache _cache;
 		private readonly WeixinJssdkOptions _options;
 		private readonly IWeixinAccessToken _AccessToken;
+		private readonly JsapiTicketApi _api;
 
-		public MemoryCachedWeixinJsapiTicket(IMemoryCache cache, WeixinJssdkOptions options, IWeixinAccessToken AccessToken)
+		public MemoryCachedWeixinJsapiTicket(IMemoryCache cache, 
+			WeixinJssdkOptions options, 
+			IWeixinAccessToken AccessToken,
+			JsapiTicketApi api)
 		{
 			_cache = cache;
 			_options = options;
 			_AccessToken = AccessToken;
+			_api = api;
 		}
 
 		/// <summary>
@@ -53,7 +58,7 @@ namespace Myvas.AspNetCore.Weixin
 
 			try
 			{
-				var json = JsapiTicketApi.GetJsapiTicket(accessToken).Result;
+				var json = _api.GetJsapiTicket(accessToken).Result;
 				if (json == null
 				   || string.IsNullOrWhiteSpace(json.ticket)
 				   || json.expires_in < 1

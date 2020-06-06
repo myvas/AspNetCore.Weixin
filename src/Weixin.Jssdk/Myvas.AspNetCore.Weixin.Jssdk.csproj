@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <PackageId>Myvas.AspNetCore.Weixin.Jssdk</PackageId>
-    <Version>3.1.100.8</Version>
+    <Version>3.1.100.1608</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Myvas.AspNetCore.Weixin.Jssdk</RootNamespace>
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
@@ -16,6 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
+    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Site\Myvas.AspNetCore.Weixin.Site.csproj" />
   </ItemGroup>
 </Project>

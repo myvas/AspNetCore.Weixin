@@ -20,7 +20,7 @@ namespace test
 <Content><![CDATA[你好]]></Content>
 </xml>";
 
-            var o = new ResponseMessageText
+            var o = new WeixinResponseText
             {
                 ToUserName = "toUser",
                 FromUserName = "fromUser",
@@ -30,7 +30,7 @@ namespace test
 
             var result = XmlConvert.SerializeObject(o);
 
-            var deserializedExcepted = XmlConvert.DeserializeObject<ResponseMessageText>(excepted);
+            var deserializedExcepted = XmlConvert.DeserializeObject<WeixinResponseText>(excepted);
             var reserializedExcepted = XmlConvert.SerializeObject(deserializedExcepted);
             Assert.Equal(reserializedExcepted, result);
         }
@@ -60,7 +60,7 @@ namespace test
 </Articles>
 </xml>";
 
-            var o = new ResponseMessageNews
+            var o = new WeixinResponseNews
             {
                 ToUserName = "toUser",
                 FromUserName = "fromUser",
@@ -83,7 +83,7 @@ namespace test
 
             var result = XmlConvert.SerializeObject(o);
 
-            var deserializedExcepted = XmlConvert.DeserializeObject<ResponseMessageNews>(excepted);
+            var deserializedExcepted = XmlConvert.DeserializeObject<WeixinResponseNews>(excepted);
             var reserializedExcepted = XmlConvert.SerializeObject(deserializedExcepted);
             Assert.Equal(reserializedExcepted, result);
         }

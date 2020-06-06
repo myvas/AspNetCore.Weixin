@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin
 {
@@ -61,7 +62,7 @@ namespace Myvas.AspNetCore.Weixin
 
 			signature = WeixinJssdkSignatureHelper.CalculateJsSignature(elements);
 
-			return WeixinJsonHelper.Serialize(this);
+			return JsonSerializer.Serialize(this);
 		}
 	}
 }

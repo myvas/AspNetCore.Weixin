@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+    <PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
+    <Version>3.1.100.1609</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
+    <Authors>Myvas</Authors>
+    <Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
+    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+    <PackageTags>myvas;AspNetCore;Weixin;WeixinSite</PackageTags>
+    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
+    <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -18,6 +18,22 @@ https://mp.weixin.qq.com
 - 在“消息加解密密钥**EncodingAESKey**”中，若空则初始化一个
 - 在“消息加解密方式”中，***建议***选择“**安全模式**”
 
+## AccessToken
+* ConfigureServices
+```
+services.AddWeixinAccessToken(options => {	
+	options.AppId = _configuration["Weixin:AppId"];
+	options.AppSecret = _configuration["Weixin:AppSecret"];
+});
+```
+
+* Usage
+```
+private readonly IAccessToken _accessToken;
+...
+var accessToken = _accessToken.GetTokenAsync();
+```
+
 ## WeixinWelcomePage
 * ConfigureServices
 ```
