@@ -4,16 +4,15 @@ using System.Threading;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
 {
-    public class WeixinReceivedMessageManager<TWeixinReceivedMessage, TKey> : IDisposable
+    public class WeixinReceivedMessageManager<TWeixinReceivedMessage> : IDisposable
         where TWeixinReceivedMessage : WeixinReceivedMessage
-        where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// The cancellation token used to cancel operations.
         /// </summary>
         protected virtual CancellationToken CancellationToken => CancellationToken.None;
 
-        protected internal IWeixinReceivedMessageStore<TWeixinReceivedMessage, TKey> Store { get; set; }
+        protected internal IWeixinReceivedMessageStore<TWeixinReceivedMessage> Store { get; set; }
         public virtual ILogger Logger { get; set; }
 
         /// <summary>
@@ -21,9 +20,9 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
         /// </summary>
         public WeixinErrorDescriber ErrorDescriber { get; set; }
 
-        public WeixinReceivedMessageManager(IWeixinReceivedMessageStore<TWeixinReceivedMessage, TKey> store,
+        public WeixinReceivedMessageManager(IWeixinReceivedMessageStore<TWeixinReceivedMessage> store,
             WeixinErrorDescriber errors,
-            ILogger<WeixinReceivedMessageManager<TWeixinReceivedMessage, TKey>> logger)
+            ILogger<WeixinReceivedMessageManager<TWeixinReceivedMessage>> logger)
         {
             if (store == null)
             {

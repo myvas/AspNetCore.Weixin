@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
 {
-    public class WeixinReceivedMessageStore<TWeixinReceivedMessage> : WeixinReceivedMessageStore<TWeixinReceivedMessage, DbContext>
-        where TWeixinReceivedMessage : WeixinReceivedMessage
+    public class WeixinReceivedMessageStore<TContext> : WeixinReceivedMessageStore<WeixinReceivedMessage, TContext>, IWeixinReceivedMessageStore
+        where TContext : DbContext
     {
-        public WeixinReceivedMessageStore(DbContext context, WeixinErrorDescriber describer = null) : base(context, describer)
+        public WeixinReceivedMessageStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
         {
         }
     }
-
 
     public class WeixinReceivedMessageStore<TWeixinReceivedMessage, TContext> : WeixinReceivedMessageStoreBase<TWeixinReceivedMessage>
         where TWeixinReceivedMessage : WeixinReceivedMessage

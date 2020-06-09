@@ -8,10 +8,6 @@ namespace Myvas.AspNetCore.Weixin
 {
     public interface IWeixinSubscriberStore : IWeixinSubscriberStore<WeixinSubscriber, string> { }
 
-    public interface IWeixinSubscriberStore<TKey> : IWeixinSubscriberStore<WeixinSubscriber, TKey>
-        where TKey : IEquatable<TKey>
-    { }
-
     /// <summary>
     /// Provides an abstraction for storing information of Weixin subscribers (and its related IdentityUser).
     /// </summary>

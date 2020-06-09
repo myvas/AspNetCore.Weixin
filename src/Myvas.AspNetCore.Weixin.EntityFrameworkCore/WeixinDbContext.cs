@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
@@ -16,17 +17,7 @@ namespace Myvas.AspNetCore.Weixin
         protected WeixinDbContext() { }
     }
 
-    public class WeixinDbContext<TWeixinSubscriber> : WeixinDbContext<TWeixinSubscriber, string>
-        where TWeixinSubscriber : WeixinSubscriber
-    {
-        public WeixinDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        protected WeixinDbContext() { }
-    }
-
-    public class WeixinDbContext<TWeixinSubscriber, TKey> : DbContext, IWeixinDbContext<TWeixinSubscriber, TKey> 
+    public class WeixinDbContext<TWeixinSubscriber, TKey> : DbContext, IWeixinDbContext<TWeixinSubscriber, TKey>
         where TWeixinSubscriber : WeixinSubscriber<TKey>
         where TKey : IEquatable<TKey>
     {
@@ -39,27 +30,27 @@ namespace Myvas.AspNetCore.Weixin
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinSubscriber"/>.
         /// </summary>
-        public DbSet<TWeixinSubscriber> Subscribers { get; set; }
+        public DbSet<TWeixinSubscriber> WeixinSubscribers { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinReceivedMessage"/>.
         /// </summary>
-        public DbSet<WeixinReceivedMessage> ReceivedMessages { get; set; }
+        public DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinReceivedEvent"/>.
         /// </summary>
-        public DbSet<WeixinReceivedEvent> ReceivedEvents { get; set; }
+        public DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinSendMessage"/>.
         /// </summary>
-        public DbSet<WeixinSendMessage> SendMessages { get; set; }
+        public DbSet<WeixinSendMessage> WeixinSendMessages { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinResponseMessage"/>.
         /// </summary>
-        public DbSet<WeixinResponseMessage> ResponseMessages { get; set; }
+        public DbSet<WeixinResponseMessage> WeixinResponseMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -68,7 +59,7 @@ namespace Myvas.AspNetCore.Weixin
             builder.Entity<TWeixinSubscriber>(b =>
             {
                 b.HasKey(x => x.Id);
-                b.ToTable("WeixinSubscibers");
+                b.ToTable(nameof(WeixinSubscribers));
                 b.Property(x => x.ConcurrencyStamp).IsConcurrencyToken();
                 b.Property(x => x.Nickname).HasMaxLength(256);
             });

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
 {
-    public class WeixinReceivedEventStore<TWeixinReceivedEvent> : WeixinReceivedEventStore<TWeixinReceivedEvent, DbContext>
-        where TWeixinReceivedEvent : WeixinReceivedEvent
+    public class WeixinReceivedEventStore<TContext> : WeixinReceivedEventStore<WeixinReceivedEvent, TContext>, IWeixinReceivedEventStore
+        where TContext : DbContext
     {
-        public WeixinReceivedEventStore(DbContext context, WeixinErrorDescriber describer = null) : base(context, describer)
+        public WeixinReceivedEventStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
         {
         }
     }

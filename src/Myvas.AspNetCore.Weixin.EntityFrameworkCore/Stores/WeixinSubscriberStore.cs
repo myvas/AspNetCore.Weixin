@@ -7,29 +7,10 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
 {
-    public class WeixinSubscriberStore<TWeixinSubscriber> : WeixinSubscriberStore<TWeixinSubscriber, string>
-        where TWeixinSubscriber : WeixinSubscriber
+    public class WeixinSubscriberStore<TContext> : WeixinSubscriberStore<WeixinSubscriber, string, TContext>, IWeixinSubscriberStore
+        where TContext : DbContext
     {
-        /// <summary>
-        /// Constructs a new instance of <see cref="WeixinSubscriberStore{TWeixinSubscriber}"/>.
-        /// </summary>
-        /// <param name="context">The <see cref="DbContext"/>.</param>
-        /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public WeixinSubscriberStore(DbContext context, WeixinErrorDescriber describer = null) : base(context, describer)
-        {
-        }
-    }
-
-    public class WeixinSubscriberStore<TWeixinSubscriber, TKey> : WeixinSubscriberStore<TWeixinSubscriber, TKey, DbContext>
-        where TWeixinSubscriber : WeixinSubscriber<TKey>
-        where TKey : IEquatable<TKey>
-    {
-        /// <summary>
-        /// Constructs a new instance of <see cref="WeixinSubscriberStore{TWeixinSubscriber}"/>.
-        /// </summary>
-        /// <param name="context">The <see cref="DbContext"/>.</param>
-        /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public WeixinSubscriberStore(DbContext context, WeixinErrorDescriber describer = null) : base(context, describer)
+        public WeixinSubscriberStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
         {
         }
     }

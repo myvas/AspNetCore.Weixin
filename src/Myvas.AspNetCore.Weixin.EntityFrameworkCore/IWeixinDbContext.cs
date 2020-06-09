@@ -7,10 +7,11 @@ namespace Myvas.AspNetCore.Weixin
         where TWeixinSubscriber : WeixinSubscriber<TKey>
         where TKey : IEquatable<TKey>
     {
-        DbSet<WeixinReceivedEvent> ReceivedEvents { get; set; }
-        DbSet<WeixinReceivedMessage> ReceivedMessages { get; set; }
-        DbSet<WeixinResponseMessage> ResponseMessages { get; set; }
-        DbSet<WeixinSendMessage> SendMessages { get; set; }
-        DbSet<TWeixinSubscriber> Subscribers { get; set; }
+        DbSet<TWeixinSubscriber> WeixinSubscribers { get; set; }
+
+        DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
+        DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
+        DbSet<WeixinResponseMessage> WeixinResponseMessages { get; set; }
+        DbSet<WeixinSendMessage> WeixinSendMessages { get; set; }
     }
 }

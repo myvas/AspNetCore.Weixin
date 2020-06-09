@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
 {
-    public class WeixinSendMessageStore<TWeixinSendMessage> : WeixinSendMessageStore<TWeixinSendMessage, DbContext>
-        where TWeixinSendMessage : WeixinSendMessage
+    public class WeixinSendMessageStore<TContext> : WeixinSendMessageStore<WeixinSendMessage, TContext>, IWeixinSendMessageStore
+        where TContext : DbContext
     {
-        public WeixinSendMessageStore(DbContext context, WeixinErrorDescriber describer = null) : base(context, describer)
+        public WeixinSendMessageStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
         {
         }
     }
