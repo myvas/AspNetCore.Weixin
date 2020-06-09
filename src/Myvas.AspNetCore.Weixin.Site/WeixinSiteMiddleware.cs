@@ -14,31 +14,32 @@ namespace Myvas.AspNetCore.Weixin
     public class WeixinSiteMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly SiteOptions _options;
+        private readonly WeixinSiteOptions _options;
         private readonly ILogger _logger;
         private readonly WeixinSite _site;
 
         public WeixinSiteMiddleware(
             RequestDelegate next,
             WeixinSite site,
-            IOptions<SiteOptions> siteOptionsAccessor,
+            IOptions<WeixinSiteOptions> siteOptionsAccessor,
             ILoggerFactory loggerFactory)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
-            _site = site;
             _logger = loggerFactory?.CreateLogger<WeixinSiteMiddleware>() ?? throw new ArgumentNullException(nameof(loggerFactory));
             _options = siteOptionsAccessor?.Value ?? throw new ArgumentNullException(nameof(siteOptionsAccessor));
 
             //入参检查
             if (string.IsNullOrEmpty(_options.WebsiteToken))
             {
-                throw new ArgumentException($"参数 {nameof(_options.WebsiteToken)} 不能为空。");
+                throw new ArgumentException($"Options '{nameof(_options.WebsiteToken)}' cannot be null or empty");
             }
 
             if (string.IsNullOrEmpty(_options.Path))
             {
-                throw new ArgumentException($"参数 {nameof(_options.Path)} 不能为空。");
+                throw new ArgumentException($"Options '{nameof(_options.Path)}' cannot be null or empty");
             }
+
+            _site = site ?? throw new ArgumentNullException(nameof(site));
         }
 
         /// <summary>
@@ -46,26 +47,28 @@ namespace Myvas.AspNetCore.Weixin
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/>.</param>
         /// <returns></returns>
-        public async Task Invoke(HttpContext context)
+        public Task Invoke(HttpContext context)
         {
             var path = _options.Path;
 
             HttpRequest request = context.Request;
-            if (request.Path == path)
+            if (path.Equals(request.Path, StringComparison.OrdinalIgnoreCase))
             {
-                // Dynamically generated for LOC.
-                if (request.Method == HttpMethods.Post)
+                _logger.LogDebug($"Request matched the WeixinSite path '{request.Path}'");
+                if (HttpMethods.IsPost(request.Method))
                 {
-                    await InvokeGetAsync(context);
+                    return InvokePostAsync(context);
                 }
                 else
                 {
-                    await InvokePostAsync(context);
+                    _logger.LogDebug($"A WeixinSite verification request found");
+                    return InvokeGetAsync(context);
                 }
             }
             else
             {
-                await _next(context);
+                _logger.LogDebug($"The request path '{request.Path}' does not match the WeixinSite path '{path}'");
+                return _next(context);
             }
         }
 
@@ -95,7 +98,7 @@ namespace Myvas.AspNetCore.Weixin
             }
             else//【配置管理员】核实AspNetCore.Weixin服务地址
             {
-                response.Content = "如果你在浏览器中看到这句话，说明本网站是微信公众号服务器，可以在微信公众号后台的“开发/基本配置/服务器配置/服务器地址(URL)”字段中填写此URL！";
+                response.Content = Resources.WeixinSiteVerificationPathNotice;
             }
             await response.FlushAsync();
         }
@@ -117,7 +120,7 @@ namespace Myvas.AspNetCore.Weixin
             if (!_options.Debug && !SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken))
             {
                 var response = _site.Response.Create<PlainTextResponseBuilder>(context);
-                response.Content = "这是一个微信程序，请用微信客户端访问!";
+                response.Content = Resources.NonWeixinMessengerDenied;
                 await response.FlushAsync();
                 return;
             }

@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.EntityFrameworkCore", "src\Myvas.AspNetCore.Weixin.EntityFrameworkCore\Myvas.AspNetCore.Weixin.EntityFrameworkCore.csproj", "{175C80CD-019C-419C-B72F-4902C1238269}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Api", "src\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj", "{5FBB65BA-E7EA-4A9B-8253-221A4143A02F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Api", "src\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj", "{5FBB65BA-E7EA-4A9B-8253-221A4143A02F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.AccessToken", "src\Myvas.AspNetCore.Weixin.AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj", "{C2C67DF5-6469-46E0-9804-5F0F2A4399C1}"
 EndProject

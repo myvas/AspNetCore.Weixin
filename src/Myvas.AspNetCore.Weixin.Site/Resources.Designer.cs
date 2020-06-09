@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore {
+namespace Myvas.AspNetCore.Weixin {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Myvas.AspNetCore.Weixin.EntityFrameworkCore.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Myvas.AspNetCore.Weixin.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AddEntityFrameworkStores can only be called with a Weixin received message that derives from WeixinReceivedMessage..
+        ///   Looks up a localized string similar to 这是一个微信程序，请用微信客户端访问!.
         /// </summary>
-        internal static string NotReceivedMessage {
+        internal static string NonWeixinMessengerDenied {
             get {
-                return ResourceManager.GetString("NotReceivedMessage", resourceCulture);
+                return ResourceManager.GetString("NonWeixinMessengerDenied", resourceCulture);
             }
         }
         
@@ -79,29 +79,11 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User &apos;{0}&apos; does not exist..
+        ///   Looks up a localized string similar to 您正在访问的URL地址是一个微信公众号服务器验证地址。您可以将此URL地址填写在微信公众号后台的“开发/基本配置/服务器配置/服务器地址(URL)”字段。.
         /// </summary>
-        internal static string UserNotFound {
+        internal static string WeixinSiteVerificationPathNotice {
             get {
-                return ResourceManager.GetString("UserNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Value cannot be null or empty..
-        /// </summary>
-        internal static string ValueCannotBeNullOrEmpty {
-            get {
-                return ResourceManager.GetString("ValueCannotBeNullOrEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Weixin subscriber &apos;{0}&apos; does not exist..
-        /// </summary>
-        internal static string WeixinSubscriberNotFound {
-            get {
-                return ResourceManager.GetString("WeixinSubscriberNotFound", resourceCulture);
+                return ResourceManager.GetString("WeixinSiteVerificationPathNotice", resourceCulture);
             }
         }
     }

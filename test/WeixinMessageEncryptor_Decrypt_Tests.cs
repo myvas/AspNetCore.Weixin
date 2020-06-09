@@ -19,7 +19,7 @@ namespace test
 			{
 				options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
 			}));
-			services.Configure((Action<EncodingOptions>)(options =>
+			services.Configure((Action<WeixinEncodingOptions>)(options =>
 			{
 				options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
 			}));

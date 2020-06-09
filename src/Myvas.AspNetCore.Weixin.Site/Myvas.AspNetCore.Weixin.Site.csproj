@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
     <PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
-    <Version>3.1.100.1609</Version>
+    <Version>3.1.100.1610</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
     <Authors>Myvas</Authors>
@@ -25,6 +25,22 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
+    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.EntityFrameworkCore\Myvas.AspNetCore.Weixin.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

@@ -41,7 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
     <Folder Include="MessageEncodingProviders\Internal\" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
 {
     public class WeixinSite
     {
-        private readonly SiteOptions _options;
+        private readonly WeixinSiteOptions _options;
         private readonly ILogger _logger;
 
         public readonly ResponseBuilderFactory Response = new ResponseBuilderFactory();
@@ -17,13 +17,13 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
         public readonly IWeixinHandlerFactory _handlerFactory;
 
 
-        public WeixinSite(IOptions<SiteOptions> optionsAccessor,
+        public WeixinSite(IOptions<WeixinSiteOptions> optionsAccessor,
             IWeixinHandlerFactory handlerFactory,
-            ILogger<WeixinSite> logger)
+            ILoggerFactory loggerFactory)
         {
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
-            _handlerFactory = handlerFactory ?? throw new ArgumentNullException(nameof(handlerFactory));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _handlerFactory = handlerFactory ?? new WeixinHandlerFactory();
+            _logger = loggerFactory?.CreateLogger<WeixinSite>() ?? throw new ArgumentNullException(nameof(loggerFactory));
         }
 
         public async Task ProcessAsync(HttpContext context)

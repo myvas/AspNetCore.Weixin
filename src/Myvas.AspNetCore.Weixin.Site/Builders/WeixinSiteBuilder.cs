@@ -9,16 +9,20 @@ namespace Myvas.AspNetCore.Weixin
 	/// </summary>
 	public class WeixinSiteBuilder
 	{
-		public WeixinSiteBuilder(IServiceCollection services)
+		public WeixinSiteBuilder(Type subscriberType, IServiceCollection services)
 		{
+			SubscriberType = subscriberType;
 			Services = services;
 		}
 
 		public IServiceCollection Services { get; private set; }
 
-		public IServiceCollection AddMessageProtectProvider()
-        {
-			return Services;
-        }
-	}
+        /// <summary>
+        /// Gets the <see cref="Type"/> used for Weixin subscriber.
+        /// </summary>
+        /// <value>
+        /// The <see cref="Type"/> used for Weixin subscriber.
+        /// </value>
+        public Type SubscriberType { get; private set; }
+    }
 }
