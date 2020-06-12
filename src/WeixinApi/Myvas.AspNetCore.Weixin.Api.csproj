@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
-    <PackageId>Myvas.AspNetCore.Weixin.AccessToken</PackageId>
+    <PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
     <Version>3.1.100.1613</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyName>Myvas.AspNetCore.Weixin.AccessToken</AssemblyName>
+    <AssemblyName>Myvas.AspNetCore.Weixin.Api</AssemblyName>
     <Authors>Myvas</Authors>
-    <Description>IWeixinAccessToken Service for Tencent Weixin/Wechat.</Description>
+    <Description>Weixin Api Services for Tencent Weixin/Wechat.</Description>
     <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
-    <PackageTags>Myvas;AspNetCore;Weixin;IWeixinAccessToken</PackageTags>
+    <PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
     <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
