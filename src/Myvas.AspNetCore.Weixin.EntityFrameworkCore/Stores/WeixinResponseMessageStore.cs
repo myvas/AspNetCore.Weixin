@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +36,7 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
         public virtual TContext Context { get; private set; }
 
         private DbSet<TWeixinResponseMessage> MessagesSet { get { return Context.Set<TWeixinResponseMessage>(); } }
+        public override IQueryable<TWeixinResponseMessage> Items => Context.Set<TWeixinResponseMessage>();
 
         /// <summary>
         /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.

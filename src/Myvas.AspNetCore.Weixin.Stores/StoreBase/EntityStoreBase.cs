@@ -9,7 +9,7 @@ namespace Myvas.AspNetCore.Weixin
     public abstract class EntityStoreBase<TEntity> : IEntityStore<TEntity>, IQueryableEntityStore<TEntity>
         where TEntity : class, IEntity
     {
-        public IQueryable<TEntity> Items { get; }
+        public abstract IQueryable<TEntity> Items { get; }
 
         #region IDispose
         private bool _disposed;

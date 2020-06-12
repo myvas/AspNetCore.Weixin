@@ -35,7 +35,7 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
         /// </summary>
         public virtual TContext Context { get; private set; }
 
-        private DbSet<TWeixinSubscriber> SubscribersSet { get { return Context.Set<TWeixinSubscriber>(); } }
+        public override IQueryable<TWeixinSubscriber> Items => Context.Set<TWeixinSubscriber>();
 
         /// <summary>
         /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -128,58 +128,13 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
         }
 
         /// <summary>
-        /// Gets the ID for an item from the store as an asynchronous operation.
-        /// </summary>
-        /// <param name="role">The item whose ID should be returned.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="Task{TResult}"/> that contains the ID of the item.</returns>
-        public virtual Task<TKey> GetUserIdAsync(TWeixinSubscriber item, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
-            return Task.FromResult(item.UserId);
-        }
-
-
-        /// <summary>
         /// Sets the name of a role in the store as an asynchronous operation.
         /// </summary>
         /// <param name="role">The role whose name should be set.</param>
         /// <param name="roleName">The name of the role.</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
         /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-        public override Task SetUserIdAsync(TWeixinSubscriber subscriber, TKey userId, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (subscriber == null)
-            {
-                throw new ArgumentNullException(nameof(subscriber));
-            }
-            subscriber.UserId = userId;
-            return Task.CompletedTask;
-        }
-
-
-        /// <summary>
-        /// Finds the role who has the specified ID as an asynchronous operation.
-        /// </summary>
-        /// <param name="id">The role ID to look for.</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-        /// <returns>A <see cref="Task{TResult}"/> that result of the look up.</returns>
-        public override Task<TWeixinSubscriber> FindByIdAsync(string id, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            //var roleId = ConvertIdFromString(id);
-            return SubscribersSet.FirstOrDefaultAsync(u => u.Id.Equals(id), cancellationToken);
-        }
-
-        public override Task AddAssociationAsync(TWeixinSubscriber item, TKey userId, CancellationToken cancellationToken = default)
+        public override Task<WeixinResult> SetUserIdAsync(TWeixinSubscriber item, TKey userId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -187,40 +142,14 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
             {
                 throw new ArgumentNullException(nameof(item));
             }
-            SubscribersSet.Add(item);
-            return Task.FromResult(false);
+            item.UserId = userId;
+            return UpdateAsync(item, cancellationToken);
         }
 
-        public override async Task RemoveAssociationAsync(TWeixinSubscriber item, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
-            var entry = await FindByIdAsync(item.Id, cancellationToken);
-            if (entry != null)
-            {
-                SubscribersSet.Remove(entry);
-            }
-        }
+        public override Task<WeixinResult> AddAssociationAsync(TWeixinSubscriber item, TKey userId, CancellationToken cancellationToken = default)
+            => SetUserIdAsync(item, userId, cancellationToken);
 
-        public override async Task<TWeixinSubscriber> FindByUserIdAsync(TKey userId, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (userId == null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
-            //var userId = user.Id;
-            return await Items.FirstOrDefaultAsync(l => l.UserId.Equals(userId), cancellationToken);
-        }
-
-        public override Task<TWeixinSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
+        public override Task<WeixinResult> RemoveAssociationAsync(TWeixinSubscriber item, CancellationToken cancellationToken = default)
+            => SetUserIdAsync(item, default, cancellationToken);
     }
 }

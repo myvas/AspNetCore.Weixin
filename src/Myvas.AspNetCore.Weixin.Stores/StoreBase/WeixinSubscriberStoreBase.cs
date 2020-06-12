@@ -25,7 +25,7 @@ namespace Myvas.AspNetCore.Weixin
         /// </summary>
         public WeixinErrorDescriber ErrorDescriber { get; set; }
 
-        public virtual Task SetUserIdAsync(TWeixinSubscriber subscriber, TKey userId, CancellationToken cancellationToken = default)
+        public virtual Task<WeixinResult> SetUserIdAsync(TWeixinSubscriber subscriber, TKey userId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -34,10 +34,10 @@ namespace Myvas.AspNetCore.Weixin
                 throw new ArgumentNullException(nameof(subscriber));
             }
             subscriber.UserId = userId;
-            return Task.CompletedTask;
+            return Task.FromResult(WeixinResult.Success);
         }
 
-        public virtual Task SetMentorIdAsync(TWeixinSubscriber subscriber, TKey mentorId, CancellationToken cancellationToken = default)
+        public virtual Task<WeixinResult> SetMentorIdAsync(TWeixinSubscriber subscriber, TKey mentorId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -46,15 +46,15 @@ namespace Myvas.AspNetCore.Weixin
                 throw new ArgumentNullException(nameof(subscriber));
             }
             subscriber.MentorId = mentorId;
-            return Task.CompletedTask;
+            return Task.FromResult(WeixinResult.Success);
         }
 
-        public virtual Task AddAssociationAsync(TWeixinSubscriber subscriber, TKey userId, CancellationToken cancellationToken = default)
+        public virtual Task<WeixinResult> AddAssociationAsync(TWeixinSubscriber subscriber, TKey userId, CancellationToken cancellationToken = default)
         {
             return SetUserIdAsync(subscriber, userId, cancellationToken);
         }
 
-        public virtual Task RemoveAssociationAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default)
+        public virtual Task<WeixinResult> RemoveAssociationAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default)
         {
             return SetUserIdAsync(subscriber, default, cancellationToken);
         }

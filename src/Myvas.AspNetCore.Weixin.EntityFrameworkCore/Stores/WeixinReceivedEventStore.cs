@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,6 +44,8 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore
         /// True if changes should be automatically persisted, otherwise false.
         /// </value>
         public bool AutoSaveChanges { get; set; } = true;
+
+        public override IQueryable<TWeixinReceivedEvent> Items => Context.Set<TWeixinReceivedEvent>();
 
         /// <summary>Saves the current store.</summary>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>

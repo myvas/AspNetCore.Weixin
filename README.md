@@ -3,6 +3,67 @@ An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. 
 
 微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用服务。
 
+## 应用场景
+1.直接调用IWeixinAccessToken接口服务
+  * 拿到AccessToken后，我想怎么用就怎么用
+```
+services.AddWeixinAccessToken(o => {
+	o.AppId = "xxx";
+	o.AppSecret = "xxx";
+})
+.AddDefaultCacheProvider(); // ie. WeixinAccessTokenMemoryCacheProvider
+//.AddCacheProvider<YourCacheProvider>(); // or yours cache provider
+```
+
+2.消费WeixinApi接口服务
+```
+services.AddWeixinApi(o => {
+	o.AppId = "xxx";
+})
+.AddDefaultAccessTokenProvider(); // ie. WeixinAccessTokenService 
+//.AddAccessTokenProvider<YourAccessTokenFetchingProvider>(); // or yours fetching service
+```
+
+3.搭建WeixinSite
+  * 接收微信公众号上行的消息和事件
+  * 自动存储上述消息和事件
+  * (客服)回复消息（须有上行消息，并在48小时内回复）
+  * 发送模板消息（须预先定义并申请消息模板）
+```
+// 微信公众号服务站点
+services.AddWeixinSite(o => {
+	o.AccessToken.AppId = "xxx"; 
+	o.AccessToken.AppSecret = "xxx";
+	o.WeixinSiteToken = "xxx";
+})
+.AddSiteEncoder(o => {
+	o.EncodingMode = "Compatible";
+	o.AESEncodingKey = "xxx";
+})
+.AddEntityFrameworkStores<AppDbContext>();
+```
+```
+app.UseWeixinSite("/wx");
+```
+```
+// 接口：发送模板消息
+services.AddWeixinTemplateMessaging(o => {
+	o.MaxRetryTimes = 3;
+});
+```
+
+```
+// 接口：（客服）回复消息
+services.AddWeixinResponseMessaging(...);
+```
+
+4.搭建AccessToken服务及管理服务器
+  * 提供WebApi服务，供公司多个App取用
+  * 对AccessToken调用流量进行监控和管理
+  * 对公司App取用AccessToken的权限进行管理(建议使用Oidc或其他SSO进行授权管理)
+```
+ (TBD)
+```
 ## Demo
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
 

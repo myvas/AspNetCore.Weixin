@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,13 +21,27 @@ namespace Myvas.AspNetCore.Weixin
 
         public virtual Task<int> GetCountByOpenIdAsync(string openId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (openId == null)
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+            var result = Items.Count(x => x.FromUserName == openId);
+            return Task.FromResult(result);
         }
 
 
         public virtual Task<IList<TWeixinReceivedEvent>> GetItemsByOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (openId == null)
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+            var result = Items.Where(x => x.FromUserName == openId);
+            return Task.FromResult((IList<TWeixinReceivedEvent>)result);
         }
     }
 }

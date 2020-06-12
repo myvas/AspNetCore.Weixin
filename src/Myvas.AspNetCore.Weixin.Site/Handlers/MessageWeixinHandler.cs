@@ -9,12 +9,15 @@ namespace Myvas.AspNetCore.Weixin
     {
         private readonly ILogger _logger;
         private readonly IWeixinHandlerFactory _handlerFactory;
+        private readonly IWeixinReceivedMessageStore _store;
 
         public MessageWeixinHandler(ILogger<WeixinHandler> logger,
+            IWeixinReceivedMessageStore store,
             IWeixinHandlerFactory handlerFactory
         )
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _store = store ?? throw new ArgumentNullException(nameof(store));
             _handlerFactory = handlerFactory ?? throw new ArgumentNullException(nameof(handlerFactory));
         }
 
@@ -26,6 +29,20 @@ namespace Myvas.AspNetCore.Weixin
         {
             var xml = XmlConvert.DeserializeObject<MessageReceivedXml>(Text);
             Xml = xml;
+            try
+            {
+                var entity = new WeixinReceivedMessage();
+                entity.FromUserName = xml.FromUserName;
+                entity.ToUserName = xml.ToUserName;
+                entity.CreateTime = xml.CreateTimeStr;
+                entity.MsgType = xml.MsgTypeStr;
+                entity.MsgId = xml.MsgId;
+                await _store.CreateAsync(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "收到一个微信上行消息，但在存储时发生异常");
+            }
 
             IWeixinHandler handler = null;
             switch (xml.MsgType)

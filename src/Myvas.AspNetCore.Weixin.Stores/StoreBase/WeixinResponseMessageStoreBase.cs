@@ -21,12 +21,26 @@ namespace Myvas.AspNetCore.Weixin
 
         public virtual Task<int> GetCountByDestOpenIdAsync(string openId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (openId == null)
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+            var result = Items.Count(x => x.ToUserName == openId);
+            return Task.FromResult(result);
         }
 
         public virtual Task<IList<TWeixinResponseMessage>> GetItemsByDestOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (openId == null)
+            {
+                throw new ArgumentNullException(nameof(openId));
+            }
+            var result = Items.Where(x => x.ToUserName == openId);
+            return Task.FromResult((IList<TWeixinResponseMessage>)result);
         }
 
         public virtual Task<IList<TWeixinResponseMessage>> GetRequestMessagesAsync(string id, int perPage, int pageIndex, CancellationToken cancellationToken = default)
