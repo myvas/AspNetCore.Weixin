@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
     <PackageId>Myvas.AspNetCore.Weixin.AccessToken</PackageId>
-    <Version>3.1.100.1612</Version>
+    <Version>3.1.100.1613</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>Myvas.AspNetCore.Weixin.AccessToken</AssemblyName>
     <Authors>Myvas</Authors>
@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
     <PackageTags>Myvas;AspNetCore;Weixin;IWeixinAccessToken</PackageTags>
     <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

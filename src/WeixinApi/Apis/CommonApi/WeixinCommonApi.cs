@@ -7,13 +7,15 @@ using System.Net.Http;
 using System.Threading;
 using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
+using System.Runtime.CompilerServices;
+using System;
 
 namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
     /// 获取微信服务器地址
     /// </summary>
-    public partial class WeixinCommonApi : SecureApiClient
+    public class WeixinCommonApi : SecureApiClient, IWeixinCommonApi
     {
         public WeixinCommonApi(IOptions<WeixinApiOptions> optionsAccessor, IWeixinAccessToken tokenProvider) : base(optionsAccessor, tokenProvider)
         {
@@ -80,5 +82,8 @@ namespace Myvas.AspNetCore.Weixin
             else
                 throw new WeixinException(result);
         }
+
+        public Task<CheckNetworkResponseJson> CheckNetworkAsync(string action, string check_operator, CancellationToken cancellationToken = default)
+            => CheckNetworkAsync(new CheckNetworkRequestJson(action, check_operator), cancellationToken);
     }
 }

@@ -31,13 +31,13 @@ namespace Myvas.AspNetCore.Weixin
             }
 
             //Here assert IOptions<WeixinApiOptions> had already injected!
-            builder.Services.AddTransient<WeixinCommonApi>();
+            builder.Services.AddTransient<IWeixinCommonApi, WeixinCommonApi>();
+            builder.Services.AddTransient<IWeixinMenuApi, WeixinMenuApi>();
             builder.Services.AddTransient<CardApiTicketApi>();
             builder.Services.AddTransient<CustomerSupportApi>();
             builder.Services.AddTransient<GroupMessageApi>();
             builder.Services.AddTransient<JsapiTicketApi>();
             builder.Services.AddTransient<MediaApi>();
-            builder.Services.AddTransient<MenuApi>();
             builder.Services.AddTransient<QrcodeApi>();
             builder.Services.AddTransient<UserApi>();
             builder.Services.AddTransient<GroupsApi>();

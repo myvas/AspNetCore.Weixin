@@ -29,16 +29,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\AccessToken_InvalidAppId.json">
+    <None Update="Data\AccessToken\invalid_appid.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\AccessToken_Success.json">
+    <None Update="Data\AccessToken\ok.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\callback_check.json">
+    <None Update="Data\Common\callback_check.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\getcallbackip.json">
+    <None Update="Data\Common\get_api_domain_ip.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Common\getcallbackip.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Menu\menu_create.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Menu\menu_delete.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Menu\get_current_selfmenu_info.api.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Menu\get_current_selfmenu_info.mp.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -30,7 +30,7 @@ namespace Myvas.AspNetCore.Weixin.AccessToken.Test
                 o.Backchannel = _server.CreateClient();
             });
             var serviceProvider = services.BuildServiceProvider();
-            var api = serviceProvider.GetRequiredService<WeixinCommonApi>();
+            var api = serviceProvider.GetRequiredService<IWeixinCommonApi>();
             var json = await api.GetCallbackIpsAsync();
 
             Assert.True(json.Succeeded);
@@ -50,7 +50,7 @@ namespace Myvas.AspNetCore.Weixin.AccessToken.Test
                 o.Backchannel = _server.CreateClient();
             });
             var serviceProvider = services.BuildServiceProvider();
-            var api = serviceProvider.GetRequiredService<WeixinCommonApi>();
+            var api = serviceProvider.GetRequiredService<IWeixinCommonApi>();
             var json = await api.GetTencentServerIpsAsync();
 
             Assert.True(json.Succeeded);

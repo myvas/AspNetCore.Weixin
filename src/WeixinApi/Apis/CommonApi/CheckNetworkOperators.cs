@@ -1,6 +1,7 @@
 ﻿namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
+    /// 通信运营商（选择网络出口）
     /// https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Network_Detection.html
     /// </summary>
     public static class CheckNetworkOperators
