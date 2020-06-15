@@ -1,10 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Myvas.AspNetCore.Weixin is a message handler and api wrapper for Tencent Wechat MP (mp.weixin.qq.com).</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
     <packageTags>myvas;aspnetcore;weixin</packageTags>
+    <PackageId>Myvas.AspNetCore.Weixin.Core</PackageId>
+    <Version>3.1.100.1616</Version>
+    <Authors>Myvas</Authors>
+    <Product>Myvas.AspNetCore.Weixin</Product>
+    <Description>Primitives for Tencent Weixin/Wechat</Description>
+    <Copyright>Copyright (c) 2020 Myvas</Copyright>
+    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+    <PackageReleaseNotes>Myvas.AspNetCore.Weixin.Core
+Myvas.AspNetCore.Weixin.Site =&gt; AddWeixinSite/UseWeixinSite
+Myvas.AspNetCore.Weixin.Api =&gt; AddWeixinApi/IWeixinAccessToken,IWeixinMenuApi,...</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

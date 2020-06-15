@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <PackageId>Myvas.AspNetCore.Weixin.Jssdk</PackageId>
-    <Version>3.1.100.1608</Version>
+    <Version>3.1.100.1615</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Myvas.AspNetCore.Weixin.Jssdk</RootNamespace>
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
