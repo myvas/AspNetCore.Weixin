@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Myvas.AspNetCore.Weixin.AccessToken.Test
+namespace Myvas.AspNetCore.Weixin.Api.Test
 {
     public static class TestServerExtensions
     {

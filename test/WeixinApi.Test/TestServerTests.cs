@@ -14,8 +14,9 @@ using System.Net.Mime;
 using Newtonsoft.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.TestHost;
+using Myvas.AspNetCore.Weixin;
 
-namespace Myvas.AspNetCore.Weixin.AccessToken.Test
+namespace Myvas.AspNetCore.Weixin.Api.Test
 {
     public class TestServerTests
     {

@@ -17,7 +17,7 @@ namespace Myvas.AspNetCore.Weixin
     /// <remarks>
     /// <see cref="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">获取access_token接口官方说明</see>
     /// </remarks>
-    public class WeixinAccessTokenApi : ApiClient
+    public class WeixinAccessTokenApi : ApiClient//, IWeixinAccessTokenApi
     {
 
         public WeixinAccessTokenApi(IOptions<WeixinApiOptions> optionsAccessor) : base(optionsAccessor)
@@ -57,7 +57,7 @@ namespace Myvas.AspNetCore.Weixin
             };
 
             var requestUri = endpoint + query.ToString();
-            var result = await GetFromJsonAsync<WeixinAccessTokenJson>(requestUri);
+            var result = await GetFromJsonAsync<WeixinAccessTokenJson>(requestUri, cancellationToken);
             if (result.Succeeded)
                 return result;
             else

@@ -4,11 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
     <PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
-    <Version>3.1.100.1613</Version>
+    <Version>3.1.100.1615</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>Myvas.AspNetCore.Weixin.Api</AssemblyName>
     <Authors>Myvas</Authors>
-    <Description>Weixin Api Services for Tencent Weixin/Wechat.</Description>
+    <Description>IWeixinAccessToken, IWeixinMenuApi and such-like Apis for Tencent Weixin/Wechat.</Description>
     <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
     <PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
     <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>

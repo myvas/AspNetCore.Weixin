@@ -9,12 +9,12 @@ namespace Myvas.AspNetCore.Weixin
 {
     public static class WeixinServiceCollectionExtensions
     {
-        public static WeixinBuilder AddWeixin(this IServiceCollection services)
+        public static WeixinSiteBuilder AddWeixin(this IServiceCollection services)
         {
             return services.AddWeixin(setupAction: null);
         }
 
-        public static WeixinBuilder AddWeixin(this IServiceCollection services, Action<WeixinOptions> setupAction)
+        public static WeixinSiteBuilder AddWeixin(this IServiceCollection services, Action<WeixinOptions> setupAction)
         {
             services.AddSite(o =>
                 {
@@ -29,13 +29,13 @@ namespace Myvas.AspNetCore.Weixin
                 services.Configure(setupAction);
             }
 
-            return new WeixinBuilder(services);
+            return new WeixinSiteBuilder(services);
         }
     }
 
     public static class WeixinBuilderExtensions
     {
-        public static WeixinBuilder  AddAesEncoder(this WeixinBuilder builder)
+        public static WeixinSiteBuilder  AddAesEncoder(this WeixinSiteBuilder builder)
         {
             builder.Services.AddScoped<IWeixinSiteEncoder, AesWeixinSiteEncoder>();
             return builder;

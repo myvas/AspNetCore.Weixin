@@ -136,52 +136,52 @@ namespace Myvas.AspNetCore.Weixin
 				xml = decryptedXml;
 			}
 
-			var received = XmlConvert.DeserializeObject<ReceivedXml>(xml);
+			var received = MyvasXmlConvert.DeserializeObject<ReceivedXml>(xml);
 			switch (received.MsgType)
 			{
 				case ReceivedMsgType.@event:
 					{
-						var ev = XmlConvert.DeserializeObject<EventReceivedXml>(xml);
+						var ev = MyvasXmlConvert.DeserializeObject<EventReceivedXml>(xml);
 						switch (ev.Event)
 						{
 							case ReceivedEventType.subscribe:
 								{
-									var x = XmlConvert.DeserializeObject<SubscribeEventReceivedXml>(xml);
+									var x = MyvasXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(xml);
 									var ctx = new WeixinReceivedContext<SubscribeEventReceivedXml>(this, x, isEncrypted);
 									handled = await _options.Events.SubscribeEventReceived(ctx);
 								}
 								break;
 							case ReceivedEventType.unsubscribe:
 								{
-									var x = XmlConvert.DeserializeObject<UnsubscribeEventReceivedXml>(xml);
+									var x = MyvasXmlConvert.DeserializeObject<UnsubscribeEventReceivedXml>(xml);
 									var ctx = new WeixinReceivedContext<UnsubscribeEventReceivedXml>(this, x, isEncrypted);
 									handled = await _options.Events.UnsubscribeEventReceived(ctx);
 								}
 								break;
 							case ReceivedEventType.SCAN:
 								{
-									var x = XmlConvert.DeserializeObject<QrscanEventReceivedXml>(xml);
+									var x = MyvasXmlConvert.DeserializeObject<QrscanEventReceivedXml>(xml);
 									var ctx = new WeixinReceivedContext<QrscanEventReceivedXml>(this, x, isEncrypted);
 									handled = await _options.Events.QrscanEventReceived(ctx);
 								}
 								break;
 							case ReceivedEventType.LOCATION:
 								{
-									var x = XmlConvert.DeserializeObject<LocationEventReceivedXml>(xml);
+									var x = MyvasXmlConvert.DeserializeObject<LocationEventReceivedXml>(xml);
 									var ctx = new WeixinReceivedContext<LocationEventReceivedXml>(this, x, isEncrypted);
 									handled = await _options.Events.LocationEventReceived(ctx);
 								}
 								break;
 							case ReceivedEventType.CLICK:
 								{
-									var x = XmlConvert.DeserializeObject<ClickMenuEventReceivedXml>(xml);
+									var x = MyvasXmlConvert.DeserializeObject<ClickMenuEventReceivedXml>(xml);
 									var ctx = new WeixinReceivedContext<ClickMenuEventReceivedXml>(this, x, isEncrypted);
 									handled = await _options.Events.ClickMenuEventReceived(ctx);
 								}
 								break;
 							case ReceivedEventType.VIEW:
 								{
-									var x = XmlConvert.DeserializeObject<ViewMenuEventReceivedXml>(xml);
+									var x = MyvasXmlConvert.DeserializeObject<ViewMenuEventReceivedXml>(xml);
 									var ctx = new WeixinReceivedContext<ViewMenuEventReceivedXml>(this, x, isEncrypted);
 									handled = await _options.Events.ViewMenuEventReceived(ctx);
 								}
@@ -200,49 +200,49 @@ namespace Myvas.AspNetCore.Weixin
 					break;
 				case ReceivedMsgType.text:
 					{
-						var x = XmlConvert.DeserializeObject<TextMessageReceivedXml>(xml);
+						var x = MyvasXmlConvert.DeserializeObject<TextMessageReceivedXml>(xml);
 						var ctx = new WeixinReceivedContext<TextMessageReceivedXml>(this, x, isEncrypted);
 						handled = await _options.Events.TextMessageReceived(ctx);
 					}
 					break;
 				case ReceivedMsgType.image:
 					{
-						var x = XmlConvert.DeserializeObject<ImageMessageReceivedXml>(xml);
+						var x = MyvasXmlConvert.DeserializeObject<ImageMessageReceivedXml>(xml);
 						var ctx = new WeixinReceivedContext<ImageMessageReceivedXml>(this, x, isEncrypted);
 						handled = await _options.Events.ImageMessageReceived(ctx);
 					}
 					break;
 				case ReceivedMsgType.voice:
 					{
-						var x = XmlConvert.DeserializeObject<VoiceMessageReceivedXml>(xml);
+						var x = MyvasXmlConvert.DeserializeObject<VoiceMessageReceivedXml>(xml);
 						var ctx = new WeixinReceivedContext<VoiceMessageReceivedXml>(this, x, isEncrypted);
 						handled = await _options.Events.VoiceMessageReceived(ctx);
 					}
 					break;
 				case ReceivedMsgType.video:
 					{
-						var x = XmlConvert.DeserializeObject<VideoMessageReceivedXml>(xml);
+						var x = MyvasXmlConvert.DeserializeObject<VideoMessageReceivedXml>(xml);
 						var ctx = new WeixinReceivedContext<VideoMessageReceivedXml>(this, x, isEncrypted);
 						handled = await _options.Events.VideoMessageReceived(ctx);
 					}
 					break;
 				case ReceivedMsgType.shortvideo:
 					{
-						var x = XmlConvert.DeserializeObject<ShortVideoMessageReceivedXml>(xml);
+						var x = MyvasXmlConvert.DeserializeObject<ShortVideoMessageReceivedXml>(xml);
 						var ctx = new WeixinReceivedContext<ShortVideoMessageReceivedXml>(this, x, isEncrypted);
 						handled = await _options.Events.ShortVideoMessageReceived(ctx);
 					}
 					break;
 				case ReceivedMsgType.location:
 					{
-						var x = XmlConvert.DeserializeObject<LocationMessageReceivedXml>(xml);
+						var x = MyvasXmlConvert.DeserializeObject<LocationMessageReceivedXml>(xml);
 						var ctx = new WeixinReceivedContext<LocationMessageReceivedXml>(this, x, isEncrypted);
 						handled = await _options.Events.LocationMessageReceived(ctx);
 					}
 					break;
 				case ReceivedMsgType.link:
 					{
-						var x = XmlConvert.DeserializeObject<LinkMessageReceivedXml>(xml);
+						var x = MyvasXmlConvert.DeserializeObject<LinkMessageReceivedXml>(xml);
 						var ctx = new WeixinReceivedContext<LinkMessageReceivedXml>(this, x, isEncrypted);
 						handled = await _options.Events.LinkMessageReceived(ctx);
 					}
@@ -257,7 +257,7 @@ namespace Myvas.AspNetCore.Weixin
 
 		public async Task WriteAsync(object o)
 		{
-			var s = XmlConvert.SerializeObject(o);
+			var s = MyvasXmlConvert.SerializeObject(o);
 			_logger.LogDebug("Response Body({0}): {1}", s?.Length, s);
 
 			//HttpContext.Response.Clear();

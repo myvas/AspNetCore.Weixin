@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Core.csproj" />
+    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Site.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

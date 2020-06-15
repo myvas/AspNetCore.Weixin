@@ -12,8 +12,9 @@ WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages,
 services.AddWeixinApi(o => {
 	o.AppId = "xxx";
 	o.AppSecret = "xxx";
+	//o.Backchannel = _testServer.CreateClient(); // default is 'new HttpClient()'
 })
-// To cache the AccessToken: default injects the WeixinAccessTokenMemoryCacheProvider
+// default has already injected WeixinAccessTokenMemoryCacheProvider
 //.AddCacheProvider<YourCacheProvider>() // or replaces by yours cache provider
 ;
 ```
@@ -63,7 +64,7 @@ services.AddWeixinApi(o => {
 
 // Configure:
 {
-	app.UseWeixinSite("/wx");
+	app.UseWeixinSite();
 }
 ```
 

@@ -14,6 +14,9 @@ namespace Myvas.AspNetCore.Weixin
         public int? ErrorCode { get { return ErrorJson?.errcode; } }
         public string ErrorMessage { get { return ErrorJson?.errmsg; } }
 
+        protected WeixinException()
+        {
+        }
 
         public WeixinException(IWeixinError errorJson)
             : base(errorJson.errmsg)

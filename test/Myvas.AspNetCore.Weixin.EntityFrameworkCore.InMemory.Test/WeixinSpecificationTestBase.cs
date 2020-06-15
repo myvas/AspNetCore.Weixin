@@ -24,7 +24,7 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.InMemory.Test
         protected virtual void SetupWeixinServices(IServiceCollection services, object context)
             => SetupBuilder(services, context);
 
-        protected virtual WeixinBuilder SetupBuilder(IServiceCollection services, object context)
+        protected virtual WeixinSiteBuilder SetupBuilder(IServiceCollection services, object context)
         {
             services.AddHttpContextAccessor();
             services.AddDataProtection();

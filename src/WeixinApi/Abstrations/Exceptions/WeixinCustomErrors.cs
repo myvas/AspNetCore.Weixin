@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Myvas.AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin
 {
     public static class WeixinCustomErrors
     {

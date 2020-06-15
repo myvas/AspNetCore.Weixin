@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.AccessToken.Test
+namespace Myvas.AspNetCore.Weixin.Api.Test
 {
     public class FakeServerMessageHandler : DelegatingHandler
     {

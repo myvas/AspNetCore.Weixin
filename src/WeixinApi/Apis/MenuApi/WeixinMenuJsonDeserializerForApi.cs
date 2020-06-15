@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
 {
-    public class WeixinMenuJsonDeserializerForApi
+    public static class WeixinMenuJsonDeserializerForApi
     {
-        public async Task<WeixinMenu> DeserializeAsync(Stream json, CancellationToken cancellationToken = default)
+        public static async Task<WeixinMenu> DeserializeAsync(Stream json, CancellationToken cancellationToken = default)
         {
             WeixinMenu menu = new WeixinMenu($"WeixinMenuOnSite{DateTime.Now:yyyyMMddHHmmssnn}");
-            using (JsonDocument doc = await JsonDocument.ParseAsync(json))
+            using (JsonDocument doc = await JsonDocument.ParseAsync(json, default, cancellationToken))
             {
                 var root = doc.RootElement;
                 bool enabled = root.GetProperty("is_menu_open").GetInt32() == 1;
@@ -25,7 +25,8 @@ namespace Myvas.AspNetCore.Weixin
             }
             return menu;
         }
-        public WeixinMenu Deserialize(string json)
+
+        public static WeixinMenu Deserialize(string json)
         {
             WeixinMenu menu = new WeixinMenu($"WeixinMenuOnSite{DateTime.Now:yyyyMMddHHmmssnn}");
             using (JsonDocument doc = JsonDocument.Parse(json))
@@ -43,7 +44,7 @@ namespace Myvas.AspNetCore.Weixin
             return menu;
         }
 
-        private WeixinMenu Deserialize(WeixinMenu menu, WeixinMenuItem parent, JsonElement menuItemElement)
+        private static WeixinMenu Deserialize(WeixinMenu menu, WeixinMenuItem parent, JsonElement menuItemElement)
         {
             var nameValue = menuItemElement.GetProperty("name").GetString();
 
@@ -53,15 +54,15 @@ namespace Myvas.AspNetCore.Weixin
                 WeixinMenuItem menuItem = WeixinMenuItemBuilder.Create(typeValue);
                 menuItem.ParentId = parent?.Id;
                 menuItem.Name = nameValue;
-                if (menuItem is IWeixinMenuItemHasKey)
+                if (menuItem is IWeixinMenuItemHasKey itemHasKey)
                 {
                     var keyValue = menuItemElement.GetProperty("key").GetString();
-                    ((IWeixinMenuItemHasKey)menuItem).Key = keyValue;
+                    itemHasKey.Key = keyValue;
                 }
-                if (menuItem is IWeixinMenuItemHasUrl)
+                if (menuItem is IWeixinMenuItemHasUrl itemHasUrl)
                 {
                     var urlValue = menuItemElement.GetProperty("url").GetString();
-                    ((IWeixinMenuItemHasUrl)menuItem).Url = urlValue;
+                    itemHasUrl.Url = urlValue;
                 }
 
                 // add to WeixinMenuItem chains
@@ -69,9 +70,11 @@ namespace Myvas.AspNetCore.Weixin
             }
             else if (menuItemElement.TryGetProperty("sub_button", out JsonElement subbuttonElement))
             {
-                WeixinMenuItem menuItem = new WeixinMenuItem();
-                menuItem.ParentId = parent?.Id;
-                menuItem.Name = nameValue;
+                WeixinMenuItem menuItem = new WeixinMenuItem
+                {
+                    ParentId = parent?.Id,
+                    Name = nameValue
+                };
                 menu.AddItem(menuItem);
 
                 var listElement = subbuttonElement.GetProperty("list");

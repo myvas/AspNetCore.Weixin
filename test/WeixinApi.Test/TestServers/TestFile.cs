@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Myvas.AspNetCore.Weixin.AccessToken.Test
+namespace Myvas.AspNetCore.Weixin.Api.Test
 {
     public static class TestFile
     {

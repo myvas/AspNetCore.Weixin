@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
 using System.Threading;
 
-namespace Myvas.AspNetCore.Weixin.AccessToken.Test
+namespace Myvas.AspNetCore.Weixin.Api.Test
 {
-    public class TestServerBuilder
+    public static class TestServerBuilder
     {
         public static TestServer CreateServer(Action<IApplicationBuilder> configure, Action<IServiceCollection> configureServices, Func<HttpContext, Task<bool>> handler)
         {

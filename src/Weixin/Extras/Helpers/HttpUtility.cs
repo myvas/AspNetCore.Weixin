@@ -78,7 +78,7 @@ namespace Myvas.AspNetCore.Weixin
         public static async Task<T> PostGetXml<T>(string url, string xml)
         {
             string resultText = await HttpPostXml(url, xml, null);
-            var result = XmlConvert.DeserializeObject<T>(resultText);
+            var result = MyvasXmlConvert.DeserializeObject<T>(resultText);
             return result;
         }
 

@@ -27,7 +27,7 @@ namespace Myvas.AspNetCore.Weixin
         public string Name { get; set; }
 
         public IReadOnlyList<WeixinMenuItem> Items { get { return (IReadOnlyList<WeixinMenuItem>)_items; } }
-        private IList<WeixinMenuItem> _items = new List<WeixinMenuItem>();
+        private readonly IList<WeixinMenuItem> _items = new List<WeixinMenuItem>();
 
         public TMenuItem AddItem<TMenuItem>(TMenuItem item)
             where TMenuItem : WeixinMenuItem
@@ -45,17 +45,17 @@ namespace Myvas.AspNetCore.Weixin
             {
                 throw new ArgumentException("菜单标题不能超过60个字节", nameof(item.Name));
             }
-            if (item is IWeixinMenuItemHasKey)
+            if (item is IWeixinMenuItemHasKey itemHasKey)
             {
-                var key = ((IWeixinMenuItemHasKey)item)?.Key ?? "";
+                var key = itemHasKey?.Key ?? "";
                 if (key.Length > 128)
                 {
                     throw new ArgumentException("菜单KEY值不能超过128个字节", nameof(IWeixinMenuItemHasKey.Key));
                 }
             }
-            if (item is IWeixinMenuItemHasUrl)
+            if (item is IWeixinMenuItemHasUrl itemHasUrl)
             {
-                var url = ((IWeixinMenuItemHasUrl)item)?.Url ?? "";
+                var url = itemHasUrl?.Url ?? "";
                 if (url.Length > 1024)
                 {
                     throw new ArgumentException("网页链接不能超过1024个字节", nameof(IWeixinMenuItemHasKey.Key));

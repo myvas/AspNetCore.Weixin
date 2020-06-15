@@ -32,7 +32,7 @@ namespace Myvas.AspNetCore.Weixin
         }
 
         public Task<WeixinErrorJson> PublishMenuAsync(WeixinMenu menu, CancellationToken cancellationToken = default)
-            => PublishMenuAsync(new WeixinMenuJsonSerializerForApi().Serialize(menu), cancellationToken);
+            => PublishMenuAsync(WeixinMenuJsonSerializerForApi.Serialize(menu), cancellationToken);
 
 
         public async Task<WeixinMenu> GetMenuAsync(CancellationToken cancellationToken = default)
@@ -43,7 +43,7 @@ namespace Myvas.AspNetCore.Weixin
 
             //var json = await Http.GetStringAsync(api);
             var json = await Http.GetStreamAsync(api);
-            var menu = await new WeixinMenuJsonDeserializerForApi().DeserializeAsync(json, cancellationToken);
+            var menu = await WeixinMenuJsonDeserializerForApi.DeserializeAsync(json, cancellationToken);
             return menu;
         }
 

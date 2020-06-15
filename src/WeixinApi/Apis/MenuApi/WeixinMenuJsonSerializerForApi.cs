@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Myvas.AspNetCore.Weixin
 {
-    public class WeixinMenuJsonSerializerForApi
+    public static class WeixinMenuJsonSerializerForApi
     {
-        public string Serialize(WeixinMenu menu)
+        public static string Serialize(WeixinMenu menu)
         {
             var items = menu.Items;
             var level1s = items.Where(x => x.ParentId == null).ToList();

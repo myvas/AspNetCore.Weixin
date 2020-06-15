@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
@@ -137,28 +139,28 @@ namespace Myvas.AspNetCore.Weixin
         /// <summary>
         /// 发送图文消息
         /// </summary>
-        /// <param name="accessToken"></param>
-        /// <param name="openId"></param>
-        /// <param name="articles"></param>
         /// <returns></returns>
-        public async Task<WeixinErrorJson> SendNews(string accessToken, string openId, List<Article> articles)
+        public async Task<WeixinErrorJson> SendNews(WeixinCustomerServiceMessageNews news, CancellationToken cancellationToken = default)
         {
-            var data = new
+            var url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN";
+            var accessToken = await _tokenProvider.GetTokenAsync(cancellationToken);
+            url = url.Replace("ACCESS_TOKEN", accessToken);
+            var json = news.ToJson();
+            return await PostContentAsJsonAsync<WeixinErrorJson>(url, new StringContent(json), cancellationToken);
+        }
+
+        public async Task<WeixinErrorJson> SendNews(string destOpenId, IList<WeixinCustomerServiceMessageNewsArticle> articles, CancellationToken cancellationToken = default)
+        {
+            var url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN";
+            var accessToken = await _tokenProvider.GetTokenAsync(cancellationToken);
+            url = url.Replace("ACCESS_TOKEN", accessToken);
+            var news = new WeixinCustomerServiceMessageNews
             {
-                touser = openId,
-                msgtype = "news",
-                news = new
-                {
-                    articles = articles.Select(z => new
-                    {
-                        title = z.Title,
-                        description = z.Description,
-                        url = z.Url,
-                        picurl = z.PicUrl//图文消息的图片链接，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80
-                    }).ToList()
-                }
+                ToUser = destOpenId
             };
-            return await PostAsJsonAsync<object, WeixinErrorJson>(accessToken, WeixinApiUrlPattern, data);
+            articles.ToList().ForEach(x => news.AddArticle(x));
+            var json = news.ToJson();
+            return await PostContentAsJsonAsync<WeixinErrorJson>(url, new StringContent(json), cancellationToken);
         }
     }
 }

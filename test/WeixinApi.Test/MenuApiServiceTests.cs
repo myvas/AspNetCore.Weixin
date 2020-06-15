@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using Myvas.AspNetCore.Weixin;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -10,7 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Myvas.AspNetCore.Weixin.AccessToken.Test
+namespace Myvas.AspNetCore.Weixin.Api.Test
 {
     public class MenuApiServiceTests
     {
@@ -83,7 +84,7 @@ namespace Myvas.AspNetCore.Weixin.AccessToken.Test
             Assert.NotNull(menu.Items);
             Assert.Equal(5, menu.Items.Count);
 
-            var serialized = new WeixinMenuJsonSerializerForApi().Serialize(menu);
+            var serialized = WeixinMenuJsonSerializerForApi.Serialize(menu);
             Debug.WriteLine(serialized);
         }
 
