@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!--<Nullable>enable</Nullable>-->
+
+		<Description>EntityFrameworkCore persistence layer for Myvas.AspNetCore.Weixin</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
+	</ItemGroup>
+	
+</Project>

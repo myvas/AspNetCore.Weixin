@@ -1,25 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+	  
     <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
     <PackageId>Myvas.AspNetCore.Weixin.AccessToken</PackageId>
-    <Version>3.1.100.1606</Version>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyName>Myvas.AspNetCore.Weixin.AccessToken</AssemblyName>
-    <Authors>Myvas</Authors>
     <Description>IWeixinAccessToken Service for Tencent Weixin/Wechat.</Description>
-    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
     <PackageTags>Myvas;AspNetCore;Weixin;IWeixinAccessToken</PackageTags>
-    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
-    <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="System.Net.Http.Json" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!--<Nullable>enable</Nullable>-->
+
+		<Description>Storage interfaces and models for Myvas.AspNetCore.Weixin.AccessTokenServer</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" />
+	</ItemGroup>
+</Project>

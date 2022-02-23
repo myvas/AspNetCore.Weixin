@@ -1,17 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+	  
     <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Core.csproj" />
   </ItemGroup>
+	
 </Project>
