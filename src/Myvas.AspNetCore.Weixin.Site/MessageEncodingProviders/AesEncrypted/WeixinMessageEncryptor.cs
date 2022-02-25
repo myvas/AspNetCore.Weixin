@@ -23,8 +23,8 @@ namespace Myvas.AspNetCore.Weixin
 {
 	public class WeixinMessageEncryptor : IWeixinMessageEncryptor
 	{
-		private readonly WeixinAccessTokenOptions _options;
-		private readonly SiteOptions _siteOptions;
+		private readonly WeixinOptions _options;
+		private readonly WeixinSiteOptions _siteOptions;
 		private readonly EncodingOptions _encodingOptions;
 		private readonly ILogger _logger;
 
@@ -34,8 +34,8 @@ namespace Myvas.AspNetCore.Weixin
 		/// <param name="websiteToken">公众平台后台由开发者指定的Token</param>
 		/// <param name="encodingAesKey">公众平台后台由开发者指定的EncodingAESKey</param>
 		/// <param name="appId">公众帐号的appid</param>
-		public WeixinMessageEncryptor(IOptions<WeixinAccessTokenOptions> optionsAccessor,
-			IOptions<SiteOptions> siteOptionsAccessor,
+		public WeixinMessageEncryptor(IOptions<WeixinOptions> optionsAccessor,
+			IOptions<WeixinSiteOptions> siteOptionsAccessor,
 			IOptions<EncodingOptions> encodingOptionsAccessor,
 			ILoggerFactory loggerFactory)
 		{

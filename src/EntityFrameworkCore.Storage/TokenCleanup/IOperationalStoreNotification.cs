@@ -1,4 +1,4 @@
-﻿namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore;
+﻿namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 
 /// <summary>
 /// Interface to model notifications from the TokenCleanup feature.

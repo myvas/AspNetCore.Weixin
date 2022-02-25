@@ -29,8 +29,8 @@ namespace Myvas.AspNetCore.Weixin
                     //发生错误
                     throw new WeixinErrorResultException(
                         string.Format("微信Post请求发生错误！错误代码：{0}，说明：{1}",
-                                      errorResult.errcode,
-                                      errorResult.errmsg),
+                                      errorResult.ErrorCode,
+                                      errorResult.ErrorMessage),
                         null, errorResult);
                 }
             }

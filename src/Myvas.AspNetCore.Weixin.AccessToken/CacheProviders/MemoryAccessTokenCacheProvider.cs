@@ -47,8 +47,8 @@ namespace Myvas.AspNetCore.Weixin
 
         public void ReplaceCachedAccessToken(string appId, WeixinAccessTokenJson json)
         {
-            var accessToken = json.access_token;
-            var absoluteExpirationRelativeToNow = TimeSpan.FromSeconds(json.expires_in);
+            var accessToken = json.AccessToken;
+            var absoluteExpirationRelativeToNow = TimeSpan.FromSeconds(json.ExpiresIn);
             var cacheKey = GenerateCacheKey(appId);
             _cache.Set(cacheKey, accessToken, absoluteExpirationRelativeToNow);
         }

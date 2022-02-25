@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Interfaces;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
 
 /// <summary>
 /// Abstraction for the operational data context.
@@ -20,7 +19,12 @@ public interface IPersistedTokenDbContext : IDisposable
     /// <value>
     /// The persisted tokens.
     /// </value>
-    DbSet<PersistedToken> PersistedTokens { get; set; }
+    DbSet<Entities.PersistedToken> PersistedTokens { get; set; }
+
+    /// <summary>
+    /// Gets or sets the weixin users.
+    /// </summary>
+    DbSet<Entities.WeixinSubscriber> Subscribers { get; set; }
 
     /// <summary>
     /// Saves the changes.

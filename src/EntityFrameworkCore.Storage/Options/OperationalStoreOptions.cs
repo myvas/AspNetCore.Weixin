@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Options;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 
 /// <summary>
 /// Options for configuring the operational context.

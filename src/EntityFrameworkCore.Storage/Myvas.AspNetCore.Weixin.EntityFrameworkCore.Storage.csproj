@@ -17,5 +17,11 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\SharedCodes\Tracing\Tracing.cs">
+			<Link>Tracing.cs</Link>
+		</Compile>
+	</ItemGroup>
 	
 </Project>

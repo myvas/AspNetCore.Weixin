@@ -34,8 +34,8 @@ namespace Myvas.AspNetCore.Weixin
                 throw new WeixinException(
                     new WeixinErrorJson()
                     {
-                        errcode = 109,
-                        errmsg = "参数错误;text ad is empty"
+                        ErrorCode = 109,
+                        ErrorMessage = "参数错误;text ad is empty"
                     });
             }
 

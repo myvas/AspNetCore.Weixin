@@ -1,10 +1,10 @@
 <Project>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-		<FrameworkVersion>6.0.0</FrameworkVersion>
-		<ExtensionsVersion>6.0.0</ExtensionsVersion>
-		<EntityFrameworkVersion>6.0.0</EntityFrameworkVersion>
-		<WilsonVersion>6.16.0</WilsonVersion>
+		<FrameworkVersion>6.0.*</FrameworkVersion>
+		<ExtensionsVersion>6.0.*</ExtensionsVersion>
+		<EntityFrameworkVersion>6.0.*</EntityFrameworkVersion>
+		<WilsonVersion>6.*</WilsonVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -37,7 +37,7 @@
 		<!--misc -->
 		<PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="$(WilsonVersion)"/>
 		<PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="$(WilsonVersion)"/>
-		<PackageReference Update="AutoMapper" Version="[11.0.0,12.0)"/>
+		<PackageReference Update="AutoMapper" Version="[11.*, 12.0.0)"/>
 		<PackageReference Update="Serilog.AspNetCore" Version="5.0.0"/>
 
 		<!--microsoft asp.net core -->
@@ -48,9 +48,13 @@
 		<PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(FrameworkVersion)"/>
 		<PackageReference Update="Microsoft.AspNetCore.Authentication.Certificate" Version="$(FrameworkVersion)"/>
 		<PackageReference Update="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="$(FrameworkVersion)"/>
+		<PackageReference Update="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.*"/>
+		<PackageReference Update="Microsoft.AspNetCore.Http.Extensions" Version="2.2.*"/>
+		<PackageReference Update="Microsoft.AspNetCore.Http" Version="2.2.*"/>
+		<PackageReference Update="System.Net.Http.Json" Version="$(FrameworkVersion)"/>
 
 		<!--microsoft entity framework -->
-		<PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="$(EntityFrameworkVersion)"/>
+		<PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="6.0.2"/>
 		<PackageReference Update="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EntityFrameworkVersion)"/>
 		<PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="$(EntityFrameworkVersion)"/>
 		<PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EntityFrameworkVersion)"/>

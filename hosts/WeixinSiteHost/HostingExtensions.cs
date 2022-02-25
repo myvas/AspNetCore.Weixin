@@ -22,12 +22,12 @@ internal static class HostingExtensions
         builder.Services.AddSameSiteCookiePolicy();
 
 
-        builder.Services.AddLocalApiAuthentication(principal =>
-        {
-            principal.Identities.First().AddClaim(new Claim("additional_claim", "additional_value"));
+        //builder.Services.AddLocalApiAuthentication(principal =>
+        //{
+        //    principal.Identities.First().AddClaim(new Claim("additional_claim", "additional_value"));
 
-            return Task.FromResult(principal);
-        });
+        //    return Task.FromResult(principal);
+        //});
 
         return builder.Build();
     }
@@ -43,12 +43,12 @@ internal static class HostingExtensions
         app.UseStaticFiles();
 
         app.UseRouting();
-        app.UseIdentityServer();
+        //app.UseIdentityServer();
         app.UseAuthorization();
 
         // local API endpoints
-        app.MapControllers()
-            .RequireAuthorization(IdentityServerConstants.LocalApi.PolicyName);
+        //app.MapControllers()
+        //    .RequireAuthorization(IdentityServerConstants.LocalApi.PolicyName);
 
         // UI
         app.MapRazorPages()

@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Interfaces;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Options;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 
 /// <summary>
 /// Helper to cleanup stale persisted tokens.
@@ -89,8 +89,8 @@ public class TokenCleanupService
         while (found >= _options.TokenCleanupBatchSize)
         {
             var expiredTokens = await _tokenDbContext.PersistedTokens
-                .Where(x => x.ExpirationDate < DateTime.UtcNow)
-                .OrderBy(x => x.ExpirationDate)
+                .Where(x => x.ExpirationTime < DateTime.UtcNow)
+                .OrderBy(x => x.ExpirationTime)
                 .Take(_options.TokenCleanupBatchSize)
                 .ToArrayAsync(cancellationToken);
 
@@ -122,8 +122,8 @@ public class TokenCleanupService
         while (found >= _options.TokenCleanupBatchSize)
         {
             var expiredTokens = await _tokenDbContext.PersistedTokens
-                .Where(x => x.ConsumedDate < DateTime.UtcNow)
-                .OrderBy(x => x.ConsumedDate)
+                //.Where(x => x.ConsumedDate < DateTime.UtcNow)
+                //.OrderBy(x => x.ConsumedDate)
                 .Take(_options.TokenCleanupBatchSize)
                 .ToArrayAsync(cancellationToken);
 

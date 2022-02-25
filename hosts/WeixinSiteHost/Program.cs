@@ -1,6 +1,7 @@
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using Myvas.AspNetCore.WeixinSiteHost;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -8,11 +9,12 @@ Log.Logger = new LoggerConfiguration()
 
 Log.Information("Host.Main Starting up...");
 
-try { 
-var builder = WebApplication.CreateBuilder(args);
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
 
-    builder.Host.UseSerilog((ctx, LockCookie)=>lc
-    .WriteTo.Console(outputTemplate:
+    builder.Host.UseSerilog((ctx, lc) => lc
+        .WriteTo.Console(outputTemplate:
             "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
             theme: AnsiConsoleTheme.Code)
         .MinimumLevel.Debug()

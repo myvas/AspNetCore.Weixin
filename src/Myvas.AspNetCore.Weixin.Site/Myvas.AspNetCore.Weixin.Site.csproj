@@ -1,25 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  
-    <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
-    <PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
-    <Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
-    <PackageTags>myvas;AspNetCore;Weixin;WeixinSite</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
-    <PackageReference Include="Microsoft.Extensions.Options" />
-    <PackageReference Include="System.Net.Http.Json" />
-  </ItemGroup>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
+		<Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
+		<PackageTags>myvas;AspNetCore;Weixin;WeixinSite</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="WelcomePage\MessageHandler\WeixinMessageHandler.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" />
+		<PackageReference Include="Microsoft.Extensions.Options" />
+		<PackageReference Include="System.Net.Http.Json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj" />
+		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
+		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
+		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Configuration\DependencyInjection\BuilderExtensions\" />
+	  <Folder Include="MessageEncodingProviders\Internal\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
 
 </Project>

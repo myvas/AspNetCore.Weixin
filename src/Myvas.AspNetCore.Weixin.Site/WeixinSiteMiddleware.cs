@@ -14,14 +14,14 @@ namespace Myvas.AspNetCore.Weixin
     public class WeixinSiteMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly SiteOptions _options;
+        private readonly WeixinSiteOptions _options;
         private readonly ILogger _logger;
         private readonly WeixinSite _site;
 
         public WeixinSiteMiddleware(
             RequestDelegate next,
             WeixinSite site,
-            IOptions<SiteOptions> siteOptionsAccessor,
+            IOptions<WeixinSiteOptions> siteOptionsAccessor,
             ILoggerFactory loggerFactory)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));

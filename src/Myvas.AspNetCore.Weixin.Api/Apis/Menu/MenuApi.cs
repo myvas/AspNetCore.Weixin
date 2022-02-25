@@ -188,7 +188,7 @@ namespace Myvas.AspNetCore.Weixin
                 var jsonResult = JsonSerializer.Deserialize<GetMenuResultFull>(json);
                 if (jsonResult.menu == null || jsonResult.menu.button.Count == 0)
                 {
-                    throw new WeixinException(jsonResult.errmsg);
+                    throw new WeixinException(jsonResult.ErrorMessage);
                 }
 
                 finalResult = GetMenuFromJsonResult(jsonResult);

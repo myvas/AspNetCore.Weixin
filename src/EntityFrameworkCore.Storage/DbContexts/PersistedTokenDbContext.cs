@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Entities;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Extensions;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Interfaces;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Options;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Extensions;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,12 +42,15 @@ public class PersistedTokenDbContext<TDbContext> : DbContext, IPersistedTokenDbC
     /// </summary>
     /// <param name="options"></param>
     public PersistedTokenDbContext(DbContextOptions options)
-        :base(options)
+        : base(options)
     {
     }
 
     /// <inheritdoc/>
     public DbSet<PersistedToken> PersistedTokens { get; set; }
+
+    /// <inheritdoc/>
+    public DbSet<WeixinSubscriber> Subscribers { get; set; }
 
     /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)

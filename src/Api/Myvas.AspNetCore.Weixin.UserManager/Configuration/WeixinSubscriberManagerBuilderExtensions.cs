@@ -1,0 +1,45 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Myvas.AspNetCore.Weixin;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
+using Myvas.AspNetCore.Weixin.Options;
+
+namespace Microsoft.Extensions.DependencyInjection;
+
+public static class WeixinSubscriberManagerBuilderExtensions
+{
+    public static IWeixinBuilder AddSubscriberManager(
+        this IWeixinBuilder builder,
+        Action<OperationalStoreOptions> storeOptionsAction = null)
+    {
+        if (builder == null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        builder.AddOperationalStore(storeOptionsAction);
+
+        return builder;
+    }
+
+    public static IWeixinBuilder AddSubscriberManager<TContext>(
+        this IWeixinBuilder builder,
+        Action<WeixinSubscriberManagerOptions> setupAction = null,
+        Action<OperationalStoreOptions> storeOptionsAction = null)
+        where TContext : DbContext, IPersistedTokenDbContext
+    {
+        if (builder == null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        builder.Services.AddOperationalDbContext<TContext>(storeOptionsAction);
+        builder.AddOperationalStore<TContext>(storeOptionsAction);
+
+        builder.Services.AddHttpClient<UserApi>();
+        builder.Services.AddHttpClient<UserProfileApi>();
+        builder.Services.AddTransient<IWeixinSubscriberManager, WeixinSubscriberManager>();
+
+        return builder;
+    }
+}

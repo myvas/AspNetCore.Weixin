@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Mappers;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 
 /// <summary>
 /// Extension methods to map to/from entity/model for persisted tokens.

@@ -1,13 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Entities;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Extensions;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Extensions;
 
 /// <summary>
 /// Extensions methods to define the database schema for the configuration and operational data stores.
@@ -23,17 +18,21 @@ public static class ModelBuilderExtensions
     {
         modelBuilder.Entity<PersistedToken>(entity =>
         {
-            entity.Property(x => x.Id).HasMaxLength(200).ValueGeneratedNever();
+            entity.HasKey(x => x.AppId);
+            entity.Property(x => x.AppId).HasMaxLength(200).ValueGeneratedNever();
+            entity.Property(x => x.AccessToken).HasMaxLength(1000).IsRequired();
+            entity.Property(x => x.ExpirationTime).IsRequired();
+            entity.HasIndex(x => x.ExpirationTime);
+        });
 
-            entity.Property(x => x.AppId).HasMaxLength(50).IsRequired();
-            entity.Property(x => x.CreationDate).IsRequired();
-            entity.Property(x => x.Data).HasMaxLength(1000).IsRequired();
+        modelBuilder.Entity<WeixinSubscriber>(entity =>
+        {
+            entity.ToTable("WeixinSubscriber");
 
-            entity.HasKey(x => x.Id);
-
-            entity.HasIndex(x => new { x.AppId, x.Type });
-            entity.HasIndex(x => x.ExpirationDate);
-            entity.HasIndex(x => x.ConsumedDate);
+            entity.HasKey(x => x.OpenId);
+            entity.Property(x => x.OpenId).HasMaxLength(200).ValueGeneratedNever();
+            entity.Property(x => x.Unsubscribed).HasMaxLength(1000).IsRequired();
+            entity.HasIndex(x => x.OpenId);
         });
     }
 }

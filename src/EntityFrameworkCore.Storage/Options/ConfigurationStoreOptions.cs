@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Options;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 
 /// <summary>
 /// Options for configuring the configuration context.

@@ -9,6 +9,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Logging\Models\TokenRequestValidationLog.cs" />
+	  <Compile Remove="Models\TokenCreationRequest.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
@@ -26,6 +31,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Include="..\SharedCodes\Tracing\Tracing.cs">
+			<Link>Tracing.cs</Link>
+		</Compile>
+	</ItemGroup>
+	
+	<ItemGroup>
 		<Compile Update="Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -38,10 +49,5 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Abstractions\" />
-		<Folder Include="MessageEncodingProviders\Internal\" />
 	</ItemGroup>
 </Project>

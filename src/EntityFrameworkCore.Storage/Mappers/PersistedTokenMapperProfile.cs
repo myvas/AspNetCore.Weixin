@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Mappers;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 
 /// <summary>
 /// Defines entity/model mapping for persisted tokens.

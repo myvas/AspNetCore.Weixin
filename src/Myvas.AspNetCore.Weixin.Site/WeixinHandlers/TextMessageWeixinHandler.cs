@@ -11,10 +11,10 @@ namespace Myvas.AspNetCore.Weixin
         private readonly ILogger _logger;
         private readonly IWeixinHandlerFactory _handlerFactory;
         private readonly IResponseBuilderFactory _responseFactory;
-        private readonly SiteOptions _options;
+        private readonly WeixinSiteOptions _options;
 
         public TextMessageWeixinHandler(ILogger<WeixinHandler> logger,
-            IOptions<SiteOptions> optionsAccessor,
+            IOptions<WeixinSiteOptions> optionsAccessor,
             IWeixinHandlerFactory handlerFactory,
             IResponseBuilderFactory responseFactory
         )

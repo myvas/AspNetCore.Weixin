@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Interfaces;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore.Mappers;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
 using Myvas.AspNetCore.Weixin.Extensions;
 using Myvas.AspNetCore.Weixin.Models;
@@ -11,8 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities;
 
-namespace Myvas.AspNetCore.Weixin.AccessTokenServer.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 
 /// <summary>
 /// Implementation of IPersistedTokenStore thats uses EF.
@@ -51,7 +52,7 @@ public class PersistedTokenStore : IPersistedTokenStore
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<PersistedToken>> GetAllAsync(PersistedTokenFilter filter)
+    public async Task<IEnumerable<Models.PersistedToken>> GetAllAsync(PersistedTokenFilter filter)
     {
         filter.Validate();
 
@@ -77,13 +78,13 @@ public class PersistedTokenStore : IPersistedTokenStore
     }
 
     /// <inheritdoc/>
-    public virtual async Task<PersistedToken> GetAsync(string key)
+    public virtual async Task<Models.PersistedToken> GetAsync(string key)
     {
         var entity = (await Context.PersistedTokens
             .AsNoTracking()
-            .Where(x => x.Id == key)
+            .Where(x => x.AppId == key)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken))
-            .SingleOrDefault(x => x.Id == key);
+            .SingleOrDefault(x => x.AppId == key);
         var model = entity?.ToModel();
 
         Logger.LogDebug("{persistedTokenId} found in database: {persistedTokenIdFound}", key, model != null);
@@ -117,9 +118,9 @@ public class PersistedTokenStore : IPersistedTokenStore
     /// <inheritdoc/>
     public virtual async Task RemoveAsync(string key)
     {
-        var entity = (await Context.PersistedTokens.Where(x => x.Id == key)
+        var entity = (await Context.PersistedTokens.Where(x => x.AppId == key)
                 .ToArrayAsync(CancellationTokenProvider.CancellationToken))
-            .SingleOrDefault(x => x.Id == key);
+            .SingleOrDefault(x => x.AppId == key);
         if (entity != null)
         {
             Logger.LogDebug("removing {persistedTokenId} persisted token from database", key);
@@ -142,22 +143,22 @@ public class PersistedTokenStore : IPersistedTokenStore
     }
 
     /// <inheritdoc/>
-    public async Task StoreAsync(PersistedToken token)
+    public async Task StoreAsync(Models.PersistedToken token)
     {
         var existing = (await Context.PersistedTokens
-           .Where(x => x.Id == token.Id)
+           .Where(x => x.AppId == token.AppId)
            .ToArrayAsync(CancellationTokenProvider.CancellationToken))
-           .SingleOrDefault(x => x.Id == token.Id);
+           .SingleOrDefault(x => x.AppId == token.AppId);
         if (existing == null)
         {
-            Logger.LogDebug("{persistedTokenId} not found in database", token.Id);
+            Logger.LogDebug("{persistedTokenId} not found in database", token.AppId);
 
             var persistedToken = token.ToEntity();
             Context.PersistedTokens.Add(persistedToken);
         }
         else
         {
-            Logger.LogDebug("{persistedTokenId} found in database", token.Id);
+            Logger.LogDebug("{persistedTokenId} found in database", token.AppId);
 
             token.UpdateEntity(existing);
         }

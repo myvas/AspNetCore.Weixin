@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Myvas.AspNetCore.Weixin.AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj" />
+    <ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
   </ItemGroup>
 
 </Project>
