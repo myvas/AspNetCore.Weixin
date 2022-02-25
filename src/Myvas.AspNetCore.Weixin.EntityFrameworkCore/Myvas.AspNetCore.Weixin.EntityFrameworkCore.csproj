@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EntityFrameworkCore.Storage\Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.csproj" />
-    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.Stores\Myvas.AspNetCore.Weixin.Stores.csproj" />
     <ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
   </ItemGroup>
 

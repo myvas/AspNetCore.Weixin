@@ -13,7 +13,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <remarks>
 /// https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId
 /// </remarks>
-public class UserInfoJson
+public class UserInfoJson : WeixinErrorJson
 {
     /// <summary>
     /// 用户是否订阅该公众号标识。参考值：1 
@@ -50,7 +50,7 @@ public class UserInfoJson
     /// <summary>
     /// 用户所在的分组ID（兼容旧的用户分组接口）
     /// </summary>
-    public string groupid { get; set; }
+    public int? groupid { get; set; }
 
     /// <summary>
     /// 用户被打上的标签ID列表

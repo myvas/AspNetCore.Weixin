@@ -53,8 +53,13 @@ namespace Myvas.AspNetCore.Weixin
         {
             var models = json.Select(x => new Models.WeixinSubscriber
             {
-                OpenId = x.openid
-                //...
+                OpenId = x.openid,
+                UnionId = x.unionid,
+                SubscribedTime = WeixinTimestampHelper.ToUtcTime(x.subscribe_time),
+                Language = x.language,
+                Unsubscribed = x.subscribe != 1,
+                Nickname = x.nickname,
+                Gender = x.sex == null ? WeixinGender.Unknown : (x.sex!.Value == 0 ? WeixinGender.Male : WeixinGender.Female)
             }).ToList();
             return models;
         }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Myvas.AspNetCore.Weixin;
+using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 using Myvas.AspNetCore.Weixin.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -38,6 +40,7 @@ public static class WeixinSubscriberManagerBuilderExtensions
 
         builder.Services.AddHttpClient<UserApi>();
         builder.Services.AddHttpClient<UserProfileApi>();
+        builder.Services.AddTransient<IWeixinUserStore, WeixinUserStore>();
         builder.Services.AddTransient<IWeixinSubscriberManager, WeixinSubscriberManager>();
 
         return builder;

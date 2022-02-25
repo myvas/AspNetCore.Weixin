@@ -1,0 +1,77 @@
+﻿@page
+@model WeixinSiteSample.Pages.SubscribersModel
+@{
+    ViewData["Title"] = "Subscribers";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].Unsubscribed)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].OpenId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].UnionId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].UserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].MentorId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].Language)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].SubscribedTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subscribers[0].UnsubscribedTime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Subscribers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unsubscribed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OpenId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnionId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MentorId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Language)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubscribedTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnsubscribedTime)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.OpenId">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.OpenId">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.OpenId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

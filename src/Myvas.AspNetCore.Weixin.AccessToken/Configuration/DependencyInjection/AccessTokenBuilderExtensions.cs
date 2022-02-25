@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
         /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinAccessTokenOptions"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-        public static IWeixinBuilder AddWeixinAccessToken(
+        public static IWeixinBuilder AddAccessToken(
             this IWeixinBuilder builder,
             Action<RedisCacheOptions> storeOptionsAction = null,
             Action<WeixinAccessTokenOptions> setupAction = null)

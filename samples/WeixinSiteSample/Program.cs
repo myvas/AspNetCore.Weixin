@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.ConfigureWarnings(b => b.Log(CoreEventId.ManyServiceProvidersCreatedWarning))
     .UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddWeixin()
-    .AddWeixinAccessToken(o =>
+    .AddAccessToken(o =>
     {
         o.Configuration = builder.Configuration.GetConnectionString("RedisConnection");
         o.InstanceName = builder.Configuration["Weixin:AppId"];

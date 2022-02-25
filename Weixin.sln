@@ -28,8 +28,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{6DE72631-538C-4F33-8891-D1F9E61634B6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Stores", "src\Myvas.AspNetCore.Weixin.Stores\Myvas.AspNetCore.Weixin.Stores.csproj", "{8F7C72E8-3CEF-4C60-AAD3-5FCF38200CCF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Core", "src\Myvas.AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Core.csproj", "{229DF91B-4AFF-441D-8FB3-B31363E96578}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.EntityFrameworkCore", "src\Myvas.AspNetCore.Weixin.EntityFrameworkCore\Myvas.AspNetCore.Weixin.EntityFrameworkCore.csproj", "{175C80CD-019C-419C-B72F-4902C1238269}"
@@ -58,13 +56,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hosts", "hosts", "{1F24DE32
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{E4A02C1F-13BF-46B9-AD00-2FD88BC5AFDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host.Main", "hosts\WeixinSiteHost\Host.Main.csproj", "{0A2794C3-E153-466E-B134-C7D43278FBCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host.Main", "hosts\WeixinSiteHost\Host.Main.csproj", "{0A2794C3-E153-466E-B134-C7D43278FBCD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{448867BE-B89E-4B72-9BA0-43A83A99FDDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinSiteSample", "samples\WeixinSiteSample\WeixinSiteSample.csproj", "{01CAD641-170B-4382-89B8-F255BB6205CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeixinSiteSample", "samples\WeixinSiteSample\WeixinSiteSample.csproj", "{01CAD641-170B-4382-89B8-F255BB6205CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.UserManager", "src\Api\Myvas.AspNetCore.Weixin.UserManager\Myvas.AspNetCore.Weixin.UserManager.csproj", "{2EB1A2C2-BD0D-4052-9AE3-CEC2B6958F17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.UserManager", "src\Api\Myvas.AspNetCore.Weixin.UserManager\Myvas.AspNetCore.Weixin.UserManager.csproj", "{2EB1A2C2-BD0D-4052-9AE3-CEC2B6958F17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,10 +82,6 @@ Global
 		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F7C72E8-3CEF-4C60-AAD3-5FCF38200CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F7C72E8-3CEF-4C60-AAD3-5FCF38200CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F7C72E8-3CEF-4C60-AAD3-5FCF38200CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F7C72E8-3CEF-4C60-AAD3-5FCF38200CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{229DF91B-4AFF-441D-8FB3-B31363E96578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{229DF91B-4AFF-441D-8FB3-B31363E96578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{229DF91B-4AFF-441D-8FB3-B31363E96578}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -136,7 +130,6 @@ Global
 		{74A3C863-09CC-4700-A688-1DF8B26C951B} = {73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}
 		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94} = {40AEBE01-FEE8-4C0B-A14D-B6535560D384}
 		{6DE72631-538C-4F33-8891-D1F9E61634B6} = {40AEBE01-FEE8-4C0B-A14D-B6535560D384}
-		{8F7C72E8-3CEF-4C60-AAD3-5FCF38200CCF} = {6DA87041-71DB-4F59-8CD8-D1B8F24BED9B}
 		{229DF91B-4AFF-441D-8FB3-B31363E96578} = {40AEBE01-FEE8-4C0B-A14D-B6535560D384}
 		{175C80CD-019C-419C-B72F-4902C1238269} = {B562D54A-AC7C-4F65-9A83-084C6A6887FA}
 		{5FBB65BA-E7EA-4A9B-8253-221A4143A02F} = {C26C3C52-C565-4559-83D0-DED91C791650}

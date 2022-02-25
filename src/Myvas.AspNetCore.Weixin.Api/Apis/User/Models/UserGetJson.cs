@@ -13,6 +13,7 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 订阅者OpenId列表
     /// </summary>
+    /// <remarks>https://developers.weixin.qq.com/doc/offiaccount/User_Management/Getting_a_User_List.html</remarks>
     public class UserGetJson : WeixinErrorJson
     {
         /// <summary>

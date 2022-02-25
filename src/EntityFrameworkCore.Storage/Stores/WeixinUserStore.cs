@@ -57,7 +57,7 @@ public class WeixinUserStore : IWeixinUserStore
 
         var models = entities.Select(x => x.ToModel());
 
-        Logger.LogDebug("{count} users found for {@filter}", entities.Length, filter);
+        Logger.LogDebug("{count} subscribers found for {@filter}", entities.Length, filter);
 
         return models;
     }
