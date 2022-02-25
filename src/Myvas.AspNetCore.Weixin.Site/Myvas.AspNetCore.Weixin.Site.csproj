@@ -25,14 +25,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj" />
 		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
 		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
 		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Configuration\DependencyInjection\BuilderExtensions\" />
 	  <Folder Include="MessageEncodingProviders\Internal\" />
 	</ItemGroup>
 

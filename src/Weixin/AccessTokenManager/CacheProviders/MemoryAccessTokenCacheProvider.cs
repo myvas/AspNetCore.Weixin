@@ -12,9 +12,9 @@ namespace Myvas.AspNetCore.Weixin
         private string GenerateCacheKey(string appId) { return $"{CachePrefix}_{appId}"; }
 
         private readonly IMemoryCache _cache;
-        private WeixinAccessTokenOptions _options;
+        private WeixinOptions _options;
 
-        public MemoryAccessTokenCacheProvider(IMemoryCache cache, IOptions<WeixinAccessTokenOptions> optionsAccessor)
+        public MemoryAccessTokenCacheProvider(IMemoryCache cache, IOptions<WeixinOptions> optionsAccessor)
         {
             _cache = cache;
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));

@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  
-    <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
-    <PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
-    <Description>Apis for Tencent Weixin/Wechat.</Description>
-    <PackageTags>myvas;AspNetCore;Weixin;WeixinApi</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Myvas.AspNetCore.Weixin.AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj" />
-    <ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
-  </ItemGroup>
+		<PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<Description>Apis for Tencent Weixin/Wechat.</Description>
+		<PackageTags>WeixinApi</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
+		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
+	</ItemGroup>
 
 </Project>

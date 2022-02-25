@@ -39,11 +39,27 @@ var accessToken = _accessToken.GetTokenAsync();
 ```
 services.AddScoped<WeixinEventSink>();
 var weixinEventSink = services.BuildServiceProvider().GetRequiredService<WeixinEventSink>();
-services.AddWeixinWelcomePage(options =>
+services
+  //AccessTokenApi: Fetch access_token and expires_in from remote
+  .AddWeixin(o =>
   {
-      options.AppId = _configuration["Weixin:AppId"];
-      options.AppSecret = _configuration["Weixin:AppSecret"];
-      options.WebsiteToken = _configuration["Weixin:WebsiteToken"];
+    o.AppId = Configuration["Weixin:AppId"];
+    o.AppSecret = Configuration["Weixin:AppSecret"];
+  })
+  //IWeixinAccessToken: with IDistributedCache via Microsoft.Extensions.Caching.StackExchangeRedis
+  .AddAccessToken(o =>
+  {
+    o.Configuration = Configuration.GetConnectionString("RedisConnection");
+    o.InstanceName = Configuration["Weixin:AppId"];
+  })
+  //IWeixinSubscriberManager: depends on IPersistedTokenDbContext
+  .AddSubscriberManager<ApplicationDbContext>()
+  //Weixin messaging services
+  .AddSite(options =>
+  {
+      options.AppId = Configuration["Weixin:AppId"];
+      options.AppSecret = Configuration["Weixin:AppSecret"];
+      options.WebsiteToken = Configuration["Weixin:WebsiteToken"];
       
       options.EncodingAESKey = _configuration["Weixin:EncodingAESKey"]; //请注意检查该值正确无误！
       // （1）若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；
@@ -176,5 +192,5 @@ $(document).ready(function () {
 ```
 
 ## Dev
-* [.NET Core SDK 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 * [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)

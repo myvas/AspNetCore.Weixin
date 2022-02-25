@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EntityFrameworkCore.Storage\Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.csproj" />
-    <ProjectReference Include="..\..\Myvas.AspNetCore.Weixin.AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj" />
     <ProjectReference Include="..\..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
     <ProjectReference Include="..\..\Myvas.AspNetCore.Weixin.EntityFrameworkCore\Myvas.AspNetCore.Weixin.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\Weixin\Myvas.AspNetCore.Weixin.csproj" />

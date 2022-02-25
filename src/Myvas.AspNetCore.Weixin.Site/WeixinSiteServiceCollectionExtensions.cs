@@ -19,7 +19,7 @@ public static class WeixinSiteServiceCollectionExtensions
     /// Adds weixin access token services to the specified <see cref="IServiceCollection" />. 
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
-    /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinAccessTokenOptions"/>.</param>
+    /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
     public static IWeixinBuilder AddWeixinSite(this IWeixinBuilder builder, Action<WeixinSiteOptions> setupAction)
     {

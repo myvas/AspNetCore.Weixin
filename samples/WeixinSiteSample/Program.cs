@@ -11,13 +11,16 @@ builder.Services.AddRazorPages();
 
 builder.Services.Configure<WeixinOptions>(
     builder.Configuration.GetSection("Weixin"));
-builder.Services.Configure<WeixinAccessTokenOptions>(
-    builder.Configuration.GetSection("Weixin"));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.ConfigureWarnings(b => b.Log(CoreEventId.ManyServiceProvidersCreatedWarning))
     .UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddWeixin()
-    .AddAccessToken(o =>
+builder.Services
+    .AddWeixin(o =>
+    {
+        o.AppId = builder.Configuration["Weixin:AppId"];
+        o.AppSecret = builder.Configuration["Weixin:AppSecret"];
+    },
+    o =>
     {
         o.Configuration = builder.Configuration.GetConnectionString("RedisConnection");
         o.InstanceName = builder.Configuration["Weixin:AppId"];

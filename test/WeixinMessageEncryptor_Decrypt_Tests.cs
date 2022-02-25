@@ -17,7 +17,7 @@ namespace test
 				options.AppId = "wxaf5aa2d87ff3b700";
 				options.AppSecret = "Unnecessary";
 			}));
-			services.Configure((Action<WeixinAccessTokenOptions>)(options =>
+			services.Configure((Action<WeixinOptions>)(options =>
 			{
 				options.AppId = "wxaf5aa2d87ff3b700";
 				options.AppSecret = "Unnecessary";

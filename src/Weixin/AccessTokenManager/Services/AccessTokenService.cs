@@ -9,11 +9,11 @@ namespace Myvas.AspNetCore.Weixin
     public class AccessTokenService : IWeixinAccessToken
     {
         private readonly IDistributedCache _cache;
-        private readonly WeixinAccessTokenOptions _options;
+        private readonly WeixinOptions _options;
         private readonly AccessTokenApi _api;
 
         public AccessTokenService(
-            IOptions<WeixinAccessTokenOptions> optionsAccessor,
+            IOptions<WeixinOptions> optionsAccessor,
             AccessTokenApi api,
             IDistributedCache cache)
         {

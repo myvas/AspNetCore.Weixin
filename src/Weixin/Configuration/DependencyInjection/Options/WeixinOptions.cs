@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Myvas.AspNetCore.Weixin.Configuration;
 
 namespace Myvas.AspNetCore.Weixin

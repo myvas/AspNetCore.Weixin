@@ -18,15 +18,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" />
-		<PackageReference Include="Microsoft.Extensions.Options" />
-		<PackageReference Include="System.Text.Json" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.Core\Myvas.AspNetCore.Weixin.Core.csproj" />
 		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
 	</ItemGroup>
 
@@ -49,5 +44,9 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Exceptions\" />
 	</ItemGroup>
 </Project>

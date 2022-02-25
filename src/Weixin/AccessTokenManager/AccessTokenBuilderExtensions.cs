@@ -1,12 +1,6 @@
-﻿using Myvas.AspNetCore.Weixin;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Myvas.AspNetCore.Weixin;
 using System;
-using System.Net.Http.Json;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.DbContexts;
-using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -19,22 +13,24 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Adds weixin access token services to the specified <see cref="IServiceCollection" />. 
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
-        /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinAccessTokenOptions"/>.</param>
+        /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinOptions"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
         public static IWeixinBuilder AddAccessToken(
             this IWeixinBuilder builder,
-            Action<RedisCacheOptions> storeOptionsAction = null,
-            Action<WeixinAccessTokenOptions> setupAction = null)
+            Action<RedisCacheOptions> setupAction)
         {
             if (builder == null)
             {
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.Services.AddStackExchangeRedisCache(storeOptionsAction);
+            if (setupAction != null)
+            {
+                builder.Services.Configure(setupAction);
+            }
 
+            builder.Services.AddStackExchangeRedisCache(setupAction);
             builder.Services.AddHttpClient<AccessTokenApi>();
-            //builder.Services.AddMemoryAccessTokenCacheProvider();
             builder.Services.AddTransient<IWeixinAccessToken, AccessTokenService>();
 
             return builder;

@@ -25,6 +25,7 @@
 		<PackageReference Update="Moq" Version="4.16.1" />
 
 		<!--microsoft extensions -->
+		<PackageReference Update="Microsoft.Extensions.Caching.StackExchangeRedis" Version="$(ExtensionsVersion)"/>
 		<PackageReference Update="Microsoft.Extensions.Caching.Memory" Version="$(ExtensionsVersion)"/>
 		<PackageReference Update="Microsoft.Extensions.Http" Version="$(ExtensionsVersion)"/>
 		<PackageReference Update="Microsoft.Extensions.Http.Polly" Version="$(ExtensionsVersion)"/>
