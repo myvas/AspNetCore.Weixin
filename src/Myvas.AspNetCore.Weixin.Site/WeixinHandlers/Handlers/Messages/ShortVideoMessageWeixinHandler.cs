@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class ShortVideoMessageWeixinHandler : WeixinHandler,IWeixinHandler<ShortVideoMessageReceivedXml>
 {
-    public ShortVideoMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public ShortVideoMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class ShortVideoMessageWeixinHandler : WeixinHandler,IWeixinHandler<Short
         Xml = XmlConvert.DeserializeObject<ShortVideoMessageReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<ShortVideoMessageReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.ShortVideoMessageReceived(ctx);
+        var handled = await _eventSink.OnShortVideoMessageReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();

@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class ImageMessageWeixinHandler : WeixinHandler,IWeixinHandler<ImageMessageReceivedXml>
 {
-    public ImageMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public ImageMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class ImageMessageWeixinHandler : WeixinHandler,IWeixinHandler<ImageMessa
         Xml = XmlConvert.DeserializeObject<ImageMessageReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<ImageMessageReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.ImageMessageReceived(ctx);
+        var handled = await _eventSink.OnImageMessageReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();

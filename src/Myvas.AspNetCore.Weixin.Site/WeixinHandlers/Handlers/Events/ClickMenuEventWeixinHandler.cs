@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class ClickMenuEventWeixinHandler : WeixinHandler, IWeixinHandler<ClickMenuEventReceivedXml>
 {
-    public ClickMenuEventWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public ClickMenuEventWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class ClickMenuEventWeixinHandler : WeixinHandler, IWeixinHandler<ClickMe
         Xml = XmlConvert.DeserializeObject<ClickMenuEventReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<ClickMenuEventReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.ClickMenuEventReceived(ctx);
+        var handled = await _eventSink.OnClickMenuEventReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();

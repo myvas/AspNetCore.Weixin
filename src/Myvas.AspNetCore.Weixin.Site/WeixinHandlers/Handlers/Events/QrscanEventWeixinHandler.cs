@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class QrscanEventWeixinHandler : WeixinHandler, IWeixinHandler<QrscanEventReceivedXml>
 {
-    public QrscanEventWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public QrscanEventWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class QrscanEventWeixinHandler : WeixinHandler, IWeixinHandler<QrscanEven
         Xml = XmlConvert.DeserializeObject<QrscanEventReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<QrscanEventReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.QrscanEventReceived(ctx);
+        var handled = await _eventSink.OnQrscanEventReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();

@@ -26,31 +26,11 @@ var weixinBuilder = builder.Services
       o.InstanceName = builder.Configuration["Weixin:AppId"];
     })
     .AddSubscriberManager<ApplicationDbContext>()
-    .AddMessenger();
-builder.Services.AddScoped<IWeixinEventSink, DefaultWeixinEventSink>();
-var weixinEventSink = builder.Services.BuildServiceProvider().GetRequiredService<IWeixinEventSink>();
-weixinBuilder
-    .AddWeixinSite(o =>
+    .AddMessenger()
+    .AddWeixinSite<DefaultWeixinEventSink>(o =>
     {
         o.WebsiteToken = builder.Configuration["Weixin:WebsiteToken"];
         o.Debug = bool.Parse(builder.Configuration["Weixin:Debug"] ?? "false");
-        o.Events = new WeixinMessageEvents()
-        {
-            OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx),
-            OnLinkMessageReceived = ctx => weixinEventSink.OnLinkMessageReceived(ctx),
-            OnClickMenuEventReceived = ctx => weixinEventSink.OnClickMenuEventReceived(ctx),
-            OnImageMessageReceived = ctx => weixinEventSink.OnImageMessageReceived(ctx),
-            OnLocationEventReceived = ctx => weixinEventSink.OnLocationEventReceived(ctx),
-            OnLocationMessageReceived = ctx => weixinEventSink.OnLocationMessageReceived(ctx),
-            OnQrscanEventReceived = ctx => weixinEventSink.OnQrscanEventReceived(ctx),
-            OnEnterEventReceived = ctx => weixinEventSink.OnEnterEventReceived(ctx),
-            OnSubscribeEventReceived = ctx => weixinEventSink.OnSubscribeEventReceived(ctx),
-            OnUnsubscribeEventReceived = ctx => weixinEventSink.OnUnsubscribeEventReceived(ctx),
-            OnVideoMessageReceived = ctx => weixinEventSink.OnVideoMessageReceived(ctx),
-            OnShortVideoMessageReceived = ctx => weixinEventSink.OnShortVideoMessageReceived(ctx),
-            OnViewMenuEventReceived = ctx => weixinEventSink.OnViewMenuEventReceived(ctx),
-            OnVoiceMessageReceived = ctx => weixinEventSink.OnVoiceMessageReceived(ctx)
-        };
     });
 
 var app = builder.Build();

@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class LinkMessageWeixinHandler : WeixinHandler,IWeixinHandler<LinkMessageReceivedXml>
 {
-    public LinkMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public LinkMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class LinkMessageWeixinHandler : WeixinHandler,IWeixinHandler<LinkMessage
         Xml = XmlConvert.DeserializeObject<LinkMessageReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<LinkMessageReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.LinkMessageReceived(ctx);
+        var handled = await _eventSink.OnLinkMessageReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();

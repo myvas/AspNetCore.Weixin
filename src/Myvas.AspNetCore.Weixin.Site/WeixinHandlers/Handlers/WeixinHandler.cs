@@ -15,13 +15,16 @@ namespace Myvas.AspNetCore.Weixin
         protected readonly ILogger _logger;
         protected readonly WeixinSiteOptions _options;
         protected readonly IWeixinResponseBuilder WeixinResponseBuilder;
+        protected readonly IWeixinEventSink _eventSink;
 
         public WeixinHandler(ILogger<WeixinHandler> logger,
             IWeixinResponseBuilder responseBuilder,
+            IWeixinEventSink eventSink,
             IOptions<WeixinSiteOptions> optionsAccessor)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             WeixinResponseBuilder = responseBuilder ?? throw new ArgumentNullException(nameof(responseBuilder));
+            _eventSink = eventSink ?? throw new ArgumentNullException(nameof(eventSink));
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
         }
 

@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class VoiceMessageWeixinHandler : WeixinHandler, IWeixinHandler<VoiceMessageReceivedXml>
 {
-    public VoiceMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public VoiceMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class VoiceMessageWeixinHandler : WeixinHandler, IWeixinHandler<VoiceMess
         Xml = XmlConvert.DeserializeObject<VoiceMessageReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<VoiceMessageReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.VoiceMessageReceived(ctx);
+        var handled = await _eventSink.OnVoiceMessageReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();

@@ -58,6 +58,24 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Context"></param>
+        /// <param name="Text">
+        /// <code>
+        ///<?xml version="1.0" encoding="utf-8"?>
+        ///<xml>
+        ///  <ToUserName><![CDATA[gh_a96a4a619366]]></ToUserName>
+        ///  <FromUserName><![CDATA[olPjZjsXuQPJoV0HlruZkNzKc91E]]></FromUserName>
+        ///  <CreateTime>1357986928</CreateTime>
+        ///  <MsgType><![CDATA[text]]></MsgType>
+        ///  <Content><![CDATA[中文]]></Content>
+        ///  <MsgId>5832509444155992350</MsgId>
+        ///</xml>
+        /// </code>
+        /// </param>
+        /// <returns></returns>
         private async Task<bool> ProcessAsync(HttpContext Context, string Text)
         {
             var doc = XDocument.Parse(Text);
@@ -115,12 +133,14 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
                                 handler = _handlerFactory.Create<LocationEventWeixinHandler>(_serviceProvider); break;
                             default:
                                 //throw new NotSupportedException($"系统无法处理此事件");
+                                _logger.LogWarning("微信事件类型为[{eventType}]的事件未得到处理。", eventType);
                                 await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
                                 return false;
                         }
                         break;
                     default:
                         //throw new NotSupportedException($"系统无法处理此消息");
+                        _logger.LogWarning("微信消息类型为[{msgType}]的消息未得到处理。", msgType);
                         await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
                         return false;
                 }
@@ -131,6 +151,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
             catch (Exception ex)
             {
                 //throw new NotSupportedException($"系统异常", ex);
+                _logger.LogError("微信请求处理时发生异常！{exception}", ex.Message);
                 await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
                 return false;
             }

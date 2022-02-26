@@ -21,7 +21,8 @@ public static class WeixinSiteServiceCollectionExtensions
     /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
     /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinOptions"/>.</param>
     /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-    public static IWeixinBuilder AddWeixinSite(this IWeixinBuilder builder, Action<WeixinSiteOptions> setupAction)
+    public static IWeixinBuilder AddWeixinSite<TWeixinEventSink>(this IWeixinBuilder builder, Action<WeixinSiteOptions> setupAction)
+        where TWeixinEventSink : class, IWeixinEventSink
     {
         if (builder == null)
         {
@@ -36,7 +37,7 @@ public static class WeixinSiteServiceCollectionExtensions
         builder.Services.AddSingleton<IWeixinHandlerFactory, WeixinHandlerFactory>();
         //builder.Services.TryAddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>(); //即使不启用加密，也把此不必要的加密服务接口提供出来了。
         //builder.Services.AddWeixinMessageProtection();
-        //builder.Services.TryAddTransient<IWeixinEventSink, TWeixinEventSink>();
+        builder.Services.TryAddTransient<IWeixinEventSink, TWeixinEventSink>();
         builder.Services.AddSingleton<WeixinSite>();
 
         return builder;

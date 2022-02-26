@@ -9,10 +9,5 @@ namespace Myvas.AspNetCore.Weixin
         {
             return ActivatorUtilities.CreateInstance<TWeixinHandler>(serviceProvider);
         }
-
-        public TWeixinHandler Create<TWeixinHandler>()
-        {
-            return Activator.CreateInstance<TWeixinHandler>();
-        }
     }
 }

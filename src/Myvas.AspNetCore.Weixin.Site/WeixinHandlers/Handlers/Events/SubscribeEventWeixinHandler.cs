@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class SubscribeEventWeixinHandler : WeixinHandler, IWeixinHandler<SubscribeEventReceivedXml>
 {
-    public SubscribeEventWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public SubscribeEventWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class SubscribeEventWeixinHandler : WeixinHandler, IWeixinHandler<Subscri
         Xml = XmlConvert.DeserializeObject<SubscribeEventReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<SubscribeEventReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.SubscribeEventReceived(ctx);
+        var handled = await _eventSink.OnSubscribeEventReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();

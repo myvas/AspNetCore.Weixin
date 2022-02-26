@@ -23,15 +23,5 @@ namespace Myvas.AspNetCore.Weixin
         /// 是否允许微信web开发工具等调试终端访问，默认为: false（不允许）。
         /// </summary>
         public bool Debug { get; set; } = WeixinSiteOptionsDefaults.Debug;
-
-        /// <summary>
-        /// 接收微信消息或事件
-        /// </summary>
-        public WeixinMessageEvents Events { get; set; }
-
-        public WeixinSiteOptions()
-        {
-            Events = new WeixinMessageEvents();
-        }
     }
 }

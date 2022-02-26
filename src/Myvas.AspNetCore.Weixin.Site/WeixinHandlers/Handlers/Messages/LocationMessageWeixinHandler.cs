@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class LocationMessageWeixinHandler : WeixinHandler,IWeixinHandler<LocationMessageReceivedXml>
 {
-    public LocationMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
+    public LocationMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IWeixinEventSink eventSink, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, eventSink, optionsAccessor)
     {
     }
 
@@ -19,7 +19,7 @@ public class LocationMessageWeixinHandler : WeixinHandler,IWeixinHandler<Locatio
         Xml = XmlConvert.DeserializeObject<LocationMessageReceivedXml>(Text);
 
         var ctx = new WeixinResultContext<LocationMessageReceivedXml>(Context, Text, Xml);
-        var handled = await _options.Events.LocationMessageReceived(ctx);
+        var handled = await _eventSink.OnLocationMessageReceived(ctx);
         if (!handled)
         {
             return await DefaultResponseAsync();
