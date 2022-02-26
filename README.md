@@ -18,94 +18,68 @@ https://mp.weixin.qq.com
 - 在“消息加解密密钥**EncodingAESKey**”中，若空则初始化一个
 - 在“消息加解密方式”中，***建议***选择“**安全模式**”
 
-## AccessToken
-* ConfigureServices
-```
-services.AddWeixinAccessToken(options => {	
-	options.AppId = _configuration["Weixin:AppId"];
-	options.AppSecret = _configuration["Weixin:AppSecret"];
-});
-```
-
-* Usage
-```
-private readonly IAccessToken _accessToken;
-...
-var accessToken = _accessToken.GetTokenAsync();
-```
-
-## WeixinWelcomePage
+## How to Configure?
 * ConfigureServices
 ```
 services.AddScoped<WeixinEventSink>();
 var weixinEventSink = services.BuildServiceProvider().GetRequiredService<WeixinEventSink>();
 services
-  //AccessTokenApi: Fetch access_token and expires_in from remote
-  .AddWeixin(o =>
-  {
-    o.AppId = Configuration["Weixin:AppId"];
-    o.AppSecret = Configuration["Weixin:AppSecret"];
-  }),o =>
-  {
-    o.Configuration = Configuration.GetConnectionString("RedisConnection");
-    o.InstanceName = Configuration["Weixin:AppId"];
-  })
-  //IWeixinSubscriberManager: depends on IPersistedTokenDbContext
-  .AddSubscriberManager<ApplicationDbContext>()
-  //Weixin messaging services
-  .AddSite(options =>
-  {
-      options.AppId = Configuration["Weixin:AppId"];
-      options.AppSecret = Configuration["Weixin:AppSecret"];
-      options.WebsiteToken = Configuration["Weixin:WebsiteToken"];
+	//AccessTokenApi: Fetch access_token and expires_in from remote
+	.AddWeixin(o =>
+	{
+		o.AppId = Configuration["Weixin:AppId"];
+		o.AppSecret = Configuration["Weixin:AppSecret"];
+	}),o =>
+	{
+		o.Configuration = Configuration.GetConnectionString("RedisConnection");
+		o.InstanceName = Configuration["Weixin:AppId"];
+	})
+	//IWeixinSubscriberManager: depends on IPersistedTokenDbContext
+	.AddSubscriberManager<ApplicationDbContext>()
+	//Weixin messaging services
+	.AddSite(options =>
+	{
+		options.WebsiteToken = Configuration["Weixin:WebsiteToken"];
       
-      options.EncodingAESKey = _configuration["Weixin:EncodingAESKey"]; //请注意检查该值正确无误！
-      // （1）若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；
-      // （2）若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或不配置。
+		options.EncodingAESKey = _configuration["Weixin:EncodingAESKey"]; //请注意检查该值正确无误！
+		// （1）若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；
+		// （2）若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或不配置。
       
-      options.Path = "/wx"; //默认值
-      options.Debug = false; //默认值，不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
+		//options.Debug = true; //默认值为false，不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
       
-      options.Events = new WeixinMessageEvents()
-      {
-          OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx.Sender, ctx.Args),
-          OnLinkMessageReceived = ctx => weixinEventSink.OnLinkMessageReceived(ctx.Sender, ctx.Args),
-          OnClickMenuEventReceived = ctx => weixinEventSink.OnClickMenuEventReceived(ctx.Sender, ctx.Args),
-          OnImageMessageReceived = ctx => weixinEventSink.OnImageMessageReceived(ctx.Sender, ctx.Args),
-          OnLocationEventReceived = ctx => weixinEventSink.OnLocationEventReceived(ctx.Sender, ctx.Args),
-          OnLocationMessageReceived = ctx => weixinEventSink.OnLocationMessageReceived(ctx.Sender, ctx.Args),
-          OnQrscanEventReceived = ctx => weixinEventSink.OnQrscanEventReceived(ctx.Sender, ctx.Args),
-          OnEnterEventReceived = ctx => weixinEventSink.OnEnterEventReceived(ctx.Sender, ctx.Args),
-          OnSubscribeEventReceived = ctx => weixinEventSink.OnSubscribeEventReceived(ctx.Sender, ctx.Args),
-          OnUnsubscribeEventReceived = ctx => weixinEventSink.OnUnsubscribeEventReceived(ctx.Sender, ctx.Args),
-          OnVideoMessageReceived = ctx => weixinEventSink.OnVideoMessageReceived(ctx.Sender, ctx.Args),
-          OnShortVideoMessageReceived = ctx => weixinEventSink.OnShortVideoMessageReceived(ctx.Sender, ctx.Args),
-          OnViewMenuEventReceived = ctx => weixinEventSink.OnViewMenuEventReceived(ctx.Sender, ctx.Args),
-          OnVoiceMessageReceived = ctx => weixinEventSink.OnVoiceMessageReceived(ctx.Sender, ctx.Args)
-      };
-  });
+		var weixinEventSink = new DefaultWeixinEventSink();
+		o.Events = new WeixinMessageEvents()
+		{
+			OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx),
+			OnLinkMessageReceived = ctx => weixinEventSink.OnLinkMessageReceived(ctx),
+			OnClickMenuEventReceived = ctx => weixinEventSink.OnClickMenuEventReceived(ctx),
+			OnImageMessageReceived = ctx => weixinEventSink.OnImageMessageReceived(ctx),
+			OnLocationEventReceived = ctx => weixinEventSink.OnLocationEventReceived(ctx),
+			OnLocationMessageReceived = ctx => weixinEventSink.OnLocationMessageReceived(ctx),
+			OnQrscanEventReceived = ctx => weixinEventSink.OnQrscanEventReceived(ctx),
+			OnEnterEventReceived = ctx => weixinEventSink.OnEnterEventReceived(ctx),
+			OnSubscribeEventReceived = ctx => weixinEventSink.OnSubscribeEventReceived(ctx),
+			OnUnsubscribeEventReceived = ctx => weixinEventSink.OnUnsubscribeEventReceived(ctx),
+			OnVideoMessageReceived = ctx => weixinEventSink.OnVideoMessageReceived(ctx),
+			OnShortVideoMessageReceived = ctx => weixinEventSink.OnShortVideoMessageReceived(ctx),
+			OnViewMenuEventReceived = ctx => weixinEventSink.OnViewMenuEventReceived(ctx),
+			OnVoiceMessageReceived = ctx => weixinEventSink.OnVoiceMessageReceived(ctx)
+		};
+	});
 ```
 
 * Configure
 ```
-app.UseWeixinWelcomePage();
+app.UseWeixinSite(); //Path默认为"/wx"
+//app.UseWeixinSite("/wx"); //与上一行等效
 ```
 
-## IWeixinAccessToken
-* ConfigureServices
-```
-services.AddWeixinAccessToken(options => 
-  {
-      options.AppId = _configuration["Weixin:AppId"];
-      options.AppSecret = _configuration["Weixin:AppSecret"];
-  });
-```
-
-*  Controller
+## How to Use: IWeixinAccessToken?
+*  XxxController
 ```
 private readonly IWeixinAccessToken _weixinAccessToken;
 
-.ctor(IWeixinAccessToken weixinAccessToken)
+public XxxController(IWeixinAccessToken weixinAccessToken)
 {
     _weixinAccessToken = weixinAccessToken;
 }
@@ -116,30 +90,27 @@ public IActionResult MethodA()
 }
 ```
 
-## AddWeixinJssdk, IWeixinJssdkTicket
-
-* ConfigureServices
+## How to Use: IWeixinJssdkTicket
+* XxxController
 ```
-services.AddWeixinJssdk(options =>
+private readonly IWeixinJsapiTicket _ticket;
+private readonly WeixinJssdkOptions _options;
+
+public XxxController(IWeixinJsapiTicket ticket, IOptions<WeixinJssdkOptions> optionsAccessor)
 {
-      options.AppId = _configuration["Weixin:AppId"];
-});
-```
-
-* Controller
-```
-private readonly IWeixinJsapiTicket _weixinJsapiTicket;
-private readonly WeixinJssdkOptions _weixinJssdkOptions;
+	_ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
+	_options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
+}
 
 public IActionResult Index()
 {
 	var weixinJsConfig = new WeixinJsConfig()
 	{
 		debug = false,
-		appId = _weixinJssdkOptions.AppId
+		appId = _options.AppId
 	};
 
-	var jsapiTicket = _weixinJsapiTicket.GetTicket();
+	var jsapiTicket = _ticket.GetTicket();
 	var refererUrl = Request.GetAbsoluteUri();
 	var vm = new ShareJweixinViewModel
 	{
