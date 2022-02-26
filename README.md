@@ -47,7 +47,6 @@ services
       
 		//options.Debug = true; //默认值为false，不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
       
-		var weixinEventSink = new DefaultWeixinEventSink();
 		o.Events = new WeixinMessageEvents()
 		{
 			OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx),
