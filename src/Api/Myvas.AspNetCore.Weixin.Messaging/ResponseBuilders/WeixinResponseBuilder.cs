@@ -1,47 +1,61 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public static class WeixinResponseBuilder
+public class WeixinResponseBuilder : IWeixinResponseBuilder
 {
-    public static async Task FlushPlainText(HttpContext context, string text)
+    private readonly ILogger _logger;
+
+    public WeixinResponseBuilder(ILogger<WeixinResponseBuilder> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task FlushPlainText(HttpContext context, string text)
     {
         context.Response.ContentType = ContentTypeConstants.PlainText;
-        await context.Response.WriteAsync(text);
+
+        await WriteAsync(context, text);
     }
 
-    public static async Task FlushJson(HttpContext context, string json)
+    public async Task FlushJson(HttpContext context, string json)
     {
         context.Response.ContentType = ContentTypeConstants.Json;
-        await context.Response.WriteAsync(json);
+
+        await WriteAsync(context, json);
     }
 
-    public static async Task FlushHtml(HttpContext context, string html)
+    public async Task FlushHtml(HttpContext context, string html)
     {
         context.Response.ContentType = ContentTypeConstants.Html;
-        await context.Response.WriteAsync(html);
+
+        await WriteAsync(context, html);
     }
 
-    public static async Task FlushStatusCode(HttpContext context, int statusCode = StatusCodes.Status200OK)
+    public async Task FlushStatusCode(HttpContext context, int statusCode = StatusCodes.Status200OK)
     {
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = ContentTypeConstants.Html;
         context.Response.Headers.CacheControl = "no-cache,no-store";
         context.Response.Headers.Pragma = "no-cache";
         //await context.Response.CompleteAsync();
+
+        _logger.LogTrace("Response StatusCode: {statusCode}", statusCode);
         await Task.FromResult(0);
     }
 
-    public static async Task FlushXml(HttpContext context, string xml)
+    public async Task FlushXml(HttpContext context, string xml)
     {
         context.Response.ContentType = ContentTypeConstants.Xml;
-        await context.Response.WriteAsync(xml);
+
+        await WriteAsync(context, xml);
     }
 
-    public static async Task FlushTextMessage(HttpContext context, ReceivedXml receivedXml, string text)
+    public async Task FlushTextMessage(HttpContext context, ReceivedXml receivedXml, string text)
     {
         var responseMessage = new WeixinResponseText
         {
@@ -53,10 +67,11 @@ public static class WeixinResponseBuilder
 
         var body = WeixinXmlConvert.SerializeObject(responseMessage);
         context.Response.ContentType = ContentTypeConstants.Xml;
-        await context.Response.WriteAsync(body);
+
+        await WriteAsync(context, body);
     }
 
-    public static async Task FlushNewsMessage(HttpContext context, ReceivedXml receivedXml, List<Article> articles)
+    public async Task FlushNewsMessage(HttpContext context, ReceivedXml receivedXml, List<Article> articles)
     {
         var responseMessage = new WeixinResponseNews
         {
@@ -68,6 +83,16 @@ public static class WeixinResponseBuilder
 
         var body = WeixinXmlConvert.SerializeObject(responseMessage);
         context.Response.ContentType = ContentTypeConstants.Xml;
-        await context.Response.WriteAsync(body);
+
+        await WriteAsync(context, body);
+    }
+
+    private async Task WriteAsync(HttpContext context, string text)
+    {
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+            await context.Response.WriteAsync(text);
+            _logger.LogTrace("Response Body({length}): {text}", text?.Length, text);
+        }
     }
 }

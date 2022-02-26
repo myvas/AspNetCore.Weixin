@@ -21,8 +21,8 @@ https://mp.weixin.qq.com
 ## How to Configure?
 * ConfigureServices
 ```
-services.AddScoped<WeixinEventSink>();
-var weixinEventSink = services.BuildServiceProvider().GetRequiredService<WeixinEventSink>();
+services.AddScoped<IWeixinEventSink, DefaultWeixinEventSink>();
+var weixinEventSink = services.BuildServiceProvider().GetRequiredService<IWeixinEventSink>();
 services
 	//AccessTokenApi: Fetch access_token and expires_in from remote
 	.AddWeixin(o =>

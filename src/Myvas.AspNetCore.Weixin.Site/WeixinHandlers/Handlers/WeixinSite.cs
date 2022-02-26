@@ -13,6 +13,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
     {
         private readonly WeixinSiteOptions _options;
         private readonly ILogger _logger;
+        private readonly IWeixinResponseBuilder WeixinResponseBuilder;
 
         public readonly IWeixinHandlerFactory _handlerFactory;
 
@@ -20,6 +21,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
 
 
         public WeixinSite(IOptions<WeixinSiteOptions> optionsAccessor,
+            IWeixinResponseBuilder responseBuilder,
             IWeixinHandlerFactory handlerFactory,
             IServiceProvider serviceProvider,
             ILogger<WeixinSite> logger)
@@ -27,6 +29,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
             _handlerFactory = handlerFactory ?? throw new ArgumentNullException(nameof(handlerFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            WeixinResponseBuilder = responseBuilder ?? throw new ArgumentNullException(nameof(responseBuilder));
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
@@ -39,7 +42,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
             {
                 text = await reader.ReadToEndAsync();
             }
-            _logger.LogDebug("Request Body({0}): {1}", text?.Length, text);
+            _logger.LogTrace("Request Body({length}): {text}", text?.Length, text);
 
             try
             {
@@ -112,13 +115,13 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
                                 handler = _handlerFactory.Create<LocationEventWeixinHandler>(_serviceProvider); break;
                             default:
                                 //throw new NotSupportedException($"系统无法处理此事件");
-                                await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest); 
+                                await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
                                 return false;
                         }
                         break;
                     default:
                         //throw new NotSupportedException($"系统无法处理此消息");
-                        await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest); 
+                        await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
                         return false;
                 }
                 handler.Context = Context;

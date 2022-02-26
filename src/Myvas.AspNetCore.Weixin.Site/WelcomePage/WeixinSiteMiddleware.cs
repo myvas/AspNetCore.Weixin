@@ -16,6 +16,7 @@ namespace Myvas.AspNetCore.Weixin
     {
         private readonly RequestDelegate _next;
         private readonly WeixinSiteEndpointOptions _options;
+        private readonly IWeixinResponseBuilder WeixinResponseBuilder;
 
         private readonly WeixinSiteOptions _serviceOptions;
         private readonly ILogger _logger;
@@ -26,10 +27,12 @@ namespace Myvas.AspNetCore.Weixin
             IOptions<WeixinSiteEndpointOptions> optionsAccessor,
             WeixinSite site,
             IOptions<WeixinSiteOptions> siteOptionsAccessor,
+            IWeixinResponseBuilder responseBuilder,
             ILoggerFactory loggerFactory)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
+            WeixinResponseBuilder = responseBuilder ?? throw new ArgumentNullException(nameof(responseBuilder));
 
             if (string.IsNullOrWhiteSpace(_options.Path))
             {

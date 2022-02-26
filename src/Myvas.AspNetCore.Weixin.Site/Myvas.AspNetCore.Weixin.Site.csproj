@@ -25,6 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Api\Myvas.AspNetCore.Weixin.Messaging\Myvas.AspNetCore.Weixin.Messaging.csproj" />
 		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
 		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
 		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />

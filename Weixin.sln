@@ -62,6 +62,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeixinSiteSample", "samples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.UserManager", "src\Api\Myvas.AspNetCore.Weixin.UserManager\Myvas.AspNetCore.Weixin.UserManager.csproj", "{2EB1A2C2-BD0D-4052-9AE3-CEC2B6958F17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Messaging", "src\Api\Myvas.AspNetCore.Weixin.Messaging\Myvas.AspNetCore.Weixin.Messaging.csproj", "{5169CD30-DE90-431D-A519-3DF2B09F49CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +118,10 @@ Global
 		{2EB1A2C2-BD0D-4052-9AE3-CEC2B6958F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EB1A2C2-BD0D-4052-9AE3-CEC2B6958F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EB1A2C2-BD0D-4052-9AE3-CEC2B6958F17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5169CD30-DE90-431D-A519-3DF2B09F49CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5169CD30-DE90-431D-A519-3DF2B09F49CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5169CD30-DE90-431D-A519-3DF2B09F49CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5169CD30-DE90-431D-A519-3DF2B09F49CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +144,7 @@ Global
 		{0A2794C3-E153-466E-B134-C7D43278FBCD} = {1F24DE32-0F7C-4307-8399-9853C62865A3}
 		{01CAD641-170B-4382-89B8-F255BB6205CC} = {448867BE-B89E-4B72-9BA0-43A83A99FDDD}
 		{2EB1A2C2-BD0D-4052-9AE3-CEC2B6958F17} = {C26C3C52-C565-4559-83D0-DED91C791650}
+		{5169CD30-DE90-431D-A519-3DF2B09F49CA} = {C26C3C52-C565-4559-83D0-DED91C791650}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E316A19-467A-4E08-9E0C-03014C12FCC0}

@@ -6,27 +6,15 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class TextMessageWeixinHandler : IWeixinHandler<TextMessageReceivedXml>
+public class TextMessageWeixinHandler : WeixinHandler, IWeixinHandler<TextMessageReceivedXml>
 {
-    private readonly ILogger _logger;
-    private readonly IWeixinHandlerFactory _handlerFactory;
-    private readonly WeixinSiteOptions _options;
-
-    public TextMessageWeixinHandler(ILogger<WeixinHandler> logger,
-        IOptions<WeixinSiteOptions> optionsAccessor,
-        IWeixinHandlerFactory handlerFactory
-    )
+    public TextMessageWeixinHandler(ILogger<WeixinHandler> logger, IWeixinResponseBuilder responseBuilder, IOptions<WeixinSiteOptions> optionsAccessor) : base(logger, responseBuilder, optionsAccessor)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
-        _handlerFactory = handlerFactory ?? throw new ArgumentNullException(nameof(handlerFactory));
     }
 
-    public HttpContext Context { get; set; }
-    public string Text { get; set; }
     public TextMessageReceivedXml Xml { get; set; }
 
-    public async Task<bool> ProcessAsync()
+    public override async Task<bool> ProcessAsync()
     {
         Xml = XmlConvert.DeserializeObject<TextMessageReceivedXml>(Text);
 
@@ -36,12 +24,6 @@ public class TextMessageWeixinHandler : IWeixinHandler<TextMessageReceivedXml>
         {
             return await DefaultResponseAsync();
         }
-        return true;
-    }
-
-    private async Task<bool> DefaultResponseAsync()
-    {
-        await WeixinResponseBuilder.FlushStatusCode(Context);
         return true;
     }
 }

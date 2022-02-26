@@ -1,23 +1,33 @@
-﻿using System.Text;
+﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
 {
     public abstract class WeixinEventSinkBase : IWeixinEventSink
     {
+        private readonly ILogger _logger;
+        private readonly IWeixinResponseBuilder WeixinResponseBuilder;
+
+        public WeixinEventSinkBase(IWeixinResponseBuilder responseBuilder, ILogger<WeixinEventSinkBase> logger)
+        {
+            WeixinResponseBuilder = responseBuilder ?? throw new ArgumentNullException(nameof(responseBuilder));
+            _logger = logger;
+        }
+
         public virtual async Task<bool> OnTextMessageReceived(WeixinResultContext<TextMessageReceivedXml> context)
         {
-            //_logger.LogTrace($"收到一条微信文本消息。");
-            //_logger.LogTrace(XmlConvert.SerializeObject(e));
+            _logger.LogTrace("OnTextMessageReceived: {content}", context.Xml.Content);
 
             var result = new StringBuilder();
-            result.AppendFormat("您刚才发送了文本信息：{0}", context.Xml.Content);
+            result.AppendFormat("收到一条微信文本消息：{0}", context.Xml.Content);
 
             await WeixinResponseBuilder.FlushTextMessage(context.Context, context.Xml, result.ToString());
 
-            //_logger.LogDebug(XmlConvert.SerializeObject(responseMessage));
+            _logger.LogDebug("FlushTextMessage: {content}", result.ToString());
 
-            return false;
+            return true;
         }
 
         public virtual Task<bool> OnLinkMessageReceived(WeixinResultContext<LinkMessageReceivedXml> context)
