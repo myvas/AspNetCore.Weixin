@@ -27,11 +27,11 @@ namespace Myvas.AspNetCore.Weixin
         /// <summary>
         /// 接收微信消息或事件
         /// </summary>
-        public WeixinEvents Events { get; set; }
+        public WeixinMessageEvents Events { get; set; }
 
         public WeixinSiteOptions()
         {
-            Events = new WeixinEvents();
+            Events = new WeixinMessageEvents();
         }
     }
 }
