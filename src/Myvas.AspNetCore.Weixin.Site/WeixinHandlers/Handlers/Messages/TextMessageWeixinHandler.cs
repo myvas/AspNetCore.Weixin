@@ -30,7 +30,7 @@ public class TextMessageWeixinHandler : IWeixinHandler<TextMessageReceivedXml>
     {
         Xml = XmlConvert.DeserializeObject<TextMessageReceivedXml>(Text);
 
-        var ctx = new WeixinReceivedContext<TextMessageReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinResultContext<TextMessageReceivedXml>(Context, Text, Xml);
         var handled = await _options.Events.TextMessageReceived(ctx);
         if (!handled)
         {

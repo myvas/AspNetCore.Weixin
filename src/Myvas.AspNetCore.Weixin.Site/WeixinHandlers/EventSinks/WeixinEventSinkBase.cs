@@ -1,93 +1,87 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
 {
     public abstract class WeixinEventSinkBase : IWeixinEventSink
-	{
-		public virtual Task<bool> OnTextMessageReceived(object sender, TextMessageReceivedEventArgs e)
-		{
-			//_logger.LogTrace($"收到一条微信文本消息。");
-			//_logger.LogTrace(XmlConvert.SerializeObject(e));
+    {
+        public virtual async Task<bool> OnTextMessageReceived(WeixinResultContext<TextMessageReceivedXml> context)
+        {
+            //_logger.LogTrace($"收到一条微信文本消息。");
+            //_logger.LogTrace(XmlConvert.SerializeObject(e));
 
-			//var messageHandler = sender as WeixinMessageHandler;
-			//var responseMessage = new ResponseMessageText();
-			//{
-			//	var result = new StringBuilder();
-			//	result.AppendFormat("您刚才发送了文本信息：{0}", e.Content);
+            var result = new StringBuilder();
+            result.AppendFormat("您刚才发送了文本信息：{0}", context.Xml.Content);
 
-			//	responseMessage.FromUserName = e.ToUserName;
-			//	responseMessage.ToUserName = e.FromUserName;
-			//	responseMessage.Content = result.ToString();
-			//}
-			//await messageHandler.WriteAsync(responseMessage);
+            await WeixinResponseBuilder.FlushTextMessage(context.Context, context.Xml, result.ToString());
 
-			//_logger.LogDebug(XmlConvert.SerializeObject(responseMessage));
+            //_logger.LogDebug(XmlConvert.SerializeObject(responseMessage));
 
-			return Task.FromResult(false);
-		}
-
-		public virtual Task<bool> OnLinkMessageReceived(object sender, LinkMessageReceivedEventArgs e)
-		{
-            return Task.FromResult(false);
+            return false;
         }
 
-        public virtual Task<bool> OnVideoMessageReceived(object sender, VideoMessageReceivedEventArgs e)
-		{
-            return Task.FromResult(false);
-        }
-
-        public virtual Task<bool> OnShortVideoMessageReceived(object sender, ShortVideoMessageReceivedEventArgs e)
-		{
-            return Task.FromResult(false);
-        }
-
-        public virtual Task<bool> OnVoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e)
-		{
-            return Task.FromResult(false);
-        }
-
-        public virtual Task<bool> OnImageMessageReceived(object sender, ImageMessageReceivedEventArgs e)
-		{
-            return Task.FromResult(false);
-        }
-
-        public virtual Task<bool> OnLocationMessageReceived(object sender, LocationMessageReceivedEventArgs e)
-		{
-            return Task.FromResult(false);
-        }
-
-        public virtual Task<bool> OnLocationEventReceived(object sender, LocationEventReceivedEventArgs e)
+        public virtual Task<bool> OnLinkMessageReceived(WeixinResultContext<LinkMessageReceivedXml> context)
         {
             return Task.FromResult(false);
         }
 
-        public virtual Task<bool> OnClickMenuEventReceived(object sender, ClickMenuEventReceivedEventArgs e)
+        public virtual Task<bool> OnVideoMessageReceived(WeixinResultContext<VideoMessageReceivedXml> context)
         {
             return Task.FromResult(false);
         }
 
-        public virtual Task<bool> OnViewMenuEventReceived(object sender, ViewMenuEventReceivedEventArgs e)
-		{
+        public virtual Task<bool> OnShortVideoMessageReceived(WeixinResultContext<ShortVideoMessageReceivedXml> context)
+        {
             return Task.FromResult(false);
         }
 
-        public virtual Task<bool> OnUnsubscribeEventReceived(object sender, UnsubscribeEventReceivedEventArgs e)
-		{
+        public virtual Task<bool> OnVoiceMessageReceived(WeixinResultContext<VoiceMessageReceivedXml> context)
+        {
             return Task.FromResult(false);
         }
 
-        public virtual Task<bool> OnEnterEventReceived(object sender, EnterEventReceivedEventArgs e)
-		{
+        public virtual Task<bool> OnImageMessageReceived(WeixinResultContext<ImageMessageReceivedXml> context)
+        {
             return Task.FromResult(false);
         }
 
-        public virtual Task<bool> OnSubscribeEventReceived(object sender, SubscribeEventReceivedEventArgs e)
-		{
+        public virtual Task<bool> OnLocationMessageReceived(WeixinResultContext<LocationMessageReceivedXml> context)
+        {
             return Task.FromResult(false);
         }
 
-        public virtual Task<bool> OnQrscanEventReceived(object sender, QrscanEventReceivedEventArgs e)
-		{
+        public virtual Task<bool> OnLocationEventReceived(WeixinResultContext<LocationEventReceivedXml> context)
+        {
+            return Task.FromResult(false);
+        }
+
+        public virtual Task<bool> OnClickMenuEventReceived(WeixinResultContext<ClickMenuEventReceivedXml> context)
+        {
+            return Task.FromResult(false);
+        }
+
+        public virtual Task<bool> OnViewMenuEventReceived(WeixinResultContext<ViewMenuEventReceivedXml> context)
+        {
+            return Task.FromResult(false);
+        }
+
+        public virtual Task<bool> OnUnsubscribeEventReceived(WeixinResultContext<UnsubscribeEventReceivedXml> context)
+        {
+            return Task.FromResult(false);
+        }
+
+        public virtual Task<bool> OnEnterEventReceived(WeixinResultContext<EnterEventReceivedXml> context)
+        {
+            return Task.FromResult(false);
+        }
+
+        public virtual Task<bool> OnSubscribeEventReceived(WeixinResultContext<SubscribeEventReceivedXml> context)
+        {
+            return Task.FromResult(false);
+        }
+
+        public virtual Task<bool> OnQrscanEventReceived(WeixinResultContext<QrscanEventReceivedXml> context)
+        {
             return Task.FromResult(false);
         }
     }

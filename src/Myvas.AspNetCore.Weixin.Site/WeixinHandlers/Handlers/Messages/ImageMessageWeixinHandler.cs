@@ -30,7 +30,7 @@ public class ImageMessageWeixinHandler : IWeixinHandler<ImageMessageReceivedXml>
     {
         Xml = XmlConvert.DeserializeObject<ImageMessageReceivedXml>(Text);
 
-        var ctx = new WeixinReceivedContext<ImageMessageReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinResultContext<ImageMessageReceivedXml>(Context, Text, Xml);
         var handled = await _options.Events.ImageMessageReceived(ctx);
         if (!handled)
         {

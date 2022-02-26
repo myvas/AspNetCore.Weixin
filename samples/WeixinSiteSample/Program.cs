@@ -33,20 +33,20 @@ builder.Services
         var weixinEventSink = new DefaultWeixinEventSink();
         o.Events = new WeixinMessageEvents()
         {
-            OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx.Sender, ctx.Args),
-            OnLinkMessageReceived = ctx => weixinEventSink.OnLinkMessageReceived(ctx.Sender, ctx.Args),
-            OnClickMenuEventReceived = ctx => weixinEventSink.OnClickMenuEventReceived(ctx.Sender, ctx.Args),
-            OnImageMessageReceived = ctx => weixinEventSink.OnImageMessageReceived(ctx.Sender, ctx.Args),
-            OnLocationEventReceived = ctx => weixinEventSink.OnLocationEventReceived(ctx.Sender, ctx.Args),
-            OnLocationMessageReceived = ctx => weixinEventSink.OnLocationMessageReceived(ctx.Sender, ctx.Args),
-            OnQrscanEventReceived = ctx => weixinEventSink.OnQrscanEventReceived(ctx.Sender, ctx.Args),
-            OnEnterEventReceived = ctx => weixinEventSink.OnEnterEventReceived(ctx.Sender, ctx.Args),
-            OnSubscribeEventReceived = ctx => weixinEventSink.OnSubscribeEventReceived(ctx.Sender, ctx.Args),
-            OnUnsubscribeEventReceived = ctx => weixinEventSink.OnUnsubscribeEventReceived(ctx.Sender, ctx.Args),
-            OnVideoMessageReceived = ctx => weixinEventSink.OnVideoMessageReceived(ctx.Sender, ctx.Args),
-            OnShortVideoMessageReceived = ctx => weixinEventSink.OnShortVideoMessageReceived(ctx.Sender, ctx.Args),
-            OnViewMenuEventReceived = ctx => weixinEventSink.OnViewMenuEventReceived(ctx.Sender, ctx.Args),
-            OnVoiceMessageReceived = ctx => weixinEventSink.OnVoiceMessageReceived(ctx.Sender, ctx.Args)
+            OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx),
+            OnLinkMessageReceived = ctx => weixinEventSink.OnLinkMessageReceived(ctx),
+            OnClickMenuEventReceived = ctx => weixinEventSink.OnClickMenuEventReceived(ctx),
+            OnImageMessageReceived = ctx => weixinEventSink.OnImageMessageReceived(ctx),
+            OnLocationEventReceived = ctx => weixinEventSink.OnLocationEventReceived(ctx),
+            OnLocationMessageReceived = ctx => weixinEventSink.OnLocationMessageReceived(ctx),
+            OnQrscanEventReceived = ctx => weixinEventSink.OnQrscanEventReceived(ctx),
+            OnEnterEventReceived = ctx => weixinEventSink.OnEnterEventReceived(ctx),
+            OnSubscribeEventReceived = ctx => weixinEventSink.OnSubscribeEventReceived(ctx),
+            OnUnsubscribeEventReceived = ctx => weixinEventSink.OnUnsubscribeEventReceived(ctx),
+            OnVideoMessageReceived = ctx => weixinEventSink.OnVideoMessageReceived(ctx),
+            OnShortVideoMessageReceived = ctx => weixinEventSink.OnShortVideoMessageReceived(ctx),
+            OnViewMenuEventReceived = ctx => weixinEventSink.OnViewMenuEventReceived(ctx),
+            OnVoiceMessageReceived = ctx => weixinEventSink.OnVoiceMessageReceived(ctx)
         };
     });
 

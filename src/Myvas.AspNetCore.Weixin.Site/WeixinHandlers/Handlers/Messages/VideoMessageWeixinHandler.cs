@@ -30,7 +30,7 @@ public class VideoMessageWeixinHandler : IWeixinHandler<VideoMessageReceivedXml>
     {
         Xml = XmlConvert.DeserializeObject<VideoMessageReceivedXml>(Text);
 
-        var ctx = new WeixinReceivedContext<VideoMessageReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinResultContext<VideoMessageReceivedXml>(Context, Text, Xml);
         var handled = await _options.Events.VideoMessageReceived(ctx);
         if (!handled)
         {

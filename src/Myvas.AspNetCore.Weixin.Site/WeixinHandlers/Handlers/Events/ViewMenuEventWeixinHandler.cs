@@ -30,7 +30,7 @@ public class ViewMenuEventWeixinHandler : IWeixinHandler<ViewMenuEventReceivedXm
     {
         Xml = XmlConvert.DeserializeObject<ViewMenuEventReceivedXml>(Text);
 
-        var ctx = new WeixinReceivedContext<ViewMenuEventReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinResultContext<ViewMenuEventReceivedXml>(Context, Text, Xml);
         var handled = await _options.Events.ViewMenuEventReceived(ctx);
         if (!handled)
         {

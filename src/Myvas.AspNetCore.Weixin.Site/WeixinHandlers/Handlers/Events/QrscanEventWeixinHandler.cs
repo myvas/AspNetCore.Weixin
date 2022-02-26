@@ -30,7 +30,7 @@ public class QrscanEventWeixinHandler : IWeixinHandler<QrscanEventReceivedXml>
     {
         Xml = XmlConvert.DeserializeObject<QrscanEventReceivedXml>(Text);
 
-        var ctx = new WeixinReceivedContext<QrscanEventReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinResultContext<QrscanEventReceivedXml>(Context, Text, Xml);
         var handled = await _options.Events.QrscanEventReceived(ctx);
         if (!handled)
         {

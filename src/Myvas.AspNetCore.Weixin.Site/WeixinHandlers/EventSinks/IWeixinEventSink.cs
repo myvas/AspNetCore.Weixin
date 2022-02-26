@@ -3,21 +3,21 @@ using Myvas.AspNetCore.Weixin;
 
 namespace Myvas.AspNetCore.Weixin
 {
-	public interface IWeixinEventSink
+    public interface IWeixinEventSink
 	{
-		Task<bool> OnClickMenuEventReceived(object sender, ClickMenuEventReceivedEventArgs e);
-        Task<bool> OnEnterEventReceived(object sender, EnterEventReceivedEventArgs e);
-        Task<bool> OnImageMessageReceived(object sender, ImageMessageReceivedEventArgs e);
-        Task<bool> OnLinkMessageReceived(object sender, LinkMessageReceivedEventArgs e);
-        Task<bool> OnLocationEventReceived(object sender, LocationEventReceivedEventArgs e);
-        Task<bool> OnLocationMessageReceived(object sender, LocationMessageReceivedEventArgs e);
-        Task<bool> OnQrscanEventReceived(object sender, QrscanEventReceivedEventArgs e);
-        Task<bool> OnShortVideoMessageReceived(object sender, ShortVideoMessageReceivedEventArgs e);
-        Task<bool> OnSubscribeEventReceived(object sender, SubscribeEventReceivedEventArgs e);
-        Task<bool> OnTextMessageReceived(object sender, TextMessageReceivedEventArgs e);
-        Task<bool> OnUnsubscribeEventReceived(object sender, UnsubscribeEventReceivedEventArgs e);
-        Task<bool> OnVideoMessageReceived(object sender, VideoMessageReceivedEventArgs e);
-        Task<bool> OnViewMenuEventReceived(object sender, ViewMenuEventReceivedEventArgs e);
-        Task<bool> OnVoiceMessageReceived(object sender, VoiceMessageReceivedEventArgs e);
+		Task<bool> OnClickMenuEventReceived(WeixinResultContext<ClickMenuEventReceivedXml> context);
+        Task<bool> OnEnterEventReceived(WeixinResultContext<EnterEventReceivedXml> context);
+        Task<bool> OnImageMessageReceived(WeixinResultContext<ImageMessageReceivedXml> context);
+        Task<bool> OnLinkMessageReceived(WeixinResultContext<LinkMessageReceivedXml> context);
+        Task<bool> OnLocationEventReceived(WeixinResultContext<LocationEventReceivedXml> context);
+        Task<bool> OnLocationMessageReceived(WeixinResultContext<LocationMessageReceivedXml> context);
+        Task<bool> OnQrscanEventReceived(WeixinResultContext<QrscanEventReceivedXml> context);
+        Task<bool> OnShortVideoMessageReceived(WeixinResultContext<ShortVideoMessageReceivedXml> context);
+        Task<bool> OnSubscribeEventReceived(WeixinResultContext<SubscribeEventReceivedXml> context);
+        Task<bool> OnTextMessageReceived(WeixinResultContext<TextMessageReceivedXml> context);
+        Task<bool> OnUnsubscribeEventReceived(WeixinResultContext<UnsubscribeEventReceivedXml> context);
+        Task<bool> OnVideoMessageReceived(WeixinResultContext<VideoMessageReceivedXml> context);
+        Task<bool> OnViewMenuEventReceived(WeixinResultContext<ViewMenuEventReceivedXml> context);
+        Task<bool> OnVoiceMessageReceived(WeixinResultContext<VoiceMessageReceivedXml> context);
 	}
 }

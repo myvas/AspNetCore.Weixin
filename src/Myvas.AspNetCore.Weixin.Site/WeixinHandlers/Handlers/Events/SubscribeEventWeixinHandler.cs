@@ -30,7 +30,7 @@ public class SubscribeEventWeixinHandler : IWeixinHandler<SubscribeEventReceived
     {
         Xml = XmlConvert.DeserializeObject<SubscribeEventReceivedXml>(Text);
 
-        var ctx = new WeixinReceivedContext<SubscribeEventReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinResultContext<SubscribeEventReceivedXml>(Context, Text, Xml);
         var handled = await _options.Events.SubscribeEventReceived(ctx);
         if (!handled)
         {
