@@ -45,9 +45,7 @@ services
   {
     o.AppId = Configuration["Weixin:AppId"];
     o.AppSecret = Configuration["Weixin:AppSecret"];
-  })
-  //IWeixinAccessToken: with IDistributedCache via Microsoft.Extensions.Caching.StackExchangeRedis
-  .AddAccessToken(o =>
+  }),o =>
   {
     o.Configuration = Configuration.GetConnectionString("RedisConnection");
     o.InstanceName = Configuration["Weixin:AppId"];

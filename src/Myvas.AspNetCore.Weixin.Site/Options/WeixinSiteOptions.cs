@@ -15,11 +15,6 @@ namespace Myvas.AspNetCore.Weixin
         public string WebsiteToken { get; set; }
 
         /// <summary>
-        /// 服务器地址路径，默认为: /wx
-        /// </summary>
-        public string Path { get; set; } = WeixinSiteOptionsDefaults.Path;
-
-        /// <summary>
         /// 消息模式 <see cref="EncodingContants"/>
         /// </summary>
         public string EncodingType { get; set; } = WeixinSiteOptionsDefaults.DefaultEncodingType;

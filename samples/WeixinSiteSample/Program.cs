@@ -25,7 +25,12 @@ builder.Services
         o.Configuration = builder.Configuration.GetConnectionString("RedisConnection");
         o.InstanceName = builder.Configuration["Weixin:AppId"];
     })
-    .AddSubscriberManager<ApplicationDbContext>();
+    .AddSubscriberManager<ApplicationDbContext>()
+    .AddWeixinSite(o =>
+    {
+        o.WebsiteToken = builder.Configuration["Weixin:WebsiteToken"];
+        o.Debug = bool.Parse(builder.Configuration["Weixin:Debug"] ?? "false");
+    });
 
 //.AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -47,5 +52,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.UseWeixinSite();
 
 app.Run();
