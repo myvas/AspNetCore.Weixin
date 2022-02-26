@@ -10,7 +10,7 @@ public interface IWeixinResponseBuilder
     Task FlushJson(HttpContext context, string json);
     Task FlushNewsMessage(HttpContext context, ReceivedXml receivedXml, List<Article> articles);
     Task FlushPlainText(HttpContext context, string text);
-    Task FlushStatusCode(HttpContext context, int statusCode = 200);
+    Task FlushStatusCode(HttpContext context, int statusCode = StatusCodes.Status200OK);
     Task FlushTextMessage(HttpContext context, ReceivedXml receivedXml, string text);
     Task FlushXml(HttpContext context, string xml);
 }

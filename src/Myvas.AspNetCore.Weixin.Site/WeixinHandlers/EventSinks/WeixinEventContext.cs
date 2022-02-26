@@ -3,10 +3,10 @@ using System;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinResultContext<TReceivedXml>
+public class WeixinEventContext<TReceivedXml>
     where TReceivedXml : ReceivedXml, new()
 {
-    public WeixinResultContext(
+    public WeixinEventContext(
         HttpContext context,
         string text,
         TReceivedXml xml)

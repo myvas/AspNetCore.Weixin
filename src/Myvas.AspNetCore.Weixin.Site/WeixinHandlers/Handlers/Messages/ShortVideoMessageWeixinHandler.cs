@@ -18,7 +18,7 @@ public class ShortVideoMessageWeixinHandler : WeixinHandler,IWeixinHandler<Short
     {
         Xml = XmlConvert.DeserializeObject<ShortVideoMessageReceivedXml>(Text);
 
-        var ctx = new WeixinResultContext<ShortVideoMessageReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinEventContext<ShortVideoMessageReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnShortVideoMessageReceived(ctx);
         if (!handled)
         {

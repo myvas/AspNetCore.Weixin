@@ -18,7 +18,7 @@ public class LinkMessageWeixinHandler : WeixinHandler,IWeixinHandler<LinkMessage
     {
         Xml = XmlConvert.DeserializeObject<LinkMessageReceivedXml>(Text);
 
-        var ctx = new WeixinResultContext<LinkMessageReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinEventContext<LinkMessageReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnLinkMessageReceived(ctx);
         if (!handled)
         {

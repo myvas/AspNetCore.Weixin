@@ -28,11 +28,19 @@ namespace Myvas.AspNetCore.Weixin
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
         }
 
+        ///<inheritdoc />
         public HttpContext Context { get; set; }
+
+        ///<inheritdoc />
         public string Text { get; set; }
 
+        ///<inheritdoc />
         public abstract Task<bool> ProcessAsync();
 
+        /// <summary>
+        /// Flush a response with status code <see cref="StatusCodes.Status200OK"/>.
+        /// </summary>
+        /// <returns></returns>
         protected virtual async Task<bool> DefaultResponseAsync()
         {
             await WeixinResponseBuilder.FlushStatusCode(Context);

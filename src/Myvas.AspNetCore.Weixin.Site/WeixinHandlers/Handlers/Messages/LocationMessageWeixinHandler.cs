@@ -18,7 +18,7 @@ public class LocationMessageWeixinHandler : WeixinHandler,IWeixinHandler<Locatio
     {
         Xml = XmlConvert.DeserializeObject<LocationMessageReceivedXml>(Text);
 
-        var ctx = new WeixinResultContext<LocationMessageReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinEventContext<LocationMessageReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnLocationMessageReceived(ctx);
         if (!handled)
         {

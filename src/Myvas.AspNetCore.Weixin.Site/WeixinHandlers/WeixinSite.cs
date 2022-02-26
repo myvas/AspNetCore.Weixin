@@ -36,25 +36,36 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
         public async Task ProcessAsync(HttpContext context)
         {
             var text = "";
-            context.Request.EnableBuffering();
-            context.Request.Body.Seek(0, SeekOrigin.Begin);
-            using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024, true))
+            try
             {
-                text = await reader.ReadToEndAsync();
+                context.Request.EnableBuffering();
+                context.Request.Body.Seek(0, SeekOrigin.Begin);
+                using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024, true))
+                {
+                    text = await reader.ReadToEndAsync();
+                }
+                _logger.LogTrace("Request Body({length}): {text}", text?.Length, text);
             }
-            _logger.LogTrace("Request Body({length}): {text}", text?.Length, text);
+            catch (Exception ex)
+            {
+                _logger.LogWarning("无法识别的请求。");
+                _logger.LogError(ex, ex.Message);
+                _logger.LogTrace(ex.InnerException, ex.InnerException?.Message);
+                await WeixinResponseBuilder.FlushStatusCode(context, StatusCodes.Status400BadRequest);
+                return;
+            }
 
             try
             {
-                //IWeixinHandler handler = _handlerFactory.Create<WeixinHandler>();
-                //handler.Context = context;
-                //handler.Text = text;
-                //await handler.
                 await ProcessAsync(context, text);
             }
             catch (Exception ex)
             {
-                throw new NotSupportedException($"消息无法识别", ex);
+                _logger.LogWarning("未处理的异常。");
+                _logger.LogError(ex, ex.Message);
+                _logger.LogTrace(ex.InnerException, ex.InnerException?.Message);
+                await WeixinResponseBuilder.FlushStatusCode(context, StatusCodes.Status500InternalServerError);
+                return;
             }
         }
 
@@ -78,25 +89,77 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
         /// <returns></returns>
         private async Task<bool> ProcessAsync(HttpContext Context, string Text)
         {
-            var doc = XDocument.Parse(Text);
-
-            RequestMsgType msgType = RequestMsgType.Unknown;
-            RequestEventType? eventType = RequestEventType.Unknown;
+            XDocument doc = null;
             try
             {
-                string sMsgType = doc.Root.Element("MsgType").Value;
+                doc = XDocument.Parse(Text);
+            }
+            catch (Exception ex)//NotSupportedException
+            {
+                doc = null;
+                _logger.LogWarning("格式错误的微信请求。");
+                _logger.LogDebug(ex, ex.Message);
+                _logger.LogTrace(ex.InnerException, ex.InnerException?.Message);
+                return false;
+            }
+            finally
+            {
+                if (doc == null)
+                {
+                    await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
+                }
+            }
+
+            RequestMsgType msgType = RequestMsgType.Unknown;
+            var sMsgType = "";
+            try
+            {
+                sMsgType = doc.Root.Element("MsgType").Value;
                 msgType = (RequestMsgType)Enum.Parse(typeof(RequestMsgType), sMsgType, true);
             }
-            catch { msgType = RequestMsgType.Unknown; }
+            catch (Exception ex)
+            {
+                msgType = RequestMsgType.Unknown;
+                _logger.LogWarning("无法识别的微信消息类型[{msgType}]。", sMsgType);
+                _logger.LogDebug(ex, ex.Message);
+                _logger.LogTrace(ex.InnerException, ex.InnerException?.Message);
+                return true;
+            }
+            finally
+            {
+                if (msgType == RequestMsgType.Unknown)
+                {
+                    await WeixinResponseBuilder.FlushStatusCode(Context, string.IsNullOrWhiteSpace(sMsgType)
+                        ? StatusCodes.Status400BadRequest : StatusCodes.Status501NotImplemented);
+                }
+            }
+
+            RequestEventType? eventType = RequestEventType.Unknown;
+            var sEventType = "";
             if (msgType == RequestMsgType.@event)
             {
-                var sEventType = doc.Root.Element("Event").Value;
+                sEventType = doc.Root.Element("Event").Value;
                 try
                 {
                     eventType = (RequestEventType)Enum.Parse(typeof(RequestEventType), sEventType, true);
                     msgType = RequestMsgType.@event;
                 }
-                catch { eventType = RequestEventType.Unknown; }
+                catch (Exception ex)
+                {
+                    eventType = RequestEventType.Unknown;
+                    _logger.LogWarning("无法识别的微信事件类型[{msgType}]。", sEventType);
+                    _logger.LogDebug(ex, ex.Message);
+                    _logger.LogTrace(ex.InnerException, ex.InnerException?.Message);
+                    return true;
+                }
+                finally
+                {
+                    if (eventType == RequestEventType.Unknown)
+                    {
+                        await WeixinResponseBuilder.FlushStatusCode(Context, string.IsNullOrWhiteSpace(sEventType)
+                            ? StatusCodes.Status400BadRequest : StatusCodes.Status501NotImplemented);
+                    }
+                }
             }
 
             try
@@ -133,15 +196,15 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
                                 handler = _handlerFactory.Create<LocationEventWeixinHandler>(_serviceProvider); break;
                             default:
                                 //throw new NotSupportedException($"系统无法处理此事件");
-                                _logger.LogWarning("微信事件类型为[{eventType}]的事件未得到处理。", eventType);
-                                await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
+                                _logger.LogWarning("未处理的微信事件类型[{eventType}]。", sEventType);
+                                await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status501NotImplemented);
                                 return false;
                         }
                         break;
                     default:
                         //throw new NotSupportedException($"系统无法处理此消息");
-                        _logger.LogWarning("微信消息类型为[{msgType}]的消息未得到处理。", msgType);
-                        await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
+                        _logger.LogWarning("未处理的微信消息类型[{msgType}]。", sMsgType);
+                        await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status501NotImplemented);
                         return false;
                 }
                 handler.Context = Context;
@@ -150,9 +213,10 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
             }
             catch (Exception ex)
             {
-                //throw new NotSupportedException($"系统异常", ex);
-                _logger.LogError("微信请求处理时发生异常！{exception}", ex.Message);
-                await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status400BadRequest);
+                _logger.LogError("处理微信请求时发生异常！");
+                _logger.LogDebug(ex, ex.Message);
+                _logger.LogTrace(ex.InnerException, ex.InnerException?.Message);
+                await WeixinResponseBuilder.FlushStatusCode(Context, StatusCodes.Status500InternalServerError);
                 return false;
             }
         }

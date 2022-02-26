@@ -18,7 +18,7 @@ public class SubscribeEventWeixinHandler : WeixinHandler, IWeixinHandler<Subscri
     {
         Xml = XmlConvert.DeserializeObject<SubscribeEventReceivedXml>(Text);
 
-        var ctx = new WeixinResultContext<SubscribeEventReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinEventContext<SubscribeEventReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnSubscribeEventReceived(ctx);
         if (!handled)
         {

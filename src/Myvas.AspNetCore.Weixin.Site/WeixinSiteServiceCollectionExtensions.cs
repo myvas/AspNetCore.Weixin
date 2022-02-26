@@ -37,6 +37,7 @@ public static class WeixinSiteServiceCollectionExtensions
         builder.Services.AddSingleton<IWeixinHandlerFactory, WeixinHandlerFactory>();
         //builder.Services.TryAddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>(); //即使不启用加密，也把此不必要的加密服务接口提供出来了。
         //builder.Services.AddWeixinMessageProtection();
+        builder.Services.AddWeixinResponseBuilder();
         builder.Services.TryAddTransient<IWeixinEventSink, TWeixinEventSink>();
         builder.Services.AddSingleton<WeixinSite>();
 

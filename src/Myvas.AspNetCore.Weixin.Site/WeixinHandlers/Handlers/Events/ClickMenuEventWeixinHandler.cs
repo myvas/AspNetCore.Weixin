@@ -12,13 +12,15 @@ public class ClickMenuEventWeixinHandler : WeixinHandler, IWeixinHandler<ClickMe
     {
     }
 
+    ///<inheritdoc />
     public ClickMenuEventReceivedXml Xml { get; set; }
 
+    ///<inheritdoc />
     public override async Task<bool> ProcessAsync()
     {
         Xml = XmlConvert.DeserializeObject<ClickMenuEventReceivedXml>(Text);
 
-        var ctx = new WeixinResultContext<ClickMenuEventReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinEventContext<ClickMenuEventReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnClickMenuEventReceived(ctx);
         if (!handled)
         {

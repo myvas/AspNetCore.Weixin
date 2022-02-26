@@ -26,7 +26,6 @@ var weixinBuilder = builder.Services
       o.InstanceName = builder.Configuration["Weixin:AppId"];
     })
     .AddSubscriberManager<ApplicationDbContext>()
-    .AddMessenger()
     .AddWeixinSite<DefaultWeixinEventSink>(o =>
     {
         o.WebsiteToken = builder.Configuration["Weixin:WebsiteToken"];

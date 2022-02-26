@@ -4,21 +4,22 @@ using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class WeixinMessagingBuilderExtensions
 {
-  public static IWeixinBuilder AddMessenger(
-      this IWeixinBuilder builder)
-  {
-    if (builder == null)
+    public static IWeixinBuilder AddResponseBuilder(
+        this IWeixinBuilder builder)
     {
-      throw new ArgumentNullException(nameof(builder));
+        if (builder == null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        builder.Services.AddWeixinResponseBuilder();
+
+        return builder;
     }
-
-    builder.Services.AddWeixinResponseBuilder();
-
-    return builder;
-  }
 }

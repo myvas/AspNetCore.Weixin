@@ -18,7 +18,7 @@ public class VoiceMessageWeixinHandler : WeixinHandler, IWeixinHandler<VoiceMess
     {
         Xml = XmlConvert.DeserializeObject<VoiceMessageReceivedXml>(Text);
 
-        var ctx = new WeixinResultContext<VoiceMessageReceivedXml>(Context, Text, Xml);
+        var ctx = new WeixinEventContext<VoiceMessageReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnVoiceMessageReceived(ctx);
         if (!handled)
         {
