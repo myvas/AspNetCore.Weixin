@@ -1,14 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.DbContexts;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -24,9 +18,9 @@ public static class EntityFrameworkCoreStorageServiceCollectionExtensions
     /// <param name="storeOptionsAction">The store options action.</param>
     /// <returns></returns>
     public static IServiceCollection AddOperationalDbContext(this IServiceCollection services,
-        Action<OperationalStoreOptions> storeOptionsAction = null)
+        Action<WeixinStoreOptions> storeOptionsAction = null)
     {
-        return services.AddOperationalDbContext<PersistedTokenDbContext>(storeOptionsAction);
+        return services.AddOperationalDbContext<WeixinDbContext>(storeOptionsAction);
     }
 
     /// <summary>
@@ -37,10 +31,10 @@ public static class EntityFrameworkCoreStorageServiceCollectionExtensions
     /// <param name="storeOptionsAction">The store options action.</param>
     /// <returns></returns>
     public static IServiceCollection AddOperationalDbContext<TContext>(this IServiceCollection services,
-        Action<OperationalStoreOptions> storeOptionsAction = null)
-        where TContext : DbContext, IPersistedTokenDbContext
+        Action<WeixinStoreOptions> storeOptionsAction = null)
+        where TContext : DbContext, IWeixinDbContext
     {
-        var storeOptions = new OperationalStoreOptions();
+        var storeOptions = new WeixinStoreOptions();
         services.AddSingleton(storeOptions);
         storeOptionsAction?.Invoke(storeOptions);
 
@@ -88,7 +82,7 @@ public static class EntityFrameworkCoreStorageServiceCollectionExtensions
             }
         }
 
-        services.AddScoped<IPersistedTokenDbContext, TContext>();
+        services.AddScoped<IWeixinDbContext, TContext>();
         services.AddTransient<TokenCleanupService>();
 
         return services;

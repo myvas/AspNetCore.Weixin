@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
+using Myvas.AspNetCore.Weixin.Helpers;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
@@ -16,7 +15,7 @@ public class SubscribeEventWeixinHandler : WeixinHandler, IWeixinHandler<Subscri
 
     public override async Task<bool> ProcessAsync()
     {
-        Xml = XmlConvert.DeserializeObject<SubscribeEventReceivedXml>(Text);
+        Xml = WeixinXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(Text);
 
         var ctx = new WeixinEventContext<SubscribeEventReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnSubscribeEventReceived(ctx);

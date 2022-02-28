@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.DbContexts;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 
 namespace WeixinSiteSample.Data
 {
-    public class ApplicationDbContext : PersistedTokenDbContext<ApplicationDbContext>, IPersistedTokenDbContext//<ApplicationUser>
+    public class ApplicationDbContext : WeixinDbContext<ApplicationDbContext>, IWeixinDbContext//<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

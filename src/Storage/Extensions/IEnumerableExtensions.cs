@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Myvas.AspNetCore.Weixin.Extensions;
+namespace Myvas.AspNetCore.Weixin.Storage.Extensions;
 
 internal static class IEnumerableExtensions
 {

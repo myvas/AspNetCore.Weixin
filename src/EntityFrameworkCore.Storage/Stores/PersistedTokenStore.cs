@@ -1,17 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
-using Myvas.AspNetCore.Weixin.Extensions;
-using Myvas.AspNetCore.Weixin.Models;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 using Myvas.AspNetCore.Weixin.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities;
+using Myvas.AspNetCore.Weixin.Storage.Extensions;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 
@@ -23,7 +15,7 @@ public class PersistedTokenStore : IPersistedTokenStore
     /// <summary>
     /// The DbContext.
     /// </summary>
-    protected readonly IPersistedTokenDbContext Context;
+    protected readonly IWeixinDbContext Context;
 
     /// <summary>
     /// The CancellationToken service.
@@ -42,7 +34,7 @@ public class PersistedTokenStore : IPersistedTokenStore
     /// <param name="logger"></param>
     /// <param name="cancellationTokenProvider"></param>
     public PersistedTokenStore(
-        IPersistedTokenDbContext context,
+        IWeixinDbContext context,
         ILogger<PersistedTokenStore> logger,
         ICancellationTokenProvider cancellationTokenProvider)
     {

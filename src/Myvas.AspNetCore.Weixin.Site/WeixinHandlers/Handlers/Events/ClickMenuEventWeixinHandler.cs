@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
+using Myvas.AspNetCore.Weixin.Helpers;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
@@ -18,7 +17,7 @@ public class ClickMenuEventWeixinHandler : WeixinHandler, IWeixinHandler<ClickMe
     ///<inheritdoc />
     public override async Task<bool> ProcessAsync()
     {
-        Xml = XmlConvert.DeserializeObject<ClickMenuEventReceivedXml>(Text);
+        Xml = WeixinXmlConvert.DeserializeObject<ClickMenuEventReceivedXml>(Text);
 
         var ctx = new WeixinEventContext<ClickMenuEventReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnClickMenuEventReceived(ctx);

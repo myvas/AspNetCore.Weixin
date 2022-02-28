@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Myvas.AspNetCore.Weixin.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

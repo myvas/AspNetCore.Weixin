@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 using Myvas.AspNetCore.Weixin.Options;
@@ -12,7 +11,7 @@ public static class WeixinSubscriberManagerBuilderExtensions
 {
     public static IWeixinBuilder AddSubscriberManager(
         this IWeixinBuilder builder,
-        Action<OperationalStoreOptions> storeOptionsAction = null)
+        Action<WeixinStoreOptions> storeOptionsAction = null)
     {
         if (builder == null)
         {
@@ -27,8 +26,8 @@ public static class WeixinSubscriberManagerBuilderExtensions
     public static IWeixinBuilder AddSubscriberManager<TContext>(
         this IWeixinBuilder builder,
         Action<WeixinSubscriberManagerOptions> setupAction = null,
-        Action<OperationalStoreOptions> storeOptionsAction = null)
-        where TContext : DbContext, IPersistedTokenDbContext
+        Action<WeixinStoreOptions> storeOptionsAction = null)
+        where TContext : DbContext, IWeixinDbContext
     {
         if (builder == null)
         {

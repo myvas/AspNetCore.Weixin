@@ -1,12 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 
@@ -15,8 +9,8 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 /// </summary>
 public class TokenCleanupService
 {
-    private readonly OperationalStoreOptions _options;
-    private readonly IPersistedTokenDbContext _tokenDbContext;
+    private readonly WeixinStoreOptions _options;
+    private readonly IWeixinDbContext _tokenDbContext;
     private readonly IOperationalStoreNotification _operationalStoreNotification;
     private readonly ILogger<TokenCleanupService> _logger;
 
@@ -30,8 +24,8 @@ public class TokenCleanupService
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentException"></exception>
     public TokenCleanupService(
-        OperationalStoreOptions options,
-        IPersistedTokenDbContext tokenDbContext,
+        WeixinStoreOptions options,
+        IWeixinDbContext tokenDbContext,
         ILogger<TokenCleanupService> logger,
         IOperationalStoreNotification operationalStoreNotification = null)
     {

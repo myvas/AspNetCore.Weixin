@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace Myvas.AspNetCore.Weixin.Extensions;
 
-public static class IReadableStringCollectionExtensions
+internal static class IReadableStringCollectionExtensions
 {
     [DebuggerStepThrough]
     public static NameValueCollection AsNameValueCollection(this IEnumerable<KeyValuePair<string, StringValues>> collection)

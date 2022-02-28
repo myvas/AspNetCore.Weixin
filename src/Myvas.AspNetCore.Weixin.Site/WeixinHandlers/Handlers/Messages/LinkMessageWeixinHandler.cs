@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin.Helpers;
 using System;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ public class LinkMessageWeixinHandler : WeixinHandler,IWeixinHandler<LinkMessage
 
     public override async Task<bool> ProcessAsync()
     {
-        Xml = XmlConvert.DeserializeObject<LinkMessageReceivedXml>(Text);
+        Xml = WeixinXmlConvert.DeserializeObject<LinkMessageReceivedXml>(Text);
 
         var ctx = new WeixinEventContext<LinkMessageReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnLinkMessageReceived(ctx);

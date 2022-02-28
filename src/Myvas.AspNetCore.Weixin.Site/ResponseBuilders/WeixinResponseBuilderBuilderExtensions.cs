@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
-using System;
+﻿using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

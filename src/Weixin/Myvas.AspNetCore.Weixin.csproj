@@ -9,11 +9,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Logging\Models\TokenRequestValidationLog.cs" />
-	  <Compile Remove="Models\TokenCreationRequest.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 

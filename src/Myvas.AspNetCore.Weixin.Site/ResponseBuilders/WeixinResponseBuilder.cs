@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Myvas.AspNetCore.Weixin.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

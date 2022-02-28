@@ -1,4 +1,4 @@
-﻿namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities;
+﻿namespace Myvas.AspNetCore.Weixin.Entities;
 
 #pragma warning disable 1591
 

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using Xunit;
+using Myvas.AspNetCore.Weixin.Helpers;
 
 namespace test
 {
@@ -58,7 +59,7 @@ namespace test
 			var msg_signature = "a76bb4d3348628369b38e8fecebf5f0545d48786";
 			var encrypt_type = "aes";
 
-			var received = XmlConvert.DeserializeObject<ReceivedXml>(xml);
+			var received = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 			if (encrypt_type == "aes")
 			{
 				var decryptedXml = _encryptor.Decrypt(msg_signature, timestamp, nonce, xml);
@@ -67,7 +68,7 @@ namespace test
 				xml = decryptedXml;
 			}
 
-			var result = XmlConvert.DeserializeObject<ReceivedXml>(xml);
+			var result = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 			Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
 			Assert.Equal(RequestMsgType.text, result.MsgType);
 		}
@@ -100,7 +101,7 @@ namespace test
 				xml = decryptedXml;
 			}
 
-			var result = XmlConvert.DeserializeObject<ReceivedXml>(xml);
+			var result = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 			Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
 			Assert.Equal(RequestMsgType.text, result.MsgType);
 		}

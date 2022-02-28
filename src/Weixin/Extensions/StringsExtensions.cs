@@ -13,7 +13,7 @@ using System.Text.Encodings.Web;
 
 namespace Myvas.AspNetCore.Weixin.Extensions;
 
-internal static class StringExtensions
+internal static partial class StringExtensions
 {
     [DebuggerStepThrough]
     public static string ToSpaceSeparatedString(this IEnumerable<string> list)

@@ -21,10 +21,8 @@ https://mp.weixin.qq.com
 ## How to Configure?
 * ConfigureServices
 ```
-services.AddScoped<IWeixinEventSink, DefaultWeixinEventSink>();
-var weixinEventSink = services.BuildServiceProvider().GetRequiredService<IWeixinEventSink>();
 services
-	//AccessTokenApi: Fetch access_token and expires_in from remote
+	//IWeixinAccessToken: get access_token cached in redis, or fetch it from the remote.
 	.AddWeixin(o =>
 	{
 		o.AppId = Configuration["Weixin:AppId"];
@@ -36,35 +34,14 @@ services
 	})
 	//IWeixinSubscriberManager: depends on IPersistedTokenDbContext
 	.AddSubscriberManager<ApplicationDbContext>()
-	//Weixin messaging services
-	.AddSite(options =>
-	{
-		options.WebsiteToken = Configuration["Weixin:WebsiteToken"];
-      
-		options.EncodingAESKey = _configuration["Weixin:EncodingAESKey"]; //请注意检查该值正确无误！
-		// （1）若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；
-		// （2）若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或不配置。
-      
-		//options.Debug = true; //默认值为false，不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
-      
-		o.Events = new WeixinMessageEvents()
-		{
-			OnTextMessageReceived = ctx => weixinEventSink.OnTextMessageReceived(ctx),
-			OnLinkMessageReceived = ctx => weixinEventSink.OnLinkMessageReceived(ctx),
-			OnClickMenuEventReceived = ctx => weixinEventSink.OnClickMenuEventReceived(ctx),
-			OnImageMessageReceived = ctx => weixinEventSink.OnImageMessageReceived(ctx),
-			OnLocationEventReceived = ctx => weixinEventSink.OnLocationEventReceived(ctx),
-			OnLocationMessageReceived = ctx => weixinEventSink.OnLocationMessageReceived(ctx),
-			OnQrscanEventReceived = ctx => weixinEventSink.OnQrscanEventReceived(ctx),
-			OnEnterEventReceived = ctx => weixinEventSink.OnEnterEventReceived(ctx),
-			OnSubscribeEventReceived = ctx => weixinEventSink.OnSubscribeEventReceived(ctx),
-			OnUnsubscribeEventReceived = ctx => weixinEventSink.OnUnsubscribeEventReceived(ctx),
-			OnVideoMessageReceived = ctx => weixinEventSink.OnVideoMessageReceived(ctx),
-			OnShortVideoMessageReceived = ctx => weixinEventSink.OnShortVideoMessageReceived(ctx),
-			OnViewMenuEventReceived = ctx => weixinEventSink.OnViewMenuEventReceived(ctx),
-			OnVoiceMessageReceived = ctx => weixinEventSink.OnVoiceMessageReceived(ctx)
-		};
-	});
+	//Weixin site handlers
+    .AddWeixinSite<DefaultWeixinEventSink>(o =>
+    {
+        o.WebsiteToken = builder.Configuration["Weixin:WebsiteToken"];
+
+        //是否允许微信web开发者工具(wechatdevtools)等客户端访问？默认值为false，true为允许。
+        o.Debug = bool.Parse(builder.Configuration["Weixin:Debug"] ?? "false");
+    });
 ```
 
 * Configure

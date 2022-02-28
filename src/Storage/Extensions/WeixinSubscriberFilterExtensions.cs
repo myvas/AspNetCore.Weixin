@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.Extensions;
+namespace Myvas.AspNetCore.Weixin.Storage.Extensions;
 
 #pragma warning disable 1591
 

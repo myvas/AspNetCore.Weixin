@@ -20,7 +20,7 @@ namespace Myvas.AspNetCore.Weixin
         public string EncodingType { get; set; } = WeixinSiteOptionsDefaults.DefaultEncodingType;
 
         /// <summary>
-        /// 是否允许微信web开发工具等调试终端访问，默认为: false（不允许）。
+        /// 是否允许微信web开发工具等调试终端访问，默认为false（不允许）。
         /// </summary>
         public bool Debug { get; set; } = WeixinSiteOptionsDefaults.Debug;
     }

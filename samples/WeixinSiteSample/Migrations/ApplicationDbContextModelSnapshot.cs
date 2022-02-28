@@ -17,7 +17,151 @@ namespace WeixinSiteSample.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
 
-            modelBuilder.Entity("Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities.PersistedToken", b =>
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.AuditEntry", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("KeyValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NewValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OldValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TableName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditEntires");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.ClickMenuEventReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsgType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedClickMenuEvents");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.EnterEventReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsgType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedEnterEvents");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.LocationEventReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsgType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Precision")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedLocationEvents");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("MsgId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MsgType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedMessages");
+
+                    b.HasDiscriminator<string>("MsgType").HasValue("MessageReceivedEntity");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.PersistedToken", b =>
                 {
                     b.Property<string>("AppId")
                         .HasMaxLength(200)
@@ -38,7 +182,126 @@ namespace WeixinSiteSample.Migrations
                     b.ToTable("PersistedTokens");
                 });
 
-            modelBuilder.Entity("Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities.WeixinSubscriber", b =>
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.QrscanEventReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsgType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Ticket")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedQrscanEvents");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.SubscribeEventReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsgType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Ticket")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedSubscribeEvents");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.UnsubscribeEventReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsgType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedUnsubscribeEvents");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.ViewMenuEventReceivedEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreateTime")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EventKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MsgType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ToUserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceivedViewMenuEvents");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.WeixinSubscriber", b =>
                 {
                     b.Property<string>("OpenId")
                         .HasMaxLength(200)
@@ -51,6 +314,7 @@ namespace WeixinSiteSample.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Country")
@@ -84,7 +348,6 @@ namespace WeixinSiteSample.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Unsubscribed")
-                        .HasMaxLength(1000)
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset?>("UnsubscribedTime")
@@ -95,9 +358,119 @@ namespace WeixinSiteSample.Migrations
 
                     b.HasKey("OpenId");
 
-                    b.HasIndex("OpenId");
+                    b.ToTable("WeixinSubscribers");
+                });
 
-                    b.ToTable("WeixinSubscriber", (string)null);
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.ImageMessageReceivedEntity", b =>
+                {
+                    b.HasBaseType("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity");
+
+                    b.Property<string>("MediaId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MediaId");
+
+                    b.Property<string>("PicUrl")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("image");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.LinkMessageReceivedEntity", b =>
+                {
+                    b.HasBaseType("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("link");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.LocationMessageReceivedEntity", b =>
+                {
+                    b.HasBaseType("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity");
+
+                    b.Property<string>("Label")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Scale")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("location");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.ShortVideoMessageReceivedEntity", b =>
+                {
+                    b.HasBaseType("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity");
+
+                    b.Property<string>("MediaId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MediaId");
+
+                    b.Property<string>("ThumbMediaId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ThumbMediaId");
+
+                    b.HasDiscriminator().HasValue("shortvideo");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.TextMessageReceivedEntity", b =>
+                {
+                    b.HasBaseType("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("text");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.VideoMessageReceivedEntity", b =>
+                {
+                    b.HasBaseType("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity");
+
+                    b.Property<string>("MediaId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MediaId");
+
+                    b.Property<string>("ThumbMediaId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ThumbMediaId");
+
+                    b.HasDiscriminator().HasValue("video");
+                });
+
+            modelBuilder.Entity("Myvas.AspNetCore.Weixin.Entities.VoiceMessageReceivedEntity", b =>
+                {
+                    b.HasBaseType("Myvas.AspNetCore.Weixin.Entities.MessageReceivedEntity");
+
+                    b.Property<string>("Format")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MediaId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MediaId");
+
+                    b.Property<string>("Recognition")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("voice");
                 });
 #pragma warning restore 612, 618
         }

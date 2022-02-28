@@ -12,14 +12,14 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Hosts;
 public class TokenCleanupHost : IHostedService
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly OperationalStoreOptions _options;
+    private readonly WeixinStoreOptions _options;
     private readonly ILogger<TokenCleanupHost> _logger;
 
     private TimeSpan CleanupInterval => TimeSpan.FromSeconds(_options.TokenCleanupInterval);
 
     private CancellationTokenSource _source;
 
-    public TokenCleanupHost(IServiceProvider serviceProvider, OperationalStoreOptions options, ILogger<TokenCleanupHost> logger)
+    public TokenCleanupHost(IServiceProvider serviceProvider, WeixinStoreOptions options, ILogger<TokenCleanupHost> logger)
     {
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         _options = options ?? throw new ArgumentNullException(nameof(options));

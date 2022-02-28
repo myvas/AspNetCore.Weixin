@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
+using Myvas.AspNetCore.Weixin.Helpers;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
@@ -16,7 +15,7 @@ public class ImageMessageWeixinHandler : WeixinHandler,IWeixinHandler<ImageMessa
 
     public override async Task<bool> ProcessAsync()
     {
-        Xml = XmlConvert.DeserializeObject<ImageMessageReceivedXml>(Text);
+        Xml = WeixinXmlConvert.DeserializeObject<ImageMessageReceivedXml>(Text);
 
         var ctx = new WeixinEventContext<ImageMessageReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnImageMessageReceived(ctx);

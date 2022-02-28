@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Myvas.AspNetCore.Weixin.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
@@ -16,7 +15,7 @@ public class LocationEventWeixinHandler : WeixinHandler, IWeixinHandler<Location
 
     public override async Task<bool> ProcessAsync()
     {
-        Xml = XmlConvert.DeserializeObject<LocationEventReceivedXml>(Text);
+        Xml = WeixinXmlConvert.DeserializeObject<LocationEventReceivedXml>(Text);
 
         var ctx = new WeixinEventContext<LocationEventReceivedXml>(Context, Text, Xml);
         var handled = await _eventSink.OnLocationEventReceived(ctx);

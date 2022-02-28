@@ -1,4 +1,5 @@
 ﻿using Myvas.AspNetCore.Weixin;
+using Myvas.AspNetCore.Weixin.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,10 +29,10 @@ namespace test
                 Content = "你好"
             };
 
-            var result = XmlConvert.SerializeObject(o);
+            var result = WeixinXmlConvert.SerializeObject(o);
 
-            var deserializedExcepted = XmlConvert.DeserializeObject<WeixinResponseText>(excepted);
-            var reserializedExcepted = XmlConvert.SerializeObject(deserializedExcepted);
+            var deserializedExcepted = WeixinXmlConvert.DeserializeObject<WeixinResponseText>(excepted);
+            var reserializedExcepted = WeixinXmlConvert.SerializeObject(deserializedExcepted);
             Assert.Equal(reserializedExcepted, result);
         }
 
@@ -81,10 +82,10 @@ namespace test
                 Url = "url"
             });
 
-            var result = XmlConvert.SerializeObject(o);
+            var result = WeixinXmlConvert.SerializeObject(o);
 
-            var deserializedExcepted = XmlConvert.DeserializeObject<WeixinResponseNews>(excepted);
-            var reserializedExcepted = XmlConvert.SerializeObject(deserializedExcepted);
+            var deserializedExcepted = WeixinXmlConvert.DeserializeObject<WeixinResponseNews>(excepted);
+            var reserializedExcepted = WeixinXmlConvert.SerializeObject(deserializedExcepted);
             Assert.Equal(reserializedExcepted, result);
         }
 

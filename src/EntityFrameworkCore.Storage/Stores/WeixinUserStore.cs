@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Interfaces;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
-using Myvas.AspNetCore.Weixin.Extensions;
-using Myvas.AspNetCore.Weixin.Models;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 using Myvas.AspNetCore.Weixin.Services;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Entities;
+using Myvas.AspNetCore.Weixin.Storage.Extensions;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 
@@ -18,7 +15,7 @@ public class WeixinUserStore : IWeixinUserStore
     /// <summary>
     /// The DbContext.
     /// </summary>
-    protected readonly IPersistedTokenDbContext Context;
+    protected readonly IWeixinDbContext Context;
 
     /// <summary>
     /// The CancellationToken service.
@@ -37,7 +34,7 @@ public class WeixinUserStore : IWeixinUserStore
     /// <param name="logger"></param>
     /// <param name="cancellationTokenProvider"></param>
     public WeixinUserStore(
-        IPersistedTokenDbContext context,
+        IWeixinDbContext context,
         ILogger<PersistedTokenStore> logger,
         ICancellationTokenProvider cancellationTokenProvider)
     {
@@ -51,7 +48,7 @@ public class WeixinUserStore : IWeixinUserStore
     {
         filter.Validate();
 
-        var entities = await Filter(Context.Subscribers.AsQueryable(), filter)
+        var entities = await Filter(Context.WeixinSubscribers.AsQueryable(), filter)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
         entities = Filter(entities.AsQueryable(), filter).ToArray();
 
@@ -75,7 +72,7 @@ public class WeixinUserStore : IWeixinUserStore
     /// <inheritdoc/>
     public virtual async Task<Models.WeixinSubscriber> GetAsync(string key)
     {
-        var entity = (await Context.Subscribers
+        var entity = (await Context.WeixinSubscribers
             .AsNoTracking()
             .Where(x => x.OpenId == key)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken))
@@ -92,13 +89,13 @@ public class WeixinUserStore : IWeixinUserStore
     {
         filter.Validate();
 
-        var entities = await Filter(Context.Subscribers.AsQueryable(), filter)
+        var entities = await Filter(Context.WeixinSubscribers.AsQueryable(), filter)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
         entities = Filter(entities.AsQueryable(), filter).ToArray();
 
         Logger.LogDebug("removing {count} persisted subscribers from database for {@filter}", entities.Length, filter);
 
-        Context.Subscribers.RemoveRange(entities);
+        Context.WeixinSubscribers.RemoveRange(entities);
 
         try
         {
@@ -113,14 +110,14 @@ public class WeixinUserStore : IWeixinUserStore
     /// <inheritdoc/>
     public virtual async Task RemoveAsync(string key)
     {
-        var entity = (await Context.Subscribers.Where(x => x.OpenId == key)
+        var entity = (await Context.WeixinSubscribers.Where(x => x.OpenId == key)
                 .ToArrayAsync(CancellationTokenProvider.CancellationToken))
             .SingleOrDefault(x => x.OpenId == key);
         if (entity != null)
         {
             Logger.LogDebug("removing {key} persisted subscriber from database", key);
 
-            Context.Subscribers.Remove(entity);
+            Context.WeixinSubscribers.Remove(entity);
 
             try
             {
@@ -140,7 +137,7 @@ public class WeixinUserStore : IWeixinUserStore
     /// <inheritdoc/>
     public async Task StoreAsync(Models.WeixinSubscriber model)
     {
-        var existing = (await Context.Subscribers
+        var existing = (await Context.WeixinSubscribers
            .Where(x => x.OpenId == model.OpenId)
            .ToArrayAsync(CancellationTokenProvider.CancellationToken))
            .SingleOrDefault(x => x.OpenId == model.OpenId);
@@ -149,7 +146,7 @@ public class WeixinUserStore : IWeixinUserStore
             Logger.LogDebug("{key} not found in database", model.OpenId);
 
             var entity = model.ToEntity();
-            Context.Subscribers.Add(entity);
+            Context.WeixinSubscribers.Add(entity);
         }
         else
         {
