@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Myvas.AspNetCore.Weixin.Entities;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.Extensions;
+using Myvas.AspNetCore.Weixin.Models;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.DbContexts;
 
@@ -51,15 +52,12 @@ public class WeixinDbContext<TDbContext> : DbContext, IWeixinDbContext
     public DbSet<AuditEntry> AuditEntires { get; set; }
 
     /// <inheritdoc/>
-    public DbSet<PersistedToken> PersistedTokens { get; set; }
-
-    /// <inheritdoc/>
     public DbSet<WeixinSubscriber> WeixinSubscribers { get; set; }
     #region Table-per-hierarchy for received messages: text, image, voice, video, shortvideo, location, link.
     /// <summary>
     /// Table-per-hierarchy
     /// </summary>
-    public DbSet<MessageReceivedEntity> ReceivedMessages { get; set; }
+    public DbSet<MessageReceivedEntry> MessageReceivedEntries { get; set; }
     //public DbSet<TextMessageReceivedEntity> ReceivedTextMessages { get; set; }
     //public DbSet<ImageMessageReceivedEntity> ReceivedImageMessages { get; set; }
     //public DbSet<VoiceMessageReceivedEntity> ReceivedVoiceMessages { get; set; }
@@ -70,13 +68,13 @@ public class WeixinDbContext<TDbContext> : DbContext, IWeixinDbContext
     #endregion
 
     #region Table-per-type for received events
-    public DbSet<SubscribeEventReceivedEntity> ReceivedSubscribeEvents { get; set; }
-    public DbSet<EnterEventReceivedEntity> ReceivedEnterEvents { get; set; }
-    public DbSet<ClickMenuEventReceivedEntity> ReceivedClickMenuEvents { get; set; }
-    public DbSet<ViewMenuEventReceivedEntity> ReceivedViewMenuEvents { get; set; }
-    public DbSet<QrscanEventReceivedEntity> ReceivedQrscanEvents { get; set; }
-    public DbSet<LocationEventReceivedEntity> ReceivedLocationEvents { get; set; }
-    public DbSet<UnsubscribeEventReceivedEntity> ReceivedUnsubscribeEvents { get; set; }
+    public DbSet<SubscribeEventReceivedEntry> SubscribeReceivedEventEntries { get; set; }
+    public DbSet<EnterEventReceivedEntry> EnterReceivedEventEntries { get; set; }
+    public DbSet<ClickMenuEventReceivedEntry> ClickMenuReceivedEventEntries { get; set; }
+    public DbSet<ViewMenuEventReceivedEntry> ViewMenuReceivedEventEntries { get; set; }
+    public DbSet<QrscanEventReceivedEntry> QrscanReceivedEventEntries { get; set; }
+    public DbSet<LocationEventReceivedEntry> LocationReceivedEventEntries { get; set; }
+    public DbSet<UnsubscribeEventReceivedEntry> UnsubscribeReceivedEventEntries { get; set; }
     #endregion
 
     /// <inheritdoc/>

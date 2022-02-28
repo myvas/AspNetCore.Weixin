@@ -1,4 +1,4 @@
-﻿using Myvas.AspNetCore.Weixin.Entities;
+﻿using Myvas.AspNetCore.Weixin.Models;
 
 namespace WeixinSiteSample.Models
 {

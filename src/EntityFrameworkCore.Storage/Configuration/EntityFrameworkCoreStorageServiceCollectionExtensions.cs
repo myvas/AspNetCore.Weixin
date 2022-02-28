@@ -95,9 +95,9 @@ public static class EntityFrameworkCoreStorageServiceCollectionExtensions
     /// <param name="services"></param>
     /// <returns></returns>
     public static IServiceCollection AddOperationalStoreNotification<T>(this IServiceCollection services)
-        where T : class, IOperationalStoreNotification
+        where T : class, ISubscriptionNotification
     {
-        services.AddTransient<IOperationalStoreNotification, T>();
+        services.AddTransient<ISubscriptionNotification, T>();
         return services;
     }
 }

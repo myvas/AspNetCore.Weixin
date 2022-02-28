@@ -9,9 +9,9 @@ using Myvas.AspNetCore.Weixin.Storage.Extensions;
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 
 /// <summary>
-/// Implementation of IPersistedTokenStore thats uses EF.
+/// Implementation of <see cref="ISubscribeEventReceivedEntryStore"/> thats uses EF.
 /// </summary>
-public class WeixinUserStore : IWeixinUserStore
+public class SubscribeEventReceivedEntryStore : ISubscribeEventReceivedEntryStore
 {
     /// <summary>
     /// The DbContext.
@@ -34,7 +34,7 @@ public class WeixinUserStore : IWeixinUserStore
     /// <param name="context"></param>
     /// <param name="logger"></param>
     /// <param name="cancellationTokenProvider"></param>
-    public WeixinUserStore(
+    public SubscribeEventReceivedEntryStore(
         IWeixinDbContext context,
         ILogger<SubscribeEventReceivedEntryStore> logger,
         ICancellationTokenProvider cancellationTokenProvider)
@@ -45,58 +45,58 @@ public class WeixinUserStore : IWeixinUserStore
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<WeixinSubscriber>> GetAllAsync(WeixinSubscriberFilter filter)
+    public async Task<IEnumerable<SubscribeEventReceivedEntry>> GetAllAsync(SubscribeEventReceivedEntryFilter filter)
     {
         filter.Validate();
 
-        var entities = await Filter(Context.WeixinSubscribers.AsQueryable(), filter)
+        var entities = await Filter(Context.SubscribeReceivedEventEntries.AsQueryable(), filter)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
         entities = Filter(entities.AsQueryable(), filter).ToArray();
 
         var models = entities;//.Select(x => x.ToModel());
 
-        Logger.LogDebug("{count} subscribers found for {@filter}", entities.Length, filter);
+        Logger.LogDebug("{count} received subscribe events found for {@filter}", entities.Length, filter);
 
         return models;
     }
 
-    private IQueryable<WeixinSubscriber> Filter(IQueryable<WeixinSubscriber> query, WeixinSubscriberFilter filter)
+    private IQueryable<SubscribeEventReceivedEntry> Filter(IQueryable<SubscribeEventReceivedEntry> query, SubscribeEventReceivedEntryFilter filter)
     {
         if (!String.IsNullOrWhiteSpace(filter.OpenId))
         {
-            query = query.Where(x => x.OpenId == filter.OpenId);
+            query = query.Where(x => x.FromUserName == filter.OpenId);
         }
 
         return query;
     }
 
     /// <inheritdoc/>
-    public virtual async Task<Models.WeixinSubscriber> GetAsync(string key)
+    public virtual async Task<SubscribeEventReceivedEntry> GetAsync(string key)
     {
-        var entity = (await Context.WeixinSubscribers
+        var entity = (await Context.SubscribeReceivedEventEntries
             .AsNoTracking()
-            .Where(x => x.OpenId == key)
+            .Where(x => x.FromUserName == key)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken))
-            .SingleOrDefault(x => x.OpenId == key);
+            .SingleOrDefault(x => x.FromUserName == key);
         var model = entity;//?.ToModel();
 
-        Logger.LogDebug("{key} found in database: {found}", key, model != null);
+        Logger.LogDebug("{id} found in database: {found}", key, model != null);
 
         return model;
     }
 
     /// <inheritdoc/>
-    public async Task RemoveAllAsync(WeixinSubscriberFilter filter)
+    public async Task RemoveAllAsync(SubscribeEventReceivedEntryFilter filter)
     {
         filter.Validate();
 
-        var entities = await Filter(Context.WeixinSubscribers.AsQueryable(), filter)
+        var entities = await Filter(Context.SubscribeReceivedEventEntries.AsQueryable(), filter)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
         entities = Filter(entities.AsQueryable(), filter).ToArray();
 
-        Logger.LogDebug("removing {count} persisted subscribers from database for {@filter}", entities.Length, filter);
+        Logger.LogDebug("removing {count} received subscribe events from database for {@filter}", entities.Length, filter);
 
-        Context.WeixinSubscribers.RemoveRange(entities);
+        Context.SubscribeReceivedEventEntries.RemoveRange(entities);
 
         try
         {
@@ -104,21 +104,21 @@ public class WeixinUserStore : IWeixinUserStore
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            Logger.LogInformation("removing {count} persisted subscribers from database for subject {@filter}: {error}", entities.Length, filter, ex.Message);
+            Logger.LogInformation("removing {count} received subscribe events from database for subject {@filter}: {error}", entities.Length, filter, ex.Message);
         }
     }
 
     /// <inheritdoc/>
     public virtual async Task RemoveAsync(string key)
     {
-        var entity = (await Context.WeixinSubscribers.Where(x => x.OpenId == key)
+        var entity = (await Context.SubscribeReceivedEventEntries.Where(x => x.FromUserName == key)
                 .ToArrayAsync(CancellationTokenProvider.CancellationToken))
-            .SingleOrDefault(x => x.OpenId == key);
+            .SingleOrDefault(x => x.FromUserName == key);
         if (entity != null)
         {
-            Logger.LogDebug("removing {key} persisted subscriber from database", key);
+            Logger.LogDebug("removing {id} received subscribe event from database", key);
 
-            Context.WeixinSubscribers.Remove(entity);
+            Context.SubscribeReceivedEventEntries.Remove(entity);
 
             try
             {
@@ -126,35 +126,35 @@ public class WeixinUserStore : IWeixinUserStore
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                Logger.LogInformation("exception removing {key} persisted subscriber from database: {error}", key, ex.Message);
+                Logger.LogInformation("exception removing {id} received subscribe event from database: {error}", key, ex.Message);
             }
         }
         else
         {
-            Logger.LogDebug("no {key} persisted subscriber found in database", key);
+            Logger.LogDebug("no {id} received subscribe event found in database", key);
         }
     }
 
     /// <inheritdoc/>
-    public async Task StoreAsync(WeixinSubscriber model)
+    public async Task StoreAsync(SubscribeEventReceivedEntry item)
     {
-        var existing = (await Context.WeixinSubscribers
-           .Where(x => x.OpenId == model.OpenId)
+        var existing = (await Context.SubscribeReceivedEventEntries
+           .Where(x => x.FromUserName == item.FromUserName)
            .ToArrayAsync(CancellationTokenProvider.CancellationToken))
-           .SingleOrDefault(x => x.OpenId == model.OpenId);
+           .SingleOrDefault(x => x.FromUserName == item.FromUserName);
         if (existing == null)
         {
-            Logger.LogDebug("{key} not found in database", model.OpenId);
+            Logger.LogDebug("{id} not found in database", item.FromUserName);
 
-            var entity = model;//.ToEntity();
-            Context.WeixinSubscribers.Add(entity);
+            var entity = item;//.ToEntity();
+            Context.SubscribeReceivedEventEntries.Add(entity);
         }
         else
         {
-            Logger.LogDebug("{key} found in database", model.OpenId);
+            Logger.LogDebug("{id} found in database", item.FromUserName);
 
-            //model.UpdateEntity(existing);
-            Context.WeixinSubscribers.Update(existing);
+            //token.UpdateEntity(existing);
+            Context.SubscribeReceivedEventEntries.Update(existing);
         }
 
         try
@@ -163,7 +163,7 @@ public class WeixinUserStore : IWeixinUserStore
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            Logger.LogWarning("Exception updating {key} persisted subscriber in database: {error}", model.OpenId, ex.Message);
+            Logger.LogWarning("Exception updating {id} received subscribe event in database: {error}", item.FromUserName, ex.Message);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.Entities;
+using Myvas.AspNetCore.Weixin.Models;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 using System;
 using System.Collections.Generic;

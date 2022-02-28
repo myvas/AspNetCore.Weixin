@@ -2,12 +2,12 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Myvas.AspNetCore.Weixin;
-using Myvas.AspNetCore.Weixin.Entities;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.DbContexts;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Hosts;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
+using Myvas.AspNetCore.Weixin.Models;
 using System;
 using System.Reflection;
 
@@ -46,7 +46,7 @@ public static class WeixinEntityFrameworCoreBuilderExtensions
         builder.Services.AddOperationalDbContext<TContext>(storeOptionsAction);
 
         //builder.AddSigningKeyStore<SigningKeyStore>();
-        builder.AddPersistedTokenStore<PersistedTokenStore>();
+        builder.AddSubscribeEventReceivedEntryStore<SubscribeEventReceivedEntryStore>();
 
         builder.Services.AddSingleton<IHostedService, TokenCleanupHost>();
 
@@ -62,7 +62,7 @@ public static class WeixinEntityFrameworCoreBuilderExtensions
     /// <returns></returns>
     public static IWeixinBuilder AddOperationalStoreNotification<TNotification>(
         this IWeixinBuilder builder)
-        where TNotification : class, IOperationalStoreNotification
+        where TNotification : class, ISubscriptionNotification
     {
         builder.Services.AddOperationalStoreNotification<TNotification>();
         return builder;

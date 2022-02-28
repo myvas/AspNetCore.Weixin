@@ -4,6 +4,7 @@ using Myvas.AspNetCore.Weixin.Options;
 using System;
 using System.Threading.Tasks;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
+using Myvas.AspNetCore.Weixin.Models;
 
 namespace Myvas.AspNetCore.Weixin
 {
@@ -53,8 +54,8 @@ namespace Myvas.AspNetCore.Weixin
         {
             var models = json.Select(x => new Models.WeixinSubscriber
             {
-                OpenId = x.openid,
-                UnionId = x.unionid,
+                OpenId = x.OpenId,
+                UnionId = x.UnionId,
                 SubscribedTime = WeixinTimestampHelper.ToUtcTime(x.subscribe_time),
                 Language = x.language,
                 Unsubscribed = x.subscribe != 1,
@@ -64,7 +65,7 @@ namespace Myvas.AspNetCore.Weixin
             return models;
         }
 
-        private async Task<List<Models.WeixinSubscriber>> StoreAllSubscribersAsync(List<UserInfoJson> json)
+        private async Task<List<WeixinSubscriber>> StoreAllSubscribersAsync(List<UserInfoJson> json)
         {
             var models = ToModels(json);
             foreach (var model in models)

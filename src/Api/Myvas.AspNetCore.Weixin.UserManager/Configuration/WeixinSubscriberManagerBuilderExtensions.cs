@@ -40,6 +40,8 @@ public static class WeixinSubscriberManagerBuilderExtensions
         builder.Services.AddHttpClient<UserApi>();
         builder.Services.AddHttpClient<UserProfileApi>();
         builder.Services.AddTransient<IWeixinUserStore, WeixinUserStore>();
+        builder.Services.AddTransient<ISubscribeEventReceivedEntryStore, SubscribeEventReceivedEntryStore>();
+        builder.Services.AddTransient<IUnsubscribeEventReceivedEntryStore, UnsubscribeEventReceivedEntryStore>();
         builder.Services.AddTransient<IWeixinSubscriberManager, WeixinSubscriberManager>();
 
         return builder;

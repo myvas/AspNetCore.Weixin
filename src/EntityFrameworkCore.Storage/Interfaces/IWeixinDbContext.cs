@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.Entities;
+using Myvas.AspNetCore.Weixin.Models;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -14,36 +14,28 @@ public interface IWeixinDbContext : IDisposable
     public DbSet<AuditEntry> AuditEntires { get; set; }
 
     /// <summary>
-    /// Gets or sets the persisted tokens.
-    /// </summary>
-    /// <value>
-    /// The persisted tokens.
-    /// </value>
-    DbSet<Entities.PersistedToken> PersistedTokens { get; set; }
-
-    /// <summary>
     /// Gets or sets the weixin users.
     /// </summary>
-    DbSet<Entities.WeixinSubscriber> WeixinSubscribers { get; set; }
+    DbSet<WeixinSubscriber> WeixinSubscribers { get; set; }
 
-    #region Received Messages
-    DbSet<MessageReceivedEntity> ReceivedMessages { get; set; }
-    //DbSet<TextMessageReceivedEntity> ReceivedTextMessages { get; set; }
-    //DbSet<ImageMessageReceivedEntity> ReceivedImageMessages { get; set; }
-    //DbSet<VoiceMessageReceivedEntity> ReceivedVoiceMessages { get; set; }
-    //DbSet<VideoMessageReceivedEntity> ReceivedVideoMessages { get; set; }
-    //DbSet<ShortVideoMessageReceivedEntity> ReceivedShortVideoMessages { get; set; }
-    //DbSet<LocationMessageReceivedEntity> ReceivedLocationMessages { get; set; }
-    //DbSet<LinkMessageReceivedEntity> ReceivedLinkMessages { get; set; }
+    #region Received Messages, Table-per-hierarchy
+    DbSet<MessageReceivedEntry> MessageReceivedEntries { get; set; }
+    //DbSet<TextMessageReceivedEntry> TextMessageReceivedEntries { get; set; }
+    //DbSet<ImageMessageReceivedEntry> ImageMessageReceivedEntries { get; set; }
+    //DbSet<VoiceMessageReceivedEntry> VoiceMessageReceivedEntries { get; set; }
+    //DbSet<VideoMessageReceivedEntry> VideoMessageReceivedEntries { get; set; }
+    //DbSet<ShortVideoMessageReceivedEntry> ShortVideoMessageReceivedEntries { get; set; }
+    //DbSet<LocationMessageReceivedEntry> LocationMessageReceivedEntries { get; set; }
+    //DbSet<LinkMessageReceivedEntry> LinkMessageReceivedEntries { get; set; }
     #endregion
-    #region Received Events
-    DbSet<SubscribeEventReceivedEntity> ReceivedSubscribeEvents { get; set; }
-    DbSet<EnterEventReceivedEntity> ReceivedEnterEvents { get; set; }
-    DbSet<ClickMenuEventReceivedEntity> ReceivedClickMenuEvents { get; set; }
-    DbSet<ViewMenuEventReceivedEntity> ReceivedViewMenuEvents { get; set; }
-    DbSet<QrscanEventReceivedEntity> ReceivedQrscanEvents { get; set; }
-    DbSet<LocationEventReceivedEntity> ReceivedLocationEvents { get; set; }
-    DbSet<UnsubscribeEventReceivedEntity> ReceivedUnsubscribeEvents { get; set; }
+    #region Received Events: Table-per-type
+    DbSet<SubscribeEventReceivedEntry> SubscribeReceivedEventEntries { get; set; }
+    DbSet<EnterEventReceivedEntry> EnterReceivedEventEntries { get; set; }
+    DbSet<ClickMenuEventReceivedEntry> ClickMenuReceivedEventEntries { get; set; }
+    DbSet<ViewMenuEventReceivedEntry> ViewMenuReceivedEventEntries { get; set; }
+    DbSet<QrscanEventReceivedEntry> QrscanReceivedEventEntries { get; set; }
+    DbSet<LocationEventReceivedEntry> LocationReceivedEventEntries { get; set; }
+    DbSet<UnsubscribeEventReceivedEntry> UnsubscribeReceivedEventEntries { get; set; }
     #endregion
 
     /// <summary>

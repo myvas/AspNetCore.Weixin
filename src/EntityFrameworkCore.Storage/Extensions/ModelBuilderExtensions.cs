@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.Entities;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
+using Myvas.AspNetCore.Weixin.Models;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.Extensions;
 
@@ -16,15 +16,6 @@ public static class ModelBuilderExtensions
     /// <param name="storeOptions">The store options.</param>
     public static void ConfigureWeixinDbContext(this ModelBuilder modelBuilder, WeixinStoreOptions storeOptions)
     {
-        modelBuilder.Entity<PersistedToken>(entity =>
-        {
-            entity.HasKey(x => x.AppId);
-            entity.Property(x => x.AppId).HasMaxLength(200).ValueGeneratedNever();
-            entity.Property(x => x.AccessToken).HasMaxLength(1000).IsRequired();
-            entity.Property(x => x.ExpirationTime).IsRequired();
-            entity.HasIndex(x => x.ExpirationTime);
-        });
-
         modelBuilder.Entity<WeixinSubscriber>(entity =>
         {
             //entity.ToTable("WeixinSubscribers");
@@ -35,40 +26,40 @@ public static class ModelBuilderExtensions
         });
 
         //Table - per - hierarchy for received messages: text, image, voice, video, shortvideo, location, link.
-        modelBuilder.Entity<MessageReceivedEntity>(entity =>
+        modelBuilder.Entity<MessageReceivedEntry>(entity =>
         {
             entity.HasDiscriminator<string>(x => x.MsgType)
-                .HasValue<TextMessageReceivedEntity>("text")
-                .HasValue<ImageMessageReceivedEntity>("image")
-                .HasValue<VoiceMessageReceivedEntity>("voice")
-                .HasValue<VideoMessageReceivedEntity>("video")
-                .HasValue<ShortVideoMessageReceivedEntity>("shortvideo")
-                .HasValue<LocationMessageReceivedEntity>("location")
-                .HasValue<LinkMessageReceivedEntity>("link");
+                .HasValue<TextMessageReceivedEntry>("text")
+                .HasValue<ImageMessageReceivedEntry>("image")
+                .HasValue<VoiceMessageReceivedEntry>("voice")
+                .HasValue<VideoMessageReceivedEntry>("video")
+                .HasValue<ShortVideoMessageReceivedEntry>("shortvideo")
+                .HasValue<LocationMessageReceivedEntry>("location")
+                .HasValue<LinkMessageReceivedEntry>("link");
         });
-        modelBuilder.Entity<ImageMessageReceivedEntity>(entity =>
+        modelBuilder.Entity<ImageMessageReceivedEntry>(entity =>
         {
-            entity.Property(x => x.MediaId).HasColumnName(nameof(ImageMessageReceivedEntity.MediaId));
+            entity.Property(x => x.MediaId).HasColumnName(nameof(ImageMessageReceivedEntry.MediaId));
         });
-        modelBuilder.Entity<ShortVideoMessageReceivedEntity>(entity =>
+        modelBuilder.Entity<ShortVideoMessageReceivedEntry>(entity =>
         {
-            entity.Property(x => x.MediaId).HasColumnName(nameof(ShortVideoMessageReceivedEntity.MediaId));
+            entity.Property(x => x.MediaId).HasColumnName(nameof(ShortVideoMessageReceivedEntry.MediaId));
         });
-        modelBuilder.Entity<ShortVideoMessageReceivedEntity>(entity =>
+        modelBuilder.Entity<ShortVideoMessageReceivedEntry>(entity =>
         {
-            entity.Property(x => x.ThumbMediaId).HasColumnName(nameof(ShortVideoMessageReceivedEntity.ThumbMediaId));
+            entity.Property(x => x.ThumbMediaId).HasColumnName(nameof(ShortVideoMessageReceivedEntry.ThumbMediaId));
         });
-        modelBuilder.Entity<VideoMessageReceivedEntity>(entity =>
+        modelBuilder.Entity<VideoMessageReceivedEntry>(entity =>
         {
-            entity.Property(x => x.MediaId).HasColumnName(nameof(VideoMessageReceivedEntity.MediaId));
+            entity.Property(x => x.MediaId).HasColumnName(nameof(VideoMessageReceivedEntry.MediaId));
         });
-        modelBuilder.Entity<VideoMessageReceivedEntity>(entity =>
+        modelBuilder.Entity<VideoMessageReceivedEntry>(entity =>
         {
-            entity.Property(x => x.ThumbMediaId).HasColumnName(nameof(VideoMessageReceivedEntity.ThumbMediaId));
+            entity.Property(x => x.ThumbMediaId).HasColumnName(nameof(VideoMessageReceivedEntry.ThumbMediaId));
         });
-        modelBuilder.Entity<VoiceMessageReceivedEntity>(entity =>
+        modelBuilder.Entity<VoiceMessageReceivedEntry>(entity =>
         {
-            entity.Property(x => x.MediaId).HasColumnName(nameof(VideoMessageReceivedEntity.MediaId));
+            entity.Property(x => x.MediaId).HasColumnName(nameof(VideoMessageReceivedEntry.MediaId));
         });
     }
 }

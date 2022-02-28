@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.Entities;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 

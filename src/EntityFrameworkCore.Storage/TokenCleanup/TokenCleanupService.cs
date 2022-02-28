@@ -11,7 +11,7 @@ public class TokenCleanupService
 {
     private readonly WeixinStoreOptions _options;
     private readonly IWeixinDbContext _tokenDbContext;
-    private readonly IOperationalStoreNotification _operationalStoreNotification;
+    private readonly ISubscriptionNotification _operationalStoreNotification;
     private readonly ILogger<TokenCleanupService> _logger;
 
     /// <summary>
@@ -27,7 +27,7 @@ public class TokenCleanupService
         WeixinStoreOptions options,
         IWeixinDbContext tokenDbContext,
         ILogger<TokenCleanupService> logger,
-        IOperationalStoreNotification operationalStoreNotification = null)
+        ISubscriptionNotification operationalStoreNotification = null)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
         if (_options.TokenCleanupBatchSize < 1) throw new ArgumentException("Token cleanup batch size interval must be at least 1");
@@ -82,9 +82,9 @@ public class TokenCleanupService
 
         while (found >= _options.TokenCleanupBatchSize)
         {
-            var expiredTokens = await _tokenDbContext.PersistedTokens
-                .Where(x => x.ExpirationTime < DateTime.UtcNow)
-                .OrderBy(x => x.ExpirationTime)
+            var expiredTokens = await _tokenDbContext.ClickMenuReceivedEventEntries
+                .Where(x => x.CreateTimeObject < DateTime.UtcNow)
+                .OrderBy(x => x.CreateTimeObject)
                 .Take(_options.TokenCleanupBatchSize)
                 .ToArrayAsync(cancellationToken);
 
@@ -93,12 +93,13 @@ public class TokenCleanupService
 
             if (found > 0)
             {
-                _tokenDbContext.PersistedTokens.RemoveRange(expiredTokens);
+                _tokenDbContext.ClickMenuReceivedEventEntries.RemoveRange(expiredTokens);
                 await SaveChangesAsync();
 
                 if (_operationalStoreNotification != null)
                 {
-                    await _operationalStoreNotification.PersistedTokensRemovedAsync(expiredTokens);
+                    //TODO: ...
+                    //await _operationalStoreNotification.PersistedTokensRemovedAsync(expiredTokens);
                 }
             }
         }
@@ -115,7 +116,7 @@ public class TokenCleanupService
 
         while (found >= _options.TokenCleanupBatchSize)
         {
-            var expiredTokens = await _tokenDbContext.PersistedTokens
+            var expiredTokens = await _tokenDbContext.ClickMenuReceivedEventEntries
                 //.Where(x => x.ConsumedDate < DateTime.UtcNow)
                 //.OrderBy(x => x.ConsumedDate)
                 .Take(_options.TokenCleanupBatchSize)
@@ -126,12 +127,13 @@ public class TokenCleanupService
 
             if (found > 0)
             {
-                _tokenDbContext.PersistedTokens.RemoveRange(expiredTokens);
+                _tokenDbContext.ClickMenuReceivedEventEntries.RemoveRange(expiredTokens);
                 await SaveChangesAsync();
 
                 if (_operationalStoreNotification != null)
                 {
-                    await _operationalStoreNotification.PersistedTokensRemovedAsync(expiredTokens);
+                    //TODO: ...
+                    //await _operationalStoreNotification.PersistedTokensRemovedAsync(expiredTokens);
                 }
             }
         }

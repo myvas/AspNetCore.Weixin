@@ -1,4 +1,4 @@
-﻿namespace Myvas.AspNetCore.Weixin.Entities;
+﻿namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage;
 
 /// <summary>
 /// If an entity class implements this interface, its modified time will be automatically saved.

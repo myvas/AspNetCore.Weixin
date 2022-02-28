@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.Entities;
+namespace Myvas.AspNetCore.Weixin.Models;
 
 #pragma warning disable 1591
 

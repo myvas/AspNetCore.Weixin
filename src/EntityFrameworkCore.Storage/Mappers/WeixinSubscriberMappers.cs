@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Myvas.AspNetCore.Weixin.Models;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 
 /// <summary>
-/// Extension methods to map to/from entity/model.
+/// Extension methods to map to/from json/model.
 /// </summary>
 public static class WeixinSubscriberMappers
 {
@@ -20,9 +21,9 @@ public static class WeixinSubscriberMappers
     /// </summary>
     /// <param name="entity">The entity.</param>
     /// <returns></returns>
-    public static Models.WeixinSubscriber ToModel(this Entities.WeixinSubscriber entity)
+    public static UserInfoJson ToModel(this WeixinSubscriber entity)
     {
-        return entity == null ? null : Mapper.Map<Models.WeixinSubscriber>(entity);
+        return entity == null ? null : Mapper.Map<UserInfoJson>(entity);
     }
 
     /// <summary>
@@ -30,9 +31,9 @@ public static class WeixinSubscriberMappers
     /// </summary>
     /// <param name="model">The model</param>
     /// <returns></returns>
-    public static Entities.WeixinSubscriber ToEntity(this Models.WeixinSubscriber model)
+    public static WeixinSubscriber ToEntity(this UserInfoJson model)
     {
-        return model == null ? null : Mapper.Map<Entities.WeixinSubscriber>(model);
+        return model == null ? null : Mapper.Map<WeixinSubscriber>(model);
     }
 
     /// <summary>
@@ -40,7 +41,7 @@ public static class WeixinSubscriberMappers
     /// </summary>
     /// <param name="model">The model.</param>
     /// <param name="entity">The entity.</param>
-    public static void UpdateEntity(this Models.WeixinSubscriber model, Entities.WeixinSubscriber entity)
+    public static void UpdateEntity(this UserInfoJson model, WeixinSubscriber entity)
     {
         Mapper.Map(model, entity);
     } 
