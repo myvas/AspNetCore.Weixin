@@ -26,8 +26,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<ReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
         }
 
         [Fact]
@@ -45,8 +45,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<MessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal(6403247895999455936, result.MsgId);
         }
         #endregion
@@ -67,8 +67,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<TextMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal("中文字符", result.Content);
             Assert.Equal(6403247895999455936, result.MsgId);
         }
@@ -89,8 +89,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<ImageMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal("this is a url", result.PicUrl);
             Assert.Equal("media_id", result.MediaId);
             Assert.Equal(6403247895999455936, result.MsgId);
@@ -113,8 +113,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<VoiceMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal("media_id", result.MediaId);
             Assert.Equal("Format", result.Format);
             Assert.Equal(6403247895999455936, result.MsgId);
@@ -137,8 +137,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<VoiceMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal("media_id", result.MediaId);
             Assert.Equal("Format", result.Format);
             Assert.Equal("腾讯微信团队", result.Recognition);
@@ -161,8 +161,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<VideoMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal("media_id", result.MediaId);
             Assert.Equal("thumb_media_id", result.ThumbMediaId);
             Assert.Equal(6403247895999455936, result.MsgId);
@@ -185,8 +185,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<ShortVideoMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal("media_id", result.MediaId);
             Assert.Equal("thumb_media_id", result.ThumbMediaId);
             Assert.Equal(6403247895999455936, result.MsgId);
@@ -210,8 +210,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<LocationMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal((decimal)23.134521, result.Latitude);
             Assert.Equal((decimal)113.358803, result.Longitude);
             Assert.Equal(20, result.Scale);
@@ -237,8 +237,8 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<LinkMessageReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.text, result.MsgType);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
             Assert.Equal("我的官网", result.Title);
             Assert.Equal("公众平台官网链接", result.Description);
             Assert.Equal("http://url.com/q?something", result.Url);
@@ -259,9 +259,9 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.@event, result.MsgType);
-            Assert.Equal(RequestEventType.subscribe, result.Event);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.@event, result.MsgTypeEnum);
+            Assert.Equal(RequestEventType.subscribe, result.EventEnum);
         }
 
         [Fact]
@@ -279,9 +279,9 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.@event, result.MsgType);
-            Assert.Equal(RequestEventType.subscribe, result.Event);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.@event, result.MsgTypeEnum);
+            Assert.Equal(RequestEventType.subscribe, result.EventEnum);
             Assert.Equal("qrscene_123123", result.EventKey);
             Assert.Equal("123123", result.Scene);
             Assert.Equal("gQE28TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyUkhQZWgzelI4QVUxMDAwMGcwN3kAAgR6ittYAwQAAAAA", result.Ticket);
@@ -302,9 +302,9 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<QrscanEventReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.@event, result.MsgType);
-            Assert.Equal(RequestEventType.SCAN, result.Event);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.@event, result.MsgTypeEnum);
+            Assert.Equal(RequestEventType.SCAN, result.EventEnum);
             Assert.Equal("123123", result.EventKey);
             Assert.Equal("123123", result.Scene);
             Assert.Equal("gQE28TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyUkhQZWgzelI4QVUxMDAwMGcwN3kAAgR6ittYAwQAAAAA", result.Ticket);
@@ -326,9 +326,9 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<LocationEventReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.@event, result.MsgType);
-            Assert.Equal(RequestEventType.LOCATION, result.Event);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.@event, result.MsgTypeEnum);
+            Assert.Equal(RequestEventType.LOCATION, result.EventEnum);
             Assert.Equal((decimal)23.137466, result.Latitude);
             Assert.Equal((decimal)113.352425, result.Longitude);
             Assert.Equal((decimal)119.385040, result.Precision);
@@ -348,9 +348,9 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<ClickMenuEventReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.@event, result.MsgType);
-            Assert.Equal(RequestEventType.CLICK, result.Event);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.@event, result.MsgTypeEnum);
+            Assert.Equal(RequestEventType.CLICK, result.EventEnum);
             Assert.Equal("EVENTKEY", result.EventKey);
             Assert.Equal("EVENTKEY", result.MenuItemKey);
         }
@@ -369,9 +369,9 @@ namespace test
             var result = WeixinXmlConvert.DeserializeObject<ViewMenuEventReceivedXml>(s);
             Assert.Equal("gh_712b448adf85", result.ToUserName);
             Assert.Equal("oI3UkuL9uZxTOuj--HHMSMTlO3ks", result.FromUserName);
-            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTime));
-            Assert.Equal(RequestMsgType.@event, result.MsgType);
-            Assert.Equal(RequestEventType.VIEW, result.Event);
+            Assert.Equal(1490872329, WeixinTimestampHelper.FromLocalTime(result.CreateTimeObject));
+            Assert.Equal(RequestMsgType.@event, result.MsgTypeEnum);
+            Assert.Equal(RequestEventType.VIEW, result.EventEnum);
             Assert.Equal("www.qq.com", result.EventKey);
             Assert.Equal("www.qq.com", result.Url);
         }

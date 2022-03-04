@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 
 /// <summary>
-/// Defines entity/model <see cref="Subscriber"/> and json <see cref="UserInfoJson"/> mapping.
+/// Defines <see cref="UserInfoJson"/> and <see cref="Subscriber"/> mapping.
 /// </summary>
-public class WeixinSubscriberMapperProfile : Profile
+public class UserInfoJsonMapperProfile : Profile
 {
     /// <summary>
     /// </summary>
-    public WeixinSubscriberMapperProfile()
+    public UserInfoJsonMapperProfile()
     {
         CreateMap<Subscriber, UserInfoJson>(MemberList.Destination)
             .ReverseMap();

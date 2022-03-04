@@ -16,17 +16,17 @@ namespace Myvas.AspNetCore.Weixin
         /// 事件类型
         /// </summary>
         [XmlElement("Event", Namespace = "")]
-        public string EventValue { get; set; }
+        public string Event { get; set; }
         [XmlIgnore]
-        public RequestEventType Event
+        public RequestEventType EventEnum
         {
             get
             {
-                return (RequestEventType)Enum.Parse(typeof(RequestEventType), EventValue, true);
+                return (RequestEventType)Enum.Parse(typeof(RequestEventType), Event, true);
             }
             set
             {
-                EventValue = value.ToString();
+                Event = value.ToString();
             }
         }
     }

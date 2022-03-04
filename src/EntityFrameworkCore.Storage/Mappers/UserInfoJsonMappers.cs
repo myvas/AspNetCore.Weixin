@@ -1,23 +1,23 @@
 ﻿using AutoMapper;
 using Myvas.AspNetCore.Weixin.Models;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
+namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 
 /// <summary>
-/// Extension methods to map to/from json/model.
+/// Extension methods to map to/from json/entity.
 /// </summary>
-public static class WeixinSubscriberMappers
+public static class UserInfoJsonMappers
 {
-    static WeixinSubscriberMappers()
+    internal static IMapper Mapper { get; }
+
+    static UserInfoJsonMappers()
     {
-        Mapper = new MapperConfiguration(x => x.AddProfile<WeixinSubscriberMapperProfile>())
+        Mapper = new MapperConfiguration(x => x.AddProfile<UserInfoJsonMapperProfile>())
             .CreateMapper();
     }
 
-    internal static IMapper Mapper { get; }
-
     /// <summary>
-    /// Maps an entity to a model.
+    /// Maps an entity to a json.
     /// </summary>
     /// <param name="entity">The entity.</param>
     /// <returns></returns>
@@ -27,7 +27,7 @@ public static class WeixinSubscriberMappers
     }
 
     /// <summary>
-    /// Maps a model to an entity.
+    /// Maps a json to an entity.
     /// </summary>
     /// <param name="model">The model</param>
     /// <returns></returns>
@@ -37,7 +37,7 @@ public static class WeixinSubscriberMappers
     }
 
     /// <summary>
-    /// Updates an entity from a model.
+    /// Updates an entity from a json.
     /// </summary>
     /// <param name="model">The model.</param>
     /// <param name="entity">The entity.</param>

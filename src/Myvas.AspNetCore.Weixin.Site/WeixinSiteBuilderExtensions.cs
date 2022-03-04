@@ -21,9 +21,9 @@ public static class WeixinSiteBuilderExtensions
     /// <summary>
     /// Adds <see cref="WeixinSiteMiddleware"/> to the specified <see cref="IWeixinBuilder" />. 
     /// </summary>
-    /// <typeparam name="TWeixinEventSink">The <see cref="IWeixinEventSink"/>.</typeparam>
+    /// <typeparam name="TWeixinEventSink">The <see cref="IWeixinEventSink"/> and <see cref="WeixinEventSink"/>.</typeparam>
     /// <typeparam name="TSubscriber">The <see cref="Subscriber"/>.</typeparam>
-    /// <typeparam name="TContext">The <see cref="IWeixinDbContext"/>.</typeparam>
+    /// <typeparam name="TContext">The <see cref="IWeixinDbContext"/> and <see cref="WeixinDbContext"/>.</typeparam>
     /// <param name="builder">The <see cref="IWeixinBuilder" /> to add services to.</param>
     /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinSiteOptions"/>.</param>
     /// <returns>The <see cref="IWeixinBuilder"/> so that additional calls can be chained.</returns>
@@ -48,7 +48,7 @@ public static class WeixinSiteBuilderExtensions
         //builder.Services.TryAddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>(); //即使不启用加密，也把此不必要的加密服务接口提供出来了。
         //builder.Services.AddWeixinMessageProtection();
         builder.Services.AddWeixinResponseBuilder();
-        builder.Services.TryAddTransient<IWeixinEventSink, TWeixinEventSink>();
+        builder.Services.TryAddScoped<IWeixinEventSink, TWeixinEventSink>();
         builder.Services.AddSingleton<WeixinSite>();
 
         return builder;

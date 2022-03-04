@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Myvas.AspNetCore.Weixin.AccessTokenServer.Stores;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 using Myvas.AspNetCore.Weixin.Models;
 using Myvas.AspNetCore.Weixin.Services;
-using Myvas.AspNetCore.Weixin.Storage.Extensions;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 

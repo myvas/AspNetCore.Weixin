@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -17,23 +18,23 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
 
         public readonly IWeixinHandlerFactory _handlerFactory;
 
-        public readonly IServiceProvider _serviceProvider;
+        //public readonly IServiceProvider _serviceProvider;
 
 
         public WeixinSite(IOptions<WeixinSiteOptions> optionsAccessor,
             IWeixinResponseBuilder responseBuilder,
             IWeixinHandlerFactory handlerFactory,
-            IServiceProvider serviceProvider,
+            //IServiceProvider serviceProvider,
             ILogger<WeixinSite> logger)
         {
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
             _handlerFactory = handlerFactory ?? throw new ArgumentNullException(nameof(handlerFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             WeixinResponseBuilder = responseBuilder ?? throw new ArgumentNullException(nameof(responseBuilder));
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            //_serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
-        public async Task ProcessAsync(HttpContext context)
+        public async Task ProcessAsync(HttpContext context, IServiceProvider serviceProvider)
         {
             var text = "";
             try
@@ -57,7 +58,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
 
             try
             {
-                await ProcessAsync(context, text);
+                await ProcessAsync(context, text, serviceProvider);
             }
             catch (Exception ex)
             {
@@ -87,7 +88,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
         /// </code>
         /// </param>
         /// <returns></returns>
-        private async Task<bool> ProcessAsync(HttpContext Context, string Text)
+        private async Task<bool> ProcessAsync(HttpContext Context, string Text, IServiceProvider _serviceProvider)
         {
             XDocument doc = null;
             try
@@ -168,7 +169,7 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
                 switch (msgType)
                 {
                     case RequestMsgType.text:
-                        handler = _handlerFactory.Create<TextMessageWeixinHandler>(_serviceProvider); break;
+                        handler = ActivatorUtilities.CreateInstance<TextMessageWeixinHandler>(_serviceProvider); break;
                     case RequestMsgType.image:
                         handler = _handlerFactory.Create<ImageMessageWeixinHandler>(_serviceProvider); break;
                     case RequestMsgType.video:

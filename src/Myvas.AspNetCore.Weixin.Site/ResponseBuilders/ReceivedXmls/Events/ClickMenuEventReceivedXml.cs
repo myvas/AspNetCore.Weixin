@@ -13,13 +13,8 @@ namespace Myvas.AspNetCore.Weixin
     public class ClickMenuEventReceivedXml : EventReceivedXml
     {
         /// <summary>
-        /// 事件KEY值，与自定义菜单接口中KEY值对应。另有别名：<see cref="MenuItemKey"/>
+        /// 事件KEY值，与自定义菜单接口中KEY值对应。
         /// </summary>
         public string EventKey { get; set; }
-        [XmlIgnore]
-        /// <summary>
-        /// 事件KEY值，与自定义菜单接口中KEY值对应。这是<see cref="EventKey"/>的别名。
-        /// </summary>
-        public string MenuItemKey { get => EventKey; set => EventKey = value; }
     }
 }

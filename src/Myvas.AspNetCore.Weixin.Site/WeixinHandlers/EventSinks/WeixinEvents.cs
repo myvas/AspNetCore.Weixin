@@ -16,8 +16,6 @@ namespace Myvas.AspNetCore.Weixin
         public Func<WeixinEventContext<ClickMenuEventReceivedXml>, Task<bool>> OnClickMenuEventReceived { get; set; } = e => Task.FromResult(false);
         public Func<WeixinEventContext<ViewMenuEventReceivedXml>, Task<bool>> OnViewMenuEventReceived { get; set; } = e => Task.FromResult(false);
         [Obsolete("This event will be never fired, because it was removed by Tencent.")]
-        public Func<WeixinEventContext<EnterEventReceivedXml>, Task<bool>> OnEnterEventReceived { get; set; } = e => Task.FromResult(false);
-        [Obsolete("This event will be never fired, because it was removed by Tencent.")]
         public Func<WeixinEventContext<UnsubscribeEventReceivedXml>, Task<bool>> OnUnsubscribeEventReceived { get; set; } = e => Task.FromResult(false);
         public Func<WeixinEventContext<SubscribeEventReceivedXml>, Task<bool>> OnSubscribeEventReceived { get; set; } = e => Task.FromResult(false);
         public Func<WeixinEventContext<QrscanEventReceivedXml>, Task<bool>> OnQrscanEventReceived { get; set; } = e => Task.FromResult(false);
@@ -32,8 +30,6 @@ namespace Myvas.AspNetCore.Weixin
         public virtual Task<bool> ImageMessageReceived(WeixinEventContext<ImageMessageReceivedXml> context) => OnImageMessageReceived(context);
         public virtual Task<bool> ClickMenuEventReceived(WeixinEventContext<ClickMenuEventReceivedXml> context) => OnClickMenuEventReceived(context);
         public virtual Task<bool> ViewMenuEventReceived(WeixinEventContext<ViewMenuEventReceivedXml> context) => OnViewMenuEventReceived(context);
-        [Obsolete("This event will be never fired, because it was removed by Tencent.")]
-        public virtual Task<bool> EnterEventReceived(WeixinEventContext<EnterEventReceivedXml> context) => OnEnterEventReceived(context);
         [Obsolete("This event will be never fired, because it was removed by Tencent.")]
         public virtual Task<bool> UnsubscribeEventReceived(WeixinEventContext<UnsubscribeEventReceivedXml> context) => OnUnsubscribeEventReceived(context);
         public virtual Task<bool> SubscribeEventReceived(WeixinEventContext<SubscribeEventReceivedXml> context) => OnSubscribeEventReceived(context);

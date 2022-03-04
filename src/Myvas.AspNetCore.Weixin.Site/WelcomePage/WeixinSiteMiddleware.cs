@@ -55,7 +55,7 @@ namespace Myvas.AspNetCore.Weixin
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/>.</param>
         /// <returns></returns>
-        public Task Invoke(HttpContext context)
+        public Task Invoke(HttpContext context, IServiceProvider serviceProvider)
         {
             HttpRequest request = context.Request;
             //if (!_options.Path.HasValue || _options.Path == request.Path)
@@ -68,7 +68,7 @@ namespace Myvas.AspNetCore.Weixin
                 }
                 else
                 {
-                    return InvokePostAsync(context);
+                    return InvokePostAsync(context, serviceProvider);
                 }
             }
 
@@ -111,7 +111,7 @@ namespace Myvas.AspNetCore.Weixin
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public async Task InvokePostAsync(HttpContext context)
+        public async Task InvokePostAsync(HttpContext context, IServiceProvider serviceProvider)
         {
             HttpRequest request = context.Request;
             var signature = request.Query["signature"];
@@ -128,7 +128,7 @@ namespace Myvas.AspNetCore.Weixin
             }
             else
             {
-                await _site.ProcessAsync(context);
+                await _site.ProcessAsync(context, serviceProvider);
                 return;
             }
         }

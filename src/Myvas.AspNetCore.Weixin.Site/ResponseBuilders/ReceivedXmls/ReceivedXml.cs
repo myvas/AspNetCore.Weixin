@@ -26,17 +26,17 @@ public class ReceivedXml
     /// 消息创建时间
     /// </summary>
     [XmlElement("CreateTime")]
-    public long CreateTimeStr { get; set; }
+    public long CreateTime { get; set; }
     [XmlIgnore]
-    public DateTime CreateTime
+    public DateTime CreateTimeObject
     {
         get
         {
-            return WeixinTimestampHelper.ToLocalTime(CreateTimeStr);
+            return WeixinTimestampHelper.ToLocalTime(CreateTime);
         }
         set
         {
-            CreateTimeStr = WeixinTimestampHelper.FromLocalTime(value);
+            CreateTime = WeixinTimestampHelper.FromLocalTime(value);
         }
     }
 
@@ -44,17 +44,17 @@ public class ReceivedXml
     /// 消息类型
     /// </summary>
     [XmlElement("MsgType")]
-    public string MsgTypeStr { get; set; }
+    public string MsgType { get; set; }
     [XmlIgnore]
-    public RequestMsgType MsgType
+    public RequestMsgType MsgTypeEnum
     {
         get
         {
-            return (RequestMsgType)Enum.Parse(typeof(RequestMsgType), MsgTypeStr, true);
+            return (RequestMsgType)Enum.Parse(typeof(RequestMsgType), MsgType, true);
         }
         set
         {
-            MsgTypeStr = MsgType.ToString();
+            MsgType = MsgTypeEnum.ToString();
         }
     }
 }
