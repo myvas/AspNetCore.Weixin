@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace Myvas.AspNetCore.Weixin.Models;
 
@@ -7,6 +8,43 @@ namespace Myvas.AspNetCore.Weixin.Models;
 /// </summary>
 public class Subscriber
 {
+    /// <summary>
+    /// The constructor.
+    /// </summary>
+    public Subscriber()
+    {
+
+    }
+
+    /// <summary>
+    /// Update this from the input. NOTE: Both of them must have the same OpenId, otherwise nothing will change.
+    /// </summary>
+    /// <param name="entity">The input.</param>
+    /// <returns>this</returns>
+    public virtual TSubscriber Update<TSubscriber>(TSubscriber entity) where TSubscriber : Subscriber
+    {
+        Debug.Assert(entity.OpenId == this.OpenId, "The OpenId of both sides must be equal!");
+        if (string.IsNullOrWhiteSpace(entity.OpenId) || entity.OpenId != this.OpenId) return (TSubscriber)this;
+
+        if (!string.IsNullOrWhiteSpace(entity.AppId) && entity.AppId != this.AppId) this.AppId = entity.AppId;
+        if (!string.IsNullOrWhiteSpace(entity.UnionId) && entity.UnionId != this.UnionId) this.UnionId = entity.UnionId;
+        if (!string.IsNullOrWhiteSpace(entity.Nickname) && entity.Nickname != this.Nickname) this.Nickname = entity.Nickname;
+        if (!string.IsNullOrWhiteSpace(entity.Remark) && entity.Remark != this.Remark) this.Remark = entity.Remark;
+        if (!string.IsNullOrWhiteSpace(entity.Language) && entity.Language != this.Language) this.Language = entity.Language;
+        if (entity.Gender.HasValue && entity.Gender != this.Gender) this.Gender = entity.Gender;
+        if (entity.SubscribedTime.HasValue && entity.SubscribedTime != this.SubscribedTime) this.SubscribedTime = entity.SubscribedTime;
+        if (entity.Unsubscribed.HasValue && entity.Unsubscribed != this.Unsubscribed) this.Unsubscribed = entity.Unsubscribed;
+        if (entity.UnsubscribedTime.HasValue && entity.UnsubscribedTime != this.UnsubscribedTime) this.UnsubscribedTime = entity.UnsubscribedTime;
+        if (!string.IsNullOrWhiteSpace(entity.AvatorImageUrl) && entity.AvatorImageUrl != this.AvatorImageUrl) this.AvatorImageUrl = entity.AvatorImageUrl;
+        if (!string.IsNullOrWhiteSpace(entity.Province) && entity.Province != this.Province) this.Province = entity.Province;
+        if (!string.IsNullOrWhiteSpace(entity.City) && entity.City != this.City) this.City = entity.City;
+        if (!string.IsNullOrWhiteSpace(entity.Country) && entity.Country != this.Country) this.Country = entity.Country;
+        if (!string.IsNullOrWhiteSpace(entity.UserId) && entity.UserId != this.UserId) this.UserId = entity.UserId;
+        if (!string.IsNullOrWhiteSpace(entity.MentorId) && entity.MentorId != this.MentorId) this.MentorId = entity.MentorId;
+
+        return (TSubscriber)this;
+    }
+
     /// <summary>
     /// Gets the display name in this order: (1)<see cref="Remark"/>; (2)<see cref="Nickname"/>; (3)<see cref="OpenId"/>.
     /// </summary>

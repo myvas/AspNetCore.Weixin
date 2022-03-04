@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
 using Myvas.AspNetCore.Weixin.Models;
 using System;
@@ -12,9 +13,11 @@ namespace Myvas.AspNetCore.Weixin
     public class WeixinSubscriberManager<TSubscriber>
         where TSubscriber : Subscriber, new()
     {
-        private readonly WeixinStoreOptions _options;
-        private readonly IWeixinAccessToken _tokenApi;
+        private readonly WeixinOptions _options;
+        private readonly WeixinStoreOptions _storeOptions;
+        private readonly IWeixinAccessToken _tokenService;
         private readonly UserApi _api;
+        private readonly UserProfileApi _userProfileApi;
 
         /// <summary>
         /// Gets or sets the persistence store the manager operates over.
@@ -30,22 +33,26 @@ namespace Myvas.AspNetCore.Weixin
         public virtual ILogger Logger { get; set; }
 
         public WeixinSubscriberManager(
-            IOptions<WeixinStoreOptions> optionsAccessor,
+            IOptions<WeixinOptions> optionsAccessor,
+            IOptions<WeixinStoreOptions> storeOptionsAccessor,
             IWeixinAccessToken tokenApi,
             UserApi api,
+            UserProfileApi userProfileApi,
             ILogger<WeixinSubscriberManager<TSubscriber>> logger,
             ISubscriberStore<TSubscriber> store)
         {
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
-            _tokenApi = tokenApi ?? throw new ArgumentNullException(nameof(tokenApi));
+            _storeOptions = storeOptionsAccessor?.Value ?? throw new ArgumentNullException(nameof(storeOptionsAccessor));
+            _tokenService = tokenApi ?? throw new ArgumentNullException(nameof(tokenApi));
             _api = api ?? throw new ArgumentNullException(nameof(api));
+            _userProfileApi = userProfileApi ?? throw new ArgumentNullException(nameof(userProfileApi));
             Logger = Logger;
             Store = store;
         }
 
         public async Task<List<TSubscriber>> GetAllAsync(bool forceRenew)
         {
-            var token = await _tokenApi.GetTokenAsync();
+            var token = await _tokenService.GetTokenAsync();
             if (forceRenew)
             {
                 var json = await FetchAllSubscribersAsync(token);
@@ -60,6 +67,36 @@ namespace Myvas.AspNetCore.Weixin
             }
         }
 
+        public async Task<bool> SubscribeAsync(SubscribeEventReceivedEntry e)
+        {
+            var openId = e.FromUserName;
+            var entity = await Store.FindByOpenIdAsync(openId);
+            if (entity == null)
+            {
+                var accessToken = await _tokenService.GetTokenAsync();
+                var userInfoJson = await _userProfileApi.GetUserInfo(accessToken, openId);
+                if (userInfoJson.Succeeded)
+                {
+                    entity = (TSubscriber)userInfoJson.ToEntity();
+                    await Store.CreateAsync(entity);
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                var accessToken = await _tokenService.GetTokenAsync();
+                var userInfoJson = await _userProfileApi.GetUserInfo(accessToken, openId);
+                if (userInfoJson.Succeeded)
+                {
+                    var entity2 = (TSubscriber)userInfoJson.ToEntity();
+                    entity = entity.Update(entity2);
+                    await Store.UpdateAsync(entity);
+                }
+                return true;
+            }
+        }
+
         #region private methods
         private async Task<List<UserInfoJson>> FetchAllSubscribersAsync(string token)
         {
@@ -69,16 +106,7 @@ namespace Myvas.AspNetCore.Weixin
 
         private static List<TSubscriber> ToModels(List<UserInfoJson> json)
         {
-            var models = json.Select(x => new TSubscriber
-            {
-                OpenId = x.OpenId,
-                UnionId = x.UnionId,
-                SubscribedTime = x.SubscribeTime,
-                Language = x.Language,
-                Unsubscribed = x.Unsubscribed,
-                Nickname = x.NickName,
-                Gender = x.Gender
-            }).ToList();
+            var models = json.Select(x => (TSubscriber)x.ToEntity()).ToList();
             return models;
         }
 
@@ -86,7 +114,18 @@ namespace Myvas.AspNetCore.Weixin
         {
             var models = ToModels(json);
             foreach (var model in models)
-                await Store.AddSubscriberAsync(model, null);
+            {
+                var subscriber = await Store.FindByOpenIdAsync(model.OpenId);
+                if (subscriber == null)
+                {
+                    await Store.CreateAsync(model);
+                }
+                else
+                {
+                    subscriber = subscriber.Update(model);
+                    await Store.UpdateAsync(subscriber);
+                }
+            }
             return models;
         }
         #endregion

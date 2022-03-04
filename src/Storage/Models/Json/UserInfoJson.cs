@@ -12,7 +12,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// 订阅者资料
 /// </summary>
 /// <remarks>
-/// https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId
+/// https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html
 /// </remarks>
 public class UserInfoJson : WeixinErrorJson
 {

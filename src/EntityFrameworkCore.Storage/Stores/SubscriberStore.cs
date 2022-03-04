@@ -9,10 +9,17 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 /// </summary>
 /// <typeparam name="TSubscriber"></typeparam>
 /// <typeparam name="TContext"></typeparam>
-public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubscriber>
+public class SubscriberStore<TSubscriber, TContext> : ISubscriberStore<TSubscriber>
     where TSubscriber : Subscriber, new()
     where TContext : DbContext, IWeixinDbContext<TSubscriber>
 {
+    private bool _disposed;
+
+    /// <summary>
+    /// Gets or sets the <see cref="WeixinErrorDescriber"/> for any error that occurred with the current operation.
+    /// </summary>
+    public WeixinErrorDescriber ErrorDescriber { get; set; }
+
     /// <summary>
     /// 
     /// </summary>
@@ -20,12 +27,12 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     /// <param name="describer"></param>
     /// <exception cref="ArgumentNullException"></exception>
     public SubscriberStore(TContext context, WeixinErrorDescriber describer = null)
-        : base(describer ?? new WeixinErrorDescriber())
     {
         if (context == null)
         {
             throw new ArgumentNullException(nameof(context));
         }
+        ErrorDescriber = describer ?? new WeixinErrorDescriber();
         Context = context;
     }
 
@@ -37,6 +44,11 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     private DbSet<TSubscriber> SubscribersSet { get { return Context.Set<TSubscriber>(); } }
 
     /// <summary>
+    /// A navigation property for the <see cref="Subscriber"/> the store contains.
+    /// </summary>
+    public IQueryable<TSubscriber> Subscribers { get { return SubscribersSet; } }
+
+    /// <summary>
     /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
     /// </summary>
     /// <value>
@@ -44,8 +56,6 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     /// </value>
     public bool AutoSaveChanges { get; set; } = true;
 
-    /// <inheritdoc/>
-    public override IQueryable<TSubscriber> Subscribers => throw new NotImplementedException();
 
     /// <summary>Saves the current store.</summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
@@ -56,12 +66,28 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     }
 
     /// <summary>
-    /// Creates a new role in a store as an asynchronous operation.
+    /// Dispose the stores
     /// </summary>
-    /// <param name="subscriber">The subscriber to create in the store.</param>
+    public void Dispose() => _disposed = true;
+
+    /// <summary>
+    /// Throws if this class has been disposed.
+    /// </summary>
+    protected void ThrowIfDisposed()
+    {
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(GetType().Name);
+        }
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="Subscriber"/> in a store as an asynchronous operation.
+    /// </summary>
+    /// <param name="subscriber">The <see cref="Subscriber"/> to create in the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> CreateAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public async virtual Task<WeixinResult> CreateAsync(TSubscriber subscriber, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -74,14 +100,13 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
         return WeixinResult.Success;
     }
 
-
     /// <summary>
-    /// Updates a role in a store as an asynchronous operation.
+    /// Updates a <see cref="Subscriber"/> in a store as an asynchronous operation.
     /// </summary>
-    /// <param name="subscriber">The subscriber to update in the store.</param>
+    /// <param name="subscriber">The <see cref="Subscriber"/> to update in the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> UpdateAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public async virtual Task<WeixinResult> UpdateAsync(TSubscriber subscriber, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -108,7 +133,7 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     /// <param name="role">The role to delete from the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> DeleteAsync(TSubscriber role, CancellationToken cancellationToken = default(CancellationToken))
+    public async virtual Task<WeixinResult> DeleteAsync(TSubscriber role, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -129,12 +154,46 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     }
 
     /// <summary>
-    /// Gets the ID for a role from the store as an asynchronous operation.
+    /// Gets the OpenId for a <see cref="Subscriber"/> from the store as an asynchronous operation.
     /// </summary>
-    /// <param name="subscriber">The subscriber whose ID should be returned.</param>
+    /// <param name="subscriber">The <see cref="Subscriber"/> whose OpenId should be returned.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>A <see cref="Task{TResult}"/> that contains the ID of the role.</returns>
-    public virtual Task<string> GetUserIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    /// <returns>A <see cref="Task{TResult}"/> that contains the OpenId of the <see cref="Subscriber"/>.</returns>
+    public virtual Task<string> GetOpenIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (subscriber == null)
+        {
+            throw new ArgumentNullException(nameof(subscriber));
+        }
+        return Task.FromResult(subscriber.OpenId);
+    }
+
+    /// <summary>
+    /// Gets the UnionId for a <see cref="Subscriber"/> from the store as an asynchronous operation.
+    /// </summary>
+    /// <param name="subscriber">The <see cref="Subscriber"/> whose UnionId should be returned.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A <see cref="Task{TResult}"/> that contains the UnionId of the <see cref="Subscriber"/>.</returns>
+    public virtual Task<string> GetUnionIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (subscriber == null)
+        {
+            throw new ArgumentNullException(nameof(subscriber));
+        }
+        return Task.FromResult(subscriber.UnionId);
+    }
+
+    /// <summary>
+    /// Gets the UserId for a <see cref="Subscriber"/> from the store as an asynchronous operation.
+    /// </summary>
+    /// <param name="subscriber">The <see cref="Subscriber"/> whose UserId should be returned.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A <see cref="Task{TResult}"/> that contains the UserId of the <see cref="Subscriber"/>.</returns>
+    public virtual Task<string> GetUserIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -145,15 +204,8 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
         return Task.FromResult(subscriber.UserId);
     }
 
-
-    /// <summary>
-    /// Sets the name of a role in the store as an asynchronous operation.
-    /// </summary>
-    /// <param name="subscriber">The subscriber whose name should be set.</param>
-    /// <param name="userId">The id of the user.</param>
-    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public override Task SetUserIdAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken = default(CancellationToken))
+    /// <inheritdoc/>
+    public virtual Task SetUserIdAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -165,23 +217,8 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
         return Task.CompletedTask;
     }
 
-
-    /// <summary>
-    /// Finds the role who has the specified ID as an asynchronous operation.
-    /// </summary>
-    /// <param name="id">The role ID to look for.</param>
-    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>A <see cref="Task{TResult}"/> that result of the look up.</returns>
-    public override Task<TSubscriber> FindByIdAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        ThrowIfDisposed();
-        //var roleId = ConvertIdFromString(id);
-        return SubscribersSet.FirstOrDefaultAsync(u => u.OpenId == id, cancellationToken);
-    }
-
     /// <inheritdoc/>
-    public override Task AddSubscriberAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken)
+    public virtual Task SetMentorIdAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -189,12 +226,12 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
         {
             throw new ArgumentNullException(nameof(subscriber));
         }
-        SubscribersSet.Add(subscriber);
-        return Task.FromResult(false);
+        subscriber.MentorId = userId;
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
-    public override async Task RemoveSubscriberAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken)
+    public virtual Task SetAppIdAsync(TSubscriber subscriber, string appId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -202,7 +239,20 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
         {
             throw new ArgumentNullException(nameof(subscriber));
         }
-        var entry = await FindByIdAsync(subscriber.OpenId, cancellationToken);
+        subscriber.AppId = appId;
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task RemoveSubscriberAsync(TSubscriber subscriber, string openId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (subscriber == null)
+        {
+            throw new ArgumentNullException(nameof(subscriber));
+        }
+        var entry = await FindByOpenIdAsync(subscriber.OpenId, cancellationToken);
         if (entry != null)
         {
             SubscribersSet.Remove(entry);
@@ -210,13 +260,15 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     }
 
     /// <inheritdoc/>
-    public override Task<int> GetSubscribersCountAsync()
+    public virtual Task<int> GetSubscribersCountAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        return Subscribers.CountAsync();
     }
 
     /// <inheritdoc/>
-    public override async Task<IList<TSubscriber>> GetSubscribersAsync(int perPage, int pageIndex, CancellationToken cancellationToken)
+    public virtual async Task<IList<TSubscriber>> GetSubscribersAsync(int perPage, int pageIndex, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -224,7 +276,7 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     }
 
     /// <inheritdoc/>
-    public override async Task<TSubscriber> FindByUserIdAsync(string userId, CancellationToken cancellationToken)
+    public virtual async Task<TSubscriber> FindByUserIdAsync(string userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -237,19 +289,26 @@ public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubsc
     }
 
     /// <inheritdoc/>
-    public override Task<TSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken)
+    public virtual async Task<TSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (openId == null)
+        {
+            throw new ArgumentNullException(nameof(openId));
+        }
+        //var userId = user.Id;
+        return await Subscribers.FirstOrDefaultAsync(l => l.OpenId.Equals(openId), cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public virtual Task<TSubscriber> FindByUnionIdAsync(string unionId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public override Task<TSubscriber> FindByUnionIdAsync(string unionId, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc/>
-    public override Task<TSubscriber> FindByNicknameAsync(string nickname, CancellationToken cancellationToken)
+    public virtual Task<TSubscriber> FindByNickNameAsync(string nickname, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

@@ -8,6 +8,7 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 微信基础功能接口
     /// </summary>
+    /// <remarks>https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html</remarks>
     public class UserProfileApi : WeixinApiClient
     {
         public UserProfileApi(HttpClient client) : base(client)
@@ -20,12 +21,12 @@ namespace Myvas.AspNetCore.Weixin
         /// <param name="accessToken"></param>
         /// <param name="openID"></param>
         /// <returns></returns>
-        public async Task<UserInfoResult> GetUserInfo(string accessToken, string openID)
+        public async Task<UserInfoJson> GetUserInfo(string accessToken, string openID)
         {
             var url = string.Format(
                 "http://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}",
                 accessToken, openID);
-            UserInfoResult result = await GetFromJsonAsync<UserInfoResult>(url);
+            UserInfoJson result = await GetFromJsonAsync<UserInfoJson>(url);
             return result;
         }
 

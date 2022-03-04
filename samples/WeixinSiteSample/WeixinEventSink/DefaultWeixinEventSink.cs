@@ -7,8 +7,33 @@ namespace WeixinSiteSample;
 
 public class DefaultWeixinEventSink : WeixinEventSink
 {
-    public DefaultWeixinEventSink(ILogger<IWeixinEventSink> logger, IWeixinResponseBuilder responseBuilder, IReceivedEntryStore<EventReceivedEntry> eventStore, IReceivedEntryStore<MessageReceivedEntry> messageStore) : base(logger, responseBuilder, eventStore, messageStore)
+    private readonly WeixinSubscriberManager<ApplicationUser> _subscriberManager;
+
+    public DefaultWeixinEventSink(ILogger<IWeixinEventSink> logger,
+        IWeixinResponseBuilder responseBuilder,
+        IReceivedEntryStore<EventReceivedEntry> eventStore,
+        IReceivedEntryStore<MessageReceivedEntry> messageStore,
+        WeixinSubscriberManager<ApplicationUser> subscriberManager) : base(logger, responseBuilder, eventStore, messageStore)
     {
+        _subscriberManager = subscriberManager ?? throw new ArgumentNullException(nameof(subscriberManager));
+    }
+
+    public override async Task<bool> OnSubscribeEventReceived(WeixinEventContext<SubscribeEventReceivedXml> context)
+    {
+        await base.OnSubscribeEventReceived(context);
+
+        // Adds a new entity or updates a existing entity in the db.
+        var result = await _subscriberManager.SubscribeAsync(context.Xml.ToEntity());
+        if (result)
+        {
+            _logger.LogDebug("Added a new subscriber or updated a existing subscriber in the db: {openId}", context.Xml.FromUserName);
+        }
+        else
+        {
+            _logger.LogWarning("Failed to fetch the subscriber's profile, nor persist it into the db: {openId}", context.Xml.FromUserName);
+        }
+
+        return true;
     }
 
     public override async Task<bool> OnTextMessageReceived(WeixinEventContext<TextMessageReceivedXml> context)
