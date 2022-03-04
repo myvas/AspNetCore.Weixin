@@ -8,11 +8,11 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 客服接口
     /// </summary>
-    public class CustomerSupportApi : SecureApiClient
+    public class CustomerSupportApi : WeixinApiClient
     {
         private const string WeixinApiUrlPattern = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={0}";
 
-        public CustomerSupportApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public CustomerSupportApi(HttpClient client) : base(client)
         {
         }
 

@@ -8,9 +8,9 @@ namespace Myvas.AspNetCore.Weixin
     /// 用户接口
     /// <remarks>接口详见：http://mp.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF</remarks>
     /// </summary>
-    public class UserApi: SecureApiClient
+    public class UserApi: WeixinApiClient
     {
-        public UserApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public UserApi(HttpClient client) : base(client)
         {
         }
 

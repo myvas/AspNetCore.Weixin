@@ -6,9 +6,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 用户组接口
     /// </summary>
-    public class GroupsApi : SecureApiClient
+    public class GroupsApi : WeixinApiClient
     {
-        public GroupsApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public GroupsApi(HttpClient client) : base(client)
         {
         }
 

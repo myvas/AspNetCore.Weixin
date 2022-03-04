@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Mappers;
 
 /// <summary>
-/// Defines entity/model <see cref="WeixinSubscriber"/> and json <see cref="UserInfoJson"/> mapping.
+/// Defines entity/model <see cref="Subscriber"/> and json <see cref="UserInfoJson"/> mapping.
 /// </summary>
 public class WeixinSubscriberMapperProfile : Profile
 {
@@ -17,7 +17,7 @@ public class WeixinSubscriberMapperProfile : Profile
     /// </summary>
     public WeixinSubscriberMapperProfile()
     {
-        CreateMap<WeixinSubscriber, UserInfoJson>(MemberList.Destination)
+        CreateMap<Subscriber, UserInfoJson>(MemberList.Destination)
             .ReverseMap();
     }
 }

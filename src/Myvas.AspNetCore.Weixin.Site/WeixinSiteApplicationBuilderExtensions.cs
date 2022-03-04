@@ -6,12 +6,12 @@ using System;
 namespace Myvas.AspNetCore.Weixin
 {
     /// <summary>
-    /// IApplicationBuilder extensions for the WeixinWelcomePageMiddleware.
+    /// IApplicationBuilder extensions for the <see cref="WeixinSiteMiddleware"/>.
     /// </summary>
     public static class WeixinSiteApplicationBuilderExtensions
     {
         /// <summary>
-        /// Adds the WeixinWelcomePageMiddleware to the pipeline with the given options.
+        /// Adds the <see cref="WeixinSiteMiddleware"/> to the pipeline with the given options.
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <param name="options">The options.</param>
@@ -32,7 +32,7 @@ namespace Myvas.AspNetCore.Weixin
         }
 
         /// <summary>
-        /// Adds the WeixinSiteMiddleware to the pipeline with the given path.
+        /// Adds the <see cref="WeixinSiteMiddleware"/> to the pipeline with the given path.
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <param name="path">The path.</param>
@@ -56,7 +56,7 @@ namespace Myvas.AspNetCore.Weixin
         }
 
         /// <summary>
-        /// Adds the WeixinSiteMiddleware to the pipeline with the given path.
+        /// Adds the <see cref="WeixinSiteMiddleware"/> to the pipeline with the given path.
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <param name="path">The path.</param>
@@ -80,7 +80,7 @@ namespace Myvas.AspNetCore.Weixin
         }
 
         /// <summary>
-        /// Adds the WeixinSiteMiddleware to the pipeline.
+        /// Adds the <see cref="WeixinSiteMiddleware"/> to the pipeline.
         /// </summary>
         /// <param name="app">The application builder.</param>
         /// <returns></returns>

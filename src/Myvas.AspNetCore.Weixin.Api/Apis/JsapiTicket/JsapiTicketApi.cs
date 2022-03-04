@@ -12,9 +12,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 获取微信凭证数据服务接口
     /// </summary>
-    public class JsapiTicketApi : SecureApiClient
+    public class JsapiTicketApi : WeixinApiClient
     {
-        public JsapiTicketApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public JsapiTicketApi(HttpClient client) : base(client)
         {
         }
 

@@ -21,7 +21,7 @@ public static class WeixinSubscriberMappers
     /// </summary>
     /// <param name="entity">The entity.</param>
     /// <returns></returns>
-    public static UserInfoJson ToModel(this WeixinSubscriber entity)
+    public static UserInfoJson ToModel(this Subscriber entity)
     {
         return entity == null ? null : Mapper.Map<UserInfoJson>(entity);
     }
@@ -31,9 +31,9 @@ public static class WeixinSubscriberMappers
     /// </summary>
     /// <param name="model">The model</param>
     /// <returns></returns>
-    public static WeixinSubscriber ToEntity(this UserInfoJson model)
+    public static Subscriber ToEntity(this UserInfoJson model)
     {
-        return model == null ? null : Mapper.Map<WeixinSubscriber>(model);
+        return model == null ? null : Mapper.Map<Subscriber>(model);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public static class WeixinSubscriberMappers
     /// </summary>
     /// <param name="model">The model.</param>
     /// <param name="entity">The entity.</param>
-    public static void UpdateEntity(this UserInfoJson model, WeixinSubscriber entity)
+    public static void UpdateEntity(this UserInfoJson model, Subscriber entity)
     {
         Mapper.Map(model, entity);
     } 

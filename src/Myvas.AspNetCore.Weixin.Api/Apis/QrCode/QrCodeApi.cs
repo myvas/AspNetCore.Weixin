@@ -10,9 +10,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 二维码接口
     /// </summary>
-    public class QrCodeApi: SecureApiClient
+    public class QrCodeApi: WeixinApiClient
     {
-        public QrCodeApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public QrCodeApi(HttpClient client) : base(client)
         {
         }
 

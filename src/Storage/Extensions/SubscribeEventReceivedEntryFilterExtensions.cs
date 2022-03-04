@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.Storage.Extensions;
 
-#pragma warning disable 1591
-
+/// <summary>
+/// 
+/// </summary>
 public static class SubscribeEventReceivedEntryFilterExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
     public static void Validate(this SubscribeEventReceivedEntryFilter filter)
     {
         if (filter == null) throw new ArgumentNullException(nameof(filter));

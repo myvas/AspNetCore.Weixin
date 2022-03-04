@@ -27,9 +27,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
         private static void AddWeixinMessageProtectionServices(IServiceCollection services)
         {
-            services.TryAddSingleton<IWeixinMessageEncryptor>(s =>
+            services.TryAddSingleton((Func<IServiceProvider, IWeixinMessageEncryptor>)(s =>
             {
-                var options = s.GetRequiredService<IOptions<WeixinOptions>>();
+                var options = s.GetRequiredService<IOptions<Myvas.AspNetCore.Weixin.WeixinOptions>>();
                 var siteOptions = s.GetRequiredService<IOptions<WeixinSiteOptions>>();
                 var encodingOptions = s.GetRequiredService<IOptions<EncodingOptions>>();
                 var loggerFactory = s.GetService<ILoggerFactory>() ?? NullLoggerFactory.Instance;
@@ -37,7 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 IWeixinMessageEncryptor encryptor = new WeixinMessageEncryptor(options, siteOptions, encodingOptions, loggerFactory);
 
                 return encryptor;
-            });
+            }));
         }
     }
 }

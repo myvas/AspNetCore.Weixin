@@ -19,9 +19,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <item>接口8：在网站应用程序中实现</item>
     /// </list>
     /// </remarks>
-    public class WifiApi : SecureApiClient
+    public class WifiApi : WeixinApiClient
     {
-        public WifiApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public WifiApi(HttpClient client) : base(client)
         {
         }
 

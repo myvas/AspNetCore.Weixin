@@ -5,10 +5,9 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 /// <summary>
 /// 
 /// </summary>
-/// <typeparam name="TWeixinSubscriber"></typeparam>
-public abstract class SubscriberStoreBase<TWeixinSubscriber> :
-    IWeixinSubscriberStore<TWeixinSubscriber>
-    where TWeixinSubscriber : WeixinSubscriber, new()
+/// <typeparam name="TSubscriber"></typeparam>
+public abstract class SubscriberStoreBase<TSubscriber> : ISubscriberStore<TSubscriber>
+    where TSubscriber : Subscriber, new()
 {
     /// <summary>
     /// 
@@ -37,7 +36,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     /// <param name="role"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public abstract Task<WeixinResult> CreateAsync(TWeixinSubscriber role, CancellationToken cancellationToken = default(CancellationToken));
+    public abstract Task<WeixinResult> CreateAsync(TSubscriber role, CancellationToken cancellationToken = default(CancellationToken));
 
 
     /// <summary>
@@ -46,7 +45,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     /// <param name="role">The role to update in the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public abstract Task<WeixinResult> UpdateAsync(TWeixinSubscriber role, CancellationToken cancellationToken = default(CancellationToken));
+    public abstract Task<WeixinResult> UpdateAsync(TSubscriber role, CancellationToken cancellationToken = default(CancellationToken));
 
     /// <summary>
     /// Deletes a role from the store as an asynchronous operation.
@@ -54,7 +53,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     /// <param name="role">The role to delete from the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public abstract Task<WeixinResult> DeleteAsync(TWeixinSubscriber role, CancellationToken cancellationToken = default(CancellationToken));
+    public abstract Task<WeixinResult> DeleteAsync(TSubscriber role, CancellationToken cancellationToken = default(CancellationToken));
 
 
     /// <summary>
@@ -63,7 +62,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     /// <param name="subscriber">The role whose ID should be returned.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that contains the ID of the role.</returns>
-    public virtual Task<string> GetIdAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task<string> GetIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -71,7 +70,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
         {
             throw new ArgumentNullException(nameof(subscriber));
         }
-        return Task.FromResult(subscriber.Id);
+        return Task.FromResult(subscriber.OpenId);
     }
 
     /// <summary>
@@ -80,7 +79,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     /// <param name="subscriber">The subscriber whose ID should be returned.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that contains the ID of the role.</returns>
-    public virtual Task<string> GetOpenIdAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task<string> GetOpenIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -97,7 +96,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     /// <param name="subscriber">The role whose ID should be returned.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that contains the ID of the role.</returns>
-    public virtual Task<string> GetUnionIdAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task<string> GetUnionIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -114,7 +113,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     /// <param name="subscriber">The role whose ID should be returned.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that contains the ID of the role.</returns>
-    public virtual Task<string> GetNicknameAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task<string> GetNicknameAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -126,7 +125,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     }
 
     /// <inheritdoc/>
-    public virtual Task SetUserIdAsync(TWeixinSubscriber subscriber, string userId, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task SetUserIdAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -139,7 +138,7 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     }
 
     /// <inheritdoc/>
-    public virtual Task SetMentorIdAsync(TWeixinSubscriber subscriber, string userId, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task SetMentorIdAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -168,37 +167,37 @@ public abstract class SubscriberStoreBase<TWeixinSubscriber> :
     public void Dispose() => _disposed = true;
 
     /// <inheritdoc/>
-    public abstract Task AddSubscriberAsync(TWeixinSubscriber subscriber, string userId, CancellationToken cancellationToken);
+    public abstract Task AddSubscriberAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
-    public abstract Task RemoveSubscriberAsync(TWeixinSubscriber subscriber, string userId, CancellationToken cancellationToken);
+    public abstract Task RemoveSubscriberAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
     public abstract Task<int> GetSubscribersCountAsync();
 
     /// <inheritdoc/>
-    public abstract Task<IList<TWeixinSubscriber>> GetSubscribersAsync(int perPage, int pageIndex, CancellationToken cancellationToken);
+    public abstract Task<IList<TSubscriber>> GetSubscribersAsync(int perPage, int pageIndex, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
-    public abstract Task<TWeixinSubscriber> FindByIdAsync(string id, CancellationToken cancellationToken);
+    public abstract Task<TSubscriber> FindByIdAsync(string id, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
-    public abstract Task<TWeixinSubscriber> FindByUserIdAsync(string userId, CancellationToken cancellationToken);
+    public abstract Task<TSubscriber> FindByUserIdAsync(string userId, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
-    public abstract Task<TWeixinSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken);
+    public abstract Task<TSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
-    public abstract Task<TWeixinSubscriber> FindByUnionIdAsync(string unionId, CancellationToken cancellationToken);
+    public abstract Task<TSubscriber> FindByUnionIdAsync(string unionId, CancellationToken cancellationToken);
 
     /// <inheritdoc/>
-    public abstract Task<TWeixinSubscriber> FindByNicknameAsync(string nickname, CancellationToken cancellationToken);
+    public abstract Task<TSubscriber> FindByNicknameAsync(string nickname, CancellationToken cancellationToken);
 
 
     /// <summary>
     /// A navigation property for the roles the store contains.
     /// </summary>
-    public abstract IQueryable<TWeixinSubscriber> Subscribers
+    public abstract IQueryable<TSubscriber> Subscribers
     {
         get;
     }

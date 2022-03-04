@@ -7,41 +7,22 @@ using Myvas.AspNetCore.Weixin.Models;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.DbContexts;
 
-#pragma warning disable 1591
-
 /// <summary>
 /// DbContext for the Weixin operational data.
 /// </summary>
-public class WeixinDbContext : WeixinDbContext<WeixinDbContext>
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="WeixinDbContext"/> class.
-    /// </summary>
-    /// <param name="options">The options.</param>
-    /// <exception cref="ArgumentNullException">options</exception>
-    public WeixinDbContext(DbContextOptions<WeixinDbContext> options)
-        : base(options)
-    {
-    }
-}
-
-/// <summary>
-/// DbContext for the Weixin operational data.
-/// </summary>
-/// <typeparam name="TDbContext">The DbContext implemented IPersistedTokenDbContext.</typeparam>
+/// <typeparam name="TSubscriber">The Subscriber implemented <see cref="Subscriber"/>.</typeparam>
 /// <seealso cref="DbContext"/>
-/// <seealso cref="IWeixinDbContext"/>
-public class WeixinDbContext<TDbContext> : DbContext, IWeixinDbContext
-    where TDbContext : DbContext, IWeixinDbContext
+/// <seealso cref="IWeixinDbContext{TSubscriber}"/>
+public class WeixinDbContext<TSubscriber> : DbContext, IWeixinDbContext<TSubscriber>
+    where TSubscriber : Subscriber
 {
     private readonly WeixinStoreOptions _storeOptions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WeixinDbContext"/> class.
+    /// Initializes a new instance of the <see cref="WeixinDbContext{TSubscriber}"/> class.
     /// </summary>
     /// <param name="options"></param>
-    public WeixinDbContext(DbContextOptions options)
-        : base(options)
+    public WeixinDbContext(DbContextOptions options) : base(options)
     {
         _storeOptions = this.GetService<WeixinStoreOptions>();
     }
@@ -49,33 +30,15 @@ public class WeixinDbContext<TDbContext> : DbContext, IWeixinDbContext
     #region shared-type entity types: Support for Shared-type entity types was introduced in EF Core 5.0+.
     #endregion
 
+    /// <inheritdoc/>
     public DbSet<AuditEntry> AuditEntires { get; set; }
 
     /// <inheritdoc/>
-    public DbSet<WeixinSubscriber> WeixinSubscribers { get; set; }
-    #region Table-per-hierarchy for received messages: text, image, voice, video, shortvideo, location, link.
-    /// <summary>
-    /// Table-per-hierarchy
-    /// </summary>
+    public DbSet<TSubscriber> Subscribers { get; set; }
+    /// <inheritdoc/>
     public DbSet<MessageReceivedEntry> MessageReceivedEntries { get; set; }
-    //public DbSet<TextMessageReceivedEntity> ReceivedTextMessages { get; set; }
-    //public DbSet<ImageMessageReceivedEntity> ReceivedImageMessages { get; set; }
-    //public DbSet<VoiceMessageReceivedEntity> ReceivedVoiceMessages { get; set; }
-    //public DbSet<VideoMessageReceivedEntity> ReceivedVideoMessages { get; set; }
-    //public DbSet<ShortVideoMessageReceivedEntity> ReceivedShortVideoMessages { get; set; }
-    //public DbSet<LocationMessageReceivedEntity> ReceivedLocationMessages { get; set; }
-    //public DbSet<LinkMessageReceivedEntity> ReceivedLinkMessages { get; set; }
-    #endregion
-
-    #region Table-per-type for received events
-    public DbSet<SubscribeEventReceivedEntry> SubscribeReceivedEventEntries { get; set; }
-    public DbSet<EnterEventReceivedEntry> EnterReceivedEventEntries { get; set; }
-    public DbSet<ClickMenuEventReceivedEntry> ClickMenuReceivedEventEntries { get; set; }
-    public DbSet<ViewMenuEventReceivedEntry> ViewMenuReceivedEventEntries { get; set; }
-    public DbSet<QrscanEventReceivedEntry> QrscanReceivedEventEntries { get; set; }
-    public DbSet<LocationEventReceivedEntry> LocationReceivedEventEntries { get; set; }
-    public DbSet<UnsubscribeEventReceivedEntry> UnsubscribeReceivedEventEntries { get; set; }
-    #endregion
+    /// <inheritdoc/>
+    public DbSet<EventReceivedEntry> EventReceivedEntries { get; set; }
 
     /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -86,11 +49,12 @@ public class WeixinDbContext<TDbContext> : DbContext, IWeixinDbContext
         {
             throw new ArgumentNullException(nameof(storeOptions));
         }
-        modelBuilder.ConfigureWeixinDbContext(storeOptions);
+        modelBuilder.ConfigureWeixinDbContext<TSubscriber>(storeOptions);
 
         base.OnModelCreating(modelBuilder);
     }
 
+    /// <inheritdoc/>
     public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         SaveModifiedTimeAsync();
@@ -155,9 +119,11 @@ public class WeixinDbContext<TDbContext> : DbContext, IWeixinDbContext
                             auditEntry.OldValue = property.OriginalValue?.ToString();
                         }
                         auditEntry.NewValue = property.CurrentValue?.ToString();
+                        auditEntries.Add(auditEntry);
                         break;
                     case EntityState.Deleted:
                         auditEntry.OldValue = property.OriginalValue?.ToString();
+                        auditEntries.Add(auditEntry);
                         break;
                     case EntityState.Modified:
                         if (property.IsModified)
@@ -165,10 +131,11 @@ public class WeixinDbContext<TDbContext> : DbContext, IWeixinDbContext
                             auditEntry.OldValue = entry.GetDatabaseValues().GetValue<object>(propertyName)?.ToString();
                             auditEntry.NewValue = property.CurrentValue?.ToString();
                         }
+                        auditEntries.Add(auditEntry);
+                        break;
+                    default:
                         break;
                 }
-
-                auditEntries.Add(auditEntry);
             }
         }
         return auditEntries.ToList();

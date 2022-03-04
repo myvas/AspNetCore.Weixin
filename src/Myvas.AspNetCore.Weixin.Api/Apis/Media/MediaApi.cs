@@ -10,9 +10,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 多媒体文件接口
     /// </summary>
-    public class MediaApi : SecureApiClient
+    public class MediaApi : WeixinApiClient
     {
-        public MediaApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public MediaApi(HttpClient client) : base(client)
         {
         }
 

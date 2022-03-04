@@ -186,6 +186,8 @@ namespace Myvas.AspNetCore.Weixin.Site.ResponseBuilder
                         {
                             case RequestEventType.subscribe:
                                 handler = _handlerFactory.Create<SubscribeEventWeixinHandler>(_serviceProvider); break;
+                            case RequestEventType.unsubscribe:
+                                handler = _handlerFactory.Create<UnsubscribeEventWeixinHandler>(_serviceProvider); break;
                             case RequestEventType.CLICK:
                                 handler = _handlerFactory.Create<ClickMenuEventWeixinHandler>(_serviceProvider); break;
                             case RequestEventType.VIEW:

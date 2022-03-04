@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore.Options;
+using Myvas.AspNetCore.Weixin.Models;
 
 namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 public class TokenCleanupService
 {
     private readonly WeixinStoreOptions _options;
-    private readonly IWeixinDbContext _tokenDbContext;
+    private readonly IReceivedEntryStore<EventReceivedEntry> _tokenDbContext;
     private readonly ISubscriptionNotification _operationalStoreNotification;
     private readonly ILogger<TokenCleanupService> _logger;
 
@@ -25,7 +26,7 @@ public class TokenCleanupService
     /// <exception cref="ArgumentException"></exception>
     public TokenCleanupService(
         WeixinStoreOptions options,
-        IWeixinDbContext tokenDbContext,
+        IReceivedEntryStore<EventReceivedEntry> tokenDbContext,
         ILogger<TokenCleanupService> logger,
         ISubscriptionNotification operationalStoreNotification = null)
     {
@@ -82,18 +83,20 @@ public class TokenCleanupService
 
         while (found >= _options.TokenCleanupBatchSize)
         {
-            var expiredTokens = await _tokenDbContext.ClickMenuReceivedEventEntries
-                .Where(x => x.CreateTimeObject < DateTime.UtcNow)
-                .OrderBy(x => x.CreateTimeObject)
-                .Take(_options.TokenCleanupBatchSize)
-                .ToArrayAsync(cancellationToken);
+            //var expiredTokens = await _tokenDbContext.EventReceivedEntries
+            //    .Where(x => x.CreateTimeObject < DateTime.UtcNow)
+            //    .OrderBy(x => x.CreateTimeObject)
+            //    .Take(_options.TokenCleanupBatchSize)
+            //    .ToArrayAsync(cancellationToken);
+            var expiredTokens = await _tokenDbContext.GetAllByReceivedTimeAsync(null, DateTime.UtcNow.AddYears(-3));
 
-            found = expiredTokens.Length;
+            found = expiredTokens.Count();
             _logger.LogInformation("Removing {tokenCount} expired tokens", found);
 
             if (found > 0)
             {
-                _tokenDbContext.ClickMenuReceivedEventEntries.RemoveRange(expiredTokens);
+                //_tokenDbContext.EventReceivedEntries.RemoveRange(expiredTokens);
+
                 await SaveChangesAsync();
 
                 if (_operationalStoreNotification != null)
@@ -116,18 +119,19 @@ public class TokenCleanupService
 
         while (found >= _options.TokenCleanupBatchSize)
         {
-            var expiredTokens = await _tokenDbContext.ClickMenuReceivedEventEntries
-                //.Where(x => x.ConsumedDate < DateTime.UtcNow)
-                //.OrderBy(x => x.ConsumedDate)
-                .Take(_options.TokenCleanupBatchSize)
-                .ToArrayAsync(cancellationToken);
+            //var expiredTokens = await _tokenDbContext.EventReceivedEntries
+            //    //.Where(x => x.ConsumedDate < DateTime.UtcNow)
+            //    //.OrderBy(x => x.ConsumedDate)
+            //    .Take(_options.TokenCleanupBatchSize)
+            //    .ToArrayAsync(cancellationToken);
+            var expiredTokens = await _tokenDbContext.GetAllByReceivedTimeAsync(null, DateTime.UtcNow.AddYears(-3));
 
-            found = expiredTokens.Length;
+            found = expiredTokens.Count();
             _logger.LogInformation("Removing {tokenCount} consumed tokens", found);
 
             if (found > 0)
             {
-                _tokenDbContext.ClickMenuReceivedEventEntries.RemoveRange(expiredTokens);
+                //_tokenDbContext.EventReceivedEntries.RemoveRange(expiredTokens);
                 await SaveChangesAsync();
 
                 if (_operationalStoreNotification != null)
@@ -147,7 +151,8 @@ public class TokenCleanupService
         {
             try
             {
-                await _tokenDbContext.SaveChangesAsync(cancellationToken);
+                //await _tokenDbContext.SaveChangesAsync(cancellationToken);
+                await _tokenDbContext.GetAsync(null);
                 return;
             }
             catch (DbUpdateConcurrencyException ex)

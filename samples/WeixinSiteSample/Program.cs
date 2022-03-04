@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Myvas.AspNetCore.Weixin;
-using WeixinSiteSample.Data;
+using WeixinSiteSample;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,22 +11,21 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.ConfigureWarnings(b => b.Log(CoreEventId.ManyServiceProvidersCreatedWarning))
     .UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-var weixinBuilder = builder.Services
-    //IWeixinAccessToken: get access_token cached in redis, or fetch it from the remote.
+builder.Services
+    //IWeixinApi: utilities to communicate with the tencent server.
     .AddWeixin(o =>
     {
         o.AppId = builder.Configuration["Weixin:AppId"];
         o.AppSecret = builder.Configuration["Weixin:AppSecret"];
-    },
-    o =>
+    })
+    //IWeixinAccessToken: get access_token cached in redis, or fetch it from the remote.
+    .AddAccessToken(o =>
     {
         o.Configuration = builder.Configuration.GetConnectionString("RedisConnection");
         o.InstanceName = builder.Configuration["Weixin:AppId"];
     })
-    //IWeixinSubscriberManager: depends on IPersistedTokenDbContext
-    .AddSubscriberManager<ApplicationDbContext>()
     //Weixin site handlers
-    .AddWeixinSite<DefaultWeixinEventSink>(o =>
+    .AddWeixinSite<DefaultWeixinEventSink, ApplicationUser, ApplicationDbContext>(o =>
     {
         o.WebsiteToken = builder.Configuration["Weixin:WebsiteToken"];
 

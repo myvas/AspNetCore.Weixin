@@ -9,6 +9,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.Site\Myvas.AspNetCore.Weixin.Site.csproj" />
+		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
 	</ItemGroup>
 </Project>

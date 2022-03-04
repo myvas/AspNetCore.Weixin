@@ -8,9 +8,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 微信基础功能接口
     /// </summary>
-    public class UserProfileApi : SecureApiClient
+    public class UserProfileApi : WeixinApiClient
     {
-        public UserProfileApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public UserProfileApi(HttpClient client) : base(client)
         {
         }
 

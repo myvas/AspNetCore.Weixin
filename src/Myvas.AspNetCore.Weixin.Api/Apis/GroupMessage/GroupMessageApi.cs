@@ -6,9 +6,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 高级群发接口
     /// </summary>
-    public class GroupMessageApi : SecureApiClient
+    public class GroupMessageApi : WeixinApiClient
     {
-        public GroupMessageApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public GroupMessageApi(HttpClient client) : base(client)
         {
         }
 

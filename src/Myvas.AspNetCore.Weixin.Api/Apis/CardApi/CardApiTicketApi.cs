@@ -12,9 +12,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 获取微信卡券调用凭证
     /// </summary>
-    public class CardApiTicketApi: SecureApiClient
+    public class CardApiTicketApi: WeixinApiClient
     {
-        public CardApiTicketApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public CardApiTicketApi(HttpClient client) : base(client)
         {
         }
 

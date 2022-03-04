@@ -12,6 +12,7 @@
 	<ItemGroup>
 		<PackageReference Include="IdentityModel" />
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -27,9 +28,5 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Models\Apis\" />
 	</ItemGroup>
 </Project>

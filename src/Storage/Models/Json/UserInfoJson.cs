@@ -21,11 +21,34 @@ public class UserInfoJson : WeixinErrorJson
     /// </summary>
     /// <remarks>值为0时，代表此用户没有关注该公众号，拉取不到其余信息;值为1时，代表用户已关注该公众号，可以拉取其余信息</remarks>
     public int subscribe { get; set; }
+    /// <summary>
+    /// If unsubscribed?
+    /// </summary>
+    [JsonIgnore]
+    public bool Unsubscribed { get { return subscribe != 1; } set { subscribe = value ? 0 : 1; } }
 
     /// <summary>
     /// 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
     /// </summary>
-    public long subscribe_time { get; set; }
+    public long? subscribe_time { get; set; }
+    [JsonIgnore]
+    public DateTime? SubscribeTime
+    {
+        get
+        {
+            if (subscribe_time.HasValue)
+                return WeixinTimestampHelper.ToUtcTime(subscribe_time!.Value);
+            else
+                return null;
+        }
+        set
+        {
+            if (value == null)
+                subscribe_time = null;
+            else
+                subscribe_time = WeixinTimestampHelper.FromUtcTime(value!.Value);
+        }
+    }
 
     /// <summary>
     /// 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。参考值：o6_bmasdasdsad6_2sgVt7hMZOPfL
@@ -42,13 +65,15 @@ public class UserInfoJson : WeixinErrorJson
     /// <summary>
     /// 用户的语言，参考值：zh_CN 为简体中文
     /// </summary>
-    /// <remarks><see cref="WeixinLanguage"/></remarks>
-    public string language { get; set; }
+    /// <remarks><seealse cref="WeixinLanguage"/></remarks>
+    [JsonPropertyName("language")]
+    public string Language { get; set; }
 
     /// <summary>
     /// 公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
     /// </summary>
-    public string remark { get; set; }
+    [JsonPropertyName("remark")]
+    public string Remark { get; set; }
 
     /// <summary>
     /// 用户所在的分组ID（兼容旧的用户分组接口）
@@ -81,20 +106,52 @@ public class UserInfoJson : WeixinErrorJson
     /// 昵称
     /// </summary>
     /// <remarks>2021年12月27日之后，不再输出头像、昵称信息。</remarks>
-    public string nickname { get; set; }
+    [JsonPropertyName("nickname")]
+    public string NickName { get; set; }
 
     /// <summary>
     /// 头像
     /// </summary>
     /// <remarks>2021年12月27日之后，不再输出头像、昵称信息。</remarks>
-    public string headimgurl { get; set; }
+    [JsonPropertyName("headimgurl")]
+    public string AvatorImageUrl { get; set; }
 
     public int? sex { get; set; }
+    [JsonIgnore]
+    public WeixinGender? Gender
+    {
+        get
+        {
+            if (sex.HasValue)
+                return sex!.Value == 0 ? WeixinGender.Male : WeixinGender.Female;
+            else
+                return null;
+        }
+        set
+        {
+            if (value.HasValue)
+                sex = (int)value!.Value;
+            else
+                sex = null;
+        }
+    }
 
-    public string city { get; set; }
+    /// <summary>
+    /// The city name.
+    /// </summary>
+    [JsonPropertyName("city")]
+    public string City { get; set; }
 
-    public string province { get; set; }
+    /// <summary>
+    /// The province name.
+    /// </summary>
+    [JsonPropertyName("province")]
+    public string Province { get; set; }
 
-    public string country { get; set; }
+    /// <summary>
+    /// The country name.
+    /// </summary>
+    [JsonPropertyName("country")]
+    public string Country { get; set; }
     #endregion
 }

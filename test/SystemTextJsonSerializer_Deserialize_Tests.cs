@@ -56,10 +56,10 @@ namespace test
             var o = System.Text.Json.JsonSerializer.Deserialize<UserInfoJson>(s);
             Assert.Equal(1, o.subscribe);
             Assert.Equal("o6_bmjrPTlm6_2sgVt7hMZOPfL2M", o.OpenId);
-            Assert.Equal("zh_CN", o.language);
+            Assert.Equal("zh_CN", o.Language);
             Assert.Equal(1382694957, o.subscribe_time);
             Assert.Equal("o6_bmasdasdsad6_2sgVt7hMZOPfL", o.UnionId);
-            Assert.Empty(o.remark);
+            Assert.Empty(o.Remark);
             Assert.Equal(0, o.groupid);
             Assert.Equal(2, o.tagid_list.Count);
             Assert.Contains(128, o.tagid_list);

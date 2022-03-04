@@ -19,11 +19,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Api\Myvas.AspNetCore.Weixin.UserManager\Myvas.AspNetCore.Weixin.UserManager.csproj" />
 		<ProjectReference Include="..\..\src\EntityFrameworkCore.Storage\Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.csproj" />
 		<ProjectReference Include="..\..\src\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
 		<ProjectReference Include="..\..\src\Myvas.AspNetCore.Weixin.EntityFrameworkCore\Myvas.AspNetCore.Weixin.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\..\src\Myvas.AspNetCore.Weixin.Site\Myvas.AspNetCore.Weixin.Site.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Models\" />
 	</ItemGroup>
 
 </Project>

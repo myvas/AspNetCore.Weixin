@@ -87,3 +87,19 @@ public static class WeixinTimestampHelper
         return (utcTime.Ticks - UnixEpoch.Ticks) / 10000000;
     }
 }
+
+/// <summary>
+/// 
+/// </summary>
+public static class WeixinTimestampExtensions
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="utcTime"></param>
+    /// <returns></returns>
+    public static long ToWeixinTimestamp(this DateTime utcTime)
+    {
+        return WeixinTimestampHelper.FromUtcTime(utcTime);
+    }
+}

@@ -16,6 +16,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
@@ -25,9 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Api\Myvas.AspNetCore.Weixin.Messaging\Myvas.AspNetCore.Weixin.Messaging.csproj" />
-		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
-		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
+		<ProjectReference Include="..\EntityFrameworkCore.Storage\Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.csproj" />
 		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
 	</ItemGroup>
 

@@ -10,8 +10,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	
+	<ItemGroup>
 		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
-		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
 	</ItemGroup>
 
 </Project>

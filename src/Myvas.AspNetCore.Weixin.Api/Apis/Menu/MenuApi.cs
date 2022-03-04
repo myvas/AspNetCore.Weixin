@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
 {
-    public class MenuApi : SecureApiClient
+    public class MenuApi : WeixinApiClient
     {
-        public MenuApi(HttpClient client, IWeixinAccessToken accessToken) : base(client, accessToken)
+        public MenuApi(HttpClient client) : base(client)
         {
         }
 

@@ -14,52 +14,81 @@ public static class ModelBuilderExtensions
     /// </summary>
     /// <param name="modelBuilder">The model builder.</param>
     /// <param name="storeOptions">The store options.</param>
-    public static void ConfigureWeixinDbContext(this ModelBuilder modelBuilder, WeixinStoreOptions storeOptions)
+    public static void ConfigureWeixinDbContext<TSubscriber>(this ModelBuilder modelBuilder, WeixinStoreOptions storeOptions)
+        where TSubscriber : Subscriber
     {
-        modelBuilder.Entity<WeixinSubscriber>(entity =>
+        modelBuilder.Entity<TSubscriber>(entity =>
         {
-            //entity.ToTable("WeixinSubscribers");
+            entity.ToTable("WeixinSubscribers");
             entity.HasKey(x => x.OpenId);
-            entity.Property(x => x.OpenId).HasMaxLength(200).ValueGeneratedNever();
+            entity.Property(x => x.OpenId).HasMaxLength(32).ValueGeneratedNever();
             entity.Property(x => x.Unsubscribed).IsRequired();
-            entity.Property(x => x.ConcurrencyStamp).IsConcurrencyToken();
+            //entity.Property(x => x.RowVersion).IsRowVersion();
         });
 
-        //Table - per - hierarchy for received messages: text, image, voice, video, shortvideo, location, link.
+        #region Table-per-hierarchy for received messages: text, image, voice, video, shortvideo, location, link.
         modelBuilder.Entity<MessageReceivedEntry>(entity =>
         {
+            entity.ToTable("WeixinReceivedMessages");
             entity.HasDiscriminator<string>(x => x.MsgType)
-                .HasValue<TextMessageReceivedEntry>("text")
-                .HasValue<ImageMessageReceivedEntry>("image")
-                .HasValue<VoiceMessageReceivedEntry>("voice")
-                .HasValue<VideoMessageReceivedEntry>("video")
-                .HasValue<ShortVideoMessageReceivedEntry>("shortvideo")
-                .HasValue<LocationMessageReceivedEntry>("location")
-                .HasValue<LinkMessageReceivedEntry>("link");
+                .HasValue<TextMessageReceivedEntry>(nameof(RequestMsgType.text))
+                .HasValue<ImageMessageReceivedEntry>(nameof(RequestMsgType.image))
+                .HasValue<VoiceMessageReceivedEntry>(nameof(RequestMsgType.voice))
+                .HasValue<VideoMessageReceivedEntry>(nameof(RequestMsgType.video))
+                .HasValue<ShortVideoMessageReceivedEntry>(nameof(RequestMsgType.shortvideo))
+                .HasValue<LocationMessageReceivedEntry>(nameof(RequestMsgType.location))
+                .HasValue<LinkMessageReceivedEntry>(nameof(RequestMsgType.link));
         });
         modelBuilder.Entity<ImageMessageReceivedEntry>(entity =>
         {
             entity.Property(x => x.MediaId).HasColumnName(nameof(ImageMessageReceivedEntry.MediaId));
         });
-        modelBuilder.Entity<ShortVideoMessageReceivedEntry>(entity =>
+        modelBuilder.Entity<VoiceMessageReceivedEntry>(entity =>
         {
-            entity.Property(x => x.MediaId).HasColumnName(nameof(ShortVideoMessageReceivedEntry.MediaId));
+            entity.Property(x => x.MediaId).HasColumnName(nameof(VideoMessageReceivedEntry.MediaId));
         });
         modelBuilder.Entity<ShortVideoMessageReceivedEntry>(entity =>
         {
+            entity.Property(x => x.MediaId).HasColumnName(nameof(ShortVideoMessageReceivedEntry.MediaId));
             entity.Property(x => x.ThumbMediaId).HasColumnName(nameof(ShortVideoMessageReceivedEntry.ThumbMediaId));
         });
         modelBuilder.Entity<VideoMessageReceivedEntry>(entity =>
         {
             entity.Property(x => x.MediaId).HasColumnName(nameof(VideoMessageReceivedEntry.MediaId));
-        });
-        modelBuilder.Entity<VideoMessageReceivedEntry>(entity =>
-        {
             entity.Property(x => x.ThumbMediaId).HasColumnName(nameof(VideoMessageReceivedEntry.ThumbMediaId));
         });
-        modelBuilder.Entity<VoiceMessageReceivedEntry>(entity =>
+        #endregion
+
+        #region Table-per-hierarchy for received events: subscribe, unsubscribe, enter, scan, click, view, location.
+        modelBuilder.Entity<EventReceivedEntry>(entity =>
         {
-            entity.Property(x => x.MediaId).HasColumnName(nameof(VideoMessageReceivedEntry.MediaId));
+            entity.ToTable("WeixinReceivedEvents");
+            entity.HasDiscriminator<string>(x => x.Event)
+                .HasValue<SubscribeEventReceivedEntry>(nameof(RequestEventType.subscribe))
+                .HasValue<UnsubscribeEventReceivedEntry>(nameof(RequestEventType.unsubscribe))
+                .HasValue<QrscanEventReceivedEntry>(nameof(RequestEventType.SCAN))
+                .HasValue<ClickMenuEventReceivedEntry>(nameof(RequestEventType.CLICK))
+                .HasValue<ViewMenuEventReceivedEntry>(nameof(RequestEventType.VIEW))
+                .HasValue<LocationEventReceivedEntry>(nameof(RequestEventType.LOCATION));
         });
+        modelBuilder.Entity<SubscribeEventReceivedEntry>(entity =>
+        {
+            entity.Property(x => x.EventKey).HasColumnName(nameof(SubscribeEventReceivedEntry.EventKey));
+            entity.Property(x => x.Ticket).HasColumnName(nameof(SubscribeEventReceivedEntry.Ticket));
+        });
+        modelBuilder.Entity<QrscanEventReceivedEntry>(entity =>
+        {
+            entity.Property(x => x.EventKey).HasColumnName(nameof(QrscanEventReceivedEntry.EventKey));
+            entity.Property(x => x.Ticket).HasColumnName(nameof(QrscanEventReceivedEntry.Ticket));
+        });
+        modelBuilder.Entity<ClickMenuEventReceivedEntry>(entity =>
+        {
+            entity.Property(x => x.EventKey).HasColumnName(nameof(ClickMenuEventReceivedEntry.EventKey));
+        });
+        modelBuilder.Entity<ViewMenuEventReceivedEntry>(entity =>
+        {
+            entity.Property(x => x.EventKey).HasColumnName(nameof(ViewMenuEventReceivedEntry.EventKey));
+        });
+        #endregion
     }
 }

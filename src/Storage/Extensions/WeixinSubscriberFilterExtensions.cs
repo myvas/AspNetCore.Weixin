@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.Storage.Extensions;
 
-#pragma warning disable 1591
-
+/// <summary>
+/// 
+/// </summary>
 public static class WeixinSubscriberFilterExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
     public static void Validate(this WeixinSubscriberFilter filter)
     {
         if (filter == null) throw new ArgumentNullException(nameof(filter));

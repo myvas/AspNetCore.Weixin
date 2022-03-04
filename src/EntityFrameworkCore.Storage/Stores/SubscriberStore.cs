@@ -7,11 +7,11 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 /// <summary>
 /// 
 /// </summary>
-/// <typeparam name="TWeixinSubscriber"></typeparam>
+/// <typeparam name="TSubscriber"></typeparam>
 /// <typeparam name="TContext"></typeparam>
-public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<TWeixinSubscriber>
-    where TWeixinSubscriber : WeixinSubscriber, new()
-    where TContext : DbContext
+public class SubscriberStore<TSubscriber, TContext> : SubscriberStoreBase<TSubscriber>
+    where TSubscriber : Subscriber, new()
+    where TContext : DbContext, IWeixinDbContext<TSubscriber>
 {
     /// <summary>
     /// 
@@ -34,7 +34,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     /// </summary>
     public virtual TContext Context { get; private set; }
 
-    private DbSet<TWeixinSubscriber> SubscribersSet { get { return Context.Set<TWeixinSubscriber>(); } }
+    private DbSet<TSubscriber> SubscribersSet { get { return Context.Set<TSubscriber>(); } }
 
     /// <summary>
     /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -45,7 +45,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     public bool AutoSaveChanges { get; set; } = true;
 
     /// <inheritdoc/>
-    public override IQueryable<TWeixinSubscriber> Subscribers => throw new NotImplementedException();
+    public override IQueryable<TSubscriber> Subscribers => throw new NotImplementedException();
 
     /// <summary>Saves the current store.</summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
@@ -61,7 +61,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     /// <param name="subscriber">The subscriber to create in the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> CreateAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public async override Task<WeixinResult> CreateAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -81,7 +81,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     /// <param name="subscriber">The subscriber to update in the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> UpdateAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public async override Task<WeixinResult> UpdateAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -90,7 +90,6 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
             throw new ArgumentNullException(nameof(subscriber));
         }
         Context.Attach(subscriber);
-        subscriber.ConcurrencyStamp = Guid.NewGuid().ToString();
         Context.Update(subscriber);
         try
         {
@@ -109,7 +108,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     /// <param name="role">The role to delete from the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> DeleteAsync(TWeixinSubscriber role, CancellationToken cancellationToken = default(CancellationToken))
+    public async override Task<WeixinResult> DeleteAsync(TSubscriber role, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -135,7 +134,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     /// <param name="subscriber">The subscriber whose ID should be returned.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that contains the ID of the role.</returns>
-    public virtual Task<string> GetUserIdAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
+    public virtual Task<string> GetUserIdAsync(TSubscriber subscriber, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -154,7 +153,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     /// <param name="userId">The id of the user.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public override Task SetUserIdAsync(TWeixinSubscriber subscriber, string userId, CancellationToken cancellationToken = default(CancellationToken))
+    public override Task SetUserIdAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -173,16 +172,16 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     /// <param name="id">The role ID to look for.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that result of the look up.</returns>
-    public override Task<TWeixinSubscriber> FindByIdAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
+    public override Task<TSubscriber> FindByIdAsync(string id, CancellationToken cancellationToken = default(CancellationToken))
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
         //var roleId = ConvertIdFromString(id);
-        return SubscribersSet.FirstOrDefaultAsync(u => u.Id.Equals(id), cancellationToken);
+        return SubscribersSet.FirstOrDefaultAsync(u => u.OpenId == id, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task AddSubscriberAsync(TWeixinSubscriber subscriber, string userId, CancellationToken cancellationToken)
+    public override Task AddSubscriberAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -195,7 +194,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     }
 
     /// <inheritdoc/>
-    public override async Task RemoveSubscriberAsync(TWeixinSubscriber subscriber, string userId, CancellationToken cancellationToken)
+    public override async Task RemoveSubscriberAsync(TSubscriber subscriber, string userId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -203,7 +202,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
         {
             throw new ArgumentNullException(nameof(subscriber));
         }
-        var entry = await FindByIdAsync(subscriber.Id, cancellationToken);
+        var entry = await FindByIdAsync(subscriber.OpenId, cancellationToken);
         if (entry != null)
         {
             SubscribersSet.Remove(entry);
@@ -217,7 +216,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     }
 
     /// <inheritdoc/>
-    public override async Task<IList<TWeixinSubscriber>> GetSubscribersAsync(int perPage, int pageIndex, CancellationToken cancellationToken)
+    public override async Task<IList<TSubscriber>> GetSubscribersAsync(int perPage, int pageIndex, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -225,7 +224,7 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     }
 
     /// <inheritdoc/>
-    public override async Task<TWeixinSubscriber> FindByUserIdAsync(string userId, CancellationToken cancellationToken)
+    public override async Task<TSubscriber> FindByUserIdAsync(string userId, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -238,19 +237,19 @@ public class SubscriberStore<TWeixinSubscriber, TContext> : SubscriberStoreBase<
     }
 
     /// <inheritdoc/>
-    public override Task<TWeixinSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken)
+    public override Task<TSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public override Task<TWeixinSubscriber> FindByUnionIdAsync(string unionId, CancellationToken cancellationToken)
+    public override Task<TSubscriber> FindByUnionIdAsync(string unionId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public override Task<TWeixinSubscriber> FindByNicknameAsync(string nickname, CancellationToken cancellationToken)
+    public override Task<TSubscriber> FindByNicknameAsync(string nickname, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
