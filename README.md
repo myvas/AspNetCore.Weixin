@@ -22,26 +22,26 @@ https://mp.weixin.qq.com
 * ConfigureServices
 ```
 services
-	//IWeixinAccessToken: get access_token cached in redis, or fetch it from the remote.
+	//IWeixinApi: utilities to communicate with the tencent server.
 	.AddWeixin(o =>
 	{
 		o.AppId = Configuration["Weixin:AppId"];
 		o.AppSecret = Configuration["Weixin:AppSecret"];
-	}),o =>
+	})
+	//IWeixinAccessToken: get access_token cached in redis, or fetch it from the remote.
+	.AddAccessToken(o =>
 	{
 		o.Configuration = Configuration.GetConnectionString("RedisConnection");
 		o.InstanceName = Configuration["Weixin:AppId"];
 	})
-	//IWeixinSubscriberManager: depends on IPersistedTokenDbContext
-	.AddSubscriberManager<ApplicationDbContext>()
 	//Weixin site handlers
-    .AddWeixinSite<DefaultWeixinEventSink>(o =>
-    {
-        o.WebsiteToken = builder.Configuration["Weixin:WebsiteToken"];
+	.AddWeixinSite<DefaultWeixinEventSink, ApplicationUser, ApplicationDbContext>(o =>
+	{
+		o.WebsiteToken = builder.Configuration["Weixin:WebsiteToken"];
 
-        //是否允许微信web开发者工具(wechatdevtools)等客户端访问？默认值为false，true为允许。
-        o.Debug = bool.Parse(builder.Configuration["Weixin:Debug"] ?? "false");
-    });
+		//是否允许微信web开发者工具(wechatdevtools)等客户端访问？默认值为false，true为允许。
+		o.Debug = bool.Parse(builder.Configuration["Weixin:Debug"] ?? "false");
+	});
 ```
 
 * Configure
