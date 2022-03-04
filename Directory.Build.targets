@@ -34,6 +34,7 @@
 		<PackageReference Update="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(ExtensionsVersion)"/>
 		<PackageReference Update="Microsoft.Extensions.Options" Version="$(ExtensionsVersion)"/>
 		<PackageReference Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(ExtensionsVersion)"/>
+		<PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="$(ExtensionsVersion)"/>
 
 		<!--misc -->
 		<PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="$(WilsonVersion)"/>
