@@ -241,3 +241,6 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 bootstrap
+*.db-wal
+*.db
+*.db-shm
