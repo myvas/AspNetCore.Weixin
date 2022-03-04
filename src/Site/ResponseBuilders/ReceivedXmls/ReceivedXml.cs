@@ -27,17 +27,12 @@ public class ReceivedXml
     /// </summary>
     [XmlElement("CreateTime")]
     public long CreateTime { get; set; }
-    [XmlIgnore]
-    public DateTime CreateTimeObject
+
+    //[XmlIgnore]
+    //[NotMapped]
+    public DateTime GetCreateTime()
     {
-        get
-        {
-            return WeixinTimestampHelper.ToLocalTime(CreateTime);
-        }
-        set
-        {
-            CreateTime = WeixinTimestampHelper.FromLocalTime(value);
-        }
+        return WeixinTimestampHelper.ToLocalTime(CreateTime);
     }
 
     /// <summary>
@@ -45,16 +40,18 @@ public class ReceivedXml
     /// </summary>
     [XmlElement("MsgType")]
     public string MsgType { get; set; }
-    [XmlIgnore]
-    public RequestMsgType MsgTypeEnum
+
+    //[XmlIgnore]
+    //[NotMapped]
+    public RequestMsgType GetMsgType()
     {
-        get
+        try
         {
             return (RequestMsgType)Enum.Parse(typeof(RequestMsgType), MsgType, true);
         }
-        set
+        catch
         {
-            MsgType = MsgTypeEnum.ToString();
+            return RequestMsgType.Unknown;
         }
     }
 }

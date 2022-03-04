@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -19,18 +20,16 @@ namespace Myvas.AspNetCore.Weixin
         public string EventKey { get; set; }
 
         [XmlIgnore]
+        [NotMapped]
         public const string EventKeyPrefix = "qrscene_";
-        [XmlIgnore]
-        public string Scene
+        //[XmlIgnore]
+        //[NotMapped]
+        public string GetScene()
         {
-            get
-            {
-                return EventKey.Substring(EventKeyPrefix.Length);
-            }
-            set
-            {
-                EventKey = EventKeyPrefix + value;
-            }
+            if (EventKey?.StartsWith(EventKeyPrefix) == true)
+                return EventKey?.Substring(EventKeyPrefix.Length);
+            else
+                return EventKey;
         }
 
         /// <summary>

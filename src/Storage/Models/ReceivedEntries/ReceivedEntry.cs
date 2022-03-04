@@ -50,20 +50,36 @@ public class ReceivedEntry
     public long CreateTime { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets the <see cref="CreateTime"/> cast from the WeixinTimestamp.
     /// </summary>
-    [XmlIgnore]
-    [NotMapped]
-    public DateTime CreateTimeObject
+    /// <returns>The <see cref="DateTime"/>.</returns>
+    //[XmlIgnore]
+    //[NotMapped]
+    public DateTime? GetCreateTime()
     {
-        get
+        try
         {
             return WeixinTimestampHelper.ToLocalTime(CreateTime);
         }
-        set
+        catch
         {
-            CreateTime = WeixinTimestampHelper.FromLocalTime(value);
+            return null;
         }
+    }
+
+    /// <summary>
+    /// Set the WeixinTimestamp from the <see cref="DateTime"/>.
+    /// </summary>
+    /// <param name="value">The WeixinTimestamp.</param>
+    /// <returns></returns>
+    public long SetCreateTime(DateTime? value)
+    {
+        if (value.HasValue)
+            CreateTime = WeixinTimestampHelper.FromLocalTime(value.Value);
+        else
+            CreateTime = 0;
+
+        return CreateTime;
     }
 
     /// <summary>
@@ -74,19 +90,30 @@ public class ReceivedEntry
     public string MsgType { get; set; }
 
     /// <summary>
-    /// 
+    /// Gets the <see cref="RequestMsgType"/> parse from the <see cref="MsgType"/>.
     /// </summary>
-    [XmlIgnore]
-    [NotMapped]
-    public RequestMsgType MsgTypeEnum
+    /// <returns>The <see cref="RequestMsgType"/>.</returns>
+    //[XmlIgnore]
+    //[NotMapped]
+    public RequestMsgType GetMsgType()
     {
-        get
+        try
         {
             return (RequestMsgType)Enum.Parse(typeof(RequestMsgType), MsgType, true);
         }
-        set
+        catch
         {
-            MsgType = MsgTypeEnum.ToString();
+            return RequestMsgType.Unknown;
         }
+    }
+
+    /// <summary>
+    /// Sets the <see cref="MsgType"/> with the <see cref="RequestMsgType"/>.
+    /// </summary>
+    /// <returns></returns>
+    public string SetMsgType(RequestMsgType value)
+    {
+        MsgType = value.ToString();
+        return MsgType;
     }
 }

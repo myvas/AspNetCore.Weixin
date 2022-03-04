@@ -13,10 +13,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Myvas.AspNetCore.Weixin.Api\Myvas.AspNetCore.Weixin.Api.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Compile Include="..\SharedCodes\Tracing\Tracing.cs">
 			<Link>Tracing.cs</Link>
 		</Compile>
@@ -39,5 +35,9 @@
 
 	<ItemGroup>
 	  <Folder Include="Exceptions\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Api\Myvas.AspNetCore.Weixin.Api.csproj" />
 	</ItemGroup>
 </Project>

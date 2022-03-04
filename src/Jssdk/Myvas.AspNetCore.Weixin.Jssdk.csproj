@@ -7,8 +7,4 @@
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
 		<Configurations>Debug;Release;Debug20</Configurations>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
-	</ItemGroup>
 </Project>

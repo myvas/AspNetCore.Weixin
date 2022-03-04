@@ -35,9 +35,5 @@
 	<ItemGroup>
 		<None Include="compilerconfig.json" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Weixin\Myvas.AspNetCore.Weixin.csproj" />
-	</ItemGroup>
 	
 </Project>

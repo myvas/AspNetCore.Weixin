@@ -70,7 +70,7 @@ namespace test
 
 			var result = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 			Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
-			Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
+			Assert.Equal(RequestMsgType.text, result.GetMsgType());
 		}
 
 		[Fact]
@@ -103,7 +103,7 @@ namespace test
 
 			var result = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 			Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
-			Assert.Equal(RequestMsgType.text, result.MsgTypeEnum);
+			Assert.Equal(RequestMsgType.text, result.GetMsgType());
 		}
 	}
 }

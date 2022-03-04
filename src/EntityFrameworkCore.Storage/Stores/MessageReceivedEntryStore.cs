@@ -59,8 +59,8 @@ public class MessageReceivedEntryStore<TContext> : IReceivedEntryStore<MessageRe
     public async Task<IEnumerable<MessageReceivedEntry>> GetAllByReceivedTimeAsync(DateTime? startTime, DateTime? endTime)
     {
         var entities = await MessageReceivedEntries//.AsQueryable().Cast<MessageReceivedEntry>()
-            .Where(x => x.CreateTimeObject > (startTime.HasValue ? startTime.Value : DateTime.MinValue)
-                && x.CreateTimeObject < (endTime.HasValue ? endTime.Value : DateTime.MaxValue))
+            .Where(x => x.GetCreateTime() > (startTime.HasValue ? startTime.Value : DateTime.MinValue)
+                && x.GetCreateTime() < (endTime.HasValue ? endTime.Value : DateTime.MaxValue))
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
 
         Logger.LogDebug("{count} received subscribe events found for {@startTime}-{@endTime}", entities.Length,
@@ -70,61 +70,30 @@ public class MessageReceivedEntryStore<TContext> : IReceivedEntryStore<MessageRe
     }
 
     /// <inheritdoc/>
-    public virtual async Task<MessageReceivedEntry> GetAsync(string key)
+    public virtual async Task<MessageReceivedEntry> GetAsync(string id)
     {
         var entity = await MessageReceivedEntries
-            .FirstOrDefaultAsync(x => x.Id == key, CancellationTokenProvider.CancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == id, CancellationTokenProvider.CancellationToken);
 
-        Logger.LogDebug("{id}{not} found in database", key, entity == null ? " not" : "");
+        Logger.LogDebug("{id}{not} found in database", id, entity == null ? " not" : "");
 
         return entity;
-    }
-
-    /// <inheritdoc/>
-    public async Task StoreAsync(MessageReceivedEntry item)
-    {
-        var existing = (await MessageReceivedEntries
-           .Where(x => x.FromUserName == item.FromUserName)
-           .ToArrayAsync(CancellationTokenProvider.CancellationToken))
-           .SingleOrDefault(x => x.FromUserName == item.FromUserName);
-        if (existing == null)
-        {
-            Logger.LogDebug("{id} not found in database", item.FromUserName);
-
-            var entity = item;//.ToEntity();
-            Context.Add(entity);
-        }
-        else
-        {
-            Logger.LogDebug("{id} found in database", item.FromUserName);
-
-            //token.UpdateEntity(existing);
-            Context.Update(existing);
-        }
-
-        try
-        {
-            await Context.SaveChangesAsync(CancellationTokenProvider.CancellationToken);
-        }
-        catch (DbUpdateConcurrencyException ex)
-        {
-            Logger.LogWarning("Exception updating {id} received message in database: {error}", item.FromUserName, ex.Message);
-        }
     }
 
     /// <inheritdoc/>
     public async Task StoreAsync<TEntity>(TEntity item) where TEntity : MessageReceivedEntry
     {
         var existing = await MessageReceivedEntries.AsQueryable().Cast<TEntity>()
-           .FirstOrDefaultAsync(x => x.FromUserName == item.FromUserName, CancellationTokenProvider.CancellationToken);
+           .FirstOrDefaultAsync(x => x.Id == item.Id, CancellationTokenProvider.CancellationToken);
         if (existing == null)
         {
-            Logger.LogDebug("{id} not found in database", item.FromUserName);
+            Logger.LogDebug("{id} not found in database", item.Id);
+            if (string.IsNullOrWhiteSpace(item.Id)) item.Id = Guid.NewGuid().ToString("N");
             Context.Add(item);
         }
         else
         {
-            Logger.LogDebug("{id} found in database", item.FromUserName);
+            Logger.LogDebug("{id} found in database", item.Id);
             Context.Update(item);
         }
 
@@ -134,7 +103,7 @@ public class MessageReceivedEntryStore<TContext> : IReceivedEntryStore<MessageRe
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            Logger.LogWarning("Exception updating {id} received message in database: {error}", item.FromUserName, ex.Message);
+            Logger.LogWarning("Exception updating {id} received message in database: {error}", item.Id, ex.Message);
         }
     }
 

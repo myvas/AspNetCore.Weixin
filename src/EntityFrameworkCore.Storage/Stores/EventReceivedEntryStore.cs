@@ -58,12 +58,12 @@ public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceiv
     }
 
     /// <inheritdoc/>
-    public async Task<EventReceivedEntry> GetAsync(string key)
+    public async Task<EventReceivedEntry> GetAsync(string id)
     {
         var entity = await EventReceivedEntries//.AsQueryable().Cast<EventReceivedEntry>()
-            .FirstOrDefaultAsync(x => x.Id == key, CancellationTokenProvider.CancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == id, CancellationTokenProvider.CancellationToken);
 
-        Logger.LogDebug("{id}{not} found in database", key, entity == null ? " not" : "");
+        Logger.LogDebug("{id}{not} found in database", id, entity == null ? " not" : "");
 
         return entity;
     }
@@ -72,15 +72,16 @@ public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceiv
     public async Task StoreAsync<TEntity>(TEntity item) where TEntity : EventReceivedEntry
     {
         var existing = await EventReceivedEntries.AsQueryable().Cast<TEntity>()
-           .FirstOrDefaultAsync(x => x.FromUserName == item.FromUserName, CancellationTokenProvider.CancellationToken);
+           .FirstOrDefaultAsync(x => x.Id == item.Id, CancellationTokenProvider.CancellationToken);
         if (existing == null)
         {
-            Logger.LogDebug("{id} not found in database", item.FromUserName);
+            Logger.LogDebug("{id} not found in database", item.Id);
+            if (string.IsNullOrWhiteSpace(item.Id)) item.Id = Guid.NewGuid().ToString("N");
             Context.Add(item);
         }
         else
         {
-            Logger.LogDebug("{id} found in database", item.FromUserName);
+            Logger.LogDebug("{id} found in database", item.Id);
             Context.Update(item);
         }
 
@@ -90,7 +91,7 @@ public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceiv
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            Logger.LogWarning("Exception updating {id} received event in database: {error}", item.FromUserName, ex.Message);
+            Logger.LogWarning("Exception updating {id} received event in database: {error}", item.Id, ex.Message);
         }
     }
 
@@ -101,8 +102,7 @@ public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceiv
             .Where(x => x.FromUserName == fromUserName)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
 
-        Logger.LogDebug("{count} received subscribe events found for {@fromUserName}", entities.Length,
-            fromUserName);
+        Logger.LogDebug("{count} received subscribe events found for {@fromUserName}", entities.Length, fromUserName);
 
         return entities;
     }
@@ -111,8 +111,8 @@ public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceiv
     public async Task<IEnumerable<EventReceivedEntry>> GetAllByReceivedTimeAsync(DateTime? startTime, DateTime? endTime)
     {
         var entities = await EventReceivedEntries//.AsQueryable().Cast<EventReceivedEntry>()
-            .Where(x => x.CreateTimeObject > (startTime.HasValue ? startTime.Value : DateTime.MinValue)
-                && x.CreateTimeObject < (endTime.HasValue ? endTime.Value : DateTime.MaxValue))
+            .Where(x => x.GetCreateTime() > (startTime.HasValue ? startTime.Value : DateTime.MinValue)
+                && x.GetCreateTime() < (endTime.HasValue ? endTime.Value : DateTime.MaxValue))
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
 
         Logger.LogDebug("{count} received subscribe events found for {@startTime}-{@endTime}", entities.Length,

@@ -26,8 +26,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj" />
 		<ProjectReference Include="..\EntityFrameworkCore.Storage\Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.csproj" />
-		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

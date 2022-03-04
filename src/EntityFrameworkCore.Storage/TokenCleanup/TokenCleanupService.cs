@@ -84,8 +84,8 @@ public class TokenCleanupService
         while (found >= _options.TokenCleanupBatchSize)
         {
             //var expiredTokens = await _tokenDbContext.EventReceivedEntries
-            //    .Where(x => x.CreateTimeObject < DateTime.UtcNow)
-            //    .OrderBy(x => x.CreateTimeObject)
+            //    .Where(x => x.GetCreateTime() < DateTime.UtcNow)
+            //    .OrderBy(x => x.GetCreateTime())
             //    .Take(_options.TokenCleanupBatchSize)
             //    .ToArrayAsync(cancellationToken);
             var expiredTokens = await _tokenDbContext.GetAllByReceivedTimeAsync(null, DateTime.UtcNow.AddYears(-3));
