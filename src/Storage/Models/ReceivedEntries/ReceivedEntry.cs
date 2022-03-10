@@ -47,10 +47,10 @@ public class ReceivedEntry
     /// 消息创建时间（整型）
     /// </summary>
     [XmlElement("CreateTime")]
-    public long CreateTime { get; set; }
+    public long CreateUnixTime { get; set; }
 
     /// <summary>
-    /// Gets the <see cref="CreateTime"/> cast from the WeixinTimestamp.
+    /// Gets the <see cref="CreateUnixTime"/> cast from the WeixinTimestamp.
     /// </summary>
     /// <returns>The <see cref="DateTime"/>.</returns>
     //[XmlIgnore]
@@ -59,7 +59,7 @@ public class ReceivedEntry
     {
         try
         {
-            return WeixinTimestampHelper.ToLocalTime(CreateTime);
+            return new UnixDateTime(CreateUnixTime);
         }
         catch
         {
@@ -75,11 +75,11 @@ public class ReceivedEntry
     public long SetCreateTime(DateTime? value)
     {
         if (value.HasValue)
-            CreateTime = WeixinTimestampHelper.FromLocalTime(value.Value);
+            CreateUnixTime = value!.Value.ToUnixTimeSeconds();
         else
-            CreateTime = 0;
+            CreateUnixTime = 0;
 
-        return CreateTime;
+        return CreateUnixTime;
     }
 
     /// <summary>

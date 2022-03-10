@@ -7,6 +7,7 @@
 
 		<Description>EntityFrameworkCore persistence layer for Myvas.AspNetCore.Weixin</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageTags>Myvas;AspNetCore;Weixin</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>

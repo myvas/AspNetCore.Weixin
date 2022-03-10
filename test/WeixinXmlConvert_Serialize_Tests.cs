@@ -25,7 +25,7 @@ namespace test
             {
                 ToUserName = "toUser",
                 FromUserName = "fromUser",
-                CreateTime = WeixinTimestampHelper.ToLocalTime(1490872329),
+                CreateTime = new UnixDateTime(1490872329),
                 Content = "你好"
             };
 
@@ -65,7 +65,7 @@ namespace test
             {
                 ToUserName = "toUser",
                 FromUserName = "fromUser",
-                CreateTime = WeixinTimestampHelper.ToLocalTime(1490872329),
+                CreateTime = new UnixDateTime(1490872329),
             };
             o.Articles.Add(new Article
             {

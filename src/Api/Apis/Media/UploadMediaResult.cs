@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin
 {
@@ -10,8 +11,13 @@ namespace Myvas.AspNetCore.Weixin
     /// </summary>
     public class UploadMediaResult
     {
+        [JsonPropertyName("type")]
         public MediaType UploadMediaType { get; set; }
-        public string media_id { get; set; }
-        public long created_at { get; set; }
+
+        [JsonPropertyName("media_id")]
+        public string MediaId { get; set; }
+
+        [JsonPropertyName("created_at")]
+        public long CreatedAtUnixTime { get; set; }
     }
 }

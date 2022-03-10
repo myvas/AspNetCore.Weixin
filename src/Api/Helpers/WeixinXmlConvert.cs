@@ -21,21 +21,23 @@ public static class WeixinXmlConvert
         if (encoding == null) encoding = Encoding.UTF8;
 
         var serializer = new XmlSerializer(objectInstance.GetType());
-        var settings = new XmlWriterSettings();
-        settings.OmitXmlDeclaration = omitAllXsiXsd;
-        settings.Indent = true;
-        settings.IndentChars = "    ";
-        settings.NewLineChars = Environment.NewLine;
-        settings.Encoding = encoding;
+        var settings = new XmlWriterSettings
+        {
+            OmitXmlDeclaration = omitAllXsiXsd,
+            Indent = true,
+            IndentChars = "    ",
+            NewLineChars = Environment.NewLine,
+            Encoding = encoding
+        };
 
-        //var sb = new StringBuilder();//StringBuilder的encoding为UTF16
+        //var sb = new StringBuilder();//The default encoding of StringBuilder is UTF16, so we have to change it.
         var sb = new StringWriterWithEncoding(encoding);
 
-        using (XmlWriter writer = XmlWriter.Create(sb, settings))
+        using (var writer = XmlWriter.Create(sb, settings))
         {
             if (omitAllXsiXsd)
             {
-                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+                var ns = new XmlSerializerNamespaces();
                 ns.Add("", "");
                 serializer.Serialize(writer, objectInstance, ns);
             }

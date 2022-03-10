@@ -9,7 +9,7 @@ namespace Myvas.AspNetCore.Weixin
 	{
 		public bool debug = false;
 		public string appId;
-		public long timestamp = WeixinTimestampHelper.FromLocalTime(DateTime.Now);
+		public long timestamp = DateTime.UtcNow.ToUnixTimeSeconds();
 		public string nonceStr = Guid.NewGuid().ToString("N");
 		public string signature;
 		public string[] jsApiList = new[] {

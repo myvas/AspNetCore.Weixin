@@ -4,9 +4,8 @@
 		<TargetFramework>net6.0</TargetFramework>
 
 		<PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
-		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
 		<Description>Apis for Tencent Weixin/Wechat.</Description>
-		<PackageTags>WeixinApi</PackageTags>
+		<PackageTags>Myvas;AspNetCore;Weixin</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>

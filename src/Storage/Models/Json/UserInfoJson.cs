@@ -30,23 +30,24 @@ public class UserInfoJson : WeixinErrorJson
     /// <summary>
     /// 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
     /// </summary>
-    public long? subscribe_time { get; set; }
+    [JsonPropertyName("subscribe_time")]
+    public long? SubscribeUnixTime { get; set; }
     [JsonIgnore]
     public DateTime? SubscribeTime
     {
         get
         {
-            if (subscribe_time.HasValue)
-                return WeixinTimestampHelper.ToUtcTime(subscribe_time!.Value);
+            if (SubscribeUnixTime.HasValue)
+                return new UnixDateTime(SubscribeUnixTime!.Value);
             else
                 return null;
         }
         set
         {
             if (value == null)
-                subscribe_time = null;
+                SubscribeUnixTime = null;
             else
-                subscribe_time = WeixinTimestampHelper.FromUtcTime(value!.Value);
+                SubscribeUnixTime = value!.Value.ToUnixTimeSeconds();
         }
     }
 

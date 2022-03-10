@@ -72,14 +72,4 @@
 		<PackageReference Update="OpenTelemetry.Instrumentation.SqlClient" Version="1.0.0-rc9" />
 	</ItemGroup>
 
-	<Target Name="SetAssemblyVersion" AfterTargets="MinVer">
-		<PropertyGroup>
-			<!--<APPVEYOR_BUILD_NUMBER Condition="'$(APPVEYOR_BUILD_NUMBER)' == ''">0</APPVEYOR_BUILD_NUMBER>
-			<FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(APPVEYOR_BUILD_NUMBER)</FileVersion>
-			<AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(APPVEYOR_BUILD_NUMBER)</AssemblyVersion>
-			<PackageVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)-alpha</PackageVersion>
-			<Version>$(PackageVersion)</Version>
-			<ProductVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</ProductVersion>-->
-		</PropertyGroup>
-	</Target>
 </Project>

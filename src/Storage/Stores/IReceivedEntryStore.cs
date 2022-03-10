@@ -32,8 +32,8 @@ public interface IReceivedEntryStore<T> : IDisposable
     /// <summary>
     /// Get all <see cref="ReceivedEntry"/> based on the filter.
     /// </summary>
-    /// <param name="startTime">The filter on <see cref="ReceivedEntry.CreateTime"/></param>
-    /// <param name="endTime">The filter on <see cref="ReceivedEntry.CreateTime"/></param>
+    /// <param name="startTime">The filter on <see cref="ReceivedEntry.CreateUnixTime"/></param>
+    /// <param name="endTime">The filter on <see cref="ReceivedEntry.CreateUnixTime"/></param>
     /// <returns></returns>
     Task<IEnumerable<T>> GetAllByReceivedTimeAsync(DateTime? startTime, DateTime? endTime);
 }

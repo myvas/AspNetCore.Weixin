@@ -5,12 +5,18 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<!--<Nullable>enable</Nullable>-->
 
-		<Description>Storage interfaces and models for Myvas.AspNetCore.Weixin.AccessTokenServer</Description>
+		<Description>Storage interfaces and models for Myvas.AspNetCore.Weixin</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageTags>Myvas;AspNetCore;Weixin</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="IdentityModel" />
+	  <Compile Remove="Stores\Serialization\ClaimsPrincipalConverter.cs" />
+	  <Compile Remove="Stores\Serialization\PersistentTokenSerializer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--<PackageReference Include="IdentityModel" />-->
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 	</ItemGroup>

@@ -1,33 +1,39 @@
 <Project>
-    <PropertyGroup>
-        <PackageTags>Myvas;Weixin;WeChat;ASP.NET Core</PackageTags>
-        <Authors>Myvas</Authors>
-        <Company>Gingcin Consulting LLC</Company>
-        <Copyright>Gingcin Consulting LLC</Copyright>
+	<PropertyGroup>
+		<PackageTags>Myvas;AspNetCore;Weixin</PackageTags>
+		<Authors>Myvas</Authors>
+		<Company>Gingcin Consulting LLC</Company>
+		<Copyright>Copyright (c) 2016-2022</Copyright>
 		<Product>Myvas.AspNetCore.Weixin</Product>
 
-        <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
 
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 
-        <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
-        <PackageReleaseNotes>https://github.com/myvas/AspNetCore.Weixin/releases</PackageReleaseNotes>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<PackageReleaseNotes>https://github.com/myvas/AspNetCore.Weixin/releases</PackageReleaseNotes>
 
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <DebugType Condition="'$(GITHUB_ACTIONS)' == 'true'">embedded</DebugType>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
 
-        <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
-    </PropertyGroup>
+	<ItemGroup>
+		<None Include="../../LICENSE" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+	
+	<PropertyGroup>
+		<MinVerVersion>6.0.3</MinVerVersion>
+		<MinVerDefaultPreReleasePhase>beta</MinVerDefaultPreReleasePhase>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" Visible="false" PackagePath="" />
-    </ItemGroup>
+	<PropertyGroup>
+		<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
-    <PropertyGroup>
-		<MinVerMinimumMajorMinor>6.0</MinVerMinimumMajorMinor>
-		<MinVerAutoIncrement>patch</MinVerAutoIncrement>
-		<MinVerDefaultPreReleasePhase>alpha</MinVerDefaultPreReleasePhase>
-    </PropertyGroup>
 </Project>

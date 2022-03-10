@@ -15,12 +15,12 @@ namespace Myvas.AspNetCore.Weixin
         public string FromUserName { get; set; }
 
         [XmlElement("CreateTime", Namespace = "")]
-        public long CreateTimestamp { get; set; }
+        public long CreateUnixTime { get; set; }
         [XmlIgnore]
         public DateTime CreateTime
         {
-            get => WeixinTimestampHelper.ToLocalTime(CreateTimestamp);
-            set => CreateTimestamp = WeixinTimestampHelper.FromLocalTime(value);
+            get => new UnixDateTime(CreateUnixTime);
+            set => CreateUnixTime = value.ToUnixTimeSeconds();
         }
 
         public WeixinMessage()

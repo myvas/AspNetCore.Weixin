@@ -27,7 +27,15 @@ internal static class MessageBaseXmlExtensions
             {
                 if (prop.PropertyType == typeof(DateTime))
                 {
-                    prop.SetValue(entity, WeixinTimestampHelper.ToLocalTime(root.Element(propName).Value), null);
+                    var sUnixTime = root.Element(propName).Value;
+                    if (long.TryParse(sUnixTime, out long unixTime))
+                    {
+                        prop.SetValue(entity, unixTime);
+                    }
+                    //else
+                    //{
+                    //    prop.SetValue(entity, null);
+                    //}
                 }
                 else if (prop.PropertyType == typeof(Boolean) && (propName == "FuncFlag"))
                 {
@@ -193,7 +201,13 @@ internal static class MessageBaseXmlExtensions
                                               new XCData(prop.GetValue(entity, null) as string ?? "")));
                         break;
                     case "DateTime":
-                        root.Add(new XElement(propName, WeixinTimestampHelper.FromBeijingTime((DateTime)prop.GetValue(entity, null))));
+                        {
+                            var dateTime = (DateTime?)prop.GetValue(entity, null);
+                            if (dateTime.HasValue)
+                                root.Add(new XElement(propName, dateTime!.Value.ToUnixTimeSeconds()));
+                            //else
+                            //    root.Add(new XElement(propName, null));
+                        }
                         break;
                     case "Boolean":
                         if (propName == "FuncFlag")

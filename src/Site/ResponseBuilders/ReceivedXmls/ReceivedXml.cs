@@ -26,13 +26,13 @@ public class ReceivedXml
     /// 消息创建时间
     /// </summary>
     [XmlElement("CreateTime")]
-    public long CreateTime { get; set; }
+    public long CreateUnixTime { get; set; }
 
     //[XmlIgnore]
     //[NotMapped]
     public DateTime GetCreateTime()
     {
-        return WeixinTimestampHelper.ToLocalTime(CreateTime);
+        return DateTimeOffset.FromUnixTimeSeconds(CreateUnixTime).UtcDateTime;// WeixinTimestampHelper.ToLocalTime(CreateUnixTime);
     }
 
     /// <summary>
