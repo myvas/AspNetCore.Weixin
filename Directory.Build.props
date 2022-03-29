@@ -3,6 +3,7 @@
 		<RepositoryUrl>https://github.com/myvas/AspNetCore.Authentication.WeixinOpen</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<LangVersion>latest</LangVersion>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Product>Myvas.AspNetCore.Weixin</Product>
 		<Copyright>© $([System.DateTime]::Now.Year) Myvas Foundation</Copyright>
 	</PropertyGroup>
