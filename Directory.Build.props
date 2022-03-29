@@ -1,39 +1,47 @@
-<Project>
+﻿<Project>
 	<PropertyGroup>
-		<PackageTags>Myvas;AspNetCore;Weixin</PackageTags>
-		<Authors>Myvas</Authors>
-		<Company>Gingcin Consulting LLC</Company>
-		<Copyright>Copyright (c) 2016-2022</Copyright>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Authentication.WeixinOpen</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<LangVersion>latest</LangVersion>
 		<Product>Myvas.AspNetCore.Weixin</Product>
-
-		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-
-		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-
-		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
-		<PackageReleaseNotes>https://github.com/myvas/AspNetCore.Weixin/releases</PackageReleaseNotes>
-
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<Copyright>© $([System.DateTime]::Now.Year) Myvas Foundation</Copyright>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="../../LICENSE" Pack="true" Visible="false" PackagePath="" />
-	</ItemGroup>
 	
 	<PropertyGroup>
 		<MinVerVersion>6.0.3</MinVerVersion>
-		<MinVerDefaultPreReleasePhase>beta</MinVerDefaultPreReleasePhase>
+		<MinVerDefaultPreReleasePhase>alpha</MinVerDefaultPreReleasePhase>
 	</PropertyGroup>
+	<Target Name="CustomFileVersion" AfterTargets="MinVer">
+		<PropertyGroup>
+			<FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$([System.DateTime]::Now.AddYears(-2021).ToString("yMMdd"))</FileVersion>
+		</PropertyGroup>
+	</Target>
 
 	<PropertyGroup>
-		<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>
+		<RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+		<!--<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>-->
 	</PropertyGroup>
-	
+
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
+
+	<!--<PropertyGroup>
+		<Platforms>AnyCPU</Platforms>
+		<GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+		<SignAssembly>false</SignAssembly>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>-->
+
+	<!--<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Latest|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>-->
 
 </Project>

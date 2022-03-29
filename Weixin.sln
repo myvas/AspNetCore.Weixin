@@ -9,12 +9,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{E9754587-13F5-4E
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		delete_all_bin_and_obj.cmd = delete_all_bin_and_obj.cmd
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
-		LICENSE = LICENSE
+		LICENSE.md = LICENSE.md
 		NuGet.Config = NuGet.Config
 		README.md = README.md
+		redis.md = redis.md
 		roadmap.md = roadmap.md
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject

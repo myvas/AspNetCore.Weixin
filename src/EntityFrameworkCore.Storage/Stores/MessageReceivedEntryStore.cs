@@ -8,7 +8,7 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 /// <summary>
 /// Implementation of <see cref="IReceivedEntryStore{MessageReceivedEntry}"/> that uses EF Core.
 /// </summary>
-public class MessageReceivedEntryStore<TContext> : IReceivedEntryStore<MessageReceivedEntry>
+public class MessageReceivedEntryStore<TContext> : IReceivedEntryStore<MessageReceivedEntry>, IReceivedMessageStore
     where TContext : DbContext
 {
     /// <summary>
@@ -116,6 +116,19 @@ public class MessageReceivedEntryStore<TContext> : IReceivedEntryStore<MessageRe
 
         Logger.LogDebug("{count} received messages found for {@fromUserName}", entities.Length,
             fromUserName);
+
+        return entities;
+    }
+
+    /// <inheritdoc/>
+    public async Task<IEnumerable<MessageReceivedEntry>> GetAllByToUserNameAsync(string toUserName)
+    {
+        var entities = await MessageReceivedEntries//.AsQueryable().Cast<MessageReceivedEntry>()
+            .Where(x => x.ToUserName == toUserName)
+            .ToArrayAsync(CancellationTokenProvider.CancellationToken);
+
+        Logger.LogDebug("{count} received messages found for {@toUserName}", entities.Length,
+            toUserName);
 
         return entities;
     }

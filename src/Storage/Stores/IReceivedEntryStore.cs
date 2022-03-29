@@ -3,6 +3,15 @@
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
+/// 
+/// </summary>
+public interface IReceivedEventStore : IReceivedEntryStore<EventReceivedEntry> { }
+/// <summary>
+/// 
+/// </summary>
+public interface IReceivedMessageStore : IReceivedEntryStore<MessageReceivedEntry> { }
+
+/// <summary>
 /// Provides an abstraction for a storage and management of <see cref="ReceivedEntry"/>.
 /// </summary>
 public interface IReceivedEntryStore<T> : IDisposable
@@ -28,6 +37,13 @@ public interface IReceivedEntryStore<T> : IDisposable
     /// <param name="fromUserName">The filter on <see cref="ReceivedEntry.FromUserName"/>.</param>
     /// <returns></returns>
     Task<IEnumerable<T>> GetAllByFromUserNameAsync(string fromUserName);
+
+    /// <summary>
+    /// Gets all <see cref="ReceivedEntry"/> based on the filter.
+    /// </summary>
+    /// <param name="toUserName">The filter on <see cref="ReceivedEntry.ToUserName"/>.</param>
+    /// <returns></returns>
+    Task<IEnumerable<T>> GetAllByToUserNameAsync(string toUserName);
 
     /// <summary>
     /// Get all <see cref="ReceivedEntry"/> based on the filter.

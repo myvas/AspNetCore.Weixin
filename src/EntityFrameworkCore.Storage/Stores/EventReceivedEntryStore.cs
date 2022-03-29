@@ -10,7 +10,7 @@ namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore.Stores;
 /// <summary>
 /// Implementation of <see cref="IReceivedEntryStore{T}"/> thats uses EF Core.
 /// </summary>
-public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceivedEntry>
+public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceivedEntry>, IReceivedEventStore
     where TContext : DbContext
 {
     /// <summary>
@@ -103,6 +103,18 @@ public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceiv
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
 
         Logger.LogDebug("{count} received subscribe events found for {@fromUserName}", entities.Length, fromUserName);
+
+        return entities;
+    }
+
+    /// <inheritdoc/>
+    public async Task<IEnumerable<EventReceivedEntry>> GetAllByToUserNameAsync(string toUserName)
+    {
+        var entities = await EventReceivedEntries//.AsQueryable().Cast<EventReceivedEntry>()
+            .Where(x => x.ToUserName == toUserName)
+            .ToArrayAsync(CancellationTokenProvider.CancellationToken);
+
+        Logger.LogDebug("{count} received subscribe events found for {@toUserName}", entities.Length, toUserName);
 
         return entities;
     }
