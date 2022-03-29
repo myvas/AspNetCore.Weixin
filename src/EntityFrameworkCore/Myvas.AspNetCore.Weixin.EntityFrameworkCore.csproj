@@ -13,7 +13,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\EntityFrameworkCore.Storage\Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.csproj" />
-		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
