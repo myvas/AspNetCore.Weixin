@@ -28,7 +28,7 @@ public static class WeixinJssdkBuilderExtensions
 
         builder.Services.TryAddSingleton(o =>
         {
-            return new WeixinJssdkOptions(o.GetRequiredService<WeixinOptions>());
+            return new WeixinJssdkOptions(o.GetService<WeixinOptions>());
         });
         //builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinJssdkOptions>, WeixinJssdkPostConfigureOptions>());
         builder.Services.TryAddTransient<IWeixinJsapiTicket, WeixinJsapiTicketService>();

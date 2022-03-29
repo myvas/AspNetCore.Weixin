@@ -174,6 +174,7 @@ public static class WeixinEntityFrameworCoreBuilderExtensions
                 //    weixinDbContext.GenericTypeArguments[2]);
             }
             services.TryAddScoped(typeof(ISubscriberStore<>).MakeGenericType(subscriberType), subscriberStoreType);
+            services.TryAddScoped(typeof(ISubscriberStore), subscriberStoreType);
         }
 
         return services;

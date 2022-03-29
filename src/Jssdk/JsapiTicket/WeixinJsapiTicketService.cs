@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,12 @@ namespace Myvas.AspNetCore.Weixin
         private readonly IWeixinAccessToken _token;
 
         public WeixinJsapiTicketService(IDistributedCache cache,
-            WeixinJssdkOptions options,
+            IOptions<WeixinJssdkOptions> optionsAccessor,
             IWeixinAccessToken token,
             JsapiTicketApi api)
         {
             _cache = cache;
-            _options = options;
+            _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
             _api = api ?? throw new ArgumentNullException(nameof(api));
             _token = token ?? throw new ArgumentNullException(nameof(token));
         }
