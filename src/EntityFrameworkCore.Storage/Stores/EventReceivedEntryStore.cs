@@ -122,9 +122,11 @@ public class EventReceivedEntryStore<TContext> : IReceivedEntryStore<EventReceiv
     /// <inheritdoc/>
     public async Task<IEnumerable<EventReceivedEntry>> GetAllByReceivedTimeAsync(DateTime? startTime, DateTime? endTime)
     {
+        var start = startTime.ToUnixTimeSeconds() ?? long.MinValue;
+        var end = endTime.ToUnixTimeSeconds() ?? long.MaxValue;
         var entities = await EventReceivedEntries//.AsQueryable().Cast<EventReceivedEntry>()
-            .Where(x => x.GetCreateTime() > (startTime.HasValue ? startTime.Value : DateTime.MinValue)
-                && x.GetCreateTime() < (endTime.HasValue ? endTime.Value : DateTime.MaxValue))
+            .Where(x => x.CreateUnixTime > start
+                && x.CreateUnixTime < end)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
 
         Logger.LogDebug("{count} received subscribe events found for {@startTime}-{@endTime}", entities.Length,

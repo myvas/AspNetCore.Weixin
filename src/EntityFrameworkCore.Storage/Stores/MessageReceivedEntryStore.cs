@@ -58,9 +58,11 @@ public class MessageReceivedEntryStore<TContext> : IReceivedEntryStore<MessageRe
     /// <inheritdoc/>
     public async Task<IEnumerable<MessageReceivedEntry>> GetAllByReceivedTimeAsync(DateTime? startTime, DateTime? endTime)
     {
+        var start = startTime.ToUnixTimeSeconds() ?? long.MinValue;
+        var end = endTime.ToUnixTimeSeconds() ?? long.MaxValue;
         var entities = await MessageReceivedEntries//.AsQueryable().Cast<MessageReceivedEntry>()
-            .Where(x => x.GetCreateTime() > (startTime.HasValue ? startTime.Value : DateTime.MinValue)
-                && x.GetCreateTime() < (endTime.HasValue ? endTime.Value : DateTime.MaxValue))
+            .Where(x => x.CreateUnixTime > start
+                && x.CreateUnixTime < end)
             .ToArrayAsync(CancellationTokenProvider.CancellationToken);
 
         Logger.LogDebug("{count} received subscribe events found for {@startTime}-{@endTime}", entities.Length,
