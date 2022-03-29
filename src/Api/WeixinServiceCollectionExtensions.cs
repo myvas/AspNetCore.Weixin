@@ -47,7 +47,7 @@ public static class WeixinServiceCollectionExtensions
         builder.Services.AddHttpClient<GroupMessageApi>();
         builder.Services.AddHttpClient<MediaApi>();
         builder.Services.AddHttpClient<MenuApi>();
-        builder.Services.AddHttpClient<QrCodeApi>();
+        builder.Services.AddHttpClient<QrcodeApi>();
         builder.Services.AddHttpClient<UserApi>();
         builder.Services.AddHttpClient<UserProfileApi>();
         builder.Services.AddHttpClient<GroupsApi>();

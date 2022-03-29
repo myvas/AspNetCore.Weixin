@@ -10,9 +10,9 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 二维码接口
     /// </summary>
-    public class QrCodeApi: WeixinApiClient
+    public class QrcodeApi: WeixinApiClient
     {
-        public QrCodeApi(HttpClient client) : base(client)
+        public QrcodeApi(HttpClient client) : base(client)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Myvas.AspNetCore.Weixin
         /// <param name="expireSeconds">该二维码有效时间，以秒为单位。 最大不超过604800（即7天）。当值0时，将生成永久二维码</param>
         /// <param name="sceneId">场景值ID，临时二维码时为32位非0整型，永久二维码时最大值为100000</param>
         /// <returns></returns>
-        public async Task<CreateQrCodeResult> Create(string accessToken, int expireSeconds, int sceneId)
+        public async Task<CreateQrcodeResult> Create(string accessToken, int expireSeconds, int sceneId)
         {
             var urlFormat = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token={0}";
             object data = null;
@@ -55,7 +55,7 @@ namespace Myvas.AspNetCore.Weixin
                     }
                 };
             }
-            return await PostAsJsonAsync<object, CreateQrCodeResult>(accessToken, urlFormat, data);
+            return await PostAsJsonAsync<object, CreateQrcodeResult>(accessToken, urlFormat, data);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Myvas.AspNetCore.Weixin
         /// <param name="expireSeconds">该二维码有效时间，以秒为单位。 最大不超过1800。0时为永久二维码</param>
         /// <param name="sceneId">场景值ID，临时二维码时为32位整型，永久二维码时最大值为1000</param>
         /// <returns></returns>
-        public async Task<CreateQrCodeResult> Create(string accessToken, string actionName, string sceneStr)
+        public async Task<CreateQrcodeResult> Create(string accessToken, string actionName, string sceneStr)
         {
             var urlFormat = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token={0}";
             object data = new
@@ -78,7 +78,7 @@ namespace Myvas.AspNetCore.Weixin
                     }
                 }
             };
-            return await PostAsJsonAsync<object, CreateQrCodeResult>(accessToken, urlFormat, data);
+            return await PostAsJsonAsync<object, CreateQrcodeResult>(accessToken, urlFormat, data);
         }
 
         /// <summary>
