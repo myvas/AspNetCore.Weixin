@@ -1,4 +1,4 @@
-# Myvas.AspNetCore.Weixin 6.0.3
+# Myvas.AspNetCore.Weixin 8.0.7
 
 ## 对微信公众号接口进行封装
 在Api工程中实现微信公众号接口封装，依接口功能分组，命名为IWeixinXxxApi。

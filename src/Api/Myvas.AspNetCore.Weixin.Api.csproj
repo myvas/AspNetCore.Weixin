@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 
 		<PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
 		<Description>Apis for Tencent Weixin/Wechat.</Description>
@@ -15,5 +15,4 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
 	</ItemGroup>
-
 </Project>

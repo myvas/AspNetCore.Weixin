@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<!--<Nullable>enable</Nullable>-->
 
@@ -17,8 +17,8 @@
 
 	<ItemGroup>
 		<!--<PackageReference Include="IdentityModel" />-->
-		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="6.0.3" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="8.0.7" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

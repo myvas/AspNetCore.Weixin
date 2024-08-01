@@ -106,7 +106,7 @@ internal static class CryptographyHelper
 
     private static string AesEncrypt(string data, byte[] iv, byte[] key)
     {
-        using var aes = Aes.Create("AesManaged");
+        using var aes = Aes.Create();
         //秘钥的大小，以位为单位
         aes.KeySize = 256;
         //支持的块大小
@@ -135,7 +135,7 @@ internal static class CryptographyHelper
 
     private static string AesEncrypt(byte[] data, byte[] iv, byte[] key)
     {
-        using var aes = Aes.Create("AesManaged");
+        using var aes = Aes.Create();
         //秘钥的大小，以位为单位
         aes.KeySize = 256;
         //支持的块大小
@@ -207,7 +207,7 @@ internal static class CryptographyHelper
 
     private static byte[] AesDecrypt(string data, byte[] iv, byte[] key)
     {
-        using var aes = Aes.Create("AesManaged");
+        using var aes = Aes.Create();
         aes.KeySize = 256;
         aes.BlockSize = 128;
         aes.Mode = CipherMode.CBC;
