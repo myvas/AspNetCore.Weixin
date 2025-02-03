@@ -30,11 +30,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_WeixinSite", "2_WeixinSit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Api", "src\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj", "{F181EEBA-1D20-4ECC-8CFA-FAD329F392B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Api.Test", "test\WeixinApi.Test\Myvas.AspNetCore.Weixin.Api.Test.csproj", "{DB1C73CB-1617-48B6-8604-B141835C93CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeixinApi.Test", "test\WeixinApi.Test\WeixinApi.Test.csproj", "{DB1C73CB-1617-48B6-8604-B141835C93CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTests", "test\CommonTest\CommonTests.csproj", "{F31FA125-C20C-49B7-84F3-675BDB7A48B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTest", "test\CommonTest\CommonTest.csproj", "{F31FA125-C20C-49B7-84F3-675BDB7A48B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Site.Test", "test\WeixinSite.Test\Myvas.AspNetCore.Weixin.Site.Test.csproj", "{DDD7B21C-8C01-4685-84FC-80B91C74AFBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeixinSite.Test", "test\WeixinSite.Test\WeixinSite.Test.csproj", "{DDD7B21C-8C01-4685-84FC-80B91C74AFBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\WeixinJssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{5868239C-2395-4CDC-9310-EC01425D3DAB}"
 EndProject
@@ -42,11 +42,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Stores", "src\WeixinStores\Myvas.AspNetCore.Weixin.Stores.csproj", "{36478EF7-2D4D-47DE-8CB7-2C1EA542D651}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.EfCore", "src\WeixinEfCore\Myvas.AspNetCore.Weixin.EfCore.csproj", "{FD97B098-020C-46BE-9BA4-BF603CAB1DD1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Site", "src\WeixinSite\Myvas.AspNetCore.Weixin.Site.csproj", "{1207B9E6-14A1-483E-A7E1-079C61656715}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "test\TestProject1\TestProject1.csproj", "{5A43BD43-7D54-4808-B93F-57C8CA1959C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinEfCore.Test", "test\WeixinEfCore.InMemory.Test\WeixinEfCore.Test.csproj", "{E32AEC6F-42C4-428B-A2A2-9CBC2722E202}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,24 +95,18 @@ Global
 		{36478EF7-2D4D-47DE-8CB7-2C1EA542D651}.Debug20|Any CPU.Build.0 = Debug|Any CPU
 		{36478EF7-2D4D-47DE-8CB7-2C1EA542D651}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36478EF7-2D4D-47DE-8CB7-2C1EA542D651}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD97B098-020C-46BE-9BA4-BF603CAB1DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD97B098-020C-46BE-9BA4-BF603CAB1DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD97B098-020C-46BE-9BA4-BF603CAB1DD1}.Debug20|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD97B098-020C-46BE-9BA4-BF603CAB1DD1}.Debug20|Any CPU.Build.0 = Debug|Any CPU
-		{FD97B098-020C-46BE-9BA4-BF603CAB1DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD97B098-020C-46BE-9BA4-BF603CAB1DD1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1207B9E6-14A1-483E-A7E1-079C61656715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1207B9E6-14A1-483E-A7E1-079C61656715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1207B9E6-14A1-483E-A7E1-079C61656715}.Debug20|Any CPU.ActiveCfg = Debug|Any CPU
 		{1207B9E6-14A1-483E-A7E1-079C61656715}.Debug20|Any CPU.Build.0 = Debug|Any CPU
 		{1207B9E6-14A1-483E-A7E1-079C61656715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1207B9E6-14A1-483E-A7E1-079C61656715}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A43BD43-7D54-4808-B93F-57C8CA1959C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A43BD43-7D54-4808-B93F-57C8CA1959C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A43BD43-7D54-4808-B93F-57C8CA1959C0}.Debug20|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A43BD43-7D54-4808-B93F-57C8CA1959C0}.Debug20|Any CPU.Build.0 = Debug|Any CPU
-		{5A43BD43-7D54-4808-B93F-57C8CA1959C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A43BD43-7D54-4808-B93F-57C8CA1959C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E32AEC6F-42C4-428B-A2A2-9CBC2722E202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E32AEC6F-42C4-428B-A2A2-9CBC2722E202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E32AEC6F-42C4-428B-A2A2-9CBC2722E202}.Debug20|Any CPU.ActiveCfg = Debug|Any CPU
+		{E32AEC6F-42C4-428B-A2A2-9CBC2722E202}.Debug20|Any CPU.Build.0 = Debug|Any CPU
+		{E32AEC6F-42C4-428B-A2A2-9CBC2722E202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E32AEC6F-42C4-428B-A2A2-9CBC2722E202}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,9 +121,8 @@ Global
 		{5868239C-2395-4CDC-9310-EC01425D3DAB} = {C26C3C52-C565-4559-83D0-DED91C791650}
 		{99831172-8AFA-4AAF-B080-ECC0DEAC9FC9} = {40AEBE01-FEE8-4C0B-A14D-B6535560D384}
 		{36478EF7-2D4D-47DE-8CB7-2C1EA542D651} = {40AEBE01-FEE8-4C0B-A14D-B6535560D384}
-		{FD97B098-020C-46BE-9BA4-BF603CAB1DD1} = {40AEBE01-FEE8-4C0B-A14D-B6535560D384}
 		{1207B9E6-14A1-483E-A7E1-079C61656715} = {40AEBE01-FEE8-4C0B-A14D-B6535560D384}
-		{5A43BD43-7D54-4808-B93F-57C8CA1959C0} = {73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}
+		{E32AEC6F-42C4-428B-A2A2-9CBC2722E202} = {73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E316A19-467A-4E08-9E0C-03014C12FCC0}

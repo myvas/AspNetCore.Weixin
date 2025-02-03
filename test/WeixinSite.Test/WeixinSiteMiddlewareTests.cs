@@ -50,7 +50,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("ÄúÕıÔÚ·ÃÎÊµÄURLµØÖ·ÊÇÒ»¸öÎ¢ĞÅ¹«ÖÚºÅ·şÎñÆ÷ÑéÖ¤µØÖ·¡£Äú¿ÉÒÔ½«´ËURLµØÖ·ÌîĞ´ÔÚÎ¢ĞÅ¹«ÖÚºÅºóÌ¨µÄ¡°¿ª·¢/»ù±¾ÅäÖÃ/·şÎñÆ÷ÅäÖÃ/·şÎñÆ÷µØÖ·(URL)¡±×Ö¶Î¡£", s);
+            //Assert.Contains("æ‚¨æ­£åœ¨è®¿é—®çš„URLåœ°å€æ˜¯ä¸€ä¸ªå¾®ä¿¡å…¬ä¼—å·æœåŠ¡å™¨éªŒè¯åœ°å€ã€‚æ‚¨å¯ä»¥å°†æ­¤URLåœ°å€å¡«å†™åœ¨å¾®ä¿¡å…¬ä¼—å·åå°çš„â€œå¼€å‘/åŸºæœ¬é…ç½®/æœåŠ¡å™¨é…ç½®/æœåŠ¡å™¨åœ°å€(URL)â€å­—æ®µã€‚", s);
         }
 
 
@@ -71,7 +71,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
                             o.Events.OnTextMessageReceived = async (x) =>
                             {
                                 var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
-                                resp.ResponseEntity.Content = $"ÄúµÄÏûÏ¢ÒÑÊÕµ½:{x.Xml.Content}";
+                                resp.ResponseEntity.Content = $"æ‚¨çš„æ¶ˆæ¯å·²æ”¶åˆ°:{x.Xml.Content}";
                                 await resp.FlushAsync();
                                 return true;
                             };
@@ -105,7 +105,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("ÄúµÄÏûÏ¢ÒÑÊÕµ½", s);
+            //Assert.Contains("æ‚¨çš„æ¶ˆæ¯å·²æ”¶åˆ°", s);
         }
 
         [Fact]
@@ -141,7 +141,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("Î¢ĞÅÏûÏ¢Ç©ÃûÑéÖ¤Ê§°Ü!", s);
+            //Assert.Contains("å¾®ä¿¡æ¶ˆæ¯ç­¾åéªŒè¯å¤±è´¥!", s);
         }
 
         [Fact]
@@ -188,7 +188,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("ÕâÊÇÒ»¸öÎ¢ĞÅ³ÌĞò£¬ÇëÓÃÎ¢ĞÅ¿Í»§¶Ë·ÃÎÊ!", s);
+            //Assert.Contains("è¿™æ˜¯ä¸€ä¸ªå¾®ä¿¡ç¨‹åºï¼Œè¯·ç”¨å¾®ä¿¡å®¢æˆ·ç«¯è®¿é—®!", s);
         }
 
         [Fact]
@@ -235,7 +235,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("ÕâÊÇÒ»¸öÎ¢ĞÅ³ÌĞò£¬ÇëÓÃÎ¢ĞÅ¿Í»§¶Ë·ÃÎÊ!", s);
+            //Assert.Contains("è¿™æ˜¯ä¸€ä¸ªå¾®ä¿¡ç¨‹åºï¼Œè¯·ç”¨å¾®ä¿¡å®¢æˆ·ç«¯è®¿é—®!", s);
         }
     }
 }

@@ -80,15 +80,18 @@ namespace Myvas.AspNetCore.Weixin
                             case RequestEventType.unsubscribe:
                                 return await FireEventAsync(_options.Events.OnUnsubscribeEventReceived);
                             default:
-                                throw new NotSupportedException($"系统无法识别处理此事件");
+                                // 系统无法识别处理此事件
+                                throw new NotSupportedException($"The system is unable to recognize and process this event message.");
                         }
                     default:
-                        throw new NotSupportedException($"系统无法识别处理此消息");
+                        // 系统无法识别处理此消息
+                        throw new NotSupportedException($"The system is unable to recognize and process this message.");
                 }
             }
             catch (Exception ex)
             {
-                throw new NotSupportedException($"系统在解析处理微信消息时发生异常", ex);
+                // 系统在解析处理微信消息时发生异常
+                throw new NotSupportedException($"An exception occurred while the system was parsing and processing the WeChat message.", ex);
             }
         }
 
@@ -108,7 +111,8 @@ namespace Myvas.AspNetCore.Weixin
         private async Task<bool> DefaultResponseAsync()
         {
             var responseBuilder = new PlainTextResponseBuilder(Context);
-            responseBuilder.Content = "信息已收到";
+            // 信息已收到
+            responseBuilder.Content = "Your message is delivered to the server successfully.";
             await responseBuilder.FlushAsync();
             return true;
         }
