@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
+		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="3.1.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WeixinCore\Myvas.AspNetCore.Weixin.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Resources.Designer.cs">
+			<DependentUpon>Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources.resx">
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>
