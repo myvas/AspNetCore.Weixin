@@ -31,7 +31,11 @@ namespace Myvas.AspNetCore.Weixin
         public static string[] GetStringArray(this JsonElement element, string key)
         {
             var s = element.GetString(key);
+#if NETSTANDARD2_0
+            try { return s.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries); } catch { return null; }
+#else
             try { return s.Split(',', System.StringSplitOptions.RemoveEmptyEntries); } catch { return null; }
+#endif
         }
 
         public static JsonDocument AppendElement(this JsonDocument doc, string name, string value)

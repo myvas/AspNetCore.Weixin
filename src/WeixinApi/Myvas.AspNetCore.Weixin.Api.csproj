@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<Description>IWeixinAccessToken, IWeixinMenuApi and such-like Apis for Tencent Weixin/Wechat.</Description>
+		<PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="3.1.4" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+		<PackageReference Include="System.Text.Json" Version="4.7.2" />
+	</ItemGroup>
+
+</Project>
