@@ -46,6 +46,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
+    - name: Run test on 3.1 with no globalization support
+      run: export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
     - name: Test with the dotnet CLI
       run: dotnet test --no-build --verbosity normal --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
     - name: Upload dotnet test results
