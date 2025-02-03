@@ -1,0 +1,49 @@
+<Project>
+	<PropertyGroup>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<LangVersion>latest</LangVersion>
+		<Product>Myvas.AspNetCore.Weixin</Product>
+		<Copyright>© $([System.DateTime]::Now.Year) Myvas Foundation</Copyright>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<MinVerMinimumMajorMinor>3.1</MinVerMinimumMajorMinor>
+		<MinVerTagPrefix>v</MinVerTagPrefix>
+		<MinVerDefaultPreReleaseIdentifiers>alpha</MinVerDefaultPreReleaseIdentifiers>
+		<MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
+	</PropertyGroup>
+	<Target Name="CustomFileVersion" AfterTargets="MinVer">
+		<PropertyGroup>
+			<FileVersion Condition="'$(MinVerMajor).$(MinVerMinor)' == '$(MinVerMinimumMajorMinor)' ">$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$([System.DateTime]::Now.AddYears(-2021).ToString("yMMdd"))</FileVersion>
+		</PropertyGroup>
+	</Target>
+
+	<PropertyGroup>
+		<RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+		<!--<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>-->
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+	<!--<PropertyGroup>
+		<Platforms>AnyCPU</Platforms>
+		<GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+		<SignAssembly>false</SignAssembly>
+		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>-->
+
+	<!--<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Latest|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>-->
+
+</Project>
