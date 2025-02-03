@@ -39,7 +39,7 @@ jobs:
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Run test on 3.1 with no globalization support
-      run: export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 && sudo apt-get update && sudo apt-get install -qqq libicu
+      run: export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 && sudo apt-get update && sudo apt-get install -qqq libicu-dev libicu
     - name: Display dotnet version
       run: dotnet --version
 
