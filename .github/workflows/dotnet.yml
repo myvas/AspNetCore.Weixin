@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: [ '3.1.x' ]
+        dotnet-version: [ '6.0.x' ]
     steps:
     - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
     - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -38,10 +38,6 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
-    - name: Install ICU
-      run: sudo apt-get update && sudo apt-get install libicu-dev
-    - name: Set ICU environment variable
-      run:  export CLR_ICU_VERSION_OVERRIDE=$(dpkg -s libicu-dev | grep '^Version:' | awk '{split($2,a,"-"); print a[1]}')
     - name: Display dotnet version
       run: dotnet --version
 
