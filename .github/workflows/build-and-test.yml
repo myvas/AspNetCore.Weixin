@@ -50,6 +50,12 @@ jobs:
           cache: false
       - name: Display dotnet version
         run: dotnet --version
+
+      - name: Fixing error 'No usable version of libssl was found' for dotnet 3.1.x
+        if: ${{ inputs.dotnet-version == '3.1.x' }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y libssl1.0-dev
+          echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH" >> $GITHUB_ENV
     
       - name: Install dependencies
         run: dotnet restore
