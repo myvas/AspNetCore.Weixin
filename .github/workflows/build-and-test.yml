@@ -24,7 +24,7 @@ on:
                   
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
@@ -55,15 +55,15 @@ jobs:
       - name: Fixing error 'No usable version of libssl was found' for dotnet 3.1.x
         if: ${{ inputs.dotnet-version == '3.1.x' }}
         run: |
-          echo "deb http://security.ubuntu.com/ubuntu bionic-security main" | sudo tee -a /etc/apt/sources.list.d/ubuntu.sources
-          sudo cat /etc/apt/sources.list.d/ubuntu.sources
+          echo "deb http://security.ubuntu.com/ubuntu bionic-security main" | sudo tee -a /etc/apt/sources.list.d/libssl1.0-dev.list
+          sudo cat /etc/apt/sources.list.d/libssl1.0-dev.list
           sudo apt-get update
           sudo apt-cache search libssl
           sudo apt-cache policy libssl1.0.0
           sudo apt-get install -y libssl1.0-dev
           echo "try install from .deb"
           sudo wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.0.0_1.0.1f-1ubuntu2.27_amd64.deb
-          sudo apt-get install -y multiarch-support
+          sudo apt-get install -y binutils-multiarch-dev
           sudo apt install ./libssl1.0.0_1.0.1f-1ubuntu2.27_amd64.deb
           echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH" >> $GITHUB_ENV
     
