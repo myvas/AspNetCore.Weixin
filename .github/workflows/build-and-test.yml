@@ -58,6 +58,7 @@ jobs:
           echo "deb http://security.ubuntu.com/ubuntu $(lsb_release -cs)-security main" | sudo tee -a /etc/apt/sources.list.d/ubuntu.sources
           sudo cat /etc/apt/sources.list.d/ubuntu.sources
           sudo apt-get update
+          sudo apt-cache policy libssl1.0.0
           sudo apt-cache search libssl
           sudo apt-get install -y libssl1.0-dev libssl1.0.0 libssl-dev
           echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH" >> $GITHUB_ENV
