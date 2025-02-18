@@ -55,6 +55,7 @@ jobs:
         if: ${{ inputs.dotnet-version == '3.1.x' }}
         run: |
           echo "deb http://security.ubuntu.com/ubuntu $(lsb_release -cs)-security main" | sudo tee -a /etc/apt/sources.list
+          sudo apt-cache search libssl1.0*
           sudo apt-get update && sudo apt-get install -y libssl1.0-dev
           echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH" >> $GITHUB_ENV
     
