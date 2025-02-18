@@ -1,20 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <PackageId>Myvas.AspNetCore.Weixin.Jssdk</PackageId>
-    <Version>3.1.100.5</Version>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RootNamespace>Myvas.AspNetCore.Weixin.Jssdk</RootNamespace>
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+		<PackageId>Myvas.AspNetCore.Weixin.Jssdk</PackageId>
+		<RootNamespace>Myvas.AspNetCore.Weixin.Jssdk</RootNamespace>
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
-    <Authors>Myvas</Authors>
-    <Product>Myvas.AspNetCore.Weixin</Product>
-    <Description>Myvas.AspNetCore.Weixin.Jssdk</Description>
-    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
-  </PropertyGroup>
+		<Product>Myvas.AspNetCore.Weixin</Product>
+		<Description>Myvas.AspNetCore.Weixin.Jssdk</Description>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Weixin\Myvas.AspNetCore.Weixin.csproj" />
+	</ItemGroup>
 </Project>
