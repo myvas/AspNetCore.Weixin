@@ -1,4 +1,11 @@
-# Myvas.AspNetCore.Weixin [![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Weixin?label=github)](https://github.com/myvas/AspNetCore.Weixin)
+# Myvas.AspNetCore.Weixin
+
+[![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Weixin?label=github)](https://github.com/myvas/AspNetCore.Weixin)
+[![test](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml/badge.svg)](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml)
+[![publish](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/publish.yml/badge.svg)](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/publish.yml)
+[![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
+[![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.Jssdk.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin.Jssdk)
+
 An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. (微信公众平台/接口调用服务)
 
 微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用服务。
