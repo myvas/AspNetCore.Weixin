@@ -62,7 +62,7 @@ jobs:
           sudo apt-cache search libssl
           sudo apt-get install -y libssl-dev
           sudo wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.0.0_1.0.1f-1ubuntu2.27_amd64.deb
-          sudo apt install libssl1.0.0_1.0.1f-1ubuntu2.27_amd64.deb
+          sudo apt install ./libssl1.0.0_1.0.1f-1ubuntu2.27_amd64.deb
           echo "LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH" >> $GITHUB_ENV
     
       - name: Install dependencies
