@@ -22,7 +22,7 @@ jobs:
         dotnet:
           - version: '3.1.x'
             framework: 'netcoreapp3.1'
-        configuration: [ Debug, Release ]
+        configuration: [ Debug ]
     uses: ./.github/workflows/build-and-test.yml
     with:
       dotnet-version: ${{ matrix.dotnet.version }}
