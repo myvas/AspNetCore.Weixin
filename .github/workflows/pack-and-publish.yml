@@ -34,8 +34,23 @@ jobs:
         with:
           global-json-file: global.json
           cache: false
+
       - name: Display dotnet version
-        run: dotnet --version
+        run: |          
+          DOTNET_VERSION=$(dotnet --version)
+          echo "DOTNET_VERSION=$DOTNET_VERSION" >> $GITHUB_ENV
+          DOTNET_VERSION_MAJOR=$(echo $DOTNET_VERSION | cut -d '.' -f 1)
+          DOTNET_VERSION_MINOR=$(echo $DOTNET_VERSION | cut -d '.' -f 2)
+          echo "DOTNET_VERSION_MAJOR=$DOTNET_VERSION_MAJOR" >> $GITHUB_ENV
+          echo "DOTNET_VERSION_MINOR=$DOTNET_VERSION_MINOR" >> $GITHUB_ENV
+          echo "DOTNET_VERSION_MAJOR_MINOR=$DOTNET_VERSION_MAJOR.$DOTNET_VERSION_MINOR" >> $GITHUB_ENV
+          echo "dotnet ${{ env.DOTNET_VERSION }} is installed."
+          
+      - name: Fixing error 'No usable version of libssl was found' for dotnet 3.1.x
+        if: ${{ env.DOTNET_VERSION_MAJOR_MINOR == '3.1' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev libssl1.1
     
       - name: Install dependencies
         run: dotnet restore
@@ -48,7 +63,7 @@ jobs:
         run: dotnet nuget push "**/bin/Release/*.nupkg" -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json --skip-duplicate
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
-          # You should create this repository secret on https://github.com/myvas/AspNetCore.Email/settings/secrets/actions
+          # You should create this repository secret on https://github.com/(your-repository)/settings/secrets/actions
 
       - run: echo "This job's status is ${{ job.status }}."
       

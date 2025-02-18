@@ -49,11 +49,20 @@ jobs:
           dotnet-version: ${{ inputs.dotnet-version }}
           global-json-file: global.json
           cache: false
+        
       - name: Display dotnet version
-        run: dotnet --version
-
+        run: |
+          DOTNET_VERSION=$(dotnet --version)
+          echo "DOTNET_VERSION=$DOTNET_VERSION" >> $GITHUB_ENV
+          DOTNET_VERSION_MAJOR=$(echo $DOTNET_VERSION | cut -d '.' -f 1)
+          DOTNET_VERSION_MINOR=$(echo $DOTNET_VERSION | cut -d '.' -f 2)
+          echo "DOTNET_VERSION_MAJOR=$DOTNET_VERSION_MAJOR" >> $GITHUB_ENV
+          echo "DOTNET_VERSION_MINOR=$DOTNET_VERSION_MINOR" >> $GITHUB_ENV
+          echo "DOTNET_VERSION_MAJOR_MINOR=$DOTNET_VERSION_MAJOR.$DOTNET_VERSION_MINOR" >> $GITHUB_ENV
+          echo "dotnet ${{ env.DOTNET_VERSION }} is installed."
+          
       - name: Fixing error 'No usable version of libssl was found' for dotnet 3.1.x
-        if: ${{ inputs.dotnet-version == '3.1.x' }}
+        if: ${{ env.DOTNET_VERSION_MAJOR_MINOR == '3.1' }}
         run: |
           sudo apt-get update
           sudo apt-get install -y libssl-dev libssl1.1
