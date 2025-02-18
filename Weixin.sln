@@ -28,6 +28,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{6DE72631-538C-4F33-8891-D1F9E61634B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
+		.github\dependabot.yml = .github\dependabot.yml
+		.github\workflows\pack-and-publish.yml = .github\workflows\pack-and-publish.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.github\workflows\test.yml = .github\workflows\test.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +63,7 @@ Global
 		{74A3C863-09CC-4700-A688-1DF8B26C951B} = {73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}
 		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
 		{6DE72631-538C-4F33-8891-D1F9E61634B6} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {E9754587-13F5-4E3A-9F3F-71C98EF97990}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E316A19-467A-4E08-9E0C-03014C12FCC0}
