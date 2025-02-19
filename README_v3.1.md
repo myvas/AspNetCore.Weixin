@@ -10,23 +10,17 @@ An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. 
 
 微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用服务。
 
-## Breaking Changes
-
 ## NuGet Packages
-0. Myvas.AspNetCore.Weixin
-- 包含以下多个NuGet Packages
+1. Myvas.AspNetCore.Weixin
 
-1. Myvas.AspNetCore.Weixin.Api
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
 | 服务 | `services.AddWeixinAccessToken` | 微信公众号AccessToken | WeixinAccessTokenOptions | IWeixinAccessToken |
-| 服务 | `services.AddWeixinApi` | 微信公众号Api | WeixinApiOptions | IWeixinXxxApi |
+| 服务 | `services.AddWeixinWelcomePage` | 微信公众号消息处理 | WeixinWelcomePageOptions | |
+| 中间件 | `app.UseWeixinWelcomePage` | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
 
-2. Myvas.AspNetCore.Weixin.Api
-| 服务 | `services.AddWeixinSite` | 微信公众号消息处理 | WeixinSiteOptions | |
-| 中间件 | `app.UseWeixinSite` | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
+2. Myvas.AspNetCore.Weixin.Jssdk
 
-3. Myvas.AspNetCore.Weixin.Jssdk
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
 | 服务 | `services.AddWeixinJssdk` | 微信公众号Jssdk | WeixinJssdkOptions | IWeixinJsapiTicket |
@@ -190,6 +184,5 @@ $(document).ready(function () {
 ## For Developers
 * [Visual Studio](https://visualstudio.microsoft.com)
 * [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
-* [.NET 5.0](https://dotnet.microsoft.com/download/dotnet-core/5.0)
 * [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)
 * [微信公众平台](https://mp.weixin.qq.com)

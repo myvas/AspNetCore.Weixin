@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{E9754587-13F5-4E
 		global.json = global.json
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+		README_v3.1.md = README_v3.1.md
 	EndProjectSection
 	ProjectSection(FolderGlobals) = preProject
 		D_5_4Myvas_4dev_4AspNetCore_4Myvas_1AspNetCore_1Weixin_4Myvas_1AspNetCore_1Weixin_4global_1json__JsonSchema = 
