@@ -108,7 +108,7 @@ namespace Myvas.AspNetCore.Weixin
         private async Task<bool> DefaultResponseAsync()
         {
             var responseBuilder = new PlainTextResponseBuilder(Context);
-            responseBuilder.Content = "信息已收到";
+            responseBuilder.Content = "We have received you message.";
             await responseBuilder.FlushAsync();
             return true;
         }

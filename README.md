@@ -280,3 +280,4 @@ $(document).ready(function () {
 * [.NET 9.0](https://dotnet.microsoft.com/download/dotnet-core/9.0)
 * [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)
 * [微信公众平台](https://mp.weixin.qq.com)
+* [Tools/ResX Manager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager)

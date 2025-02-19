@@ -45,7 +45,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("您正在访问的URL地址是一个微信公众号服务器验证地址。您可以将此URL地址填写在微信公众号后台的“开发/基本配置/服务器配置/服务器地址(URL)”字段。", s);
+            Assert.StartsWith("You are now trying to visit a verification URL", s);
         }
 
         [Fact]
@@ -126,7 +126,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("信息已收到", s);
+            Assert.Contains("We have received you message.", s);
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("信息已收到", s);
+            Assert.Contains("We have received you message.", s);
         }
     }
 }
