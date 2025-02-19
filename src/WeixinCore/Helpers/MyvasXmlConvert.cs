@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,14 +10,29 @@ using System.Xml.Serialization;
 namespace Myvas.AspNetCore.Weixin
 {
 	public static class MyvasXmlConvert
-	{
-		/// <summary>
-		/// 序列化
-		/// </summary>
-		/// <param name="objectInstance"></param>
-		/// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
-		/// <returns></returns>
-		public static string SerializeObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null)
+    {
+        /// <summary>
+        /// 序列化：支持匿名对象
+        /// </summary>
+        /// <param name="objectInstance"></param>
+        /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
+        /// <returns></returns>
+        public static string SerializeObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null, string rootElementName = "xml")
+        {
+            if (encoding == null) encoding = Encoding.UTF8;
+
+            var jsonText = JsonConvert.SerializeObject(objectInstance);
+            var xmldoc = JsonConvert.DeserializeXmlNode(jsonText, rootElementName);
+            return xmldoc.OuterXml;
+        }
+
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="objectInstance"></param>
+        /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
+        /// <returns></returns>
+        public static string SerializeNormalObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null)
 		{
 			if (encoding == null) encoding = Encoding.UTF8;
 
