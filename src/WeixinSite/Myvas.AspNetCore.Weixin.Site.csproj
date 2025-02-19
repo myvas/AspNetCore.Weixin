@@ -30,7 +30,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\WeixinCore\Myvas.AspNetCore.Weixin.Core.csproj">
 			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-			<IncludeAssets>all</IncludeAssets>
+			<!--<IncludeAssets>all</IncludeAssets>-->
+			<PrivateAssets>all</PrivateAssets>
 		</ProjectReference>
 	</ItemGroup>
 
