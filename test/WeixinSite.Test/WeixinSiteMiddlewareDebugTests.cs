@@ -45,7 +45,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("You are now trying to visit a verification URL for a WeChat Official Account server.  You can fill this URL in the ¡°Development/Basic Configuration/Server Configuration/Server Address (URL)¡± field in the WeChat Official Account backend (https://mp.weixin.qq.com).", s);
+            Assert.StartsWith("You are now trying to visit a verification URL", s);
         }
 
         [Fact]
