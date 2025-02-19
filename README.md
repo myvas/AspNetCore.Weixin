@@ -13,20 +13,20 @@ An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. 
 ## Breaking Changes
 
 ## NuGet Packages
-0. Myvas.AspNetCore.Weixin
-- 包含以下多个NuGet Packages
+1. Myvas.AspNetCore.Weixin
+- 包含以下多个NuGet Packages，保持向下兼容
 
-1. Myvas.AspNetCore.Weixin.Api
+1.1. Myvas.AspNetCore.Weixin.Api
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
 | 服务 | `services.AddWeixinAccessToken` | 微信公众号AccessToken | WeixinAccessTokenOptions | IWeixinAccessToken |
 | 服务 | `services.AddWeixinApi` | 微信公众号Api | WeixinApiOptions | IWeixinXxxApi |
 
-2. Myvas.AspNetCore.Weixin.Api
+1.2. Myvas.AspNetCore.Weixin.Site
 | 服务 | `services.AddWeixinSite` | 微信公众号消息处理 | WeixinSiteOptions | |
 | 中间件 | `app.UseWeixinSite` | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
 
-3. Myvas.AspNetCore.Weixin.Jssdk
+2. Myvas.AspNetCore.Weixin.Jssdk
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
 | 服务 | `services.AddWeixinJssdk` | 微信公众号Jssdk | WeixinJssdkOptions | IWeixinJsapiTicket |
