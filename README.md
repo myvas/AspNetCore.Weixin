@@ -183,6 +183,6 @@ $(document).ready(function () {
 
 ## For Developers
 * [Visual Studio](https://visualstudio.microsoft.com)
-* [.NET Core SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+* [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)
 * [微信公众平台](https://mp.weixin.qq.com)
