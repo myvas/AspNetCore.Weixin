@@ -2,16 +2,11 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
 		<packageTags>myvas;aspnetcore;weixin</packageTags>
 		<Description>Primitives for Tencent Weixin/Wechat</Description>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
-	<ItemGroup>
-		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
-		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -23,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj" />
+	  <ProjectReference Include="..\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

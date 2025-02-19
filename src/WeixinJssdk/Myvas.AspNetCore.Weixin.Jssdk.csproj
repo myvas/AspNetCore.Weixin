@@ -3,6 +3,10 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
 		<PackageTags>myvas;aspnetcore;weixin;jssdk</PackageTags>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<AssemblyName>Myvas.AspNetCore.Weixin.Jssdk</AssemblyName>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>

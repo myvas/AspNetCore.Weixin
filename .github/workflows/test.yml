@@ -22,6 +22,16 @@ jobs:
         dotnet:
           - version: '3.1.x'
             framework: 'netcoreapp3.1'
+          - version: '5.0.x'
+            framework: 'net5.0'
+          - version: '6.0.x'
+            framework: 'net6.0'
+          - version: '7.0.x'
+            framework: 'net7.0'
+          - version: '8.0.x'
+            framework: 'net8.0'
+          - version: '9.0.x'
+            framework: 'net9.0'
         configuration: [ Debug, Release ]
     uses: ./.github/workflows/build-and-test.yml
     with:
