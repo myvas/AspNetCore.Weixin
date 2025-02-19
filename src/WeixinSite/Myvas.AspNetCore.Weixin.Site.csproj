@@ -11,6 +11,7 @@
 		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -27,7 +28,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WeixinCore\Myvas.AspNetCore.Weixin.Core.csproj" />
+		<ProjectReference Include="..\WeixinCore\Myvas.AspNetCore.Weixin.Core.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>all</IncludeAssets>
+		</ProjectReference>
 	</ItemGroup>
 
 	<ItemGroup>
