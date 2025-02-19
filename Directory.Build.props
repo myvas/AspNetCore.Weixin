@@ -19,7 +19,13 @@
 			<FileVersion Condition="'$(MinVerMajor).$(MinVerMinor)' == '$(MinVerMinimumMajorMinor)' ">$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$([System.DateTime]::Now.AddYears(-2021).ToString("yMMdd"))</FileVersion>
 		</PropertyGroup>
 	</Target>
-
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
 	<PropertyGroup>
 		<RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
 		<!--<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>-->
