@@ -126,7 +126,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("信息已收到", s);
+            Assert.Contains("We have received you message.", s);
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("信息已收到", s);
+            Assert.Contains("We have received you message.", s);
         }
     }
 }
