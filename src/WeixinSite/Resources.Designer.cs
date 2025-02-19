@@ -19,7 +19,7 @@ namespace Myvas.AspNetCore.Weixin {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,7 +61,7 @@ namespace Myvas.AspNetCore.Weixin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 微信消息签名验证失败!.
+        ///   Looks up a localized string similar to Failed on WeChat message signature verification!.
         /// </summary>
         internal static string InvalidSignatureDenied {
             get {
@@ -70,7 +70,7 @@ namespace Myvas.AspNetCore.Weixin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 这是一个微信程序，请用微信客户端访问!.
+        ///   Looks up a localized string similar to Please access this page via the WeChat client (Official name: Micromessenger)..
         /// </summary>
         internal static string NonMicroMessengerDenied {
             get {
@@ -88,7 +88,7 @@ namespace Myvas.AspNetCore.Weixin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 您正在访问的URL地址是一个微信公众号服务器验证地址。您可以将此URL地址填写在微信公众号后台的“开发/基本配置/服务器配置/服务器地址(URL)”字段。.
+        ///   Looks up a localized string similar to You are now trying to visit a verification URL for a WeChat Official Account server.  You can fill this URL in the “Development/Basic Configuration/Server Configuration/Server Address (URL)” field in the WeChat Official Account backend (https://mp.weixin.qq.com)..
         /// </summary>
         internal static string WeixinSiteVerificationPathNotice {
             get {

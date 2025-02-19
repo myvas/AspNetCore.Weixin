@@ -118,11 +118,11 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InvalidSignatureDenied" xml:space="preserve">
-    <value>微信消息签名验证失败!</value>
+    <value>Failed on WeChat message signature verification!</value>
     <comment>display when the Signature is invalid</comment>
   </data>
   <data name="NonMicroMessengerDenied" xml:space="preserve">
-    <value>这是一个微信程序，请用微信客户端访问!</value>
+    <value>Please access this page via the WeChat client (Official name: Micromessenger).</value>
     <comment>display when current browser is not a Weixin Messenger</comment>
   </data>
   <data name="NotWeixinSubscriber" xml:space="preserve">
@@ -130,7 +130,7 @@
     <comment>error when the Weixin subscriber does not derive from WeixinSubscriber</comment>
   </data>
   <data name="WeixinSiteVerificationPathNotice" xml:space="preserve">
-    <value>您正在访问的URL地址是一个微信公众号服务器验证地址。您可以将此URL地址填写在微信公众号后台的“开发/基本配置/服务器配置/服务器地址(URL)”字段。</value>
+    <value>You are now trying to visit a verification URL for a WeChat Official Account server.  You can fill this URL in the “Development/Basic Configuration/Server Configuration/Server Address (URL)” field in the WeChat Official Account backend (https://mp.weixin.qq.com).</value>
     <comment>display when access the WeixinSite verification path via HttpGet method</comment>
   </data>
 </root>

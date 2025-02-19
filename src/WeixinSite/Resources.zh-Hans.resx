@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,24 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NotReceivedMessage" xml:space="preserve">
-    <value>AddEntityFrameworkStores can only be called with a Weixin received message that derives from WeixinReceivedMessage.</value>
-    <comment>error when the Weixin received message does not derive from WeixinReceivedMessage</comment>
+  <data name="NonMicroMessengerDenied" xml:space="preserve">
+    <value>这是一个微信程序，请用微信客户端访问!</value>
+  </data>
+  <data name="InvalidSignatureDenied" xml:space="preserve">
+    <value>微信消息签名验证失败!</value>
+  </data>
+  <data name="WeixinSiteVerificationPathNotice" xml:space="preserve">
+    <value>您正在访问的URL地址是一个微信公众号服务器验证地址。您可以将此URL地址填写在微信公众号后台的“开发/基本配置/服务器配置/服务器地址(URL)”字段。</value>
   </data>
   <data name="NotWeixinSubscriber" xml:space="preserve">
     <value>AddEntityFrameworkStores can only be called with a Weixin subscriber that derives from WeixinSubscriber.</value>
-    <comment>error when the Weixin subscriber does not derive from WeixinSubscriber</comment>
-  </data>
-  <data name="UserNotFound" xml:space="preserve">
-    <value>User '{0}' does not exist.</value>
-    <comment>error when a user does not exist</comment>
-  </data>
-  <data name="ValueCannotBeNullOrEmpty" xml:space="preserve">
-    <value>Value cannot be null or empty.</value>
-    <comment>error when something cannot be null or empty</comment>
-  </data>
-  <data name="WeixinSubscriberNotFound" xml:space="preserve">
-    <value>Weixin subscriber '{0}' does not exist.</value>
-    <comment>error when a Weixin subscriber does not exist@Invariant</comment>
   </data>
 </root>

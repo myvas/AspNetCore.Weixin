@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using System.Resources;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -50,7 +51,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("您正在访问的URL地址是一个微信公众号服务器验证地址。您可以将此URL地址填写在微信公众号后台的“开发/基本配置/服务器配置/服务器地址(URL)”字段。", s);
+            Assert.Contains("You are now trying to visit a verification URL for a WeChat Official Account server.  You can fill this URL in the “Development/Basic Configuration/Server Configuration/Server Address (URL)” field in the WeChat Official Account backend (https://mp.weixin.qq.com).", s);
         }
 
 
@@ -141,7 +142,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("微信消息签名验证失败!", s);
+            Assert.Contains("Failed on WeChat message signature verification!", s);
         }
 
         [Fact]
@@ -188,7 +189,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("这是一个微信程序，请用微信客户端访问!", s);
+            Assert.Contains("Please access this page via the WeChat client (Official name: Micromessenger).", s);
         }
 
         [Fact]
@@ -235,7 +236,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("这是一个微信程序，请用微信客户端访问!", s);
+            Assert.Contains("Please access this page via the WeChat client (Official name: Micromessenger).", s);
         }
     }
 }
