@@ -15,15 +15,15 @@ An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. 
 
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
-| 服务 | services.AddWeixinAccessToken | 微信公众号AccessToken | WeixinAccessTokenOptions | IWeixinAccessToken |
-| 服务 | services.AddWeixinWelcomePage | 微信公众号消息处理 | WeixinWelcomePageOptions | |
-| 中间件 | app.UseWeixinWelcomePage | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
+| 服务 | `services.AddWeixinAccessToken` | 微信公众号AccessToken | WeixinAccessTokenOptions | IWeixinAccessToken |
+| 服务 | `services.AddWeixinWelcomePage` | 微信公众号消息处理 | WeixinWelcomePageOptions | |
+| 中间件 | `app.UseWeixinWelcomePage` | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
 
 2. Myvas.AspNetCore.Weixin.Jssdk
 
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
-| 服务 | services.AddWeixinJssdk | 微信公众号Jssdk | WeixinJssdkOptions | IWeixinJsapiTicket |
+| 服务 | `services.AddWeixinJssdk` | 微信公众号Jssdk | WeixinJssdkOptions | IWeixinJsapiTicket |
 
 ## Demo
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
