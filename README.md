@@ -10,6 +10,21 @@ An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. 
 
 微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用服务。
 
+## NuGet Packages
+1. Myvas.AspNetCore.Weixin
+
+| Category | Method | Description | Options | Interfaces |
+|-|-|-|-|-|
+| 服务 | services.AddWeixinAccessToken | 微信公众号AccessToken | WeixinAccessTokenOptions | IWeixinAccessToken |
+| 服务 | services.AddWeixinWelcomePage | 微信公众号消息处理 | WeixinWelcomePageOptions | |
+| 中间件 | app.UseWeixinWelcomePage | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
+
+2. Myvas.AspNetCore.Weixin.Jssdk
+
+| Category | Method | Description | Options | Interfaces |
+|-|-|-|-|-|
+| 服务 | services.AddWeixinJssdk | 微信公众号Jssdk | WeixinJssdkOptions | IWeixinJsapiTicket |
+
 ## Demo
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
 
@@ -166,6 +181,8 @@ $(document).ready(function () {
 </script>
 ```
 
-## Dev
-* [.NET Core SDK 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
+## For Developers
+* [Visual Studio](https://visualstudio.microsoft.com)
+* [.NET Core SDK 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)
+* [微信公众平台](https://mp.weixin.qq.com)
