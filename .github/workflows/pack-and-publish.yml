@@ -2,9 +2,16 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
 name: pack-and-publish (reusable workflow)
-
+permissions:
+  contents: read
+  pull-requests: write
 on:
   workflow_call:
+    inputs:
+      nuget-pack-commandline:
+        description: "If you want to use 'nuget pack' instead of 'dotnet pack', please provide your commandline, for example 'nuget pack path/my.nuspec -OutputDirectory path-to-store-created-nupkg'."
+        required: false
+        type: string
     secrets:
       NUGET_TOKEN:
         description: 'A nuget token to publish to nuget.org'
@@ -60,7 +67,11 @@ jobs:
         run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }}
              
       - name: Create the NuGet package (.nupkg)
+        if: ${{ inputs.nuget-pack-commandline == '' }}
         run: dotnet pack --configuration Release
+      - name: Create the NuGet package (.nupkg) using 'nuget pack'
+        if: ${{ inputs.nuget-pack-commandline != '' }}
+        run: ${{ inputs.nuget-pack-commandline }}
       - name: Publish the NuGet package to nuget.org
         run: dotnet nuget push "**/bin/Release/*.nupkg" -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json --skip-duplicate
         env:
