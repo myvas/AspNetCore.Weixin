@@ -1,11 +1,7 @@
 ﻿using Myvas.AspNetCore.Weixin;
 using Xunit;
 
-<<<<<<<< HEAD:test/FunctionTests/WeixinXmlConvert_Deserialize_Tests.cs
 namespace Weixin.Tests.Functional
-========
-namespace CommonTests
->>>>>>>> origin/master:test/CommonTest/MyvasXmlConvertTests/MyvasXmlConvertDeserializeTests.cs
 {
     public class MyvasXmlConvertDeserializeTests
     {
