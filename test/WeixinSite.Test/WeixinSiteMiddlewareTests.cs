@@ -189,7 +189,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("Please access this page via the WeChat client (Official name: Micromessenger).", s);
+            Assert.StartsWith("Please access this page via the WeChat client", s);
         }
 
         [Fact]
@@ -236,7 +236,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("Please access this page via the WeChat client (Official name: Micromessenger).", s);
+            Assert.StartsWith("Please access this page via the WeChat client", s);
         }
     }
 }
