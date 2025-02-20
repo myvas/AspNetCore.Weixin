@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.Extensions.Options;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
@@ -11,11 +13,11 @@ namespace Myvas.AspNetCore.Weixin
     /// <see cref="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">获取access_token接口官方说明</see>
     /// <see cref="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183">获取access_token接口官方说明</see>
     /// </remarks>
-    internal static class AccessTokenNativeApi
+    public class AccessTokenNativeApi : ApiClient
     {
         private const string GetAccessTokenEndpoint = "https://api.weixin.qq.com/cgi-bin/token";
 
-        public WeixinAccessTokenApi(IOptions<WeixinApiOptions> optionsAccessor) : base(optionsAccessor)
+        public AccessTokenNativeApi(IOptions<WeixinApiOptions> optionsAccessor) : base(optionsAccessor)
         {
         }
 
@@ -38,7 +40,7 @@ namespace Myvas.AspNetCore.Weixin
         /// <para>错误时微信会返回错误码等信息，JSON数据包示例如下（该示例为AppID无效错误）:</para>
         /// <code>{"errcode":40013,"errmsg":"invalid appid"}</code>
         /// </exception>
-        public static async Task<AccessTokenJson> GetTokenAsync(string appid, string secret)
+        public async Task<WeixinAccessTokenJson> GetTokenAsync(string appid, string secret, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder
             {
