@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Myvas.AspNetCore.Weixin;
+using Myvas.AspNetCore.Weixin.EfCore;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore;
 using System;
 using System.Reflection;
