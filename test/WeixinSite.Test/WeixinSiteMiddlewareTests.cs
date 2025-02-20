@@ -106,7 +106,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.StartsWith("Your message had been received", s);
+            Assert.StartsWith("<xml><Content>Your message had been received", s);
         }
 
         [Fact]
