@@ -2,9 +2,20 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
+		<IsShippingAssembly>true</IsShippingAssembly>
+		<IsPackable>true</IsPackable>
 		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
-		<IsPackable>false</IsPackable>
+		<PackageId>Myvas.AspNetCore.Weixin.Stores</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin.Stores</AssemblyName>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />

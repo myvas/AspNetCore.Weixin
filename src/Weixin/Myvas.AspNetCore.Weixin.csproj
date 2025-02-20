@@ -1,18 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Description>IWeixinAccessToken, IWeixinMenuApi and such-like Apis for Tencent Weixin/Wechat.</Description>
 		<PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
 		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
-		<PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
-		<AssemblyName>Myvas.AspNetCore.Weixin.Api</AssemblyName>
+		<PackageId>Myvas.AspNetCore.Weixin</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin</AssemblyName>
 		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<IsShippingAssembly>true</IsShippingAssembly>
-		<IsPackable>true</IsPackable>
+		<!--<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>-->
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -20,13 +19,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
-		<PackageReference Include="System.Text.Json" Version="4.7.2" />
+		<ProjectReference Include="..\WeixinEfCore\Myvas.AspNetCore.Weixin.EfCore.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>all</IncludeAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\WeixinJssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>all</IncludeAssets>
+		</ProjectReference>
 	</ItemGroup>
 
 </Project>

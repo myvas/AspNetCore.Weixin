@@ -59,7 +59,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj" />
+		<ProjectReference Include="..\..\src\Weixin\Myvas.AspNetCore.Weixin.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
