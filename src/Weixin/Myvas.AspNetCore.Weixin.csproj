@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<description>WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis.</description>
+		<PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<PackageId>Myvas.AspNetCore.Weixin</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin</AssemblyName>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<!--<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>-->
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WeixinEfCore\Myvas.AspNetCore.Weixin.EfCore.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>all</IncludeAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\WeixinJssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>all</IncludeAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ContentWithTargetPath Include="..\..\README.md">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>..\%(Filename)%(Extension)</TargetPath>
+		</ContentWithTargetPath>
+		<ContentWithTargetPath Include="..\..\LICENSE.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>..\%(Filename)%(Extension)</TargetPath>
+		</ContentWithTargetPath>
+	</ItemGroup>
+	<Target Name="CustomFileVersion" AfterTargets="MinVer">
+		<Message Importance="high" Text="Running GenerateNuspec target" />
+		<ReadLinesFromFile File="Myvas.AspNetCore.Weixin.nuspec.template">
+			<Output TaskParameter="Lines" ItemName="TemplateLines" />
+		</ReadLinesFromFile>
+		<WriteLinesToFile
+		  File="bin\$(Configuration)\Myvas.AspNetCore.Weixin.nuspec"
+		  Lines="@(TemplateLines->Replace('$MinVerVersion$', '$(MinVerVersion)')->Replace('$Configuration$', '$(Configuration)')->Replace('$TargetFramework$', '$(TargetFramework)'))"
+		  Overwrite="true" />
+		<Message Importance="high" Text="Generated MyCompositePackage.nuspec with version $(MinVerVersion)" />
+	</Target>
+
+</Project>
