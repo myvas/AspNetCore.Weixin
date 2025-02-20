@@ -38,5 +38,7 @@ jobs:
   pack-and-publish:
     needs: [ 'build-and-test' ]
     uses: ./.github/workflows/pack-and-publish.yml
+    with: 
+      nuget-pack-commandline: 'nuget pack src/Weixin/bin/${{ matrix.configuration }}/Myvas.AspNetCore.Weixin.nuspec -OutputDirectory src/Weixin/bin/${{ matrix.configuration }}'
     secrets:
       NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}

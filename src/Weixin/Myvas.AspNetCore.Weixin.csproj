@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<Description>IWeixinAccessToken, IWeixinMenuApi and such-like Apis for Tencent Weixin/Wechat.</Description>
+		<description>WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis.</description>
 		<PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
 		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
 		<PackageId>Myvas.AspNetCore.Weixin</PackageId>
@@ -28,5 +28,27 @@
 			<IncludeAssets>all</IncludeAssets>
 		</ProjectReference>
 	</ItemGroup>
+
+	<ItemGroup>
+		<ContentWithTargetPath Include="..\..\README.md">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>..\%(Filename)%(Extension)</TargetPath>
+		</ContentWithTargetPath>
+		<ContentWithTargetPath Include="..\..\LICENSE.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<TargetPath>..\%(Filename)%(Extension)</TargetPath>
+		</ContentWithTargetPath>
+	</ItemGroup>
+	<Target Name="CustomFileVersion" AfterTargets="MinVer">
+		<Message Importance="high" Text="Running GenerateNuspec target" />
+		<ReadLinesFromFile File="Myvas.AspNetCore.Weixin.nuspec.template">
+			<Output TaskParameter="Lines" ItemName="TemplateLines" />
+		</ReadLinesFromFile>
+		<WriteLinesToFile
+		  File="bin\$(Configuration)\Myvas.AspNetCore.Weixin.nuspec"
+		  Lines="@(TemplateLines->Replace('$MinVerVersion$', '$(MinVerVersion)')->Replace('$Configuration$', '$(Configuration)')->Replace('$TargetFramework$', '$(TargetFramework)'))"
+		  Overwrite="true" />
+		<Message Importance="high" Text="Generated MyCompositePackage.nuspec with version $(MinVerVersion)" />
+	</Target>
 
 </Project>

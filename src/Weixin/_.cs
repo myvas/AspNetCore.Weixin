@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Myvas.AspNetCore.Weixin
 {
-    class _
+    internal class _
     {
     }
 }
