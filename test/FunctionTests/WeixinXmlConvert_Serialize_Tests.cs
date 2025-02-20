@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace test
+namespace Weixin.Tests.Functional
 {
     public class WeixinXmlConvert_Serialize_Tests
     {

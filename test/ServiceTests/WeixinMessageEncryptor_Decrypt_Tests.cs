@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using Xunit;
 
-namespace test
+namespace Weixin.Tests.Services
 {
 	public class WeixinMessageEncryptor_Decrypt_Tests
 	{
