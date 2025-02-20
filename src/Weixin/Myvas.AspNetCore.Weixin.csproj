@@ -48,7 +48,7 @@
 		  File="bin\$(Configuration)\Myvas.AspNetCore.Weixin.nuspec"
 		  Lines="@(TemplateLines->Replace('$MinVerVersion$', '$(MinVerVersion)')->Replace('$Configuration$', '$(Configuration)')->Replace('$TargetFramework$', '$(TargetFramework)'))"
 		  Overwrite="true" />
-		<Message Importance="high" Text="Generated MyCompositePackage.nuspec with version $(MinVerVersion)" />
+		<Message Importance="high" Text="Generated Myvas.AspNetCore.Weixin.nuspec with version $(MinVerVersion)" />
 	</Target>
 
 </Project>
