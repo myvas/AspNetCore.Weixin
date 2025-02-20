@@ -43,7 +43,7 @@ namespace Myvas.AspNetCore.Weixin
             var requestUri = GetAccessTokenEndpoint + query.ToString();
 
             var sResult = await new HttpClient().GetStringAsync(requestUri);
-            AccessTokenJson result = sResult.FromJson< AccessTokenJson>();
+            AccessTokenJson result = sResult.FromJson<AccessTokenJson>();
             if (result.Succeeded)
                 return result;
             else
