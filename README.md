@@ -1,4 +1,3 @@
-# Myvas.AspNetCore.Weixin
 
 [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Weixin?label=github)](https://github.com/myvas/AspNetCore.Weixin)
 [![test](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml/badge.svg)](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml)
@@ -6,9 +5,9 @@
 [![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
 [![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.Jssdk.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin.Jssdk)
 
-An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. (微信公众平台/接口调用服务)
+WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis. (微信公众平台/接口调用服务)
 
-微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用服务。
+微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用及搭建站点。
 
 ## NuGet Packages
 1. Myvas.AspNetCore.Weixin
@@ -28,6 +27,80 @@ An ASP.NET Core middleware for Tencent Wechat/Weixin message handling and apis. 
 ## Demo
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
 
+
+## 应用场景
+1.接口服务WeixinApi，提供IWeixinAccessToken及其他接口服务
+  * 拿到AccessToken后，想怎么用就怎么用
+  * 使用经过二次设计构建的WeixinApi们，更方便
+  * 搭建WebApi站点，供其他WebApp/MobileApp使用
+```
+services.AddWeixinApi(o => {
+	o.AppId = "xxx";
+	o.AppSecret = "xxx";
+	//o.Backchannel = _testServer.CreateClient(); // default is 'new HttpClient()'
+})
+// default has already injected WeixinAccessTokenMemoryCacheProvider
+//.AddCacheProvider<YourCacheProvider>() // or replaces by yours cache provider
+;
+```
+
+优点：
+* 通过单元测试：保证接口实现正确、发现功能迭代及代码重构过程产生的错误
+* 良好的架构设计：提供新接口的可扩展性、改善旧接口的易用性
+缺点：
+* Too young too simple sometimes naive
+
+2.中间件WeixinSite，用于搭建微信公众号服务站点
+  * 接收微信公众号上行的消息和事件
+  * 自动存储上述消息和事件
+  * (客服)回复消息（须有上行消息，并在48小时内回复）
+  * 发送模板消息（须预先定义并申请消息模板）
+```
+// 微信公众号服务站点
+// ConfigureServices:
+{
+	services.AddWeixinSite(o => {
+		o.AppId = "xxx"; 
+		o.AppSecret = "xxx";
+		o.SiteToken = "xxx";
+	})
+// 上下行消息加解密
+	.AddEncoding(o => {
+		o.StrictMode = true; // default is false (compatible with ClearText)
+		o.AESEncodingKey = "xxx";
+	})
+// 上行消息及事件通知
+	.AddEventSink<MyEventSink>()
+// 自动存储上行消息及事件，允许自己设计及实现全部存储接口
+	.AddStores<AppDbContext>(o => {
+// 启用订阅者名单同步服务
+		o.EnableSubscriberSync = false; // default is true
+	})
+// 接口服务：被动回复
+	.AddResponseMessaging(o => {
+		o.TrySmsOnFailed = true; // default is false
+	})
+// 接口服务：发送模板消息
+	.AddTemplateMessaging(o => {
+		o.MaxRetryTimes = 5; // default is 3
+	})
+	;
+}
+
+// Configure:
+{
+	app.UseWeixinSite();
+}
+```
+
+3.(TBD)搭建AccessToken服务及管理服务器
+  * 提供WebApi服务，供公司多个App取用
+  * 对AccessToken调用流量进行监控和管理
+  * 对公司App取用AccessToken的权限进行管理(建议使用Oidc或其他SSO进行授权管理)
+
+## Demo
+http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
+
 ## Settings
 https://mp.weixin.qq.com
 
@@ -39,6 +112,22 @@ https://mp.weixin.qq.com
 - 在“网站**Token**”中，填写一串较长的随机字符串作为WebsiteToken
 - 在“消息加解密密钥**EncodingAESKey**”中，若空则初始化一个
 - 在“消息加解密方式”中，***建议***选择“**安全模式**”
+
+## AccessToken
+* ConfigureServices
+```
+services.AddWeixinAccessToken(options => {	
+	options.AppId = _configuration["Weixin:AppId"];
+	options.AppSecret = _configuration["Weixin:AppSecret"];
+});
+```
+
+* Usage
+```
+private readonly IAccessToken _accessToken;
+...
+var accessToken = _accessToken.GetTokenAsync();
+```
 
 ## WeixinWelcomePage
 * ConfigureServices
@@ -182,7 +271,14 @@ $(document).ready(function () {
 ```
 
 ## For Developers
-* [Visual Studio](https://visualstudio.microsoft.com)
+* [Visual Studio 2022](https://visualstudio.microsoft.com)
+* [.NET Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
 * [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+* [.NET 5.0](https://dotnet.microsoft.com/download/dotnet-core/5.0)
+* [.NET 6.0](https://dotnet.microsoft.com/download/dotnet-core/6.0)
+* [.NET 7.0](https://dotnet.microsoft.com/download/dotnet-core/7.0)
+* [.NET 8.0](https://dotnet.microsoft.com/download/dotnet-core/8.0)
+* [.NET 9.0](https://dotnet.microsoft.com/download/dotnet-core/9.0)
 * [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)
 * [微信公众平台](https://mp.weixin.qq.com)
+* [Tools/ResX Manager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager)
