@@ -156,7 +156,8 @@ namespace Myvas.AspNetCore.Weixin
             using (var stream = new StreamReader(context.Request.Body))
             {
                 var text = await stream.ReadToEndAsync();
-                _logger.LogDebug($"Request body({text?.Length}): {text?.Replace(Environment.NewLine, "")}");
+                var sanitizedText = text?.Replace(Environment.NewLine, "")?.Replace("\n", "")?.Replace("\r", "");
+                _logger.LogDebug($"Request body({text?.Length}): {sanitizedText}");
                 Debug.WriteLine($"Request body({text?.Length}):");
                 Debug.WriteLine(text);
 
