@@ -272,6 +272,7 @@ $(document).ready(function () {
 
 ## For Developers
 * [Visual Studio 2022](https://visualstudio.microsoft.com)
+* [.NET Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
 * [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 * [.NET 5.0](https://dotnet.microsoft.com/download/dotnet-core/5.0)
 * [.NET 6.0](https://dotnet.microsoft.com/download/dotnet-core/6.0)

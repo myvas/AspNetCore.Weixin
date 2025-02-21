@@ -66,7 +66,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
                             o.Events.OnTextMessageReceived = async (x) =>
                             {
                                 var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
-                                resp.ResponseEntity.Content = $"您的消息已收到:{x.Xml.Content}";
+                                resp.ResponseEntity.Content = $"Your message had been received:{x.Xml.Content}";
                                 await resp.FlushAsync();
                                 return true;
                             };
@@ -89,7 +89,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             Assert.NotNull(s);
             Assert.NotEmpty(s);
             Debug.WriteLine(s);
-            Assert.Contains("您的消息已收到", s);
+            Assert.StartsWith("<xml><Content>Your message had been received", s);
         }
 
         [Fact]

@@ -70,7 +70,7 @@ namespace Myvas.AspNetCore.Weixin {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please access this page via the WeChat client (Official name: Micromessenger)..
+        ///   Looks up a localized string similar to Please access this page via the WeChat client (Official name: Micromessenger)!.
         /// </summary>
         internal static string NonMicroMessengerDenied {
             get {

@@ -122,7 +122,7 @@
     <comment>display when the Signature is invalid</comment>
   </data>
   <data name="NonMicroMessengerDenied" xml:space="preserve">
-    <value>Please access this page via the WeChat client (Official name: Micromessenger).</value>
+    <value>Please access this page via the WeChat client (Official name: Micromessenger)!</value>
     <comment>display when current browser is not a Weixin Messenger</comment>
   </data>
   <data name="NotWeixinSubscriber" xml:space="preserve">

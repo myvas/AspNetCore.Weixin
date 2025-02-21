@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin
@@ -21,6 +22,7 @@ namespace Myvas.AspNetCore.Weixin
             errmsg = msg;
         }
 
+        [JsonIgnore]
         public bool Succeeded { get { return !errcode.HasValue || errcode == WeixinErrorCodes.OK; } }
 
         /// <summary>

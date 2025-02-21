@@ -135,6 +135,6 @@
   </data>
   <data name="WeixinSubscriberNotFound" xml:space="preserve">
     <value>Weixin subscriber '{0}' does not exist.</value>
-    <comment>error when a Weixin subscriber does not exist@Invariant</comment>
+    <comment>error when a Weixin subscriber does not exist</comment>
   </data>
 </root>

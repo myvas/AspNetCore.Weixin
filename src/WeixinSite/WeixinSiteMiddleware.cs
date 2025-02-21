@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Myvas.AspNetCore.Weixin
 {
@@ -56,7 +57,10 @@ namespace Myvas.AspNetCore.Weixin
             HttpRequest request = context.Request;
             if (path.Equals(request.Path, StringComparison.OrdinalIgnoreCase))
             {
-                _logger.LogDebug($"Request matched the WeixinSite path '{request.Path}'");
+#if DEBUG
+                var sanitizedPath = request.Path.Value?.Replace(Environment.NewLine, "")?.Replace("\n", "")?.Replace("\r", "");
+                _logger.LogDebug($"Request matched the WeixinSite path '{sanitizedPath}'");
+#endif
                 if (HttpMethods.IsPost(request.Method))
                 {
                     return InvokePostAsync(context);
@@ -69,7 +73,10 @@ namespace Myvas.AspNetCore.Weixin
             }
             else
             {
-                _logger.LogDebug($"The request path '{request.Path}' does not match the WeixinSite path '{path}'");
+#if DEBUG
+                var sanitizedPath = request.Path.Value?.Replace(Environment.NewLine, "")?.Replace("\n", "")?.Replace("\r", "");
+                _logger.LogDebug($"The request path '{sanitizedPath}' does not match the WeixinSite path '{path}'");
+#endif
                 return _next(context);
             }
         }
@@ -156,7 +163,10 @@ namespace Myvas.AspNetCore.Weixin
             using (var stream = new StreamReader(context.Request.Body))
             {
                 var text = await stream.ReadToEndAsync();
-                _logger.LogDebug($"Request body({text?.Length}): {text}");
+#if DEBUG
+                var sanitizedText = text?.Replace(Environment.NewLine, "")?.Replace("\n", "")?.Replace("\r", "");
+                _logger.LogDebug($"Request body({text?.Length}): {sanitizedText}");
+#endif
                 Debug.WriteLine($"Request body({text?.Length}):");
                 Debug.WriteLine(text);
 
