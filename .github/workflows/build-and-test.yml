@@ -83,8 +83,8 @@ jobs:
       - name: Test with the dotnet CLI
         run: dotnet test --no-build --framework ${{ inputs.dotnet-framework }} --configuration ${{ inputs.configuration }} --verbosity normal --logger trx --results-directory "TestResults-${{ inputs.configuration }}-${{ inputs.dotnet-framework }}"
         env:
-          WEIXIN_APPID: ${{ secrets.WEIXIN_APPID }}
-          WEIXIN_APPSECRET: ${{ secrets.WEIXIN_APPSECRET }} 
+          WEIXIN__APPID: ${{ secrets.WEIXIN_APPID }}
+          WEIXIN__APPSECRET: ${{ secrets.WEIXIN_APPSECRET }} 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
