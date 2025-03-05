@@ -18,13 +18,17 @@ namespace Myvas.AspNetCore.Weixin
         /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
 		/// <param name="rootElementName">若不为空，则生成的XML以该字符串作为根节点，默认为"xml"。注意：XML只能有一个根节点，所以如果对象是数组，则根节点不能为空。</param>
         /// <returns></returns>
-        public static string SerializeObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null, string rootElementName = "xml")
+        public static string SerializeObject(object objectInstance, string rootElementName = "xml", bool omitAllXsiXsd = true, Encoding encoding = null)
         {
+            if (objectInstance == null)
+            {
+                throw new ArgumentNullException(nameof(objectInstance), "The object instance to serialize cannot be null.");
+            }
             if (encoding == null) encoding = Encoding.UTF8;
 
             var jsonText = JsonConvert.SerializeObject(objectInstance);
-            var xmldoc = JsonConvert.DeserializeXmlNode(jsonText, rootElementName);
-            return xmldoc.OuterXml;
+            XmlDocument doc = JsonConvert.DeserializeXmlNode(jsonText, rootElementName);
+            return doc.OuterXml;
         }
 
         /// <summary>
@@ -74,25 +78,6 @@ namespace Myvas.AspNetCore.Weixin
                 Console.WriteLine($"An error occurred during serialization: {ex.Message}");
                 throw;
             }
-        }
-
-        /// <summary>
-        /// 序列化
-        /// </summary>
-        /// <param name="objectInstance"></param>
-        /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
-        /// <returns></returns>
-        public static string SerializeObject(object objectInstance, string rootElementName = "xml", bool omitAllXsiXsd = true, Encoding encoding = null)
-        {
-            if (objectInstance == null)
-            {
-                throw new ArgumentNullException(nameof(objectInstance), "The object instance to serialize cannot be null.");
-            }
-            if (encoding == null) encoding = Encoding.UTF8;
-
-            var jsonText = JsonConvert.SerializeObject(objectInstance);
-            XmlDocument doc = JsonConvert.DeserializeXmlNode(jsonText, rootElementName);
-            return doc.OuterXml;
         }
 
         /// <summary>
