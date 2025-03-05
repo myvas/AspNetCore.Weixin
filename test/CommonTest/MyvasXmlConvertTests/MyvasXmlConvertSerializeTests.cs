@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace CommonTests
+namespace Weixin.Tests.Functional
 {
     public class MyvasXmlConvertSerializeTests
     {
