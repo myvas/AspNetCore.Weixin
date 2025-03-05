@@ -22,10 +22,10 @@ namespace Weixin.Tests
         {
             // 如果在您的机器上测试，请在微信公众平台(https://mp.weixin.qq.com)上获取配置，并设置User Secrets或环境变量。
             // 在本地机器上测试，推荐使用环境变量，键名分别为：
-            // ASPNETCORE_WEIXIN_APPID
-            // ASPNETCORE_WEIXIN_APPSECRET
+            // WEIXIN_APPID
+            // WEIXIN_APPSECRET
 
-            var appId = Configuration["Weixin:AppId"]; 
+            var appId = Configuration["Weixin:AppId"];
             var appSecret = Configuration["Weixin:AppSecret"];
 
             Assert.NotEmpty(appId);
