@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<MinVerMinimumMajorMinor>3.1</MinVerMinimumMajorMinor>
+		<MinVerMinimumMajorMinor>9.0</MinVerMinimumMajorMinor>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
 		<MinVerDefaultPreReleaseIdentifiers>alpha</MinVerDefaultPreReleaseIdentifiers>
 		<MinVerIgnoreHeight>false</MinVerIgnoreHeight>
@@ -20,6 +20,16 @@
 		</PropertyGroup>
 	</Target>
 
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);NETSDK1188</NoWarn>
+	</PropertyGroup>
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
 	<PropertyGroup>
 		<RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
 		<!--<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>-->
