@@ -20,6 +20,11 @@ on:
         description: "The configuration value for running dotnet CLI, such as 'Release', and 'Debug'."
         required: true
         type: string
+    secrets:
+      WEIXIN_APPID:
+        required: true
+      WEIXIN_APPSECRET:
+        required: true
                   
 jobs:
   build-and-test:
