@@ -29,9 +29,11 @@ namespace Weixin.Tests
             var appId = Configuration["Weixin:AppId"];
             var appSecret = Configuration["Weixin:AppSecret"];
 #if DEBUG
-            Debug.WriteLine($"appId: {appId}");
+            Debug.WriteLine($"Weixin:AppId {Configuration["Weixin:AppId"]}");
+            Debug.WriteLine($"WEIXIN_APPID {Configuration["WEIXIN_APPID"]}");
 #else
-            Console.WriteLine($"appId: {appId}");
+            Console.WriteLine($"Weixin:AppId {Configuration["Weixin:AppId"]}");
+            Debug.WriteLine($"WEIXIN_APPID {Configuration["WEIXIN_APPID"]}");
 #endif
 
             Assert.NotNull(appId);
