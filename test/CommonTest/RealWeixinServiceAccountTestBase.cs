@@ -33,7 +33,7 @@ namespace Weixin.Tests
             Debug.WriteLine($"WEIXIN_APPID {Configuration["WEIXIN_APPID"]}");
 #else
             Console.WriteLine($"Weixin:AppId {Configuration["Weixin:AppId"]}");
-            Debug.WriteLine($"WEIXIN_APPID {Configuration["WEIXIN_APPID"]}");
+            Console.WriteLine($"WEIXIN_APPID {Configuration["WEIXIN_APPID"]}");
 #endif
 
             Assert.NotNull(appId);
