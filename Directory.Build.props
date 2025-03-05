@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
 	<PropertyGroup>
 		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -19,7 +19,13 @@
 			<FileVersion Condition="'$(MinVerMajor).$(MinVerMinor)' == '$(MinVerMinimumMajorMinor)' ">$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$([System.DateTime]::Now.AddYears(-2021).ToString("yMMdd"))</FileVersion>
 		</PropertyGroup>
 	</Target>
-
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
 	<PropertyGroup>
 		<NoWarn>$(NoWarn);NETSDK1188</NoWarn>
 	</PropertyGroup>
