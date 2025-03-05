@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace CommonTests
+namespace Weixin.Tests.Functional
 {
     public class MyvasXmlConvertSerializeTests
     {
@@ -15,7 +15,7 @@ namespace CommonTests
                     ToUserName = "toxxx",
                     FromUserName = "fromxxx",
                     CreateTime = DateTime.Now.Ticks,
-                    MsgType = "imsge",
+                    MsgType = "image",
                     Image = new
                     {
                         MediaId = "mediaidxxx"
@@ -99,7 +99,7 @@ namespace CommonTests
 <ArticleCount>2</ArticleCount>
 <Articles>
 <item>
-<Title><![CDATA[title1]]></Title> 
+<Title><![CDATA[title1]]></Title>
 <Description><![CDATA[description1]]></Description>
 <PicUrl><![CDATA[picurl]]></PicUrl>
 <Url><![CDATA[url]]></Url>

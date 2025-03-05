@@ -23,13 +23,13 @@
         /// 微信公众号全局唯一票据。存储空间需要512个字符或以上。
         /// </summary>
         /// <example>XkC7gqcx7pctuGe5zPIita23N7dJKIfkwz_2ULReV_Pn7T09lMyhTwlgGK5cghtqGQlPUlZ7ur_nMqhGuJNXwA</example>
-        public string access_token;
+        public string access_token { get; set; }
 
         /// <summary>
         /// 凭证有效时间。单位：秒。
         /// <para>例如：7200</para>
         /// </summary>
         /// <example></example>
-        public int expires_in = 7200;
+        public int expires_in { get; set; } = 7200;
     }
 }

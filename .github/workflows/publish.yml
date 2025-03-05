@@ -30,6 +30,9 @@ jobs:
         configuration:
           - Release
     uses: ./.github/workflows/build-and-test.yml
+    secrets:
+      WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
+      WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
     with:
       dotnet-version: ${{ matrix.dotnet.version }}
       dotnet-framework: ${{ matrix.dotnet.framework }}

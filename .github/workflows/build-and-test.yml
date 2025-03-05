@@ -20,6 +20,11 @@ on:
         description: "The configuration value for running dotnet CLI, such as 'Release', and 'Debug'."
         required: true
         type: string
+    secrets:
+      WEIXIN__APPID:
+        required: true
+      WEIXIN__APPSECRET:
+        required: true
                   
 jobs:
   build-and-test:
@@ -73,11 +78,13 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration ${{ inputs.configuration }}
 
+      - name: Display Weixin:AppId for testing
+        run: echo "WEIXIN__APPID=${{ secrets.WEIXIN__APPID }}"
       - name: Test with the dotnet CLI
         run: dotnet test --no-build --framework ${{ inputs.dotnet-framework }} --configuration ${{ inputs.configuration }} --verbosity normal --logger trx --results-directory "TestResults-${{ inputs.configuration }}-${{ inputs.dotnet-framework }}"
         env:
-          WEIXIN_APPID: ${{ secrets.WEIXIN_APPID }}
-          WEIXIN_APPSECRET: ${{ secrets.WEIXIN_APPSECRET }} 
+          WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
+          WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }} 
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
