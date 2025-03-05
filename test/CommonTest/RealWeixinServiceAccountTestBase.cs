@@ -1,5 +1,4 @@
-﻿using Castle.Core.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System;
 using Xunit;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
