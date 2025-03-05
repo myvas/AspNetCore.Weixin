@@ -27,6 +27,16 @@
 	</Target>
 	
 	<PropertyGroup>
+		<NoWarn>$(NoWarn);NETSDK1188</NoWarn>
+	</PropertyGroup>
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
+	<PropertyGroup>
 		<RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
 		<!--<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>-->
 	</PropertyGroup>

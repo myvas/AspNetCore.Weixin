@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -19,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{5DF96475-1522-4E
 		global.json = global.json
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
+		README_v3.1.md = README_v3.1.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{CB0B6556-FD6F-4C17-99B4-906F4777E7F0}"
