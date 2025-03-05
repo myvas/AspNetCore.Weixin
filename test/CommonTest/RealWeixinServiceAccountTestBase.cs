@@ -23,20 +23,12 @@ namespace Weixin.Tests
         {
             // 如果在您的机器上测试，请在微信公众平台(https://mp.weixin.qq.com)上获取配置，并设置User Secrets或环境变量。
             // 在本地机器上测试，推荐使用环境变量，键名分别为：WEIXIN_APPID="wx02056e2b2b9cc4ef" dotnet test
-            // WEIXIN_APPID
-            // WEIXIN_APPSECRET
+            // WEIXIN__APPID
+            // WEIXIN__APPSECRET
+            // Notes: There are double underscores to replace the colon in the configuration key.
 
             var appId = Configuration["Weixin:AppId"];
             var appSecret = Configuration["Weixin:AppSecret"];
-#if DEBUG
-            Debug.WriteLine($"Weixin:AppId {Configuration["Weixin:AppId"]}");
-            Debug.WriteLine($"WEIXIN_APPID {Configuration["WEIXIN_APPID"]}");
-            Debug.WriteLine($"WEIXIN__APPID {Configuration["WEIXIN__APPID"]}");
-#else
-            Console.WriteLine($"Weixin:AppId {Configuration["Weixin:AppId"]}");
-            Console.WriteLine($"WEIXIN_APPID {Configuration["WEIXIN_APPID"]}");
-            Console.WriteLine($"WEIXIN__APPID {Configuration["WEIXIN__APPID"]}");
-#endif
 
             Assert.NotNull(appId);
             Assert.NotNull(appSecret);
