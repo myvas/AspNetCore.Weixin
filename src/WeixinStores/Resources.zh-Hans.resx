@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,20 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InvalidSignatureDenied" xml:space="preserve">
-    <value>Failed on WeChat message signature verification!</value>
-    <comment>display when the Signature is invalid</comment>
+  <data name="UserLockedOut" xml:space="preserve">
+    <value>User is locked out.</value>
   </data>
-  <data name="NonMicroMessengerDenied" xml:space="preserve">
-    <value>Please access this page via the WeChat client (Official name: Micromessenger)!</value>
-    <comment>display when current browser is not a Weixin Messenger</comment>
+  <data name="UserNotSubscriber" xml:space="preserve">
+    <value>User '{0}' is not a subscriber.</value>
   </data>
-  <data name="NotWeixinSubscriber" xml:space="preserve">
-    <value>AddEntityFrameworkStores can only be called with a Weixin subscriber that derives from WeixinSubscriber.</value>
-    <comment>error when the Weixin subscriber does not derive from WeixinSubscriber</comment>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User '{0}' does not exist.</value>
   </data>
-  <data name="WeixinSiteVerificationPathNotice" xml:space="preserve">
-    <value>You are now trying to visit a verification URL for a WeChat Official Account server.  You can fill this URL in the “Development/Basic Configuration/Server Configuration/Server Address (URL)” field in the WeChat Official Account backend (https://mp.weixin.qq.com).</value>
-    <comment>display when access the WeixinSite verification path via HttpGet method</comment>
+  <data name="DuplicateUnionId" xml:space="preserve">
+    <value>UnionId '{0}' is already subscribed.</value>
+  </data>
+  <data name="SubscriberLockedOut" xml:space="preserve">
+    <value>Subscriber is locked out.</value>
+  </data>
+  <data name="SubscriberUnsubscribed" xml:space="preserve">
+    <value>Subscriber '{0}' had unsubscribed.</value>
+  </data>
+  <data name="StoreNotISubscriberStore" xml:space="preserve">
+    <value>Store does not implement ISubscriberStore&lt;TSubscriber&gt;.</value>
+  </data>
+  <data name="StoreNotIQueryableSubscriberStore" xml:space="preserve">
+    <value>Store does not implement IQueryableSubscriberStore&lt;TSubscriber&gt;.</value>
+  </data>
+  <data name="ConcurrencyFailure" xml:space="preserve">
+    <value>Optimistic concurrency failure, object has been modified.</value>
+  </data>
+  <data name="DuplicateOpenId" xml:space="preserve">
+    <value>OpenId '{0}' is already subscribed.</value>
+  </data>
+  <data name="DuplicatedNickname" xml:space="preserve">
+    <value>Nickname '{0}' is already subscribed.</value>
+  </data>
+  <data name="DefaultError" xml:space="preserve">
+    <value>An unknown failure has occurred.</value>
+  </data>
+  <data name="SubscriberAlreadyAssociated" xml:space="preserve">
+    <value>A user associated with this Weixin subscriber already exists.</value>
   </data>
 </root>

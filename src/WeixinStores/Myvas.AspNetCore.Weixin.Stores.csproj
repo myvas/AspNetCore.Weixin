@@ -2,7 +2,13 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
+		<IsShippingAssembly>true</IsShippingAssembly>
+		<IsPackable>true</IsPackable>
 		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<PackageId>Myvas.AspNetCore.Weixin.Stores</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin.Stores</AssemblyName>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	</PropertyGroup>
@@ -12,7 +18,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
 		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="3.1.4" />
 	</ItemGroup>

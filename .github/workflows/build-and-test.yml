@@ -1,0 +1,86 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: build-and-test (reusable workflow)
+permissions:
+  contents: read
+  pull-requests: write
+on:
+  workflow_call:
+    inputs:
+      dotnet-version:
+        description: "The dotnet SDK version, such as '9.0.x', '8.0.x', '7.0.x', '6.0.x', '5.0.x', and '3.1.x'."
+        required: true
+        type: string
+      dotnet-framework:
+        description: "The framework argument using in 'dotnet test', such as 'net9.0', 'net8.0', 'net7.0', 'net6.0', 'net5.0', and 'netcoreapp3.1'."
+        required: true
+        type: string
+      configuration:
+        description: "The configuration value for running dotnet CLI, such as 'Release', and 'Debug'."
+        required: true
+        type: string
+                  
+jobs:
+  build-and-test:
+    runs-on: ubuntu-22.04
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - run: echo "The inputs.dotnet version is ${{ inputs.dotnet-version }}, framework is ${{ inputs.dotnet-framework }}."
+      - run: echo "The inputs.configuration is ${{ inputs.configuration }}."
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls -la ${{ github.workspace }}
+          sudo cat ./.github/workflows/build-and-test.yml
+    
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+          global-json-file: global.json
+          cache: false
+      
+      - name: Set env.DOTNET_VERSION_MAJOR_MINOR
+        run: |
+          DOTNET_VERSION=$(dotnet --version)
+          echo "DOTNET_VERSION=$DOTNET_VERSION" >> $GITHUB_ENV
+          DOTNET_VERSION_MAJOR=$(echo $DOTNET_VERSION | cut -d '.' -f 1)
+          DOTNET_VERSION_MINOR=$(echo $DOTNET_VERSION | cut -d '.' -f 2)
+          echo "DOTNET_VERSION_MAJOR=$DOTNET_VERSION_MAJOR" >> $GITHUB_ENV
+          echo "DOTNET_VERSION_MINOR=$DOTNET_VERSION_MINOR" >> $GITHUB_ENV
+          echo "DOTNET_VERSION_MAJOR_MINOR=$DOTNET_VERSION_MAJOR.$DOTNET_VERSION_MINOR" >> $GITHUB_ENV
+
+      - name: Display dotnet version
+        run: echo "dotnet ${{ env.DOTNET_VERSION_MAJOR_MINOR }} SDK installed, and the version is ${{ env.DOTNET_VERSION }}."
+    
+      - name: Fixing error 'No usable version of libssl was found' for dotnet 3.1.x
+        if: ${{ env.DOTNET_VERSION_MAJOR_MINOR == '3.1' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev libssl1.1
+
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration ${{ inputs.configuration }}
+
+      - name: Test with the dotnet CLI
+        run: dotnet test --no-build --framework ${{ inputs.dotnet-framework }} --configuration ${{ inputs.configuration }} --verbosity normal --logger trx --results-directory "TestResults-${{ inputs.configuration }}-${{ inputs.dotnet-framework }}"
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dontet-results-${{ inputs.configuration }}-${{ inputs.dotnet-framework }}
+          path: TestResults-${{ inputs.configuration }}-${{ inputs.dotnet-framework }}
+        if: ${{ always() }}
+
+      - run: echo "This job's status is ${{ job.status }}."
+      

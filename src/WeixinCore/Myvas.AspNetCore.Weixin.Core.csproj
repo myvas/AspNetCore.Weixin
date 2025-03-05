@@ -2,11 +2,17 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
 		<packageTags>myvas;aspnetcore;weixin</packageTags>
 		<Description>Primitives for Tencent Weixin/Wechat</Description>
+		<IsShippingAssembly>true</IsShippingAssembly>
+		<IsPackable>true</IsPackable>
+		<PackageId>Myvas.AspNetCore.Weixin.Core</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin.Core</AssemblyName>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<!--<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>-->
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -23,7 +29,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj" />
+	  <ProjectReference Include="..\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

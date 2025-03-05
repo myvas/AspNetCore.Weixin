@@ -8,9 +8,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<MinVerMinimumMajorMinor>6.0</MinVerMinimumMajorMinor>
+		<MinVerMinimumMajorMinor>9.0</MinVerMinimumMajorMinor>
 		<MinVerTagPrefix>v</MinVerTagPrefix>
 		<MinVerDefaultPreReleaseIdentifiers>alpha</MinVerDefaultPreReleaseIdentifiers>
+		<MinVerIgnoreHeight>false</MinVerIgnoreHeight>
 		<MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
 	</PropertyGroup>
 	<Target Name="CustomFileVersion" AfterTargets="MinVer">
@@ -18,7 +19,23 @@
 			<FileVersion Condition="'$(MinVerMajor).$(MinVerMinor)' == '$(MinVerMinimumMajorMinor)' ">$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$([System.DateTime]::Now.AddYears(-2021).ToString("yMMdd"))</FileVersion>
 		</PropertyGroup>
 	</Target>
-
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);NETSDK1188</NoWarn>
+	</PropertyGroup>
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
 	<PropertyGroup>
 		<RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
 		<!--<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>-->

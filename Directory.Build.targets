@@ -1,5 +1,5 @@
 <Project>
-	<ItemGroup>
+	<ItemGroup Condition="'$(IsTestProject)' != 'true'">
 		<PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="All"/>
 	</ItemGroup>
 </Project>

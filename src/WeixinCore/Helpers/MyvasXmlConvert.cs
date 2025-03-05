@@ -9,21 +9,33 @@ using System.Xml.Serialization;
 
 namespace Myvas.AspNetCore.Weixin
 {
-    public static class MyvasXmlConvert
+	public static class MyvasXmlConvert
     {
         /// <summary>
-        /// 序列化
+        /// 序列化：支持匿名对象
         /// </summary>
-        /// <param name="objectInstance"></param>
+        /// <param name="objectInstance">普通类对象，或匿名对象</param>
+        /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
+		/// <param name="rootElementName">若不为空，则生成的XML以该字符串作为根节点，默认为"xml"。注意：XML只能有一个根节点，所以如果对象是数组，则根节点不能为空。</param>
+        /// <returns></returns>
+        public static string SerializeObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null, string rootElementName = "xml")
+        {
+            if (encoding == null) encoding = Encoding.UTF8;
+
+            var jsonText = JsonConvert.SerializeObject(objectInstance);
+            var xmldoc = JsonConvert.DeserializeXmlNode(jsonText, rootElementName);
+            return xmldoc.OuterXml;
+        }
+
+        /// <summary>
+        /// 序列化：不支持匿名对象
+        /// </summary>
+        /// <param name="objectInstance">普通类对象</param>
         /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
         /// <returns></returns>
         public static string SerializeTypedObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null)
-        {
-            if (objectInstance == null)
-            {
-                throw new ArgumentNullException(nameof(objectInstance), "The object instance to serialize cannot be null.");
-            }
-            if (encoding == null) encoding = Encoding.UTF8;
+		{
+			if (encoding == null) encoding = Encoding.UTF8;
 
             var serializer = new XmlSerializer(objectInstance.GetType());
             var settings = new XmlWriterSettings
