@@ -5,10 +5,10 @@ using System.Net.Http.Json;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    /// <summary>
-    /// Extension methods for setting up weixin access token services in an <see cref="IServiceCollection" />.
-    /// </summary>
-    public static class WeixinApiServiceCollectionExtensions
+	/// <summary>
+	/// Extension methods for setting up weixin access token services in an <see cref="IServiceCollection" />.
+	/// </summary>
+	public static class WeixinApiServiceCollectionExtensions
 	{
 		/// <summary>
 		/// Adds weixin access token services to the specified <see cref="IServiceCollection" />. 
@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		/// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
 		/// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinApiOptions"/>.</param>
 		/// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-		public static WeixinApiBuilder AddWeixinApi(this IServiceCollection services, Action<WeixinApiOptions> setupAction)
+		public static WeixinApiBuilder AddWeixinApi(this IServiceCollection services, Action<WeixinApiOptions> setupAction = null)
 		{
 			if (services == null)
 			{
