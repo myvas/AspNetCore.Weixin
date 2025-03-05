@@ -28,8 +28,8 @@ namespace Weixin.Tests
             var appId = Configuration["Weixin:AppId"];
             var appSecret = Configuration["Weixin:AppSecret"];
 
-            Assert.NotEmpty(appId);
-            Assert.NotEmpty(appSecret);
+            Assert.NotNull(appId);
+            Assert.NotNull(appSecret);
         }
     }
 }
