@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Api", "src\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj", "{28B8DCBD-F925-D5BE-4C84-51C31F35B33A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{E9754587-13F5-4E3A-9F3F-71C98EF97990}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{21531676-F91A-486C-B452-FA1AC80C66FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{5DF96475-1522-4EE2-838B-AF8C1DC8BDCE}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
@@ -17,26 +21,32 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{E9754587-13F5-4E
 		README.md = README.md
 		README_v3.1.md = README_v3.1.md
 	EndProjectSection
-	ProjectSection(FolderGlobals) = preProject
-		D_5_4Myvas_4dev_4AspNetCore_4Myvas_1AspNetCore_1Weixin_4Myvas_1AspNetCore_1Weixin_4global_1json__JsonSchema = 
-	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weixin.Tests", "test\Weixin.Tests.csproj", "{74A3C863-09CC-4700-A688-1DF8B26C951B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin", "src\Weixin\Myvas.AspNetCore.Weixin.csproj", "{9B8E8031-ACD1-43A4-98A0-4142CEA57B94}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\Weixin.Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{6DE72631-538C-4F33-8891-D1F9E61634B6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{CB0B6556-FD6F-4C17-99B4-906F4777E7F0}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
-		.github\dependabot.yml = .github\dependabot.yml
 		.github\workflows\pack-and-publish.yml = .github\workflows\pack-and-publish.yml
 		.github\workflows\publish.yml = .github\workflows\publish.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinApi.Test", "test\WeixinApi.Test\WeixinApi.Test.csproj", "{AAC582F6-29B2-00D9-62A8-4A56D43AFD4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\WeixinJssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{562AA4E9-1199-3B19-EC81-E853F9972F4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Core", "src\WeixinCore\Myvas.AspNetCore.Weixin.Core.csproj", "{FCA1D8C5-C164-4BC5-55C4-CA0E74199477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Site", "src\WeixinSite\Myvas.AspNetCore.Weixin.Site.csproj", "{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Stores", "src\WeixinStores\Myvas.AspNetCore.Weixin.Stores.csproj", "{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.EfCore", "src\WeixinEfCore\Myvas.AspNetCore.Weixin.EfCore.csproj", "{D983A222-4A82-8C5E-A078-9233BF23BFCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTest", "test\CommonTest\CommonTest.csproj", "{6B49028C-4C7B-7D1B-BF5C-9C48F42FC018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinSite.Test", "test\WeixinSite.Test\WeixinSite.Test.csproj", "{CC833D68-FE71-65B5-5449-FC032FE2EB2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin", "src\Weixin\Myvas.AspNetCore.Weixin.csproj", "{CCD9601D-A047-4ADF-8F46-715398021B44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,29 +54,64 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74A3C863-09CC-4700-A688-1DF8B26C951B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74A3C863-09CC-4700-A688-1DF8B26C951B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74A3C863-09CC-4700-A688-1DF8B26C951B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74A3C863-09CC-4700-A688-1DF8B26C951B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DE72631-538C-4F33-8891-D1F9E61634B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28B8DCBD-F925-D5BE-4C84-51C31F35B33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28B8DCBD-F925-D5BE-4C84-51C31F35B33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28B8DCBD-F925-D5BE-4C84-51C31F35B33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28B8DCBD-F925-D5BE-4C84-51C31F35B33A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAC582F6-29B2-00D9-62A8-4A56D43AFD4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAC582F6-29B2-00D9-62A8-4A56D43AFD4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAC582F6-29B2-00D9-62A8-4A56D43AFD4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAC582F6-29B2-00D9-62A8-4A56D43AFD4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{562AA4E9-1199-3B19-EC81-E853F9972F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{562AA4E9-1199-3B19-EC81-E853F9972F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{562AA4E9-1199-3B19-EC81-E853F9972F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{562AA4E9-1199-3B19-EC81-E853F9972F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCA1D8C5-C164-4BC5-55C4-CA0E74199477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA1D8C5-C164-4BC5-55C4-CA0E74199477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA1D8C5-C164-4BC5-55C4-CA0E74199477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA1D8C5-C164-4BC5-55C4-CA0E74199477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D983A222-4A82-8C5E-A078-9233BF23BFCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D983A222-4A82-8C5E-A078-9233BF23BFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D983A222-4A82-8C5E-A078-9233BF23BFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D983A222-4A82-8C5E-A078-9233BF23BFCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B49028C-4C7B-7D1B-BF5C-9C48F42FC018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B49028C-4C7B-7D1B-BF5C-9C48F42FC018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B49028C-4C7B-7D1B-BF5C-9C48F42FC018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B49028C-4C7B-7D1B-BF5C-9C48F42FC018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC833D68-FE71-65B5-5449-FC032FE2EB2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC833D68-FE71-65B5-5449-FC032FE2EB2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC833D68-FE71-65B5-5449-FC032FE2EB2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC833D68-FE71-65B5-5449-FC032FE2EB2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD9601D-A047-4ADF-8F46-715398021B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD9601D-A047-4ADF-8F46-715398021B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD9601D-A047-4ADF-8F46-715398021B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD9601D-A047-4ADF-8F46-715398021B44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{74A3C863-09CC-4700-A688-1DF8B26C951B} = {73FCFCF4-3A1C-4D4D-939A-9CABDC2341DC}
-		{9B8E8031-ACD1-43A4-98A0-4142CEA57B94} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
-		{6DE72631-538C-4F33-8891-D1F9E61634B6} = {672FEA18-F072-4549-9C4C-DBD1F9CDC7BB}
-		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {E9754587-13F5-4E3A-9F3F-71C98EF97990}
+		{28B8DCBD-F925-D5BE-4C84-51C31F35B33A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{CB0B6556-FD6F-4C17-99B4-906F4777E7F0} = {5DF96475-1522-4EE2-838B-AF8C1DC8BDCE}
+		{AAC582F6-29B2-00D9-62A8-4A56D43AFD4A} = {21531676-F91A-486C-B452-FA1AC80C66FA}
+		{562AA4E9-1199-3B19-EC81-E853F9972F4E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{FCA1D8C5-C164-4BC5-55C4-CA0E74199477} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D983A222-4A82-8C5E-A078-9233BF23BFCB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6B49028C-4C7B-7D1B-BF5C-9C48F42FC018} = {21531676-F91A-486C-B452-FA1AC80C66FA}
+		{CC833D68-FE71-65B5-5449-FC032FE2EB2D} = {21531676-F91A-486C-B452-FA1AC80C66FA}
+		{CCD9601D-A047-4ADF-8F46-715398021B44} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2E316A19-467A-4E08-9E0C-03014C12FCC0}
+		SolutionGuid = {FAAFA2C3-3BC3-4465-BA96-D8FBF0A8E1FA}
 	EndGlobalSection
 EndGlobal
