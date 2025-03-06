@@ -56,10 +56,4 @@ public interface IWeixinDbContext<TSubscriber> : IDisposable
     /// </summary>
     /// <returns></returns>
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Saves the changes.
-    /// </summary>
-    /// <returns></returns>
-    Task<int> SaveChangesAsync() => SaveChangesAsync(CancellationToken.None);
 }
