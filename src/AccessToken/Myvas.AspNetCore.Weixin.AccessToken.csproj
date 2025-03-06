@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0</TargetFrameworks>
-		
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>		
 		<PackageId>Myvas.AspNetCore.Weixin.AccessToken</PackageId>
 		<Description>IWeixinAccessToken: A service of fetching and distributed-caching the access_token of Tencent Weixin/Wechat.</Description>
 		<PackageTags>Myvas;AspNetCore;Weixin</PackageTags>
@@ -10,6 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.7" />
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

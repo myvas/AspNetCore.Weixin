@@ -23,7 +23,7 @@ internal static partial class StringExtensions
             return string.Empty;
         }
         
-        return String.Join(' ', list);
+        return String.Join(" ", list);
     }
 
     [DebuggerStepThrough]
