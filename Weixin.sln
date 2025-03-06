@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Api", "src\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj", "{28B8DCBD-F925-D5BE-4C84-51C31F35B33A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Api", "src\Api\Myvas.AspNetCore.Weixin.Api.csproj", "{28B8DCBD-F925-D5BE-4C84-51C31F35B33A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -31,15 +31,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinApi.Test", "test\WeixinApi.Test\WeixinApi.Test.csproj", "{AAC582F6-29B2-00D9-62A8-4A56D43AFD4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\WeixinJssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{562AA4E9-1199-3B19-EC81-E853F9972F4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Jssdk", "src\Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj", "{562AA4E9-1199-3B19-EC81-E853F9972F4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Core", "src\WeixinCore\Myvas.AspNetCore.Weixin.Core.csproj", "{FCA1D8C5-C164-4BC5-55C4-CA0E74199477}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Core", "src\Core\Myvas.AspNetCore.Weixin.Core.csproj", "{FCA1D8C5-C164-4BC5-55C4-CA0E74199477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Site", "src\WeixinSite\Myvas.AspNetCore.Weixin.Site.csproj", "{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Site", "src\Site\Myvas.AspNetCore.Weixin.Site.csproj", "{06C90AE9-B669-E6C3-1DF5-F2C1408AE7B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Stores", "src\WeixinStores\Myvas.AspNetCore.Weixin.Stores.csproj", "{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.Stores", "src\Stores\Myvas.AspNetCore.Weixin.Stores.csproj", "{B3CCE0CE-E716-9FD0-9172-4B2A59E33EEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.EfCore", "src\WeixinEfCore\Myvas.AspNetCore.Weixin.EfCore.csproj", "{D983A222-4A82-8C5E-A078-9233BF23BFCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Myvas.AspNetCore.Weixin.EfCore", "src\EfCore\Myvas.AspNetCore.Weixin.EfCore.csproj", "{D983A222-4A82-8C5E-A078-9233BF23BFCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTest", "test\CommonTest\CommonTest.csproj", "{6B49028C-4C7B-7D1B-BF5C-9C48F42FC018}"
 EndProject

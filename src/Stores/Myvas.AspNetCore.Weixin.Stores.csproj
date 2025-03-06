@@ -2,17 +2,15 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<packageTags>myvas;aspnetcore;weixin</packageTags>
-		<Description>Primitives for Tencent Weixin/Wechat</Description>
 		<IsShippingAssembly>true</IsShippingAssembly>
 		<IsPackable>true</IsPackable>
-		<PackageId>Myvas.AspNetCore.Weixin.Core</PackageId>
-		<AssemblyName>Myvas.AspNetCore.Weixin.Core</AssemblyName>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<PackageId>Myvas.AspNetCore.Weixin.Stores</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin.Stores</AssemblyName>
 		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<!--<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>-->
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -20,16 +18,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
-		<PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
-		<PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
+		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="3.1.4" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj" />
+		<ProjectReference Include="..\Core\Myvas.AspNetCore.Weixin.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -46,4 +40,5 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
+
 </Project>

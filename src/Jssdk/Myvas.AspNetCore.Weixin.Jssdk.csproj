@@ -19,6 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\WeixinApi\Myvas.AspNetCore.Weixin.Api.csproj" />
+		<ProjectReference Include="..\Api\Myvas.AspNetCore.Weixin.Api.csproj" />
 	</ItemGroup>
 </Project>

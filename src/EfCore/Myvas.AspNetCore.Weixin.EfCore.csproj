@@ -2,33 +2,32 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
-		<PackageTags>myvas;AspNetCore;Weixin;UseWeixinSite</PackageTags>
 		<IsShippingAssembly>true</IsShippingAssembly>
 		<IsPackable>true</IsPackable>
-		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
-		<PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
-		<AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
+		<PackageId>Myvas.AspNetCore.Weixin.EfCore</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin.EfCore</AssemblyName>
 		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<!--<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>-->
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
 		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
-		<PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
-		<PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+		<PackageReference Include="System.Text.Json" Version="4.7.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\WeixinCore\Myvas.AspNetCore.Weixin.Core.csproj" />
+		<ProjectReference Include="..\Site\Myvas.AspNetCore.Weixin.Site.csproj" />
+		<ProjectReference Include="..\Stores\Myvas.AspNetCore.Weixin.Stores.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,6 +43,6 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-</ItemGroup>
+	</ItemGroup>
 
 </Project>
