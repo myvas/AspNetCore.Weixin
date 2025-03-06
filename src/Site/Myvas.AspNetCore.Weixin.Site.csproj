@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
 		<Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
 		<PackageTags>Myvas;AspNetCore;Weixin</PackageTags>
@@ -13,24 +12,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="8.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-		<PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\AccessToken\Myvas.AspNetCore.Weixin.AccessToken.csproj" />
 		<ProjectReference Include="..\EntityFrameworkCore.Storage\Myvas.AspNetCore.Weixin.EntityFrameworkCore.Storage.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="MessageEncodingProviders\Internal\" />
 	</ItemGroup>
 
 	<ItemGroup>

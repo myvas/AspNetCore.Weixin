@@ -41,8 +41,8 @@ public class WeixinResponseBuilder : IWeixinResponseBuilder
     {
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = ContentTypeConstants.Html;
-        context.Response.Headers.CacheControl = "no-cache,no-store";
-        context.Response.Headers.Pragma = "no-cache";
+        context.Response.Headers.SetCacheControl("no-cache,no-store");
+        context.Response.Headers.SetPragma("no-cache");
         //await context.Response.CompleteAsync();
 
         _logger.LogTrace("Response StatusCode: {statusCode}", statusCode);
