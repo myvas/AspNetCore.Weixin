@@ -1,23 +1,41 @@
 ﻿<Project>
 	<PropertyGroup>
-		<RepositoryUrl>https://github.com/myvas/AspNetCore.Authentication.WeixinOpen</RepositoryUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<LangVersion>latest</LangVersion>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Product>Myvas.AspNetCore.Weixin</Product>
 		<Copyright>© $([System.DateTime]::Now.Year) Myvas Foundation</Copyright>
 	</PropertyGroup>
-	
+
 	<PropertyGroup>
-		<MinVerVersion>8.0.7</MinVerVersion>
-		<MinVerDefaultPreReleaseIdentifiers>alpha.0</MinVerDefaultPreReleaseIdentifiers>
+		<MinVerMinimumMajorMinor>9.0</MinVerMinimumMajorMinor>
+		<MinVerTagPrefix>v</MinVerTagPrefix>
+		<MinVerDefaultPreReleaseIdentifiers>alpha</MinVerDefaultPreReleaseIdentifiers>
+		<MinVerIgnoreHeight>false</MinVerIgnoreHeight>
+		<MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
 	</PropertyGroup>
 	<Target Name="CustomFileVersion" AfterTargets="MinVer">
 		<PropertyGroup>
-			<FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$([System.DateTime]::Now.AddYears(-2021).ToString("yMMdd"))</FileVersion>
+			<FileVersion Condition="'$(MinVerMajor).$(MinVerMinor)' == '$(MinVerMinimumMajorMinor)' ">$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$([System.DateTime]::Now.AddYears(-2021).ToString("yMMdd"))</FileVersion>
 		</PropertyGroup>
 	</Target>
-
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);NETSDK1188</NoWarn>
+	</PropertyGroup>
+	
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+		</ItemGroup>
+	</Target>
+	
 	<PropertyGroup>
 		<RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
 		<!--<OutputPath>$(RepoRoot)artifacts\$(Configuration)\$(ProjectName)\</OutputPath>-->
