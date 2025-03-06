@@ -32,7 +32,7 @@ public readonly struct UnixDateTimeOffset
     /// The copy constructor.
     /// </summary>
     /// <param name="unixTimeSeconds">The Unix time seconds.</param>
-    public UnixDateTimeOffset(long unixTimeSeconds) : this(DateTimeOffset.UnixEpoch.AddSeconds(unixTimeSeconds))
+    public UnixDateTimeOffset(long unixTimeSeconds) : this(UnixEpoch.DateTimeOffset.AddSeconds(unixTimeSeconds))
     {
     }
 

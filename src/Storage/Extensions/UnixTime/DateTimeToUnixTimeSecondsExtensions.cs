@@ -14,7 +14,7 @@ public static class DateTimeToUnixTimeSecondsExtensions
     /// <returns>The Unix time seconds.</returns>
     public static long ToUnixTimeSeconds(this DateTime value)
     {
-        return (long)value.ToUniversalTime().Subtract(DateTime.UnixEpoch).TotalSeconds;
+        return (long)value.ToUniversalTime().Subtract(UnixEpoch.DateTime).TotalSeconds;
     }
 
     /// <summary>
