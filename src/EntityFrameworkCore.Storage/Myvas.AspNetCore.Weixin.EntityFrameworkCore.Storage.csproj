@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<!--<Nullable>enable</Nullable>-->
 
@@ -11,8 +11,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.7" />
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" />
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
