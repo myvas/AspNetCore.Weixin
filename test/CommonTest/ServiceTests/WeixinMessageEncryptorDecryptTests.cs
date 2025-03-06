@@ -8,10 +8,10 @@ using Myvas.AspNetCore.Weixin.Helpers;
 
 namespace test
 {
-	public class WeixinMessageEncryptor_Decrypt_Tests
+	public class WeixinMessageEncryptorDecryptTests
 	{
 		IServiceCollection services = new ServiceCollection();
-		public WeixinMessageEncryptor_Decrypt_Tests()
+		public WeixinMessageEncryptorDecryptTests()
 		{
 			services.Configure((Action<WeixinOptions>)(options =>
 			{
