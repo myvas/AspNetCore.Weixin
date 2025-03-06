@@ -9,7 +9,7 @@ namespace Myvas.AspNetCore.Weixin
     {
 
         [JsonPropertyName("type")]
-        public UploadMediaType type;
+        public UploadMediaType type { get; set; }
 
         [JsonPropertyName("media_id")]
         public string MediaId { get; set; }
