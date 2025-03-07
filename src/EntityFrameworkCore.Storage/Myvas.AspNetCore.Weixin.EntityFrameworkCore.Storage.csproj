@@ -12,17 +12,17 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" />
-		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="8.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
+			<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Include="..\SharedCodes\Tracing\Tracing.cs">
 			<Link>Tracing.cs</Link>
 		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Storage\Myvas.AspNetCore.Weixin.Storage.csproj" />
 	</ItemGroup>
 </Project>
