@@ -52,7 +52,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
             var api = serviceProvider.GetRequiredService<IWeixinAccessToken>();
 
             var ex = await Assert.ThrowsAsync<WeixinException>(() => api.GetTokenAsync());
-            Assert.Equal(40013, ex.ErrorJson.errcode);
+            Assert.Equal(40013, ex.ErrorJson.ErrorCode);
             Assert.Contains("invalid appid", ex.Message);
         }
     }

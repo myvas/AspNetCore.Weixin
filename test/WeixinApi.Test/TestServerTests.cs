@@ -51,8 +51,8 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
             var s = await _server.CreateClient().GetStringAsync(uri);
             var json = JsonConvert.DeserializeObject<WeixinAccessTokenJson>(s);
             Assert.False(json.Succeeded);
-            Assert.Equal(40013, json.errcode);
-            Assert.Contains("invalid appid", json.errmsg);
+            Assert.Equal(40013, json.ErrorCode);
+            Assert.Contains("invalid appid", json.ErrorMessage);
         }
     }
 }
