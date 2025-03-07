@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+	<metadata>
+		<id>Myvas.AspNetCore.Weixin</id>
+		<version>$MinVerVersion$</version>
+		<authors>Myvas.AspNetCore.Weixin</authors>
+		<license type="file">LICENSE.txt</license>
+		<licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+		<readme>README.md</readme>
+		<projectUrl>https://github.com/myvas/AspNetCore.Weixin</projectUrl>
+		<description>WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis.</description>
+		<copyright>© 2025 Myvas Foundation</copyright>
+		<tags>Myvas AspNetCore WeixinApi IWeixinAccessToken</tags>
+		<repository type="git" url="https://github.com/myvas/AspNetCore.Weixin" />
+		<dependencies>
+			<!-- WeixinApi dependencies -->
+			<!--<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />-->
+			<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
+			<dependency id="Microsoft.Extensions.Http" version="3.1.4" />
+			<dependency id="Microsoft.Extensions.Options" version="3.1.4" />
+			<dependency id="Newtonsoft.Json" version="13.0.3" />
+			<dependency id="System.Net.Http.Json" version="3.2.0" />
+			<!--<dependency id="System.Text.Json" version="4.7.2" />-->
+			
+			<!-- WeixinCore dependencies -->
+			<!--<dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.2.0" />-->
+			<!--<dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="3.1.4" />-->
+			<dependency id="Microsoft.Extensions.Logging" version="3.1.4" />
+			<!--<dependency id="Microsoft.Extensions.Options" version="3.1.4" />-->
+			<dependency id="System.ComponentModel.Annotations" version="4.7.0" />
+			
+			<!-- WeixinStores dependencies -->
+			<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
+			<dependency id="Microsoft.Extensions.Options.DataAnnotations" version="3.1.4" />
+			
+			<!-- WeixinSite dependencies -->
+			<dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" />
+			
+			<!-- WeixinEfCore dependencies -->
+			<dependency id="Microsoft.AspNetCore.Mvc.Core" version="2.2.5" />
+		</dependencies>
+	</metadata>
+	<files>
+		<!-- Include the compiled DLLs from each project -->
+		<file src="README.md" target="README.md" />
+		<file src="LICENSE.txt" target="LICENSE.txt" />
+		<file src="..\..\..\Api\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Api.dll" target="lib\$TargetFramework$" />
+		<file src="..\..\..\Core\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Core.dll" target="lib\$TargetFramework$" />
+		<file src="..\..\..\EfCore\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.EfCore.dll" target="lib\$TargetFramework$" />
+		<file src="..\..\..\Jssdk\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Jssdk.dll" target="lib\$TargetFramework$" />
+		<file src="..\..\..\Site\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Site.dll" target="lib\$TargetFramework$" />
+		<file src="..\..\..\Stores\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Stores.dll" target="lib\$TargetFramework$" />
+		<!-- Add more files as needed -->
+	</files>
+</package>
