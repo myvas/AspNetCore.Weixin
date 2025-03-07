@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<PackageId>Myvas.AspNetCore.Weixin.AccessToken</PackageId>
+		<Description>IWeixinAccessToken: A service of fetching and distributed-caching the access_token of Tencent Weixin/Wechat.</Description>
+		<PackageTags>Myvas;AspNetCore;Weixin;AccessToken</PackageTags>
+		<AssemblyName>Myvas.AspNetCore.Weixin.AccessToken</AssemblyName>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<IsShippingAssembly>true</IsShippingAssembly>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="3.1.4" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\SharedCodes\Tracing\Tracing.cs">
+			<Link>Tracing.cs</Link>
+		</Compile>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Update="Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\Api\Myvas.AspNetCore.Weixin.Api.csproj" />
+	</ItemGroup>
+</Project>
