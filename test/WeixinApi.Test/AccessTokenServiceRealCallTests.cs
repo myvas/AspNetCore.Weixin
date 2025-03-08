@@ -17,17 +17,17 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetTokenShouldReturnInvalidAppId()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
             });
             var serviceProvider = services.BuildServiceProvider();
-            var api = serviceProvider.GetRequiredService<IWeixinAccessToken>();
+            var api = serviceProvider.GetRequiredService<IWeixinAccessTokenApi>();
 
             var ex = await Assert.ThrowsAsync<WeixinException>(() => api.GetTokenAsync());
-            Assert.Equal(40013, ex.ErrorJson.errcode);
-            Assert.Contains("invalid appid", ex.Message);
+            Assert.Equal(40013, ex.ErrorJson.ErrorCode);
+            Assert.StartsWith("invalid appid", ex.Message);
         }
     }
 }

@@ -23,15 +23,15 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetTokenShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.Configure<WeixinApiOptions>(o =>
+            services.Configure<WeixinOptions>(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
                 o.Backchannel = _server.CreateClient();
             });
             var serviceProvider = services.BuildServiceProvider();
-            var optionsAccessor = serviceProvider.GetRequiredService<IOptions<WeixinApiOptions>>();
-            var api = new WeixinAccessTokenApi(optionsAccessor); var json = await api.GetTokenAsync();
+            var optionsAccessor = serviceProvider.GetRequiredService<IOptions<WeixinOptions>>();
+            var api = new WeixinAccessTokenDirectApi(optionsAccessor); var json = await api.GetTokenAsync();
 
             Assert.True(json.Succeeded);
             Assert.Equal("ACCESS_TOKEN", json.access_token);
@@ -42,15 +42,15 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetTokenShouldReturnInvalidAppId()
         {
             var services = new ServiceCollection();
-            services.Configure<WeixinApiOptions>(o =>
+            services.Configure<WeixinOptions>(o =>
             {
                 o.AppId = "INVALID_APPID";
                 o.AppSecret = "APPSECRET";
                 o.Backchannel = _server.CreateClient();
             });
             var serviceProvider = services.BuildServiceProvider();
-            var optionsAccessor = serviceProvider.GetRequiredService<IOptions<WeixinApiOptions>>();
-            var api = new WeixinAccessTokenApi(optionsAccessor);
+            var optionsAccessor = serviceProvider.GetRequiredService<IOptions<WeixinOptions>>();
+            var api = new WeixinAccessTokenDirectApi(optionsAccessor);
 
             var ex = await Assert.ThrowsAsync<WeixinException>(() => api.GetTokenAsync());
             Assert.Equal(40013, ex.ErrorCode);

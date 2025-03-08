@@ -24,7 +24,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetCallbackIpsShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -44,7 +44,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetTencentServerIpsShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -64,7 +64,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task CheckNetworkShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";

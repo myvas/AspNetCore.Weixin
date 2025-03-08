@@ -23,7 +23,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetTokenShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -31,17 +31,17 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
             });
             var serviceProvider = services.BuildServiceProvider();
 
-            var api = serviceProvider.GetRequiredService<IWeixinAccessToken>();
+            var api = serviceProvider.GetRequiredService<IWeixinAccessTokenApi>();
             var json = await api.GetTokenAsync();
 
-            Assert.Equal("ACCESS_TOKEN", json);
+            Assert.Equal("ACCESS_TOKEN", json.access_token);
         }
 
         [Fact]
         public async Task GetTokenShouldReturnInvalidAppId()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "INVALID_APPID";
                 o.AppSecret = "APPSECRET";
@@ -49,10 +49,10 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
             });
             var serviceProvider = services.BuildServiceProvider();
 
-            var api = serviceProvider.GetRequiredService<IWeixinAccessToken>();
+            var api = serviceProvider.GetRequiredService<IWeixinAccessTokenApi>();
 
             var ex = await Assert.ThrowsAsync<WeixinException>(() => api.GetTokenAsync());
-            Assert.Equal(40013, ex.ErrorJson.errcode);
+            Assert.Equal(40013, ex.ErrorJson.ErrorCode);
             Assert.Contains("invalid appid", ex.Message);
         }
     }
