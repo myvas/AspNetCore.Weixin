@@ -1,18 +1,17 @@
-﻿namespace Myvas.AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin;
+
+/// <summary>
+/// 发送信息后的结果
+/// </summary>
+public class SendResult : WeixinErrorJson
 {
     /// <summary>
-    /// 发送信息后的结果
+    /// 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb），图文消息为news
     /// </summary>
-    public class SendResult : WeixinErrorJson
-    {
-        /// <summary>
-        /// 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb），图文消息为news
-        /// </summary>
-        public MediaType type { get; set; }
+    public MediaType type { get; set; }
 
-        /// <summary>
-        /// 消息ID
-        /// </summary>
-        public string msg_id { get; set; }
-    }
+    /// <summary>
+    /// 消息ID
+    /// </summary>
+    public string msg_id { get; set; }
 }
