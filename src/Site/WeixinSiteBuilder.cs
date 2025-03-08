@@ -30,7 +30,7 @@ namespace Myvas.AspNetCore.Weixin
             return handler;
         }
 
-        public OptionsBuilder<WeixinApiOptions> ApiOptions { get; set; }
+        public OptionsBuilder<WeixinOptions> ApiOptions { get; set; }
         public OptionsBuilder<WeixinSiteOptions> SiteOptions { get; set; }
         public OptionsBuilder<WeixinSiteEncodingOptions> EncodingOptions { get; set; }
 
