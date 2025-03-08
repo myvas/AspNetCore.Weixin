@@ -1,10 +1,9 @@
-﻿namespace Myvas.AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin;
+
+public enum MaterialType
 {
-	public enum MaterialType
-	{
-		news,
-		images,
-		video,
-		voice
-	}
+	news,
+	images,
+	video,
+	voice
 }
