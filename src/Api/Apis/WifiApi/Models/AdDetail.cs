@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+public class AdDetail
 {
-    public class AdDetail
-    {
-        /// <summary>
-        /// 图标广告list
-        /// </summary>
-        public List<IconAd> iconAds = new List<IconAd>();
-    }
+    /// <summary>
+    /// 图标广告list
+    /// </summary>
+    public List<IconAd> iconAds = new List<IconAd>();
 }

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+public class SetApInfoParam
 {
-    public class SetApInfoParam
-    {
-        public List<ApInfo> apList = new List<ApInfo>();        
-    }
+    public List<ApInfo> apList = new List<ApInfo>();        
 }

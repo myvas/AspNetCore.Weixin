@@ -18,9 +18,7 @@
 			<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
 			<dependency id="Microsoft.Extensions.Http" version="3.1.4" />
 			<dependency id="Microsoft.Extensions.Options" version="3.1.4" />
-			<dependency id="Newtonsoft.Json" version="13.0.3" />
 			<dependency id="System.Net.Http.Json" version="3.2.0" />
-			<!--<dependency id="System.Text.Json" version="4.7.2" />-->
 			
 			<!-- WeixinCore dependencies -->
 			<!--<dependency id="Microsoft.AspNetCore.Http.Abstractions" version="2.2.0" />-->

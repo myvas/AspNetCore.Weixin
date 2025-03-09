@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+public class IpResponseJson : WeixinErrorJson
 {
-    public class IpResponseJson : WeixinErrorJson
-    {
-        [JsonProperty("ip_list")]
-        public IList<string> Ips { get; set; }
-    }
+    [JsonPropertyName("ip_list")]
+    public IList<string> Ips { get; set; }
 }

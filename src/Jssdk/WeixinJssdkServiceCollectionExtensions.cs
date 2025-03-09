@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using System;
+using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -19,50 +20,37 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
         /// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinJssdkOptions"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-        public static IServiceCollection AddWeixinJssdk(this IServiceCollection services, Action<WeixinJssdkOptions> setupAction)
+        public static WeixinBuilder AddWeixinJssdkServices(this WeixinBuilder builder)
         {
-            if (services == null)
+            if (builder == null)
             {
-                throw new ArgumentNullException(nameof(services));
+                throw new ArgumentNullException(nameof(builder));
             }
 
-            if (setupAction != null)
-            {
-                services.Configure(setupAction);
-            }
-
-            services.AddMemoryCache();
-            //services.TryAddSingleton<IWeixinJsapiTicket, MemoryCachedWeixinJsapiTicket>();
-            AddWeixinJsapiTicketServices(services);
-
-            return services;
+            //Here assert IOptions<WeixinApiOptions> had already injected!
+            //builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinApiOptions>, WeixinApiPostConfigureOptions<WeixinApiOptions>>());
+            builder.Services.AddTransient<WeixinJsapiTicketDirectApi>();
+            builder.Services.AddSingleton<IWeixinJsapiTicketApi, WeixinJsapiTicketApi>();
+            return builder;
         }
 
-        /// <summary>
-        /// Adds weixin jssdk services to the specified <see cref="IServiceCollection" />. 
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddWeixinJssdk(this IServiceCollection services)
+        public static WeixinBuilder AddDefaultJsapiTicketCacheProvider(this WeixinBuilder builder)
         {
-            return services.AddWeixinJssdk(setupAction: null);
+            builder.Services.AddMemoryCache();
+            builder.Services.Where(x => x.ImplementationType == typeof(IWeixinJsapiTicketCacheProvider)).ToList()
+                .ForEach(x => builder.Services.Remove(x));
+            builder.Services.AddSingleton<IWeixinJsapiTicketCacheProvider, WeixinJsapiTicketMemoryCacheProvider>();
+            return builder;
         }
 
-
-        private static void AddWeixinJsapiTicketServices(IServiceCollection services)
+        public static WeixinBuilder AddJsapiTicketCacheProvider<TCacheProvider>(this WeixinBuilder builder)
+            where TCacheProvider : class, IWeixinJsapiTicketCacheProvider
         {
-            services.TryAddSingleton<IWeixinJsapiTicket>(s =>
-            {
-                var cache = s.GetRequiredService<IMemoryCache>();
-                var accessToken = s.GetRequiredService<IWeixinAccessToken>();
-                var optionsAccessor = s.GetRequiredService<IOptions<WeixinJssdkOptions>>();
-                var api = s.GetRequiredService<JsapiTicketApi>();
-                var loggerFactory = s.GetService<ILoggerFactory>() ?? NullLoggerFactory.Instance;
-
-                var service = new MemoryCachedWeixinJsapiTicket(cache, optionsAccessor.Value, accessToken, api);
-
-                return service;
-            });
+            builder.Services.Where(x => x.ImplementationType == typeof(IWeixinJsapiTicketCacheProvider)).ToList()
+                .ForEach(x => builder.Services.Remove(x));
+            builder.Services.AddSingleton<IWeixinJsapiTicketCacheProvider, TCacheProvider>();
+            builder.Services.AddSingleton<TCacheProvider>();
+            return builder;
         }
     }
 }

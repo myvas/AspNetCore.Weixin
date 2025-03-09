@@ -27,7 +27,7 @@
 	</Target>
 	
 	<PropertyGroup>
-		<NoWarn>$(NoWarn);NETSDK1188</NoWarn>
+		<NoWarn>$(NoWarn);CS1591;IDE0130;IDE0290;NETSDK1188</NoWarn>
 	</PropertyGroup>
 	
 	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">

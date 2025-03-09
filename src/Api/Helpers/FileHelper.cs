@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+public static class FileHelper
 {
-    public static class FileHelper
+    /// <summary>
+    /// 根据完整文件路径获取FileStream
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static FileStream GetFileStream(string fileName)
     {
-        /// <summary>
-        /// 根据完整文件路径获取FileStream
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public static FileStream GetFileStream(string fileName)
+        FileStream fileStream = null;
+        if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
         {
-            FileStream fileStream = null;
-            if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
-            {
-                fileStream = new FileStream(fileName, FileMode.Open);
-            }
-            return fileStream;
+            fileStream = new FileStream(fileName, FileMode.Open);
         }
-
+        return fileStream;
     }
+
 }

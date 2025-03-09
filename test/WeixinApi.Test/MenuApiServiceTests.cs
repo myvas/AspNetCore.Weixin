@@ -25,7 +25,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task PublishMenuShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -70,7 +70,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetMenuShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -92,7 +92,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task DeleteMenuShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";

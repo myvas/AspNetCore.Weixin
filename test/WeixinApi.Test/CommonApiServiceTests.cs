@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.TestHost;
+﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using Myvas.AspNetCore.Weixin;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -24,7 +18,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetCallbackIpsShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -44,7 +38,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task GetTencentServerIpsShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -64,7 +58,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
         public async Task CheckNetworkShouldSuccess()
         {
             var services = new ServiceCollection();
-            services.AddWeixinApi(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
