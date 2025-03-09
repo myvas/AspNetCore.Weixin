@@ -1,4 +1,6 @@
-﻿namespace Myvas.AspNetCore.Weixin;
+﻿using System.Text.Json.Serialization;
+
+namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
 /// 微信全局访问票据数据。调用微信API接口时必须。</summary>
@@ -23,12 +25,16 @@ public class WeixinAccessTokenJson : WeixinErrorJson
     /// 微信公众号全局唯一票据。存储空间需要512个字符或以上。
     /// </summary>
     /// <example>XkC7gqcx7pctuGe5zPIita23N7dJKIfkwz_2ULReV_Pn7T09lMyhTwlgGK5cghtqGQlPUlZ7ur_nMqhGuJNXwA</example>
-    public string access_token { get; set; }
+    [JsonPropertyName("access_token")]
+    public string AccessToken { get; set; }
 
     /// <summary>
     /// 凭证有效时间。单位：秒。
     /// <para>例如：7200</para>
     /// </summary>
     /// <example></example>
-    public int expires_in { get; set; } = 7200;
+    [JsonPropertyName("expires_in")]
+    public int ExpiresIn { get; set; }
+
+    public override bool Succeeded => base.Succeeded && !string.IsNullOrEmpty(AccessToken) && ExpiresIn > 0;
 }
