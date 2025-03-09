@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace Myvas.AspNetCore.Weixin.Api.Test;
-
 public class RealWeixinAccessTokenApiTests
 {
     [Fact]

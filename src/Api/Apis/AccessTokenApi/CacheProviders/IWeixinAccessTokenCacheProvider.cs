@@ -26,11 +26,4 @@ public interface IWeixinAccessTokenCacheProvider
     /// <param name="appId"></param>
     /// <param name="json"></param>
     void Replace(string appId, WeixinAccessTokenJson json);
-
-    /// <summary>
-    /// Replace the cached access token by a new one, and set its expiration time
-    /// </summary>
-    /// <param name="appId"></param>
-    /// <param name="json"></param>
-    void Replace(string appId, string accessToken, TimeSpan absoluteExpirationRelativeToNow);
 }

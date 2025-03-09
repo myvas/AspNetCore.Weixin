@@ -25,6 +25,8 @@ on:
         required: true
       WEIXIN__APPSECRET:
         required: true
+      WEIXIN__REDISCONNECTION:
+        required: true
                   
 jobs:
   build-and-test:
@@ -73,6 +75,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libssl-dev libssl1.1
 
+      - name: Install redis-server
+        run: |
+          sudo apt-get update
+          sudo apt-get install redis-server
+
       - name: Install dependencies
         run: dotnet restore
       - name: Build
@@ -84,7 +91,8 @@ jobs:
         run: dotnet test --no-build --framework ${{ inputs.dotnet-framework }} --configuration ${{ inputs.configuration }} --verbosity normal --logger trx --results-directory "TestResults-${{ inputs.configuration }}-${{ inputs.dotnet-framework }}"
         env:
           WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
-          WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }} 
+          WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
+          WEIXIN__REDISCONNECTION: ${{ secrets.WEIXIN__REDISCONNECTION }}
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
