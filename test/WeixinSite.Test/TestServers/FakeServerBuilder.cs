@@ -15,7 +15,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
             async context =>
             {
                 var req = context.Request;
-                if (req.Path.Value.EndsWith("/cgi-bin/token"))
+                if (req.Path.Value.StartsWith("/cgi-bin/token"))
                 {
                     var appId = req.Query["appid"];
                     if (appId != "APPID")
@@ -33,42 +33,42 @@ namespace Myvas.AspNetCore.Weixin.Site.Test
                         return true;
                     }
                 }
-                else if (req.Path.Value.EndsWith("/cgi-bin/getcallbackip"))
+                else if (req.Path.Value.StartsWith("/cgi-bin/getcallbackip"))
                 {
                     context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
                     var content = TestFile.ReadTestFile("Common/getcallbackip.json");
                     await context.Response.WriteAsync(content);
                     return true;
                 }
-                else if (req.Path.Value.EndsWith("/cgi-bin/get_api_domain_ip"))
+                else if (req.Path.Value.StartsWith("/cgi-bin/get_api_domain_ip"))
                 {
                     context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
                     var content = TestFile.ReadTestFile("Common/get_api_domain_ip.json");
                     await context.Response.WriteAsync(content);
                     return true;
                 }
-                else if (req.Path.Value.EndsWith("/cgi-bin/callback/check"))
+                else if (req.Path.Value.StartsWith("/cgi-bin/callback/check"))
                 {
                     context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
                     var content = TestFile.ReadTestFile("Common/callback_check.json");
                     await context.Response.WriteAsync(content);
                     return true;
                 }
-                else if (req.Path.Value.EndsWith("/cgi-bin/menu/create"))
+                else if (req.Path.Value.StartsWith("/cgi-bin/menu/create"))
                 {
                     context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
                     var content = TestFile.ReadTestFile("Menu/menu_create.json");
                     await context.Response.WriteAsync(content);
                     return true;
                 }
-                else if (req.Path.Value.EndsWith("/cgi-bin/get_current_selfmenu_info"))
+                else if (req.Path.Value.StartsWith("/cgi-bin/get_current_selfmenu_info"))
                 {
                     context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
                     var content = TestFile.ReadTestFile("Menu/get_current_selfmenu_info.api.json");
                     await context.Response.WriteAsync(content);
                     return true;
                 }
-                else if (req.Path.Value.EndsWith("/cgi-bin/menu/delete"))
+                else if (req.Path.Value.StartsWith("/cgi-bin/menu/delete"))
                 {
                     context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
                     var content = TestFile.ReadTestFile("Menu/menu_delete.json");
