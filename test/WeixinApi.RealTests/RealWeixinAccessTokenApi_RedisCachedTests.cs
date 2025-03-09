@@ -20,15 +20,18 @@ public class RealWeixinAccessTokenApi_RedisCachedTests : RealWeixinRedisCacheTes
         var db = connection.GetDatabase();
         Assert.NotNull(db);
 
-        var resultSet = db.StringSet("testKey", "testValue");
+        var testKey = Guid.NewGuid().ToString();
+        var testValue = Guid.NewGuid().ToString();
+
+        var resultSet = db.StringSet(testKey, testValue);
         Assert.True(resultSet);
 
-        var resultGet = db.StringGet("testKey");
+        var resultGet = db.StringGet(testKey);
         Assert.False(resultGet.IsInteger);
         Assert.True(resultGet.HasValue);
-        Assert.Equal("testValue", resultGet.ToString());
+        Assert.Equal(testValue, resultGet.ToString());
 
-        var resultDelete = db.KeyDelete("testKey");
+        var resultDelete = db.KeyDelete(testKey);
         Assert.True(resultDelete);
     }
 
