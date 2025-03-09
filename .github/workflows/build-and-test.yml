@@ -25,6 +25,8 @@ on:
         required: true
       WEIXIN__APPSECRET:
         required: true
+      WEIXIN__REDISCONNECTION:
+        required: true
                   
 jobs:
   build-and-test:
@@ -90,7 +92,7 @@ jobs:
         env:
           WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
           WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-          WEIXIN__REDISCONNECTION: "127.0.0.1:6379"
+          WEIXIN__REDISCONNECTION: ${{ secrets.WEIXIN__REDISCONNECTION }}
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:

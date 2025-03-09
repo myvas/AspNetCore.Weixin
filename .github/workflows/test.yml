@@ -40,6 +40,7 @@ jobs:
     secrets:
       WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
       WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
+      WEIXIN__REDISCONNECTION: ${{ secrets.WEIXIN__REDISCONNECTION }}
     with:
       dotnet-version: ${{ matrix.dotnet.version }}
       dotnet-framework: ${{ matrix.dotnet.framework }}
