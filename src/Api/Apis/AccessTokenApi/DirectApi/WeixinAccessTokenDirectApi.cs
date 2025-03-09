@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,11 +51,19 @@ public class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessTokenDir
         };
         var requestUri = url + query.ToString();
 
-        var result = await GetFromJsonAsync<WeixinAccessTokenJson>(requestUri, cancellationToken);
-        if (result.Succeeded)
-            return result;
-        else
-            throw new WeixinAccessTokenException(result);
+        try
+        {
+            var result = await GetFromJsonAsync<WeixinAccessTokenJson>(requestUri, cancellationToken);
+            return result.Succeeded ? result : throw new WeixinAccessTokenException(result);
+        }
+        catch (WeixinAccessTokenException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw WeixinAccessTokenErrors.GenericError(ex);
+        }
     }
 
     public WeixinAccessTokenJson GetToken() => Task.Run(async () => await GetTokenAsync()).Result;
