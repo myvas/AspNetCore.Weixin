@@ -24,8 +24,8 @@ namespace Weixin.Tests.FunctionTests.BasicTests
             var result = JsonSerializer.Deserialize<WeixinAccessTokenJson>(json, options);
 
             Assert.True(result.Succeeded);
-            Assert.Equal(7200, result.expires_in);
-            Assert.Equal("89_RnWF3ynfikijP6gaqt_XlOtYCvV6188JYiMQcFvAEu94Ksih8Z3qML-Vio7ZDthRtZDaVqtbF8-W0LTD9Etenkso_nwmhmlEicOXnA7rQpu1ezENvNU6JhFHSpAVUBfAHAYXE", result.access_token);
+            Assert.Equal(7200, result.ExpiresIn);
+            Assert.Equal("89_RnWF3ynfikijP6gaqt_XlOtYCvV6188JYiMQcFvAEu94Ksih8Z3qML-Vio7ZDthRtZDaVqtbF8-W0LTD9Etenkso_nwmhmlEicOXnA7rQpu1ezENvNU6JhFHSpAVUBfAHAYXE", result.AccessToken);
         }
     }
 }

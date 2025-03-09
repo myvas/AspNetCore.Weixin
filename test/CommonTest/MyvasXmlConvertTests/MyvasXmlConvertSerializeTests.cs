@@ -22,7 +22,7 @@ namespace Weixin.Tests.Functional
                     }
                 }
             };
-            var result = Myvas.AspNetCore.Weixin.MyvasXmlConvert.SerializeObject(data);
+            var result = MyvasXmlConvert.SerializeObject(data);
 
             Assert.NotNull(result);
             Assert.NotEmpty(result);

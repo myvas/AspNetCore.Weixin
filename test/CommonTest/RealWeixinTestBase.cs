@@ -6,11 +6,11 @@ using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace Weixin.Tests
 {
-    public class RealWeixinServiceAccountTestBase
+    public class RealWeixinTestBase
     {
         protected IConfiguration Configuration { get; }
 
-        public RealWeixinServiceAccountTestBase()
+        public RealWeixinTestBase()
         {
             Configuration = new ConfigurationBuilder()
                 .AddUserSecrets("Myvas.AspNetCore.Weixin.Tests")  // The UserSecretsId specified by this xunit test project.

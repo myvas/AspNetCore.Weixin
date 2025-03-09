@@ -1,8 +1,8 @@
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.TestHost;
+using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin.Api.Test
 {
@@ -23,14 +23,13 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
             var resp = transaction.Response;
             Assert.Equal(HttpStatusCode.OK, resp.StatusCode);
 
-            //var json2 = await server.CreateClient().GetFromJsonAsync<WeixinAccessTokenJson>(uri); // bug for inheritance class
+            //var json = await _server.CreateClient().GetFromJsonAsync<WeixinAccessTokenJson>(uri); // bug for inheritance class
             var s = await _server.CreateClient().GetStringAsync(uri);
-            var json = JsonConvert.DeserializeObject<WeixinAccessTokenJson>(s);
+            var json = JsonSerializer.Deserialize<WeixinAccessTokenJson>(s);
             Assert.True(json.Succeeded);
-            Assert.Equal("ACCESS_TOKEN", json.access_token);
-            Assert.Equal(7200, json.expires_in);
+            Assert.Equal("ACCESS_TOKEN", json.AccessToken);
+            Assert.Equal(7200, json.ExpiresIn);
         }
-
 
         [Fact]
         public async Task TestServerShouldReturnInvalidAppId()
@@ -39,7 +38,7 @@ namespace Myvas.AspNetCore.Weixin.Api.Test
 
             //var json2 = await server.CreateClient().GetFromJsonAsync<WeixinAccessTokenJson>(uri); // bug for inheritance class
             var s = await _server.CreateClient().GetStringAsync(uri);
-            var json = JsonConvert.DeserializeObject<WeixinAccessTokenJson>(s);
+            var json = JsonSerializer.Deserialize<WeixinAccessTokenJson>(s);
             Assert.False(json.Succeeded);
             Assert.Equal(40013, json.ErrorCode);
             Assert.Contains("invalid appid", json.ErrorMessage);

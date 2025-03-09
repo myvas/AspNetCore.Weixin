@@ -6,22 +6,19 @@ using Xunit;
 
 namespace Weixin.Tests.ServiceTests
 {
-    public class RealAddWeixinAccessTokenTests : RealWeixinServiceAccountTestBase
+    public class RealWeixinAccessTokenApiTests : RealWeixinTestBase
     {
         [Fact]
         public void GetToken_ShouldSuccess()
         {
             IServiceCollection services = new ServiceCollection();
-            services.Configure((Action<WeixinOptions>)(options =>
+            services.Configure<WeixinOptions>(options =>
             {
                 options.AppId = Configuration["Weixin:AppId"];
                 options.AppSecret = Configuration["Weixin:AppSecret"];
-            }));
+            });
             services.AddLogging();
-            services.AddMemoryCache();
-            services.AddWeixin()
-                .AddWeixinAccessTokenApi()
-                .AddAccessTokenMemoryCacheProvider();
+            services.AddWeixin();
             var sp = services.BuildServiceProvider();
 
             var testService = sp.GetRequiredService<IWeixinAccessTokenApi>();
@@ -29,8 +26,9 @@ namespace Weixin.Tests.ServiceTests
             var _logger = _loggerFactory.CreateLogger("test");
 
             var result = testService.GetToken();
-
             Assert.NotNull(result);
+            Assert.True(result.Succeeded);
+            Assert.True(result.ExpiresIn > 0);
         }
     }
 }
