@@ -28,7 +28,7 @@ public abstract class SecureWeixinApiClient : WeixinApiClient
     }
 
     protected async Task<string> GetTokenAsync(CancellationToken cancellationToken = default)
-        => (await Token.GetTokenAsync(cancellationToken)).access_token;
+        => (await Token.GetTokenAsync(cancellationToken)).AccessToken;
 
     protected async Task<string> FormatUrlWithTokenAsync(string requestUriFormat, CancellationToken cancellationToken = default)
         => requestUriFormat.Contains("access_token=ACCESS_TOKEN")
