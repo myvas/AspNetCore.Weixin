@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -15,11 +17,23 @@ public static class WeixinBuilderExtensions
 
     public static WeixinBuilder AddAccessTokenMemoryCacheProvider(this WeixinBuilder builder)
     {
-        builder.Services.Where(x => x.ImplementationType == typeof(IWeixinAccessTokenCacheProvider)).ToList()
-            .ForEach(x => builder.Services.Remove(x));
-
         builder.Services.AddMemoryCache();
+
+        builder.Services.Where(x => x.ServiceType == typeof(IWeixinAccessTokenCacheProvider)).ToList()
+            .ForEach(x => builder.Services.Remove(x));
         builder.Services.AddSingleton<IWeixinAccessTokenCacheProvider, WeixinAccessTokenMemoryCacheProvider>();
+
+        return builder;
+    }
+
+    public static WeixinBuilder AddAccessTokenRedisCacheProvider(this WeixinBuilder builder, Action<RedisCacheOptions> setupAction = null)
+    {
+        builder.Services.AddStackExchangeRedisCache(setupAction);
+        //builder.Services.Add(ServiceDescriptor.Singleton<IDistributedCache, Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache>());
+
+        builder.Services.Where(x => x.ServiceType == typeof(IWeixinAccessTokenCacheProvider)).ToList()
+            .ForEach(x => builder.Services.Remove(x));
+        builder.Services.AddSingleton<IWeixinAccessTokenCacheProvider, WeixinAccessTokenRedisCacheProvider>();
 
         return builder;
     }
@@ -70,7 +84,7 @@ public static class WeixinBuilderExtensions
 
         return builder;
     }
-    
+
     public static WeixinBuilder AddBusinessApis(this WeixinBuilder builder)
     {
         if (builder == null)

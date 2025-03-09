@@ -38,7 +38,6 @@ public static class WeixinServiceCollectionExtensions
 		return builder;
 	}
 
-
 	/// <summary>
 	/// Adds weixin access token services to the specified <see cref="IServiceCollection" />. 
 	/// </summary>

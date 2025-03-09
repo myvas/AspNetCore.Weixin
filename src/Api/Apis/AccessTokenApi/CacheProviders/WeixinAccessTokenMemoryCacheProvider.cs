@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -19,14 +20,15 @@ public class WeixinAccessTokenMemoryCacheProvider : IWeixinAccessTokenCacheProvi
     public WeixinAccessTokenJson Get(string appId)
     {
         var cacheKey = GenerateCacheKey(appId);
-        if (_cache.TryGetValue(cacheKey, out WeixinAccessTokenJson accessToken))
+        
+        if (_cache.TryGetValue(cacheKey, out string json))
         {
-            return accessToken;
+            var accessToken = JsonSerializer.Deserialize<WeixinAccessTokenJson>(json);
+            // If the expiration window is less than 2 seconds, then we need fetch new one.
+            return (accessToken.Succeeded && accessToken.ExpiresIn > 2) ? accessToken : null;
         }
-        else
-        {
-            return null;
-        }
+        
+        return null;
     }
 
     public void Remove(string appId)
@@ -35,17 +37,13 @@ public class WeixinAccessTokenMemoryCacheProvider : IWeixinAccessTokenCacheProvi
         _cache.Remove(cacheKey);
     }
 
-    public void Replace(string appId, string accessToken, TimeSpan absoluteExpirationRelativeToNow)
+    public void Replace(string appId, WeixinAccessTokenJson accessToken)
     {
+        var json = JsonSerializer.Serialize(accessToken);
+        // Cut off 2 seconds to avoid abnormal expiration
+        var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromSeconds(accessToken.ExpiresIn - 2));
         var cacheKey = GenerateCacheKey(appId);
-        _cache.Set(cacheKey, accessToken, absoluteExpirationRelativeToNow);
-    }
-
-    public void Replace(string appId, WeixinAccessTokenJson json)
-    {
-        var accessToken = json.AccessToken;
-        var absoluteExpirationRelativeToNow = TimeSpan.FromSeconds(json.ExpiresIn);
-        var cacheKey = GenerateCacheKey(appId);
-        _cache.Set(cacheKey, accessToken, absoluteExpirationRelativeToNow);
+        _cache.Set(cacheKey, json, cacheEntryOptions);
     }
 }
