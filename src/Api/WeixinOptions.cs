@@ -25,23 +25,12 @@ public class WeixinOptions
     /// </summary>
     public string WeixinApiServer { get; set; } = WeixinApiServers.Default;
 
-    internal WeixinApiEndpoint BuildWeixinApiEndpoint(string pathAndQuery)
-    {
-        return new WeixinApiEndpoint(WeixinApiServer, pathAndQuery);
-    }
-    
     internal string BuildWeixinApiUrl(string pathAndQuery)
-    {
-        return new WeixinApiEndpoint(WeixinApiServer, pathAndQuery).ToString();
-    }
-    
+        => new WeixinApiEndpoint(WeixinApiServer, pathAndQuery).ToString();
+
     internal string BuildWeixinFileApiUrl(string pathAndQuery)
-    {
-        return new WeixinApiEndpoint(WeixinApiServers.File, pathAndQuery).ToString();
-    }
-    
+        => new WeixinApiEndpoint(WeixinApiServers.File, pathAndQuery).ToString();
+
     internal string BuildWeixinPlatformUrl(string pathAndQuery)
-    {
-        return new WeixinApiEndpoint(WeixinApiServers.MP, pathAndQuery).ToString();
-    }
+        => new WeixinApiEndpoint(WeixinApiServers.MP, pathAndQuery).ToString();
 }
