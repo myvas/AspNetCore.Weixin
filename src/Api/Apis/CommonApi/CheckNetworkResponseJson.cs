@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
 public class CheckNetworkResponseJson : WeixinErrorJson
 {
-    [JsonProperty("dns")]
+    [JsonPropertyName("dns")]
     public IList<IpOperatorDnsMap> Dns { get; set; }
 
-    [JsonProperty("ping")]
+    [JsonPropertyName("ping")]
     public IList<IpOperatorPingMap> Ping { get; set; }
 }
 

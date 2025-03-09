@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Text.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -18,6 +17,6 @@ public class WeixinMenuItemPicFromAlbumOrCamera : WeixinMenuItem, IWeixinMenuIte
     /// <summary>
     /// 自定义事件码
     /// </summary>
-    [JsonProperty("key")]
+    [JsonPropertyName("key")]
     public string Key { get; set; }
 }

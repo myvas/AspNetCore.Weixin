@@ -1,14 +1,15 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
 public class WeixinCustomerServiceMessage
 {
-    [JsonProperty("touser")]
+    [JsonPropertyName("touser")]
     public string ToUser { get; set; }
 
-    [JsonProperty("msgtype")]
+    [JsonPropertyName("msgtype")]
     public string MsgType { get; set; }
 
 }
@@ -58,6 +59,7 @@ public class WeixinCustomerServiceMessageVideo : WeixinCustomerServiceMessage
     public string Description { get; set; }
 
 }
+
 /// <summary>
 /// 音乐资源
 /// </summary>
@@ -108,7 +110,7 @@ public partial class WeixinCustomerServiceMessageNews : WeixinCustomerServiceMes
                 articles = Articles
             }
         };
-        return JsonConvert.SerializeObject(data);
+        return JsonSerializer.Serialize(data);
     }
 
     public void AddArticle(WeixinCustomerServiceMessageNewsArticle article)

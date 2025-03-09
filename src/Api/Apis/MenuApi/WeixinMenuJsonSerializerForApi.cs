@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Linq;
+﻿using System.Linq;
+using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -18,7 +18,7 @@ public static class WeixinMenuJsonSerializerForApi
         {
             button = level1s
         };
-        var json = JsonConvert.SerializeObject(data, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        var json = JsonSerializer.Serialize(data);
         return json;
     }
 }

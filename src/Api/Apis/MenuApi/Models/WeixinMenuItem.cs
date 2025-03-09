@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -26,12 +25,12 @@ public class WeixinMenuItem
     public int Order { get; set; }
     #endregion
 
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
-    [JsonProperty("sub_button")]
+    [JsonPropertyName("sub_button")]
     public IList<WeixinMenuItem> SubItems { get; set; }
 
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public string Type { get; set; }
 }

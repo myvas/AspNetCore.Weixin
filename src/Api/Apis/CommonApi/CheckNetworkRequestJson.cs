@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -16,12 +16,12 @@ public class CheckNetworkRequestJson
     /// <summary>
     /// 执行的检测动作，<see cref="CheckNetworkActions"/>
     /// </summary>
-    [JsonProperty("action")]
+    [JsonPropertyName("action")]
     public string Action { get; set; }
 
     /// <summary>
     /// 通信运营商，<see cref="CheckNetworkOperators"/>
     /// </summary>
-    [JsonProperty("check_operator")]
+    [JsonPropertyName("check_operator")]
     public string CheckOperator { get; set; }
 }

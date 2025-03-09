@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Text.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -18,6 +17,6 @@ public class WeixinMenuItemView : WeixinMenuItem, IWeixinMenuItemHasUrl
     /// <summary>
     /// 网址 eg. https://myvas.com/go/to/a/absolute/url
     /// </summary>
-    [JsonProperty("url")]
+    [JsonPropertyName("url")]
     public string Url { get; set; }
 }

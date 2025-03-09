@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Text.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -19,6 +18,6 @@ public class WeixinMenuItemViewLimited : WeixinMenuItem
     /// <summary>
     /// 永久素材Id。只能是图文消息。须预先上传到微信公众号服务器上。
     /// </summary>
-    [JsonProperty("media_id")]
+    [JsonPropertyName("media_id")]
     public string MediaId { get; set; }
 }

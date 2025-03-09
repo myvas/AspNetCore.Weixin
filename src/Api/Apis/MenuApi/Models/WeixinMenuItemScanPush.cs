@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Text.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -20,6 +19,6 @@ public class WeixinMenuItemScanPush : WeixinMenuItem, IWeixinMenuItemHasKey
     /// <summary>
     /// 二维码解码后的内容
     /// </summary>
-    [JsonProperty("key")]
+    [JsonPropertyName("key")]
     public string Key { get; set; }
 }

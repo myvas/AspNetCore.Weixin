@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Text.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -18,6 +17,6 @@ public class WeixinMenuItemClick : WeixinMenuItem, IWeixinMenuItemHasKey
     /// <summary>
     /// 自定义事件 eg. V1001_LIKE
     /// </summary>
-    [JsonProperty("key")]
+    [JsonPropertyName("key")]
     public string Key { get; set; }
 }
