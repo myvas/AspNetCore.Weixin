@@ -35,7 +35,7 @@ public class WeixinAccessTokenApi : IWeixinAccessTokenApi
         else
         {
             var accessToken = _cache.Get(AppId);
-            if (string.IsNullOrEmpty(accessToken?.access_token))
+            if (string.IsNullOrEmpty(accessToken?.AccessToken))
             {
                 var json = await FetchTokenAsync(cancellationToken);
                 _cache.Replace(AppId, json);
