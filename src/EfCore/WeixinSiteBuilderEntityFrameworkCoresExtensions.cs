@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TWeixinDbContext : DbContext
         {
             AddStore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<string>), typeof(string));
-            return new WeixinSiteBuilder(builder.Services);
+            return builder;
         }
 
         public static WeixinSiteBuilder AddEntityFrameworkCores<TWeixinDbContext, TKey>(this WeixinSiteBuilder builder)
@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TKey : IEquatable<TKey>
         {
             AddStore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<TKey>), typeof(TKey));
-            return new WeixinSiteBuilder(builder.Services);
+            return builder;
         }
 
         public static WeixinSiteBuilder AddEntityFrameworkCores<TWeixinDbContext, TWeixinSubscriber, TKey>(this WeixinSiteBuilder builder)
@@ -34,7 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TKey : IEquatable<TKey>
         {
             AddStore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriber), typeof(TKey));
-            return new WeixinSiteBuilder(builder.Services);
+            return builder;
         }
 
 

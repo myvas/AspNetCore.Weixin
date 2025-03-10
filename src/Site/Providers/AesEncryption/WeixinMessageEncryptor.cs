@@ -23,6 +23,7 @@ namespace Myvas.AspNetCore.Weixin
 {
     public class WeixinMessageEncryptor : IWeixinMessageEncryptor
     {
+        private readonly WeixinOptions _wxoptions;
         private readonly WeixinSiteOptions _options;
         private readonly ILogger _logger;
         private WeixinSiteEncodingOptions _encodingOptions { get { return _options?.Encoding; } }
@@ -34,10 +35,12 @@ namespace Myvas.AspNetCore.Weixin
         /// <param name="encodingAesKey">公众平台后台由开发者指定的EncodingAESKey</param>
         /// <param name="appId">公众帐号的appid</param>
         public WeixinMessageEncryptor(
+            IOptions<WeixinOptions> wxOptionsAccessor,
             IOptions<WeixinSiteOptions> optionsAccessor,
             ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory?.CreateLogger<WeixinMessageEncryptor>() ?? throw new ArgumentNullException(nameof(loggerFactory));
+            _wxoptions = wxOptionsAccessor?.Value ?? throw new ArgumentNullException(nameof(wxOptionsAccessor));
             _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
         }
 
@@ -94,7 +97,7 @@ namespace Myvas.AspNetCore.Weixin
             {
                 throw WeixinMessageEncryptorError.AesDecryptFailed(ex);
             }
-            if (appId != _options.AppId)
+            if (appId != _wxoptions.AppId)
                 throw WeixinMessageEncryptorError.ValidateAppidFailed();
 
             return result;
@@ -125,7 +128,7 @@ namespace Myvas.AspNetCore.Weixin
             string raw = "";
             try
             {
-                raw = CryptographyHelper.AesEncrypt(data, _encodingOptions.EncodingAESKey, _options.AppId);
+                raw = CryptographyHelper.AesEncrypt(data, _encodingOptions.EncodingAESKey, _wxoptions.AppId);
             }
             catch (Exception ex)
             {
