@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Myvas.AspNetCore.Weixin.Api.Test;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class WeixinAccessTokenDirectApiTests
 {
