@@ -16,34 +16,6 @@ public static class WeixinServiceCollectionExtensions
 	/// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
 	/// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinOptions"/>.</param>
 	/// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-	public static WeixinBuilder AddWeixinCore(this IServiceCollection services, Action<WeixinOptions> setupAction = null)
-	{
-		if (services == null)
-		{
-			throw new ArgumentNullException(nameof(services));
-		}
-
-		if (setupAction != null)
-		{
-			services.Configure(setupAction);
-		}
-
-		var builder = new WeixinBuilder(services);
-
-		//Here assert IOptions<WeixinApiOptions> had already injected!
-		builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinOptions>, WeixinPostConfigureOptions<WeixinOptions>>());
-		builder.AddAccessTokenMemoryCacheProvider();
-		builder.AddWeixinAccessTokenApi();
-
-		return builder;
-	}
-
-	/// <summary>
-	/// Adds weixin access token services to the specified <see cref="IServiceCollection" />. 
-	/// </summary>
-	/// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
-	/// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinOptions"/>.</param>
-	/// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
 	public static WeixinBuilder AddWeixin(this IServiceCollection services, Action<WeixinOptions> setupAction = null)
 	{
 		if (services == null)
@@ -64,6 +36,34 @@ public static class WeixinServiceCollectionExtensions
 		builder.AddWeixinAccessTokenApi();
 
 		builder.AddBusinessApis();
+
+		return builder;
+	}
+	
+	/// <summary>
+	/// Adds weixin access token services to the specified <see cref="IServiceCollection" />. 
+	/// </summary>
+	/// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
+	/// <param name="setupAction">An action delegate to configure the provided <see cref="WeixinOptions"/>.</param>
+	/// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+	public static WeixinBuilder AddWeixinCore(this IServiceCollection services, Action<WeixinOptions> setupAction = null)
+	{
+		if (services == null)
+		{
+			throw new ArgumentNullException(nameof(services));
+		}
+
+		if (setupAction != null)
+		{
+			services.Configure(setupAction);
+		}
+
+		var builder = new WeixinBuilder(services);
+
+		//Here assert IOptions<WeixinApiOptions> had already injected!
+		builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinOptions>, WeixinPostConfigureOptions<WeixinOptions>>());
+		builder.AddAccessTokenMemoryCacheProvider();
+		builder.AddWeixinAccessTokenApi();
 
 		return builder;
 	}
