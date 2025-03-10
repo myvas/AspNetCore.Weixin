@@ -1,6 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
 using Xunit;
 
@@ -20,16 +18,15 @@ public class WeixinMessageEncryptorDecryptTests
 			options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
 			options.Encoding.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
 		});
+		services.AddLogging();
+		services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
 	}
 
 	[Fact]
 	public void ReceivedEventArgs_Compatible()
 	{
-		services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
 		var sp = services.BuildServiceProvider();
 		var _encryptor = sp.GetRequiredService<IWeixinMessageEncryptor>();
-		var _loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-		var _logger = _loggerFactory.CreateLogger("test");
 
 		var xml = @" <xml>
 <ToUserName><![CDATA[gh_08dc1481d8cc]]></ToUserName>
@@ -64,11 +61,8 @@ public class WeixinMessageEncryptorDecryptTests
 	[Fact]
 	public void ReceivedEventArgs_aes()
 	{
-		services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
 		var sp = services.BuildServiceProvider();
 		var _encryptor = sp.GetRequiredService<IWeixinMessageEncryptor>();
-		var _loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-		var _logger = _loggerFactory.CreateLogger("test");
 
 		var xml = @"<xml>
 <ToUserName><![CDATA[gh_08dc1481d8cc]]></ToUserName>
@@ -84,7 +78,7 @@ public class WeixinMessageEncryptorDecryptTests
 		if (encrypt_type == "aes")
 		{
 			var decryptedXml = _encryptor.Decrypt(msg_signature, timestamp, nonce, xml);
-			_logger.LogDebug("Request Body[Decrypted]({0}): {1}", decryptedXml?.Length, decryptedXml);
+			Debug.WriteLine("Request Body[Decrypted]({0}): {1}", decryptedXml?.Length, decryptedXml);
 
 			xml = decryptedXml;
 		}
