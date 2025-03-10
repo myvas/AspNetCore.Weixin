@@ -1,14 +1,13 @@
 using Microsoft.Extensions.Configuration;
-using Xunit;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
-namespace WeixinApi.RealTests;
+namespace Myvas.AspNetCore.Weixin.Api.RealTests;
 
-public class RealWeixinRedisCacheTestBase
+public class RealWeixinTestBase
 {
     protected IConfiguration Configuration { get; }
 
-    public RealWeixinRedisCacheTestBase()
+    public RealWeixinTestBase()
     {
         Configuration = new ConfigurationBuilder()
             .AddUserSecrets("Myvas.AspNetCore.Weixin.Tests")  // The UserSecretsId specified by this xunit test project.
@@ -23,7 +22,8 @@ public class RealWeixinRedisCacheTestBase
         // 在本地机器上测试，推荐使用环境变量，键名分别为：
         // WEIXIN__APPID
         // WEIXIN__APPSECRET
-        // Notes: There are double underscores to replace the colon in the configuration key.
+        // WEIXIN__REDISCONNECTION
+        // Notes: There are double underscores in the name of environment variables, which replace the colon in the configuration key.
 
         var appId = Configuration["Weixin:AppId"];
         var appSecret = Configuration["Weixin:AppSecret"];

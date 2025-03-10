@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Myvas.AspNetCore.Weixin;
-using System;
-using Xunit;
 
-namespace WeixinApi.RealTests;
+namespace Myvas.AspNetCore.Weixin.Api.RealTests;
 
 public class RealWeixinAccessTokenApi_MemoryCachedTests : RealWeixinTestBase
 {
