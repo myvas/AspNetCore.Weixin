@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
-/// WARNING: <see cref="IWeixinAccessTokenDirectApi"/> will directly call the Tencent Server to get a new access token each time!
-/// You should conside to use <see also="IWeixinAccessTokenApi"/>, and enable a cache provider for your access token.
+/// WARNING! <see cref="IWeixinAccessTokenDirectApi"/> will directly send a request to the Tencent Server to fetch a new access token each time!
 /// </summary>
+/// <remarks>
+// Notice: We have removed IWeixinAccessTokenDirectApi from Dependency Injection (DI) because it fetches a new access token each time it is called.
+// You should conside to use <see also="IWeixinAccessTokenApi"/>, and enable a cache provider for your access token.</remarks>
 public interface IWeixinAccessTokenDirectApi
 {
     /// <summary>
