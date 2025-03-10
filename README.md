@@ -14,9 +14,9 @@ WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages,
 
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
-| 服务 | `services.AddWeixin(WeixinOptions)` | 微信公众号AccessToken & APIs | WeixinOptions | IWeixinAccessTokenApi IWeixinJsapiTicketApi IWeixinCommonApi IWeixinMenuApi ICustomerSupportApi IGroupMessageApi IQrcodeApi IUserApi IUserGroupApi IUserProfileApi IWifiApi|
-| 服务 | `WeixinBuilder.AddSite(WeixinSiteOptions)` | 微信公众号消息处理 | WeixinSiteOptions | |
-| 中间件 | `app.UseWeixinSite()` | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
+| 服务 | `services.AddWeixin()` | 微信公众号AccessToken & APIs | WeixinOptions | IWeixinAccessTokenApi IWeixinJsapiTicketApi IWeixinCommonApi IWeixinMenuApi ICustomerSupportApi IGroupMessageApi IQrcodeApi IUserApi IUserGroupApi IUserProfileApi IWifiApi |
+| 二级服务 | `.AddWeixinSite()` | 微信公众号消息处理 | WeixinSiteOptions | IMessageHandler IWeixinMessageEncryptor |
+| 中间件 | `app.UseWeixinSite()` | 微信公众号消息处理 |  | |
 
 ## Demo
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
