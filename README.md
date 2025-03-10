@@ -3,7 +3,7 @@
 [![test](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml/badge.svg)](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml)
 [![publish](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/publish.yml/badge.svg)](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/publish.yml)
 [![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
-[![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.Jssdk.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin.Jssdk)
+[![NuGet](https://img.shields.io/nuget/vpre/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
 
 WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis. (微信公众平台/接口调用服务)
 
