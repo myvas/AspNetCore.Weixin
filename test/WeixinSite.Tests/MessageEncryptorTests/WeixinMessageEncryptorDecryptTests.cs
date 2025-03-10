@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using Xunit;
 
 namespace Myvas.AspNetCore.Weixin.Site.Tests.MessageEncryptorTests;
 
