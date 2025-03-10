@@ -42,7 +42,7 @@ public class WeixinAccessTokenDirectApiTests
         var services = new ServiceCollection();
         services.AddWeixin(o =>
         {
-            o.AppId = "APPID";
+            o.AppId = "INVALID_APPID";
             o.AppSecret = "APPSECRET";
             o.Backchannel = _server.CreateClient();
         });
