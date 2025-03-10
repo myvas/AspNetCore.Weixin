@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Myvas.AspNetCore.Weixin.Site.MessageEncodingProviders.Compatible;
 
-namespace Myvas.AspNetCore.Weixin.Site.MessageEncodingProviders.Compatible
+public class CompatibalProvider
 {
-    class CompatibalProvider
-    {
-    }
 }
