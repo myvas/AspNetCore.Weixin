@@ -1,49 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
-		<PackageTags>myvas;AspNetCore;Weixin;UseWeixinSite</PackageTags>
-		<IsShippingAssembly>true</IsShippingAssembly>
-		<IsPackable>true</IsPackable>
-		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
-		<PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
-		<AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
-		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
-		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
-		<PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
-		<PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Core\Myvas.AspNetCore.Weixin.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Update="Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-</ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
+    <PackageTags>myvas;AspNetCore;Weixin;UseWeixinSite</PackageTags>
+    <IsShippingAssembly>true</IsShippingAssembly>
+    <IsPackable>true</IsPackable>
+    <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+    <PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
+    <AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
+    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
+    <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Myvas.AspNetCore.Weixin.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

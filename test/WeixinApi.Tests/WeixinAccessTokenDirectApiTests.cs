@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 using System.Threading.Tasks;
-using Xunit;
 
-namespace Myvas.AspNetCore.Weixin.Api.Test;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class WeixinAccessTokenDirectApiTests
 {
@@ -15,36 +15,41 @@ public class WeixinAccessTokenDirectApiTests
     }
 
     [Fact]
-    public async Task GetTokenShouldSuccess()
+    public async Task GetToken_ShouldSuccess()
     {
         var services = new ServiceCollection();
-        services.Configure<WeixinOptions>(o =>
+        services.AddWeixin(o =>
         {
             o.AppId = "APPID";
             o.AppSecret = "APPSECRET";
             o.Backchannel = _server.CreateClient();
         });
-        var serviceProvider = services.BuildServiceProvider();
-        var optionsAccessor = serviceProvider.GetRequiredService<IOptions<WeixinOptions>>();
-        var api = new WeixinAccessTokenDirectApi(optionsAccessor); var json = await api.GetTokenAsync();
+        var sp = services.BuildServiceProvider();
+        //Notice: We have removed IWeixinAccessTokenDirectApi from Dependency Injection (DI) because it fetches a new access token each time it is called.
+        //var api = sp.GetRequiredService<IWeixinAccessTokenDirectApi>();
+        var optionsAccessor = sp.GetRequiredService<IOptions<WeixinOptions>>();
+        var api = new WeixinAccessTokenDirectApi(optionsAccessor);
 
-        Assert.True(json.Succeeded);
-        Assert.Equal("ACCESS_TOKEN", json.AccessToken);
-        Assert.Equal(7200, json.ExpiresIn);
+        var result = await api.GetTokenAsync();
+        Assert.True(result.Succeeded);
+        Assert.Equal(7200, result.ExpiresIn);
+        Assert.Equal("ACCESS_TOKEN", result.AccessToken);
     }
 
     [Fact]
-    public async Task GetTokenShouldReturnInvalidAppId()
+    public async Task GetToken_ShouldReturnInvalidAppId()
     {
         var services = new ServiceCollection();
-        services.Configure<WeixinOptions>(o =>
+        services.AddWeixin(o =>
         {
             o.AppId = "INVALID_APPID";
             o.AppSecret = "APPSECRET";
             o.Backchannel = _server.CreateClient();
         });
-        var serviceProvider = services.BuildServiceProvider();
-        var optionsAccessor = serviceProvider.GetRequiredService<IOptions<WeixinOptions>>();
+        var sp = services.BuildServiceProvider();
+        //Notice: We have removed IWeixinAccessTokenDirectApi from Dependency Injection (DI) because it fetches a new access token each time it is called.
+        //var api = sp.GetRequiredService<IWeixinAccessTokenDirectApi>();
+        var optionsAccessor = sp.GetRequiredService<IOptions<WeixinOptions>>();
         var api = new WeixinAccessTokenDirectApi(optionsAccessor);
 
         var ex = await Assert.ThrowsAsync<WeixinAccessTokenException>(() => api.GetTokenAsync());

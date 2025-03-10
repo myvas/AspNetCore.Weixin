@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk"
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -19,14 +20,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\EfCore\Myvas.AspNetCore.Weixin.EfCore.csproj">
-			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-			<IncludeAssets>all</IncludeAssets>
-		</ProjectReference>
-		<ProjectReference Include="..\Jssdk\Myvas.AspNetCore.Weixin.Jssdk.csproj">
-			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-			<IncludeAssets>all</IncludeAssets>
-		</ProjectReference>
+		<ProjectReference Include="../Site/Myvas.AspNetCore.Weixin.Site.csproj" />
+		<ProjectReference Include="../EfCore/Myvas.AspNetCore.Weixin.EfCore.csproj" />
+		<ProjectReference Include="../Jssdk/Myvas.AspNetCore.Weixin.Jssdk.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,10 +40,7 @@
 		<ReadLinesFromFile File="Myvas.AspNetCore.Weixin.nuspec.template">
 			<Output TaskParameter="Lines" ItemName="TemplateLines" />
 		</ReadLinesFromFile>
-		<WriteLinesToFile
-		  File="bin\$(Configuration)\Myvas.AspNetCore.Weixin.nuspec"
-		  Lines="@(TemplateLines->Replace('$MinVerVersion$', '$(MinVerVersion)')->Replace('$Configuration$', '$(Configuration)')->Replace('$TargetFramework$', '$(TargetFramework)'))"
-		  Overwrite="true" />
+		<WriteLinesToFile File="bin\$(Configuration)\Myvas.AspNetCore.Weixin.nuspec" Lines="@(TemplateLines-&gt;Replace('$MinVerVersion$', '$(MinVerVersion)')-&gt;Replace('$Configuration$', '$(Configuration)')-&gt;Replace('$TargetFramework$', '$(TargetFramework)'))" Overwrite="true" />
 		<Message Importance="high" Text="Generated Myvas.AspNetCore.Weixin.nuspec with version $(MinVerVersion)" />
 	</Target>
 

@@ -1,10 +1,9 @@
-﻿namespace Myvas.AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin;
+
+public class WeixinMessagingOptions
 {
-    public class WeixinMessagingOptions
-    {
-        /// <summary>
-        /// default is 3
-        /// </summary>
-        public int MaxRetryTimes { get; set; } = 3;
-    }
+    /// <summary>
+    /// default is 3
+    /// </summary>
+    public int MaxRetryTimes { get; set; } = 3;
 }

@@ -23,14 +23,5 @@ public class WeixinOptions
     /// <summary>
     /// Choose as working server from dedicated servers in <see cref="WeixinApiServers"/>. The default value is <see cref="WeixinApiServers.Default"/>.
     /// </summary>
-    public string WeixinApiServer { get; set; } = WeixinApiServers.Default;
-
-    internal string BuildWeixinApiUrl(string pathAndQuery)
-        => new WeixinApiEndpoint(WeixinApiServer, pathAndQuery).ToString();
-
-    internal string BuildWeixinFileApiUrl(string pathAndQuery)
-        => new WeixinApiEndpoint(WeixinApiServers.File, pathAndQuery).ToString();
-
-    internal string BuildWeixinPlatformUrl(string pathAndQuery)
-        => new WeixinApiEndpoint(WeixinApiServers.MP, pathAndQuery).ToString();
+    public string WeixinApiServer { get; set; }
 }

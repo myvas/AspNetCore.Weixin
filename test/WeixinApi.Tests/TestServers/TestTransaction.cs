@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Xml.Linq;
 
-namespace Myvas.AspNetCore.Weixin.Api.Test
+namespace Myvas.AspNetCore.Weixin.Api.Tests.TestServers
 {
     public class TestTransaction
     {
