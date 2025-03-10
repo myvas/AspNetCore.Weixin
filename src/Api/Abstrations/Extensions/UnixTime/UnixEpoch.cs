@@ -1,3 +1,5 @@
+namespace System;
+
 /// <summary>
 /// Unix epoch
 /// </summary>
