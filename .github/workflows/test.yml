@@ -53,7 +53,6 @@ jobs:
       - name: keepalive
         run: |
           #!/bin/bash
-          ping ${redis_host} -c 1
           redis-cli ping
           MAX_ATTEMPTS=120
           redis-cli set redis-server-alive-counter 0
@@ -93,6 +92,7 @@ jobs:
           echo "redis_host=$(cat redis_host.txt)" >> $GITHUB_ENV
       - name: Wait for redis-server ready
         run: |
+          ping $(hostname) -c 1
           ping ${redis_host} -c 1
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
