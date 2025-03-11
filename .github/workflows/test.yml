@@ -21,6 +21,8 @@ on:
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
+    outputs:
+      redis-server-running: ${{ steps.set-env.outputs.redis-server-running }}
     services:
       redis:
         image: redis
@@ -36,22 +38,32 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install redis-cli
-        run: sudo apt-get install redis-tools
+        id: set-env
+        run: |
+          sudo apt-get install redis-tools
+          echo "redis-server-running=1" >> $GITHUB_ENV
       - name: keepalive
         run: |
           #!/bin/bash
+          LOOP_COUNTER=0
           redis-cli ping
           redis-cli set shutdown 0
 
           while [ "$(redis-cli get shutdown)" -eq 0 ]; do
               echo "Sleeping for 1 second..."
               sleep 1
+              LOOP_COUNTER=$((LOOP_COUNTER+1))
+              if [ "$LOOP_COUNTER" -gt 300 ]; then
+                  echo "LOOP_COUNTER exceeded 300. Breaking the loop."
+                  break
+              fi
           done
 
           echo "Job build-and-test is done."          
 
   build-and-test:
     needs: setup-redis
+    if: ${{ needs.setup-redis.outputs.redis-server-running == '1' }}
     strategy:
       matrix:
         dotnet:
