@@ -21,8 +21,6 @@ on:
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
-    outputs:
-      redis_host: ${{ steps.set-env.outputs.redis_host }}
     services:
       redis:
         image: redis
@@ -86,6 +84,7 @@ jobs:
         with:
           name: redis_host
       - name: Use the artifact
+        id: set-env
         run: |
           cat redis_host.txt
           echo "redis_host=$(cat redis_host.txt)" >> $GITHUB_ENV
@@ -149,7 +148,9 @@ jobs:
       - name: Keep alive
         run: |
           hostname
-          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} ping
-          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} set redis-server-alive-counter 9999
+          redis-cli -h ${{ env.redis_host }} ping
+          redis-cli -h ${{ env.redis_host }} set redis-server-alive-counter 9999
+        env:
+          redis_host: ${{ needs.wait-for-redis-server.outputs.redis_host }}
 
       
