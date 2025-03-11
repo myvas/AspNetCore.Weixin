@@ -22,16 +22,17 @@ jobs:
   setup-redis:
     runs-on: ubuntu-latest
     outputs:
-      redis_host: ${{ steps.install.outputs.redis_host }}
-      redis_port: ${{ steps.install.outputs.redis_port }}
+      redis_host: ${{ steps.setup-redis.outputs.redis_host }}
+      redis_port: ${{ steps.setup-redis.outputs.redis_port }}
     steps:
-      - name: Install redis-server
-        id: install
-        run: |
-          sudo apt-get update
-          sudo apt-get install redis-server
-          echo "{redis_host}={localhost}" >> $GITHUB_ENV
-          echo "{redis_port}={6379}" >> $GITHUB_ENV
+      - name: Setup redis-server
+        uses: shogo82148/actions-setup-redis@v2
+        id: setup-redis
+        with:
+          redis-version: '7.x'
+          auto-start: true
+      - name: Output redis conneciton details
+        run: echo "This redis-server is running on ${{ steps.setup-redis.outputs.redis_host }}:${{ steps.setup-redis.outputs.redis_port }}"
 
   build-and-test:
     needs: setup-redis
