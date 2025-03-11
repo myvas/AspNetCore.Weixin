@@ -38,15 +38,14 @@ jobs:
       - name: Install redis-cli
         id: set-env
         run: |
-          hostname
-          redis-cli ping
-          redis-cli -h localhost ping
-          redis-cli -h $(hostname) ping
           sudo apt-get install redis-tools
       - name: keepalive
         run: |
           #!/bin/bash
+          hostname
           redis-cli ping
+          redis-cli -h localhost ping
+          redis-cli -h $(hostname) ping
           MAX_ATTEMPTS=60
           redis-cli set redis-server-alive-counter 0
           while [ "$(redis-cli get redis-server-alive-counter)" -lt $MAX_ATTEMPTS ]; do
