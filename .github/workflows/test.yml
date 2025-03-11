@@ -40,9 +40,10 @@ jobs:
           hostname
           echo "IPv4 Address: ${{ steps.ip.outputs.ipv4 }}"
           echo "IPv6 Address: ${{ steps.ip.outputs.ipv6 }}"
+          echo "Local network IPv4 Address: $(hostname -I | awk '{print $1}')"
           echo "redis_host=$(hostname)" >> $GITHUB_ENV
           echo "redis_host=${{ steps.ip.outputs.ipv6 }}" >> $GITHUB_ENV
-          echo "${{ steps.ip.outputs.ipv6 }}" > redis_host.txt
+          echo "$(hostname -I | awk '{print $1}')" > redis_host.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
