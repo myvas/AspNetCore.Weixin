@@ -61,5 +61,5 @@ jobs:
       dotnet-version: ${{ matrix.dotnet.version }}
       dotnet-framework: ${{ matrix.dotnet.framework }}
       configuration: ${{ matrix.configuration }}
-      redis_connection: ${{ needs.setup-redis.outputs.redis-host }}:${{ needs.setup-redis.outputs.redis-port }}
+      redis_connection: 127.0.0.1:${{ needs.setup-redis.outputs.redis-port }}
       
