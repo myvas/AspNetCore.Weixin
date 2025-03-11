@@ -27,7 +27,6 @@ jobs:
         ports:
           - 6379:6379
         options: >-
-          --name redis
           --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
@@ -36,7 +35,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install redis-cli
-        id: set-env
         run: |
           sudo apt-get install redis-tools
       - name: keepalive
@@ -46,7 +44,7 @@ jobs:
           redis-cli ping
           redis-cli -h localhost ping
           redis-cli -h $(hostname) ping
-          echo "redis_host=$(hostname)" >> $GITHUB_ENV
+          echo "WEIXIN__REDISCONNECTION=$(hostname)" >> $GITHUB_ENV
           MAX_ATTEMPTS=60
           redis-cli set redis-server-alive-counter 0
           while [ "$(redis-cli get redis-server-alive-counter)" -lt $MAX_ATTEMPTS ]; do
@@ -66,14 +64,14 @@ jobs:
         id: set-env
         run: |
           sudo apt-get install redis-tools
-          echo "redis_host=${{ env.redis_host }}" >> $GITHUB_OUTPUT
+          echo "redis_host=${{ env.WEIXIN__REDISCONNECTION }}" >> $GITHUB_OUTPUT
       - name: Wait for redis-server ready
         run: |
           hostname
-          redis-cli -h ${{ env.redis_host }} ping
+          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} ping
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
-            if redis-cli -h ${{ env.redis_host }} ping &> /dev/null; then
+            if redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} ping &> /dev/null; then
               echo "redis-server is running."
               break
             else
@@ -86,7 +84,7 @@ jobs:
               fi
             fi
           done
-          redis-cli -h ${{ env.redis_host }} set redis-server-alive-counter 0
+          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} set redis-server-alive-counter 0
 
   build-and-test:
     needs: [wait-for-redis-server]
@@ -129,7 +127,7 @@ jobs:
       - name: Keep alive
         run: |
           hostname
-          redis-cli -h ${{ env.redis_host }} ping
-          redis-cli -h ${{ env.redis_host }} set redis-server-alive-counter 9999
+          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} ping
+          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} set redis-server-alive-counter 9999
 
       
