@@ -72,6 +72,7 @@ jobs:
             if redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} ping &> /dev/null; then
               echo "redis-server is running."
               echo "redis_host=${{ env.WEIXIN__REDISCONNECTION }}" >> $GITHUB_OUTPUT
+              redis-cli -h $redis_host set redis-server-alive-counter 0
               break
             else
               echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server is not responding. Retrying in 1 second..."
@@ -83,7 +84,6 @@ jobs:
               fi
             fi
           done
-          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} set redis-server-alive-counter 0
 
   build-and-test:
     needs: [wait-for-redis-server]
