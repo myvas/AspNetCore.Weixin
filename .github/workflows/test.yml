@@ -21,8 +21,6 @@ on:
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
-    outputs:
-      redis-server-running: ${{ steps.set-env.outputs.redis-server-running }}
     services:
       redis:
         image: redis
@@ -41,47 +39,44 @@ jobs:
         id: set-env
         run: |
           sudo apt-get install redis-tools
-          echo "redis-server-running=1" >> $GITHUB_ENV
       - name: keepalive
         run: |
-          #!/bin/bash
-          LOOP_COUNTER=0
+          #!/bin/bash          
           redis-cli ping
-          redis-cli set shutdown 0
-
-          while [ "$(redis-cli get shutdown)" -eq 0 ]; do
+          MAX_ATTEMPTS=60
+          redis-cli set redis-server-alive-counter 0
+          while [ "$(redis-cli get redis-server-alive-counter)" -lt $MAX_ATTEMPTS ]; do
               echo "Sleeping for 1 second..."
               sleep 1
-              LOOP_COUNTER=$((LOOP_COUNTER+1))
-              if [ "$LOOP_COUNTER" -gt 300 ]; then
-                  echo "LOOP_COUNTER exceeded 300. Breaking the loop."
-                  break
-              fi
+              redis-cli incr redis-server-alive-counter
           done
-
-          echo "Job build-and-test is done."
 
   wait-for-redis-server:
     runs-on: ubuntu-latest
-    needs: [setup-redis]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install redis-cli
         run: sudo apt-get install redis-tools
-      - name: Wait for redis-server-running
+      - name: Wait for redis-server ready
         run: |
           WAIT_FOR_REDIS_SERVER_COUNTER=0
-          while [ "${{ needs.setup-redis.outputs.redis-server-running }}" -ne "1" ]; do
-            echo "Waiting for redis-server to be running..."
-            sleep 1
-            WAIT_FOR_REDIS_SERVER_COUNTER=$((WAIT_FOR_REDIS_SERVER_COUNTER+1))
-            if [ "$WAIT_FOR_REDIS_SERVER_COUNTER" -gt 300 ]; then
-              echo "WAIT_FOR_REDIS_SERVER_COUNTER exceeded 300. Breaking the loop."
+          while true; do
+            if redis-cli -h redis ping &> /dev/null; then
+              echo "redis-server is running."
               break
+            else
+              echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server is not responding. Retrying in 1 second..."
+              WAIT_FOR_REDIS_SERVER_COUNTER=$((WAIT_FOR_REDIS_SERVER_COUNTER+1))
+              sleep 1            
+              if [ "$WAIT_FOR_REDIS_SERVER_COUNTER" -gt 60 ]; then
+                echo "WAIT_FOR_REDIS_SERVER_COUNTER exceeded 60. Breaking the loop."
+                break
+              fi
             fi
           done
           redis-cli -h redis -p 6379 ping
+          redis-cli -h redis -p 6379 set redis-server-alive-counter 0
 
   build-and-test:
     needs: [wait-for-redis-server]
@@ -123,7 +118,7 @@ jobs:
         run: sudo apt-get install redis-tools
       - name: Keep alive
         run: |
-          redis-cli -h redis -p 6379
-          redis-cli set shutdown 1
+          redis-cli -h redis -p 6379 ping
+          redis-cli -h redis -p 6379 set redis-server-alive-counter 9999
 
       
