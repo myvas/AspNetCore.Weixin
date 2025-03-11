@@ -39,6 +39,9 @@ jobs:
         id: set-env
         run: |
           hostname
+          redis-cli ping
+          redis-cli -h localhost ping
+          redis-cli -h $(hostname) ping
           sudo apt-get install redis-tools
       - name: keepalive
         run: |
