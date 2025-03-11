@@ -21,6 +21,7 @@ on:
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
+    concurrency: redis
     services:
       redis:
         image: redis
@@ -76,6 +77,7 @@ jobs:
 
   wait-for-redis-server:
     runs-on: ubuntu-latest
+    concurrency: redis
     outputs:
       redis_host: ${{ steps.set-env.outputs.redis_host }}
     steps:
