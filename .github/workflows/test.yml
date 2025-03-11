@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Install redis-cli
+        run: sudo apt-get install redis-tools
       - name: keepalive
         run: |
           #!/bin/bash
