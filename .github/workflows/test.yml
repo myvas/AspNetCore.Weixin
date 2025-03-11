@@ -34,6 +34,17 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install redis-cli
+        run: npm install -g redis-cli
+      - name: Test redis-cli
+        run: redis-cli -h redis -p 6379 ping
 
   build-and-test:
     needs: setup-redis
