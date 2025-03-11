@@ -34,12 +34,20 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
+      - name: Output redis host
+        run: |        
+          hostname
+          echo "$(hostname)" > redis_host.txt
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: redis_host
+          path: redis_host.txt
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4        
       - name: Install redis-cli
         id: set-env
         run: |
-          hostname
           echo "WEIXIN__REDISCONNECTION=$(hostname)" >> $GITHUB_ENV
           echo "redis_host=$(hostname)"
           echo "redis_host=$(hostname)" >> $GITHUB_OUTPUT
@@ -73,6 +81,14 @@ jobs:
     outputs:
       redis_host: ${{ steps.set-env.outputs.redis_host }}
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: redis_host
+      - name: Use the artifact
+        run: |
+          cat redis_host.txt
+          echo "redis_host=$(cat redis_host.txt)" >> $GITHUB_ENV
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install redis-cli
