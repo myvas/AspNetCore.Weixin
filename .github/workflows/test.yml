@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: '14'
       - name: Install redis-cli
-        run: npm install -g redis-cli
+        run: sudo apt-get update && sudo apt-get install -y redis-tools
       - name: Test redis-cli
         run: redis-cli -h redis -p 6379 ping
 
