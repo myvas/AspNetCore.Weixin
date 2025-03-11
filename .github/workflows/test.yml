@@ -41,8 +41,8 @@ jobs:
           sudo apt-get install redis-tools
       - name: keepalive
         run: |
-          #!/bin/bash          
-          redis-cli ping
+          #!/bin/bash
+          redis-cli -h redis -p 6379 ping
           MAX_ATTEMPTS=60
           redis-cli set redis-server-alive-counter 0
           while [ "$(redis-cli get redis-server-alive-counter)" -lt $MAX_ATTEMPTS ]; do
@@ -62,7 +62,7 @@ jobs:
         run: |
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
-            if redis-cli -h redis ping &> /dev/null; then
+            if redis-cli -h redis -p 6379 ping &> /dev/null; then
               echo "redis-server is running."
               break
             else
@@ -75,7 +75,6 @@ jobs:
               fi
             fi
           done
-          redis-cli -h redis -p 6379 ping
           redis-cli -h redis -p 6379 set redis-server-alive-counter 0
 
   build-and-test:
