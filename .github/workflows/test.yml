@@ -47,7 +47,7 @@ jobs:
           redis-cli ping
           redis-cli -h localhost ping
           redis-cli -h $(hostname) ping
-          echo "{redis_host}=$(hostname)" >> "$GITHUB_ENV"
+          echo "redis_host=$(hostname)" >> $GITHUB_ENV
           MAX_ATTEMPTS=60
           redis-cli set redis-server-alive-counter 0
           while [ "$(redis-cli get redis-server-alive-counter)" -lt $MAX_ATTEMPTS ]; do
