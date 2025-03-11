@@ -39,10 +39,11 @@ jobs:
           hostname
           echo "$(hostname)" > redis_host.txt
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: redis_host
           path: redis_host.txt
+          overwrite: true
       - name: Check out repository code
         uses: actions/checkout@v4        
       - name: Install redis-cli
@@ -82,7 +83,7 @@ jobs:
       redis_host: ${{ steps.set-env.outputs.redis_host }}
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: redis_host
       - name: Use the artifact
