@@ -49,21 +49,12 @@ jobs:
       - name: Install redis-cli
         id: set-env
         run: |
-          echo "WEIXIN__REDISCONNECTION=$(hostname)" >> $GITHUB_ENV
-          echo "redis_host=$(hostname)"
-          echo "redis_host=$(hostname)" >> $GITHUB_OUTPUT
-          echo "redis_host=$(hostname)" >> $GITHUB_ENV
           sudo apt-get update
           sudo apt-get install -y redis-tools
       - name: keepalive
         run: |
-          #!/bin/bash      
+          #!/bin/bash
           redis-cli ping
-          redis-cli -h localhost ping
-          redis-cli -h $(hostname) ping
-          redis-cli -h "${{ env.redis_host }}" ping
-          redis-cli -h "${{ steps.set-env.outputs.redis_host }}" ping
-          redis-cli -h "${{ env.WEIXIN__REDISCONNECTION }}" ping
           MAX_ATTEMPTS=60
           redis-cli set redis-server-alive-counter 0
           while [ $(redis-cli get redis-server-alive-counter) -lt $MAX_ATTEMPTS ]; do
@@ -82,6 +73,12 @@ jobs:
     outputs:
       redis_host: ${{ steps.set-env.outputs.redis_host }}
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install redis-cli
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y redis-tools
       - name: Wait 10 seconds for upload artifact
         run: sleep 10
       - name: Download artifact
@@ -92,24 +89,6 @@ jobs:
         run: |
           cat redis_host.txt
           echo "redis_host=$(cat redis_host.txt)" >> $GITHUB_ENV
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Install redis-cli
-        id: set-env
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y redis-tools          
-          hostname
-          sleep 30
-          redis_host="${{ env.redis_host }}"
-          echo "redis_host=${redis_host}"
-          redis_host="${{ env.WEIXIN__REDISCONNECTION }}"
-          echo "redis_host=${redis_host}"
-          redis_host="${{ needs.setup-redis.outputs.redis_host }}"
-          echo "redis_host=${redis_host}"
-          redis_host="${{ job.setup-redis.outputs.redis_host }}"
-          echo "redis_host=${redis_host}"
-          echo "redis_host=${redis_host}" >> $GITHUB_OUTPUT
       - name: Wait for redis-server ready
         run: |
           WAIT_FOR_REDIS_SERVER_COUNTER=0
@@ -119,7 +98,7 @@ jobs:
               redis-cli -h ${redis_host} set redis-server-alive-counter 0
               break
             else
-              echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server ${redis_host}/${{ steps.set-env.outputs.redis_host }}/$redis_host/${{env.redis_host}} is not responding. Retrying in 1 second..."
+              echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server ${redis_host} is not responding. Retrying in 1 second..."
               WAIT_FOR_REDIS_SERVER_COUNTER=$((WAIT_FOR_REDIS_SERVER_COUNTER+1))
               sleep 1            
               if [ "$WAIT_FOR_REDIS_SERVER_COUNTER" -gt 60 ]; then
