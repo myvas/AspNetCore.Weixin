@@ -34,7 +34,6 @@ jobs:
           echo "{redis_port}={6379}" >> $GITHUB_ENV
 
   build-and-test:
-    needs: setup-redis
     strategy:
       matrix:
         dotnet:
@@ -52,6 +51,7 @@ jobs:
             framework: 'net9.0'
         configuration: [ Debug, Release ]
     uses: ./.github/workflows/build-and-test.yml
+    needs: setup-redis
     secrets:
       WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
       WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
