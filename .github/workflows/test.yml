@@ -22,8 +22,8 @@ jobs:
   setup-redis:
     runs-on: ubuntu-latest
     outputs:
-      redis_host: ${{ steps.setup-redis.outputs.redis_host }}
-      redis_port: ${{ steps.setup-redis.outputs.redis_port }}
+      redis-host: ${{ steps.setup-redis.outputs.redis-host }}
+      redis-port: ${{ steps.setup-redis.outputs.redis-port }}
     steps:
       - name: Setup redis-server
         uses: shogo82148/actions-setup-redis@v1
@@ -33,7 +33,7 @@ jobs:
           auto-start: true
       - run: redis-cli ping
       - name: Output redis conneciton details
-        run: echo "This redis-server is running on ${{ steps.setup-redis.outputs.redis_host }}:${{ steps.setup-redis.outputs.redis_port }}"
+        run: echo "This redis-server is running on ${{ steps.setup-redis.outputs.redis-host }}:${{ steps.setup-redis.outputs.redis-port }}"
 
   build-and-test:
     needs: setup-redis
@@ -61,5 +61,5 @@ jobs:
       dotnet-version: ${{ matrix.dotnet.version }}
       dotnet-framework: ${{ matrix.dotnet.framework }}
       configuration: ${{ matrix.configuration }}
-      redis_connection: ${{ needs.setup-redis.outputs.redis_host }}:${{ needs.setup-redis.outputs.redis_port }}
+      redis_connection: ${{ needs.setup-redis.outputs.redis-host }}:${{ needs.setup-redis.outputs.redis-port }}
       
