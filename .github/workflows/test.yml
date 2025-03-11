@@ -17,8 +17,7 @@ on:
     paths-ignore:
       - "*.md"
       - ".github/**"
-env:
-  redis_host: localhost      
+           
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
