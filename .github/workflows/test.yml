@@ -21,7 +21,6 @@ on:
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
-
     services:
       redis:
         image: redis
@@ -36,6 +35,18 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: keepalive
+        run: |
+          #!/bin/bash
+          redis-cli ping
+          redis-cli set shutdown 0
+
+          while [ "$(redis-cli get shutdown)" -eq 0 ]; do
+              echo "Sleeping for 1 second..."
+              sleep 1
+          done
+
+          echo "Job build-and-test is done."          
 
   build-and-test:
     needs: setup-redis
@@ -66,16 +77,18 @@ jobs:
       redis_host: redis
       redis_port: 6379
 
-  keepalive-job:
+  shutdown-redis:
     runs-on: ubuntu-latest
-    needs: [setup-redis, build-and-test]
+    needs: [build-and-test]
     if: ${{ always() }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Install redis-cli
+        run: sudo apt-get install redis-tools
       - name: Keep alive
         run: |
-          echo "This job keeps running until all jobs are completed."
-          sleep 30  # Example: Keep the job running for 5 minutes
+          redis-cli -h redisecho -p 6379
+          redis-cli set shutdown 1
 
       
