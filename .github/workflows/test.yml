@@ -17,7 +17,8 @@ on:
     paths-ignore:
       - "*.md"
       - ".github/**"
-      
+env:
+  redis_host: localhost      
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
@@ -43,6 +44,7 @@ jobs:
           echo "WEIXIN__REDISCONNECTION=$(hostname)" >> $GITHUB_ENV
           echo "redis_host=$(hostname)"
           echo "redis_host=$(hostname)" >> $GITHUB_OUTPUT
+          echo "redis_host=$(hostname)" >> $GITHUB_ENV
           sudo apt-get update
           sudo apt-get install -y redis-tools
       - name: keepalive
@@ -83,6 +85,7 @@ jobs:
           sleep 30
           redis_host=${{ env.WEIXIN__REDISCONNECTION }}
           redis_host=${{ needs.setup-redis.outputs.redis_host }}
+          redis_host=${{ env.redis_host }}
           echo "redis_host=${redis_host}" >> $GITHUB_OUTPUT
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
