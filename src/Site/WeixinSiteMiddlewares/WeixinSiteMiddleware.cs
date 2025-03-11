@@ -125,7 +125,7 @@ public class WeixinSiteMiddleware
         var timestamp = request.Query["timestamp"];
         var nonce = request.Query["nonce"];
 
-        if (!debuggable)
+        if (debuggable)
         {
             await HandleAsync(context);
             return;

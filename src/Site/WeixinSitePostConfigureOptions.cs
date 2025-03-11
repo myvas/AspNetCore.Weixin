@@ -34,14 +34,5 @@ public class WeixinSitePostConfigureOptions<TOptions> : IPostConfigureOptions<TO
 
         if (options.MaxRequestContentLength <= 0)
             options.MaxRequestContentLength = WeixinSiteOptionsDefaults.MaxRequestContentLength;
-
-        // Expose WeixinSiteEncodingOptions
-        Options.Create(new WeixinSiteEncodingOptions()
-        {
-            AppId = options.AppId,
-            WebsiteToken = options.WebsiteToken,
-            EncodingAESKey = options.EncodingAESKey,
-            StrictMode = options.StrictMode
-        });
     }
 }
