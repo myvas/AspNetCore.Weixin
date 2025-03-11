@@ -32,11 +32,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
+      - name: Get Runner IP Addresses
+        id: ip
+        uses: haythem/public-ip@v1.3
       - name: Output redis host
         run: |
           hostname
+          echo "IPv4 Address: ${{ steps.ip.outputs.ipv4 }}"
+          echo "IPv6 Address: ${{ steps.ip.outputs.ipv6 }}"
           echo "redis_host=$(hostname)" >> $GITHUB_ENV
-          echo "$(hostname)" > redis_host.txt
+          echo "redis_host=${{ steps.ip.outputs.ipv6 }}" >> $GITHUB_ENV
+          echo "${{ steps.ip.outputs.ipv6 }}" > redis_host.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
