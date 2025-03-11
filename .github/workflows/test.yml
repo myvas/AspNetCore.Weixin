@@ -26,11 +26,12 @@ jobs:
       redis_port: ${{ steps.setup-redis.outputs.redis_port }}
     steps:
       - name: Setup redis-server
-        uses: shogo82148/actions-setup-redis@v2
+        uses: shogo82148/actions-setup-redis@v1
         id: setup-redis
         with:
           redis-version: '7.x'
           auto-start: true
+      - run: redis-cli ping
       - name: Output redis conneciton details
         run: echo "This redis-server is running on ${{ steps.setup-redis.outputs.redis_host }}:${{ steps.setup-redis.outputs.redis_port }}"
 
