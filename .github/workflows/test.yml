@@ -21,6 +21,8 @@ on:
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
+    outputs:
+      redis_host: ${{ steps.set-env.outputs.redis_host }}
     services:
       redis:
         image: redis
@@ -35,9 +37,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install redis-cli
+        id: set-env
         run: |
           hostname
           echo "WEIXIN__REDISCONNECTION=$(hostname)" >> $GITHUB_ENV
+          echo "redis_host=$(hostname)" >> $GITHUB_OUTPUT
           sudo apt-get update
           sudo apt-get install -y redis-tools
       - name: keepalive
@@ -72,6 +76,7 @@ jobs:
           hostname
           sleep 30
           redis_host=${{ env.WEIXIN__REDISCONNECTION }}
+          redis_host=${{ needs.setup-redis.outputs.redis_host }}
           echo "redis_host=${redis_host}" >> $GITHUB_OUTPUT
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
