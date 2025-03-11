@@ -96,7 +96,7 @@ jobs:
           ping ${redis_host} -c 1
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
-            if redis-cli -h ${redis_host} ping &> /dev/null; then
+            if redis-cli -h ${redis_host} -p 6379 ping &> /dev/null; then
               echo "redis-server ${redis_host} is running."
               redis-cli -h ${redis_host} set redis-server-alive-counter 0
               exit 0
