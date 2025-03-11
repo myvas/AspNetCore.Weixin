@@ -32,7 +32,7 @@ jobs:
   setup-redis:
     runs-on: ubuntu-latest
     outputs:
-      redis-host: ${{ steps.install.outputs.redis_host }}
+      redis_host: ${{ steps.install.outputs.redis_host }}
       redis_port: ${{ steps.install.outputs.redis_port }}
     steps:
       - name: Install redis-server
@@ -102,7 +102,7 @@ jobs:
         env:
           WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
           WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-          WEIXIN__REDISCONNECTION: ${{ needs.setup-redis.outputs.redis-host }}:${{ needs.setup-redis.outputs.redis-port }}
+          WEIXIN__REDISCONNECTION: ${{ needs.setup-redis.outputs.redis_host }}:${{ needs.setup-redis.outputs.redis_port }}
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
