@@ -76,6 +76,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install redis-cli
+        id: set-env
         run: |
           sudo apt-get update
           sudo apt-get install -y redis-tools          
@@ -86,7 +87,6 @@ jobs:
           redis_host="${{ needs.setup-redis.outputs.redis_host }}"
           echo "redis_host=${redis_host}" >> $GITHUB_OUTPUT
       - name: Wait for redis-server ready
-        id: set-env
         run: |
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
