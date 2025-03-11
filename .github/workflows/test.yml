@@ -22,7 +22,7 @@ jobs:
   setup-redis:
     runs-on: ubuntu-latest
     outputs:
-      redis-host: ${{ steps.setup-redis.outputs.redis-host }}
+      redis-host: localhost
       redis-port: ${{ steps.setup-redis.outputs.redis-port }}
     steps:
       - name: Setup redis-server
@@ -61,5 +61,6 @@ jobs:
       dotnet-version: ${{ matrix.dotnet.version }}
       dotnet-framework: ${{ matrix.dotnet.framework }}
       configuration: ${{ matrix.configuration }}
-      redis_connection: 127.0.0.1:${{ needs.setup-redis.outputs.redis-port }}
+      redis_host: ${{ needs.setup-redis.outputs.redis-host }}
+      redis_port: ${{ needs.setup-redis.outputs.redis-port }}
       

@@ -20,8 +20,12 @@ on:
         description: "The configuration value for running dotnet CLI, such as 'Release', and 'Debug'."
         required: true
         type: string
-      redis_connection:
-        description: "The redis connection string, such as 'localhost:6379'."
+      redis_host:
+        description: "The redis-server host, such as 'localhost'."
+        required: true
+        type: string
+      redis_port:
+        description: "The redis-server listening port, such as '6379'."
         required: true
         type: string
     secrets:
@@ -77,6 +81,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libssl-dev libssl1.1
 
+      - name: Connect to redis-server
+        run: |
+          redis-cli -h ${{ inputs.redis_host }} -p ${{ inputs.redis_port }} ping
+          echo "Connected to redis-server at ${{ inputs.redis_host }}:${{ inputs.redis_port }}."
+
       - name: Install dependencies
         run: dotnet restore
       - name: Build
@@ -89,7 +98,7 @@ jobs:
         env:
           WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
           WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-          WEIXIN__REDISCONNECTION: ${{ inputs.redis_connection }}
+          WEIXIN__REDISCONNECTION: ${{ inputs.redis_host }}:${{ inputs.redis_port }}
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
