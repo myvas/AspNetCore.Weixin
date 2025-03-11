@@ -54,6 +54,7 @@ jobs:
           redis-cli -h localhost ping
           redis-cli -h $(hostname) ping
           redis-cli -h "${{ env.redis_host }}" ping
+          redis-cli -h "${{ steps.set-env.outputs.redis_host }}" ping
           redis-cli -h "${{ env.WEIXIN__REDISCONNECTION }}" ping
           MAX_ATTEMPTS=60
           redis-cli set redis-server-alive-counter 0
