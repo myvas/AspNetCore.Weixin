@@ -36,8 +36,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Test redis-cli
-        run: redis-cli -h redis -p 6379 ping
 
   build-and-test:
     needs: setup-redis
