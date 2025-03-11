@@ -86,6 +86,7 @@ jobs:
           redis_host="${{ env.redis_host }}"
           redis_host="${{ env.WEIXIN__REDISCONNECTION }}"
           redis_host="${{ needs.setup-redis.outputs.redis_host }}"
+          redis_host="${{ job.setup-redis.outputs.redis_host }}"
           echo "redis_host=${redis_host}" >> $GITHUB_OUTPUT
       - name: Wait for redis-server ready
         run: |
@@ -96,7 +97,7 @@ jobs:
               redis-cli -h ${redis_host} set redis-server-alive-counter 0
               break
             else
-              echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server is not responding. Retrying in 1 second..."
+              echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server ${redis_host}/$redis_host/${{env.redis_host}} is not responding. Retrying in 1 second..."
               WAIT_FOR_REDIS_SERVER_COUNTER=$((WAIT_FOR_REDIS_SERVER_COUNTER+1))
               sleep 1            
               if [ "$WAIT_FOR_REDIS_SERVER_COUNTER" -gt 60 ]; then
