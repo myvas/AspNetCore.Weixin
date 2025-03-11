@@ -61,18 +61,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install redis-cli
-        id: set-env
         run: |
           sudo apt-get install redis-tools
-          echo "redis_host=${{ env.WEIXIN__REDISCONNECTION }}" >> $GITHUB_OUTPUT
       - name: Wait for redis-server ready
+        id: set-env
         run: |
           hostname
-          redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} ping
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
             if redis-cli -h ${{ env.WEIXIN__REDISCONNECTION }} ping &> /dev/null; then
               echo "redis-server is running."
+              echo "redis_host=${{ env.WEIXIN__REDISCONNECTION }}" >> $GITHUB_OUTPUT
               break
             else
               echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server is not responding. Retrying in 1 second..."
