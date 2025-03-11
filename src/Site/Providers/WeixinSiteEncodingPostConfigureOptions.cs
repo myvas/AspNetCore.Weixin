@@ -25,9 +25,12 @@ public class WeixinSiteEncodingPostConfigureOptions<TOptions> : IPostConfigureOp
     /// <exception cref="ArgumentNullException"></exception>
     public void PostConfigure(string name, TOptions options)
     {
+        if ((options.EncodingAESKey?.Length ?? 0) != 43)
+        {
+            throw WeixinMessageEncryptorError.IllegalAesKey();
+        }
+
         options.AppId = _siteOptions.AppId;
         options.WebsiteToken = _siteOptions.WebsiteToken;
-        options.EncodingAESKey = _siteOptions.EncodingAESKey;
-        options.StrictMode = _siteOptions.StrictMode;
     }
 }

@@ -24,16 +24,6 @@ public class WeixinSiteOptions
     public PathString Path { get; set; } = WeixinSiteOptionsDefaults.Path;
 
     /// <summary>
-    /// 采用严格模式，即：所有消息必须加密，不允许明文消息. Default is <see cref="WeixinSiteOptionsDefaults.StrictMode"/>, which is false.
-    /// </summary>
-    public bool StrictMode { get; set; } = false;
-
-    /// <summary>
-    /// 消息加解密密钥
-    /// </summary>
-    public string EncodingAESKey { get; set; }
-
-    /// <summary>
     /// Determines whether enable debug mode to skip the signature verification and User-Agent checking. Default is <see cref="WeixinSiteOptionsDefaults.Debug"/>, which is false.
     /// </summary>
     public bool Debug { get; set; } = WeixinSiteOptionsDefaults.Debug;
