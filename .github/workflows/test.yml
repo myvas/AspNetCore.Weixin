@@ -41,6 +41,7 @@ jobs:
         run: |
           hostname
           echo "WEIXIN__REDISCONNECTION=$(hostname)" >> $GITHUB_ENV
+          echo "redis_host=$(hostname)"
           echo "redis_host=$(hostname)" >> $GITHUB_OUTPUT
           sudo apt-get update
           sudo apt-get install -y redis-tools
