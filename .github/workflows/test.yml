@@ -55,9 +55,9 @@ jobs:
     secrets:
       WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
       WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-      WEIXIN__REDISCONNECTION: ${{ needs.setup-redis.outputs.redis_host }}:${{ needs.setup-redis.outputs.redis_port }}
     with:
       dotnet-version: ${{ matrix.dotnet.version }}
       dotnet-framework: ${{ matrix.dotnet.framework }}
       configuration: ${{ matrix.configuration }}
+      redis_connection: ${{ needs.setup-redis.outputs.redis_host }}:${{ needs.setup-redis.outputs.redis_port }}
       
