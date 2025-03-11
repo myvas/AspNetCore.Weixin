@@ -29,7 +29,6 @@ public class WeixinSiteMiddleware
         _logger = loggerFactory?.CreateLogger<WeixinSiteMiddleware>() ?? throw new ArgumentNullException(nameof(loggerFactory));
         _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
 
-        //入参检查
         if (string.IsNullOrEmpty(_options.WebsiteToken))
         {
             throw new ArgumentException($"Options '{nameof(_options.WebsiteToken)}' cannot be null or empty");
@@ -39,6 +38,8 @@ public class WeixinSiteMiddleware
         {
             throw new ArgumentException($"Options '{nameof(_options.Path)}' cannot be null or empty");
         }
+
+        // _options.Debug
 
         _handler = handler ?? throw new ArgumentNullException(nameof(handler));
     }
@@ -164,9 +165,11 @@ public class WeixinSiteMiddleware
     /// <returns></returns>
     private async Task HandleAsync(HttpContext context)
     {
+        var maxRequestContentLength = _options.MaxRequestContentLength;
+
         // To limit the content length to avoid abnormal requests.
         var contentLength = context.Request.ContentLength ?? 0;
-        if(contentLength > _options.MaxRequestContentLength)
+        if(contentLength > maxRequestContentLength)
         {
             var response = new PlainTextResponseBuilder(context);
             response.Context.Response.StatusCode = (int)HttpStatusCode.BadRequest;

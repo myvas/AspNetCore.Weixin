@@ -17,10 +17,8 @@ namespace Myvas.AspNetCore.Weixin;
 //-40010 :  base64解密异常
 public class WeixinMessageEncryptor : IWeixinMessageEncryptor
 {
-    private readonly WeixinOptions _wxoptions;
-    private readonly WeixinSiteOptions _options;
     private readonly ILogger _logger;
-    private WeixinSiteEncodingOptions _encodingOptions { get { return _options?.Encoding; } }
+    private readonly WeixinSiteEncodingOptions _options;
 
     /// <summary>
     /// 构造函数
@@ -29,12 +27,10 @@ public class WeixinMessageEncryptor : IWeixinMessageEncryptor
     /// <param name="encodingAesKey">公众平台后台由开发者指定的EncodingAESKey</param>
     /// <param name="appId">公众帐号的appid</param>
     public WeixinMessageEncryptor(
-        IOptions<WeixinOptions> wxOptionsAccessor,
-        IOptions<WeixinSiteOptions> optionsAccessor,
+        IOptions<WeixinSiteEncodingOptions> optionsAccessor,
         ILoggerFactory loggerFactory)
     {
         _logger = loggerFactory?.CreateLogger<WeixinMessageEncryptor>() ?? throw new ArgumentNullException(nameof(loggerFactory));
-        _wxoptions = wxOptionsAccessor?.Value ?? throw new ArgumentNullException(nameof(wxOptionsAccessor));
         _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
     }
 
@@ -49,9 +45,13 @@ public class WeixinMessageEncryptor : IWeixinMessageEncryptor
     /// <exception cref="WeixinMessageCryptographicException">异常</exception>
     public string Decrypt(string msg_signature, string timestamp, string nonce, string data)
     {
+        var appId = _options.AppId;
+        var encodingAESKey = _options.EncodingAESKey;
+        var websiteToken = _options.WebsiteToken;
+
         string result = "";
 
-        if (_encodingOptions.EncodingAESKey.Length != 43)
+        if (encodingAESKey.Length != 43)
         {
             throw WeixinMessageEncryptorError.IllegalAesKey();
         }
@@ -73,15 +73,15 @@ public class WeixinMessageEncryptor : IWeixinMessageEncryptor
             throw WeixinMessageEncryptorError.ParseXmlFailed(ex);
         }
 
-        if (!SignatureHelper.ValidateSignature(msg_signature, _options.WebsiteToken, timestamp, nonce, encryptBody))
+        if (!SignatureHelper.ValidateSignature(msg_signature, websiteToken, timestamp, nonce, encryptBody))
         {
             throw WeixinMessageEncryptorError.CalculateSignatureFailed();
         }
 
-        string appId = "";
+        var resultAppId = "";
         try
         {
-            result = CryptographyHelper.AesDecrypt(encryptBody, _encodingOptions.EncodingAESKey, ref appId);
+            result = CryptographyHelper.AesDecrypt(encryptBody, encodingAESKey, ref resultAppId);
         }
         catch (FormatException ex)
         {
@@ -91,7 +91,7 @@ public class WeixinMessageEncryptor : IWeixinMessageEncryptor
         {
             throw WeixinMessageEncryptorError.AesDecryptFailed(ex);
         }
-        if (appId != _wxoptions.AppId)
+        if (resultAppId != appId)
             throw WeixinMessageEncryptorError.ValidateAppidFailed();
 
         return result;
@@ -107,14 +107,18 @@ public class WeixinMessageEncryptor : IWeixinMessageEncryptor
     /// <exception cref="WeixinMessageCryptographicException">异常</exception>
     public string Encrypt(string data, string timestamp, string nonce)
     {
+        var appId = _options.AppId;
+        var encodingAESKey = _options.EncodingAESKey;
+        var websiteToken = _options.WebsiteToken;
+
         string result = "";
 
-        if (string.IsNullOrWhiteSpace(_encodingOptions.EncodingAESKey))
+        if (string.IsNullOrWhiteSpace(encodingAESKey))
         {
             return data; //不加密，直接返回原文，以便支持微信开发者测试号
         }
 
-        if (_encodingOptions.EncodingAESKey?.Length != 43)
+        if (encodingAESKey?.Length != 43)
         {
             throw WeixinMessageEncryptorError.IllegalAesKey();
         }
@@ -122,14 +126,14 @@ public class WeixinMessageEncryptor : IWeixinMessageEncryptor
         string raw = "";
         try
         {
-            raw = CryptographyHelper.AesEncrypt(data, _encodingOptions.EncodingAESKey, _wxoptions.AppId);
+            raw = CryptographyHelper.AesEncrypt(data, encodingAESKey, appId);
         }
         catch (Exception ex)
         {
             throw WeixinMessageEncryptorError.AesEncryptFailed(ex);
         }
 
-        string msg_signature = SignatureHelper.CalculateSignature(_options.WebsiteToken, timestamp, nonce, raw);
+        string msg_signature = SignatureHelper.CalculateSignature(websiteToken, timestamp, nonce, raw);
 
         result = $"<xml><Encrypt><![CDATA[{raw}]]></Encrypt><MsgSignature><![CDATA[{msg_signature}]]></MsgSignature><TimeStamp><![CDATA[{timestamp}]]></TimeStamp><Nonce><![CDATA[{nonce}]]></Nonce></xml>";
         return result;
