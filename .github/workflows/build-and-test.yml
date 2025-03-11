@@ -33,7 +33,6 @@ on:
 jobs:  
   build-and-test:
     runs-on: ubuntu-22.04
-    needs: setup-redis
     env:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
