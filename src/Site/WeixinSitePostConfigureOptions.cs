@@ -9,5 +9,8 @@ public class WeixinSitePostConfigureOptions<TOptions> : IPostConfigureOptions<TO
     {
         if (options.Path == null || !options.Path.HasValue)
             options.Path = WeixinSiteOptionsDefaults.Path;
+            
+        if (options.MaxRequestContentLength <= 0)
+            options.MaxRequestContentLength = WeixinSiteOptionsDefaults.MaxRequestContentLength;
     }
 }

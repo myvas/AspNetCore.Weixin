@@ -15,18 +15,24 @@ public static class WeixinSiteOptionsDefaults
     public static PathString Path = "/wx";
 
     /// <summary>
-    /// default is 10 MB
+    /// default is ClearText
     /// </summary>
-    public const int DefaultMaxResponseContentBufferSize = 1024 * 1024 * 10; //10 MB
+    public const string DefaultEncryptionMode = EncryptionModes.ClearText;
+
+    /// <summary>
+    /// The default max length of Weixin request content, default is 32MB.
+    /// </summary>
+    public const int MaxRequestContentLength = 1024 * 1024 * 32;
+
+    /// <summary>
+    /// The default max length of Weixin response buffer size, default is 32MB.
+    /// </summary>
+    public const int DefaultMaxResponseContentBufferSize = 1024 * 1024 * 32;
 
     /// <summary>
     /// default is 60 seconds
     /// </summary>
     public static TimeSpan DefaultTimeout = TimeSpan.FromSeconds(60); //60 seconds
 
-    /// <summary>
-    /// default is ClearText
-    /// </summary>
-    public const string DefaultEncryptionMode = EncryptionModes.ClearText;
 
 }
