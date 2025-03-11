@@ -59,11 +59,31 @@ jobs:
               fi
           done
 
-          echo "Job build-and-test is done."          
+          echo "Job build-and-test is done."
+
+  wait-for-redis-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install redis-cli
+        run: sudo apt-get install redis-tools
+      - name: Wait for redis-server-running
+        run: |
+          WAIT_FOR_REDIS_SERVER_COUNTER=0
+          while [ "${{ needs.setup-redis.outputs.redis-server-running }}" -ne "1" ]; do
+            echo "Waiting for redis-server to be running..."
+            sleep 1
+            WAIT_FOR_REDIS_SERVER_COUNTER=$((WAIT_FOR_REDIS_SERVER_COUNTER+1))
+            if [ "$WAIT_FOR_REDIS_SERVER_COUNTER" -gt 300 ]; then
+              echo "WAIT_FOR_REDIS_SERVER_COUNTER exceeded 300. Breaking the loop."
+              break
+            fi
+          done
+          redis-cli -h redis -p 6379 ping
 
   build-and-test:
-    needs: setup-redis
-    if: ${{ needs.setup-redis.outputs.redis-server-running == '1' }}
+    needs: [wait-for-redis-server]
     strategy:
       matrix:
         dotnet:
@@ -102,7 +122,7 @@ jobs:
         run: sudo apt-get install redis-tools
       - name: Keep alive
         run: |
-          redis-cli -h redisecho -p 6379
+          redis-cli -h redis -p 6379
           redis-cli set shutdown 1
 
       
