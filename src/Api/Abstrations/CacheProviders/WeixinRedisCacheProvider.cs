@@ -10,8 +10,9 @@ public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
 {
     //private static readonly string CachePrefix = Guid.NewGuid().ToString("N");
     //private static readonly string CachePrefix = "WX_A_TOKEN";
-    private static readonly string CachePrefix = "WX_" + typeof(T).Name.GetHashCode().ToString("X");
-
+    // typeof(T).Name.GetHashCode() has different value on different dotnet runtimes, so avoid to use it!
+    //private static readonly string CachePrefix = "WX_" + typeof(T).Name.GetHashCode().ToString("X");
+    private static readonly string CachePrefix = "WX_" + typeof(T).Name;
     private string GenerateCacheKey(string appId) { return $"{CachePrefix}_{appId}"; }
 
     private readonly IDistributedCache _cache;
