@@ -36,7 +36,7 @@ jobs:
           - version: '9.0.x'
             framework: 'net9.0'
         configuration: [ Debug, Release ]
-      max-parallel: 1 # This ensures jobs run one-by-one
+      #max-parallel: 1 # This ensures jobs run one-by-one
     uses: ./.github/workflows/build-and-test.yml
     secrets:
       WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
