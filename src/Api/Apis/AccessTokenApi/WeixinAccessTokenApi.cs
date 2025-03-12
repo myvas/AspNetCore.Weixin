@@ -7,11 +7,11 @@ namespace Myvas.AspNetCore.Weixin;
 public class WeixinAccessTokenApi : IWeixinAccessTokenApi
 {
     private readonly WeixinAccessTokenDirectApi _api;
-    private readonly IWeixinAccessTokenCacheProvider _cache;
+    private readonly IWeixinCacheProvider<WeixinAccessTokenJson> _cache;
 
     public string AppId { get => _api.Options.AppId; }
 
-    public WeixinAccessTokenApi(WeixinAccessTokenDirectApi api, IWeixinAccessTokenCacheProvider cacheProvider)
+    public WeixinAccessTokenApi(WeixinAccessTokenDirectApi api, IWeixinCacheProvider<WeixinAccessTokenJson> cacheProvider)
     {
         _api = api ?? throw new ArgumentNullException(nameof(api));
         _cache = cacheProvider ?? throw new ArgumentException(nameof(cacheProvider));
@@ -35,7 +35,7 @@ public class WeixinAccessTokenApi : IWeixinAccessTokenApi
         else
         {
             var accessToken = _cache.Get(AppId);
-            if (string.IsNullOrEmpty(accessToken?.AccessToken))
+            if (accessToken == null || !accessToken!.Succeeded)
             {
                 var json = await FetchTokenAsync(cancellationToken);
                 _cache.Replace(AppId, json);
