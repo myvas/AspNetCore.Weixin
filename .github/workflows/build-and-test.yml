@@ -81,13 +81,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libssl-dev libssl1.1
 
-      - name: Connect to redis-server
-        run: |
-          sudo apt update && sudo apt install redis-tools
-          redis-cli --version
-          redis-cli -h ${{ inputs.redis_host }} -p ${{ inputs.redis_port }} ping
-          echo "Connected to redis-server at ${{ inputs.redis_host }}:${{ inputs.redis_port }}."
-
       - name: Install dependencies
         run: dotnet restore
       - name: Build
@@ -100,7 +93,7 @@ jobs:
         env:
           WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
           WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-          WEIXIN__REDISCONNECTION: ${{ inputs.redis_host }}:${{ inputs.redis_port }}
+          WEIXIN__REDISCONNECTION: ${{ secrets.WEIXIN__REDISCONNECTION }}
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v4
         with:
