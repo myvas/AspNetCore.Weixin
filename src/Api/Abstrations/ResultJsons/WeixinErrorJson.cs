@@ -19,7 +19,7 @@ public class WeixinErrorJson : WeixinJson, IWeixinError
     }
 
     [JsonIgnore]
-    public virtual bool Succeeded { get { return !ErrorCode.HasValue || ErrorCode == WeixinErrorCodes.OK; } }
+    public virtual bool Succeeded { get { return !ErrorCode.HasValue || ErrorCode!.Value == WeixinErrorCodes.OK; } }
 
     /// <summary>
     /// 微信错误代码
