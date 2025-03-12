@@ -20,18 +20,12 @@ on:
         description: "The configuration value for running dotnet CLI, such as 'Release', and 'Debug'."
         required: true
         type: string
-      redis_host:
-        description: "The redis-server host, such as 'localhost'."
-        required: true
-        type: string
-      redis_port:
-        description: "The redis-server listening port, such as '6379'."
-        required: true
-        type: string
     secrets:
       WEIXIN__APPID:
         required: true
       WEIXIN__APPSECRET:
+        required: true
+      WEIXIN__REDISCONNECTION:
         required: true
                   
 jobs:  
