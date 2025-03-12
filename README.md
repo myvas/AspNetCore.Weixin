@@ -62,15 +62,24 @@ services.AddWeixin(o => {
   - `IWeixinGroupMessageApi`: 
   - `IWeixinQrcodeApi`: 
   - `IWeixinWifiApi`: 
-- Cache Providers
-  - `WeixinMemoryCacheProvider` (Default injected in `AddWeixin(...)` and `AddWeixinCore(...)`)
-    - `<WeixinBuilder>.AddWeixinMemoryCacheProvider()`
-  - `WeixinRedisCacheProvider`
-    - `<WeixinBuilder>.AddWeixinRedisCacheProvider(Action<WeixinRedisCacheProviderOptions>)`
-  - Interface type: `IWeixinCacheProvider`
-    - XxxCacheProviderOptions: `TOptions`
-    - XxxCacheProviderPostConfigureOptions: `IPostConfigureOptions<TOptions>`
-    - WeixinBuilderXxxCacheProviderExtensions: `<WeixinBuilder>.AddWeixinCacheProvider<TWeixinCacheProvider>(Action<TWeixinCacheProviderOptions>)`
+- Cache Providers for IWeixinAccessTokenApi
+  - `WeixinAccessTokenMemoryCacheProvider` (Default injected in `AddWeixin(...)` and `AddWeixinCore(...)`)
+    - `<WeixinBuilder>.AddWeixinAccessTokenMemoryCacheProvider()`
+  - `WeixinAccessTokenRedisCacheProvider`
+    - `<WeixinBuilder>.AddWeixinAccessTokenRedisCacheProvider(Action<RedisCacheOptions>)`
+  - Interface type: `IWeixinAccessTokenCacheProvider`
+    - XxxAccessTokenCacheProviderOptions: `TOptions`
+    - XxxAccessTokenCacheProviderPostConfigureOptions: `IPostConfigureOptions<TOptions>`
+    - WeixinBuilderXxxAccessTokenCacheProviderExtensions: `<WeixinBuilder>.AddWeixinAccessTokenCacheProvider<TWeixinAccessTokenCacheProvider>(Action<TWeixinAccessTokenCacheProviderOptions>)`
+- Cache Providers for IWeixinJsapiTicketApi
+  - `WeixinJsapiTicketMemoryCacheProvider` (Default injected in `AddWeixin(...)` and `AddWeixinCore(...)`)
+    - `<WeixinBuilder>.AddWeixinJsapiTicketMemoryCacheProvider()`
+  - `WeixinJsapiTicketRedisCacheProvider`
+    - `<WeixinBuilder>.AddWeixinJsapiTicketRedisCacheProvider(Action<RedisCacheOptions>)`
+  - Interface type: `IWeixinJsapiTicketCacheProvider`
+    - XxxJsapiTicketCacheProviderOptions: `TOptions`
+    - XxxJsapiTicketCacheProviderPostConfigureOptions: `IPostConfigureOptions<TOptions>`
+    - WeixinBuilderXxxJsapiTicketCacheProviderExtensions: `<WeixinBuilder>.AddWeixinJsapiTicketCacheProvider<TWeixinJsapiTicketCacheProvider>(Action<TWeixinJsapiTicketCacheProviderOptions>)`
 
 ## 微信公众号服务站点-中间件 `WeixinSiteMiddleware`
 
