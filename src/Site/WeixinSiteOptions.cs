@@ -9,19 +9,22 @@ namespace Myvas.AspNetCore.Weixin;
 public class WeixinSiteOptions
 {
     /// <summary>
+    /// The AppId will be configured in <see cref="WeixinSitePostConfigureOptions"/> to the value comes from <see cref="WeixinOptions"/>.
+    /// </summary>
+    public string AppId { get; internal set; }
+
+    /// <summary>
     /// 网站令牌(Token)，用于验证开发者服务器。
     /// </summary>
     public string WebsiteToken { get; set; }
 
     /// <summary>
-    /// 服务器地址路径，默认为: /wx
+    /// 服务器地址路径，默认为: <see cref="WeixinSiteOptionsDefaults.Path"/>
     /// </summary>
     public PathString Path { get; set; } = WeixinSiteOptionsDefaults.Path;
 
-    public WeixinSiteEncodingOptions Encoding { get; set; } = new WeixinSiteEncodingOptions();
-
     /// <summary>
-    /// 是否允许微信web开发工具等调试终端访问，默认为: false（不允许）。
+    /// Determines whether enable debug mode to skip the signature verification and User-Agent checking. Default is <see cref="WeixinSiteOptionsDefaults.Debug"/>, which is false.
     /// </summary>
     public bool Debug { get; set; } = WeixinSiteOptionsDefaults.Debug;
 
@@ -29,6 +32,16 @@ public class WeixinSiteOptions
     /// 接收微信消息或事件
     /// </summary>
     public WeixinEvents Events { get; set; }
+
+    /// <summary>
+    /// The max length of Weixin request content, default is <see cref="WeixinSiteOptionsDefaults.MaxRequestContentLength">, which is 32MB.
+    /// </summary>internal
+    public long MaxRequestContentLength { get; set; } = WeixinSiteOptionsDefaults.MaxRequestContentLength;
+
+    /// <summary>
+    /// The max length of Weixin response buffer size, default is <see cref="WeixinSiteOptionsDefaults.MaxResponseContentBufferSize"/>, which is 32MB.
+    /// </summary>
+    public long MaxResponseContentBufferSize { get; set; } = WeixinSiteOptionsDefaults.MaxResponseContentBufferSize;
 
     public WeixinSiteOptions()
     {

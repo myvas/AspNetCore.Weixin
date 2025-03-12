@@ -11,14 +11,16 @@ public class WeixinMessageEncryptorDecryptTests
 		services.AddWeixin(options =>
 		{
 			options.AppId = "wxaf5aa2d87ff3b700";
+			options.AppSecret = "USELESS_IN_THIS_TEST";
 		})
 		.AddWeixinSite(options =>
 		{
 			options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
-			options.Encoding.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
+		})
+		.AddWeixinMessageEncryptor(options =>
+		{
+			options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
 		});
-		services.AddLogging();
-		services.AddScoped<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
 	}
 
 	[Fact]

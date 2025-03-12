@@ -3,7 +3,7 @@
 [![test](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml/badge.svg)](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/test.yml)
 [![publish](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/publish.yml/badge.svg)](https://github.com/myvas/AspNetCore.Weixin/actions/workflows/publish.yml)
 [![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
-[![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.Jssdk.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin.Jssdk)
+[![NuGet](https://img.shields.io/nuget/vpre/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
 
 WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis. (微信公众平台/接口调用服务)
 
@@ -14,9 +14,9 @@ WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages,
 
 | Category | Method | Description | Options | Interfaces |
 |-|-|-|-|-|
-| 服务 | `services.AddWeixin(WeixinOptions)` | 微信公众号AccessToken & APIs | WeixinOptions | IWeixinAccessTokenApi IWeixinJsapiTicketApi IWeixinCommonApi IWeixinMenuApi ICustomerSupportApi IGroupMessageApi IQrcodeApi IUserApi IUserGroupApi IUserProfileApi IWifiApi|
-| 服务 | `WeixinBuilder.AddSite(WeixinSiteOptions)` | 微信公众号消息处理 | WeixinSiteOptions | |
-| 中间件 | `app.UseWeixinSite()` | 微信公众号消息处理 |  | IMessageHandler IWeixinMessageEncryptor |
+| 服务 | `services.AddWeixin()` | 微信公众号AccessToken & APIs | WeixinOptions | IWeixinAccessTokenApi IWeixinJsapiTicketApi IWeixinCommonApi IWeixinMenuApi ICustomerSupportApi IGroupMessageApi IQrcodeApi IUserApi IUserGroupApi IUserProfileApi IWifiApi |
+| 二级服务 | `.AddWeixinSite()` | 微信公众号消息处理 | WeixinSiteOptions | IMessageHandler IWeixinMessageEncryptor |
+| 中间件 | `app.UseWeixinSite()` | 微信公众号消息处理 |  | |
 
 ## Demo
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
@@ -265,14 +265,20 @@ $(document).ready(function () {
 ```
 
 ## For Developers
-* [Visual Studio 2022](https://visualstudio.microsoft.com)
-* [.NET Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
-* [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
-* [.NET 5.0](https://dotnet.microsoft.com/download/dotnet-core/5.0)
-* [.NET 6.0](https://dotnet.microsoft.com/download/dotnet-core/6.0)
-* [.NET 7.0](https://dotnet.microsoft.com/download/dotnet-core/7.0)
-* [.NET 8.0](https://dotnet.microsoft.com/download/dotnet-core/8.0)
-* [.NET 9.0](https://dotnet.microsoft.com/download/dotnet-core/9.0)
+* [Visual Studio 2022](https://visualstudio.microsoft.com)  
+  - [Tools/ResX Manager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager)
+* [Visual Studio Code](https://code.visualstudio.com)
+  - C#, IntelliCode, .NET Install Tool (Microsoft)
+  - XML Tools (Josh Johnson)
+  - .NET Core User Secrets (Adrian Wilczyński)
+  - ResX Editor (Dominic Vonk)
+  - Markdown All in One (Yu Zhang)
+* Testing on:
+  - [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+  - [.NET 5.0](https://dotnet.microsoft.com/download/dotnet-core/5.0)
+  - [.NET 6.0](https://dotnet.microsoft.com/download/dotnet-core/6.0)
+  - [.NET 7.0](https://dotnet.microsoft.com/download/dotnet-core/7.0)
+  - [.NET 8.0](https://dotnet.microsoft.com/download/dotnet-core/8.0)
+  - [.NET 9.0](https://dotnet.microsoft.com/download/dotnet-core/9.0)
 * [微信开发者工具](https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/download.html)
 * [微信公众平台](https://mp.weixin.qq.com)
-* [Tools/ResX Manager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager)

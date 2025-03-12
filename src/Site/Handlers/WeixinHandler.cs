@@ -2,118 +2,114 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+public class WeixinHandler : IWeixinHandler<ReceivedXml>
 {
-    public class WeixinHandler : IWeixinHandler<ReceivedXml>
+    private readonly ILogger _logger;
+    private readonly WeixinSiteOptions _options;
+
+    public WeixinHandler(ILoggerFactory logger,
+        IOptions<WeixinSiteOptions> optionsAccessor
+    )
     {
-        private readonly ILogger _logger;
-        private readonly WeixinSiteOptions _options;
+        _logger = logger?.CreateLogger<WeixinHandler>() ?? throw new ArgumentNullException(nameof(logger));
+        _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
+    }
 
-        public WeixinHandler(ILoggerFactory logger,
-            IOptions<WeixinSiteOptions> optionsAccessor
-        )
+    public HttpContext Context { get; set; }
+    public string Text { get; set; }
+    public ReceivedXml Xml { get; set; }
+
+    public async Task<bool> HandleAsync()
+    {
+        var doc = XDocument.Parse(Text);
+
+        RequestMsgType msgType = RequestMsgType.Unknown;
+        RequestEventType? eventType = RequestEventType.Unknown;
+        try
         {
-            _logger = logger?.CreateLogger<WeixinHandler>() ?? throw new ArgumentNullException(nameof(logger));
-            _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
+            string sMsgType = doc.Root.Element("MsgType").Value;
+            msgType = (RequestMsgType)Enum.Parse(typeof(RequestMsgType), sMsgType, true);
         }
-
-        public HttpContext Context { get; set; }
-        public string Text { get; set; }
-        public ReceivedXml Xml { get; set; }
-
-        public async Task<bool> HandleAsync()
+        catch { msgType = RequestMsgType.Unknown; }
+        if (msgType == RequestMsgType.@event)
         {
-            var doc = XDocument.Parse(Text);
-
-            RequestMsgType msgType = RequestMsgType.Unknown;
-            RequestEventType? eventType = RequestEventType.Unknown;
+            var sEventType = doc.Root.Element("Event").Value;
             try
             {
-                string sMsgType = doc.Root.Element("MsgType").Value;
-                msgType = (RequestMsgType)Enum.Parse(typeof(RequestMsgType), sMsgType, true);
+                eventType = (RequestEventType)Enum.Parse(typeof(RequestEventType), sEventType, true);
+                msgType = RequestMsgType.@event;
             }
-            catch { msgType = RequestMsgType.Unknown; }
-            if (msgType == RequestMsgType.@event)
-            {
-                var sEventType = doc.Root.Element("Event").Value;
-                try
-                {
-                    eventType = (RequestEventType)Enum.Parse(typeof(RequestEventType), sEventType, true);
-                    msgType = RequestMsgType.@event;
-                }
-                catch { eventType = RequestEventType.Unknown; }
-            }
-
-            try
-            {
-                switch (msgType)
-                {
-                    case RequestMsgType.text:
-                        return await FireEventAsync(_options.Events.OnTextMessageReceived);
-                    case RequestMsgType.image:
-                        return await FireEventAsync(_options.Events.OnImageMessageReceived);
-                    case RequestMsgType.voice:
-                        return await FireEventAsync(_options.Events.OnVoiceMessageReceived);
-                    case RequestMsgType.video:
-                        return await FireEventAsync(_options.Events.OnVideoMessageReceived);
-                    case RequestMsgType.shortvideo:
-                        return await FireEventAsync(_options.Events.OnShortVideoMessageReceived);
-                    case RequestMsgType.location:
-                        return await FireEventAsync(_options.Events.OnLocationMessageReceived);
-                    case RequestMsgType.@event:
-                        switch (eventType)
-                        {
-                            case RequestEventType.subscribe:
-                                return await FireEventAsync(_options.Events.OnSubscribeEventReceived);
-                            case RequestEventType.CLICK:
-                                return await FireEventAsync(_options.Events.OnClickMenuEventReceived);
-                            case RequestEventType.VIEW:
-                                return await FireEventAsync(_options.Events.OnViewMenuEventReceived);
-                            case RequestEventType.SCAN:
-                                return await FireEventAsync(_options.Events.OnQrscanEventReceived);
-                            case RequestEventType.unsubscribe:
-                                return await FireEventAsync(_options.Events.OnUnsubscribeEventReceived);
-                            default:
-                                // 系统无法识别处理此事件
-                                throw new NotSupportedException($"The system is unable to recognize and process this event message.");
-                        }
-                    default:
-                        // 系统无法识别处理此消息
-                        throw new NotSupportedException($"The system is unable to recognize and process this message.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // 系统在解析处理微信消息时发生异常
-                throw new NotSupportedException($"An exception occurred while the system was parsing and processing the WeChat message.", ex);
-            }
+            catch { eventType = RequestEventType.Unknown; }
         }
 
-        private async Task<bool> FireEventAsync<TReceivedXml>(Func<WeixinReceivedContext<TReceivedXml>, Task<bool>> eventHandler)
-            where TReceivedXml : ReceivedXml
+        try
         {
-            Xml = MyvasXmlConvert.DeserializeObject<TReceivedXml>(Text);
-            var ctx = new WeixinReceivedContext<TReceivedXml>(Context, Text, Xml);
-            var handled = await eventHandler(ctx);
-            if (!handled)
+            switch (msgType)
             {
-                return await DefaultResponseAsync();
+                case RequestMsgType.text:
+                    return await FireEventAsync(_options.Events.OnTextMessageReceived);
+                case RequestMsgType.image:
+                    return await FireEventAsync(_options.Events.OnImageMessageReceived);
+                case RequestMsgType.voice:
+                    return await FireEventAsync(_options.Events.OnVoiceMessageReceived);
+                case RequestMsgType.video:
+                    return await FireEventAsync(_options.Events.OnVideoMessageReceived);
+                case RequestMsgType.shortvideo:
+                    return await FireEventAsync(_options.Events.OnShortVideoMessageReceived);
+                case RequestMsgType.location:
+                    return await FireEventAsync(_options.Events.OnLocationMessageReceived);
+                case RequestMsgType.@event:
+                    switch (eventType)
+                    {
+                        case RequestEventType.subscribe:
+                            return await FireEventAsync(_options.Events.OnSubscribeEventReceived);
+                        case RequestEventType.CLICK:
+                            return await FireEventAsync(_options.Events.OnClickMenuEventReceived);
+                        case RequestEventType.VIEW:
+                            return await FireEventAsync(_options.Events.OnViewMenuEventReceived);
+                        case RequestEventType.SCAN:
+                            return await FireEventAsync(_options.Events.OnQrscanEventReceived);
+                        case RequestEventType.unsubscribe:
+                            return await FireEventAsync(_options.Events.OnUnsubscribeEventReceived);
+                        default:
+                            // 系统无法识别处理此事件
+                            throw new NotSupportedException($"The system is unable to recognize and process this event message.");
+                    }
+                default:
+                    // 系统无法识别处理此消息
+                    throw new NotSupportedException($"The system is unable to recognize and process this message.");
             }
-            return true;
         }
-
-        private async Task<bool> DefaultResponseAsync()
+        catch (Exception ex)
         {
-            var responseBuilder = new PlainTextResponseBuilder(Context);
-            responseBuilder.Content = "We have received you message.";
-            await responseBuilder.FlushAsync();
-            return true;
+            // 系统在解析处理微信消息时发生异常
+            throw new NotSupportedException($"An exception occurred while the system was parsing and processing the WeChat message.", ex);
         }
+    }
+
+    private async Task<bool> FireEventAsync<TReceivedXml>(Func<WeixinReceivedContext<TReceivedXml>, Task<bool>> eventHandler)
+        where TReceivedXml : ReceivedXml
+    {
+        Xml = MyvasXmlConvert.DeserializeObject<TReceivedXml>(Text);
+        var ctx = new WeixinReceivedContext<TReceivedXml>(Context, Text, Xml);
+        var handled = await eventHandler(ctx);
+        if (!handled)
+        {
+            return await DefaultResponseAsync();
+        }
+        return true;
+    }
+
+    private async Task<bool> DefaultResponseAsync()
+    {
+        var responseBuilder = new PlainTextResponseBuilder(Context);
+        responseBuilder.Content = "We have received you message.";
+        await responseBuilder.FlushAsync();
+        return true;
     }
 }

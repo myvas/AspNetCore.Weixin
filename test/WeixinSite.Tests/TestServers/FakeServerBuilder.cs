@@ -17,10 +17,9 @@ public static class FakeServerBuilder
         return TestServerBuilder.CreateServer(app =>
         {
             app.UseMiddleware<WeixinSiteMiddleware>();
-        },
-        services =>
+        }, services =>
         {
-            services.AddWeixinMessageProtection().AddWeixin(o =>
+            services.AddWeixin(o =>
             {
                 o.AppId = "APPID";
                 o.AppSecret = "APPSECRET";
@@ -35,7 +34,8 @@ public static class FakeServerBuilder
                     await resp.FlushAsync();
                     return true;
                 };
-            });
+            })
+            .AddWeixinMessageEncryptor();
         },
         async context =>
         {

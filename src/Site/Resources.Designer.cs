@@ -94,5 +94,14 @@ namespace Myvas.AspNetCore.Weixin {
                 return ResourceManager.GetString("WeixinSiteVerificationPathNotice", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   The weixin request content is too large.
+        /// </summary>
+        internal static string TooLargeWeixinRequestContent {
+            get {
+                return ResourceManager.GetString("TooLargeWeixinRequestContent", resourceCulture);
+            }
+        }
     }
 }

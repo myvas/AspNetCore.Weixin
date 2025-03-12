@@ -1,20 +1,19 @@
-using Microsoft.AspNetCore.Http;
+namespace Myvas.AspNetCore.Weixin;
 
-namespace Myvas.AspNetCore.Weixin
+public static class EncryptionModes
 {
-    public static class EncryptionModes
-	{
-		/// <summary>
-		/// ¼æÈİÄ£Ê½£ºÍ¬Ê±Ö§³ÖÃ÷ÎÄÏûÏ¢ºÍ¼ÓÃÜÏûÏ¢¡£
-		/// </summary>
-		public const string Compatible = "Compatible";
-		/// <summary>
-		/// Ã÷ÎÄÄ£Ê½£º½öÖ§³ÖÃ÷ÎÄÏûÏ¢£¬½«¶ªÆú¼ÓÃÜ¹ıµÄÏûÏ¢¡£
-		/// </summary>
-		public const string ClearText = "ClearText";
-		/// <summary>
-		/// ¼ÓÃÜÄ£Ê½£º½öÖ§³Ö¼ÓÃÜÄ£Ê½£¬½«¶ªÆúÃ÷ÎÄÏûÏ¢¡£
-		/// </summary>
-		public const string AES = "AES";
-	}
+	/// <summary>
+	/// å…¼å®¹æ¨¡å¼ï¼ŒåŒæ—¶æ”¯æŒæ˜æ–‡æ¶ˆæ¯å’ŒåŠ å¯†æ¶ˆæ¯ã€‚
+	/// </summary>
+	public const string Compatible = "Compatible";
+
+	/// <summary>
+	/// æ˜æ–‡æ¨¡å¼ï¼Œåªæ”¯æŒæ˜æ–‡æ¶ˆæ¯ï¼Œä¸åŠ å¯†æ¶ˆæ¯ã€‚
+	/// </summary>
+	public const string ClearText = "ClearText";
+	
+	/// <summary>
+	/// åŠ å¯†æ¨¡å¼ï¼Œåªæ”¯æŒåŠ å¯†æ¨¡å¼ï¼Œä¸æ”¯æŒæ˜æ–‡æ¶ˆæ¯ã€‚
+	/// </summary>
+	public const string AES = "AES";
 }
