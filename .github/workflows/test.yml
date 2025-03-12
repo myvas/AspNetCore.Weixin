@@ -17,12 +17,9 @@ on:
     paths-ignore:
       - "*.md"
       - ".github/**"
-           
+
 jobs:
   build-and-test:
-    runs-on: ubuntu-22.04
-    env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       matrix:
         dotnet:
@@ -39,31 +36,13 @@ jobs:
           - version: '9.0.x'
             framework: 'net9.0'
         configuration: [ Debug, Release ]
-      max-parallel: 1
-    steps:
-      - run: echo "The inputs.dotnet version is ${{ inputs.dotnet-version }}, framework is ${{ inputs.dotnet-framework }}."
-      - run: echo "The inputs.configuration is ${{ inputs.configuration }}."
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: Install redis-server
-        run: |
-          sudo apt-get update
-          sudo apt-get install redis-server -y
-          sudo systemctl start redis-server
-          sudo systemctl enable redis-server
-          sudo systemctl status redis-server
-      - name: Wait for redis-server
-        uses: ./.github/workflows/build-and-test.yml
-        with:
-          dotnet-version: ${{ matrix.dotnet.version }}
-          dotnet-framework: ${{ matrix.dotnet.framework }}
-          configuration: ${{ matrix.configuration }}
-          redis_host: localhost
-          redis_port: 6379
-        env:
-          WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
-          WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-
+    uses: ./.github/workflows/build-and-test.yml
+    secrets:
+      WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
+      WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
+      WEIXIN__REDISCONNECTION: ${{ secrets.WEIXIN__REDISCONNECTION }}
+    with:
+      dotnet-version: ${{ matrix.dotnet.version }}
+      dotnet-framework: ${{ matrix.dotnet.framework }}
+      configuration: ${{ matrix.configuration }}
+      
