@@ -20,14 +20,14 @@ public class WeixinAccessTokenMemoryCacheProvider : IWeixinAccessTokenCacheProvi
     public WeixinAccessTokenJson Get(string appId)
     {
         var cacheKey = GenerateCacheKey(appId);
-        
+
         if (_cache.TryGetValue(cacheKey, out string json))
         {
             var accessToken = JsonSerializer.Deserialize<WeixinAccessTokenJson>(json);
             // If the expiration window is less than 2 seconds, then we need fetch new one.
             return (accessToken.Succeeded && accessToken.ExpiresIn > 2) ? accessToken : null;
         }
-        
+
         return null;
     }
 
@@ -42,7 +42,7 @@ public class WeixinAccessTokenMemoryCacheProvider : IWeixinAccessTokenCacheProvi
         var json = JsonSerializer.Serialize(accessToken);
         // Cut off 2 seconds to avoid abnormal expiration
         var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetSlidingExpiration(TimeSpan.FromSeconds(accessToken.ExpiresIn - 2));
+            .SetAbsoluteExpiration(TimeSpan.FromSeconds(accessToken.ExpiresIn - 2));
         var cacheKey = GenerateCacheKey(appId);
         _cache.Set(cacheKey, json, cacheEntryOptions);
     }
