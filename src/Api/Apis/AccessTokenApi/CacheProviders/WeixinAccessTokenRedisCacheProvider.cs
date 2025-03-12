@@ -48,7 +48,7 @@ public class WeixinAccessTokenRedisCacheProvider : IWeixinAccessTokenCacheProvid
         var entryOptions = new DistributedCacheEntryOptions
         {
             // Cut off 2 seconds to avoid abnormal expiration
-            SlidingExpiration = TimeSpan.FromSeconds(json.ExpiresIn - 2)
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(json.ExpiresIn - 2)
         };
         var cacheKey = GenerateCacheKey(appId);
         await _cache.SetAsync(cacheKey, json, entryOptions, cancellationToken);
