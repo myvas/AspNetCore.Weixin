@@ -19,99 +19,10 @@ on:
       - ".github/**"
            
 jobs:
-  setup-redis:
-    runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - name: Output redis_host
-        run: |
-          hostname
-          redis_host=$(hostname -I | awk '{print $1}')
-          echo "redis_host=${redis_host}" >> $GITHUB_ENV
-          echo "${redis_host}" > redis_host.txt
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: redis_host
-          path: redis_host.txt
-          overwrite: true     
-      - name: Install redis-cli
-        id: set-env
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y redis-tools
-      - name: keepalive
-        run: |
-          #!/bin/bash
-          redis-cli ping
-          MAX_ATTEMPTS=120
-          redis-cli set redis-server-alive-counter 0
-          while [ $(redis-cli get redis-server-alive-counter) -lt $MAX_ATTEMPTS ]; do
-              echo "redis-server ${redis_host} is listening..."
-              sleep 1
-              redis-cli incr redis-server-alive-counter
-          done
-          if [ $(redis-cli get redis-server-alive-counter) -ge $MAX_ATTEMPTS ]; then
-              exit 1
-          else
-              exit 0
-          fi
-
-  wait-for-redis-server:
-    runs-on: ubuntu-latest
-    outputs:
-      redis_host: ${{ steps.set-env.outputs.redis_host }}
-    steps:
-      - name: Install redis-cli
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y redis-tools
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: redis_host
-      - name: Use the artifact
-        id: set-env
-        run: |
-          hostname
-          cat redis_host.txt
-          echo "redis_host=$(cat redis_host.txt)" >> $GITHUB_ENV
-      - name: Wait for redis-server ready
-        run: |
-          ping $(hostname) -c 1
-          ping ${redis_host} -c 1
-          WAIT_FOR_REDIS_SERVER_COUNTER=0
-          while true; do
-            if redis-cli -h ${redis_host} ping &> /dev/null; then
-              echo "redis-server ${redis_host} is running."
-              redis-cli -h ${redis_host} set redis-server-alive-counter 0
-              exit 0
-              break
-            else
-              echo "Attempt $WAIT_FOR_REDIS_SERVER_COUNTER: redis-server ${redis_host} is not responding. Retrying in 1 second..."
-              WAIT_FOR_REDIS_SERVER_COUNTER=$((WAIT_FOR_REDIS_SERVER_COUNTER+1))
-              sleep 1            
-              if [ "$WAIT_FOR_REDIS_SERVER_COUNTER" -gt 60 ]; then
-                echo "WAIT_FOR_REDIS_SERVER_COUNTER exceeded 60. Breaking the loop."
-                exit 1
-                break
-              fi
-            fi
-          done
-          exit 1
-
   build-and-test:
-    needs: [wait-for-redis-server]
-    if: ${{ success() }}
+    runs-on: ubuntu-22.04
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       matrix:
         dotnet:
@@ -129,32 +40,30 @@ jobs:
             framework: 'net9.0'
         configuration: [ Debug, Release ]
       max-parallel: 1
-    uses: ./.github/workflows/build-and-test.yml
-    secrets:
-      WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
-      WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-    with:
-      dotnet-version: ${{ matrix.dotnet.version }}
-      dotnet-framework: ${{ matrix.dotnet.framework }}
-      configuration: ${{ matrix.configuration }}
-      redis_host: ${{ needs.wait-for-redis-server.outputs.redis_host }}
-      redis_port: 6379
-
-  shutdown-redis:
-    runs-on: ubuntu-latest
-    needs: [wait-for-redis-server, build-and-test]
-    if: ${{ always() }}
     steps:
+      - run: echo "The inputs.dotnet version is ${{ inputs.dotnet-version }}, framework is ${{ inputs.dotnet-framework }}."
+      - run: echo "The inputs.configuration is ${{ inputs.configuration }}."
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Install redis-cli
-        run: sudo apt-get install redis-tools
-      - name: Keep alive
+      - name: Install redis-server
         run: |
-          hostname
-          redis-cli -h ${{ env.redis_host }} ping
-          redis-cli -h ${{ env.redis_host }} set redis-server-alive-counter 9999
-        env:
-          redis_host: ${{ needs.wait-for-redis-server.outputs.redis_host }}
-
-      
+          sudo apt-get update
+          sudo apt-get install redis-server -y
+          sudo systemctl start redis-server
+          sudo systemctl enable redis-server
+          sudo systemctl status redis-server
+      - name: Wait for redis-server
+        run: |
+          uses: ./.github/workflows/build-and-test.yml
+          secrets:
+            WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
+            WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
+          with:
+            dotnet-version: ${{ matrix.dotnet.version }}
+            dotnet-framework: ${{ matrix.dotnet.framework }}
+            configuration: ${{ matrix.configuration }}
+            redis_host: ${{ needs.wait-for-redis-server.outputs.redis_host }}
+            redis_port: 6379
