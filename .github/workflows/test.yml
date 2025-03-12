@@ -56,14 +56,14 @@ jobs:
           sudo systemctl enable redis-server
           sudo systemctl status redis-server
       - name: Wait for redis-server
-        run: |
-          uses: ./.github/workflows/build-and-test.yml
-          secrets:
-            WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
-            WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
-          with:
-            dotnet-version: ${{ matrix.dotnet.version }}
-            dotnet-framework: ${{ matrix.dotnet.framework }}
-            configuration: ${{ matrix.configuration }}
-            redis_host: localhost
-            redis_port: 6379
+        uses: ./.github/workflows/build-and-test.yml
+        with:
+          dotnet-version: ${{ matrix.dotnet.version }}
+          dotnet-framework: ${{ matrix.dotnet.framework }}
+          configuration: ${{ matrix.configuration }}
+          redis_host: localhost
+          redis_port: 6379
+        env:
+          WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
+          WEIXIN__APPSECRET: ${{ secrets.WEIXIN__APPSECRET }}
+
