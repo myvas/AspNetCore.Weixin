@@ -10,7 +10,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <code>
 /// {"ticket":"bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA","expires_in":7200}</code>
 /// </example>
-public class WeixinJsapiTicketJson : WeixinErrorJson
+public class WeixinJsapiTicketJson : WeixinErrorJson, IWeixinCacheJson
 {
     /// <summary>
     /// weixin jsapi ticket
