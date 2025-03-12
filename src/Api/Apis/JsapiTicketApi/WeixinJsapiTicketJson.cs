@@ -25,5 +25,7 @@ public class WeixinJsapiTicketJson : WeixinErrorJson, IWeixinCacheJson
     /// </summary>
     /// <example></example> 
     [JsonPropertyName("expires_in")]
-    public int ExpiresIn { get; set; } = 7200;
+    public int ExpiresIn { get; set; }
+    
+    public override bool Succeeded => base.Succeeded && !string.IsNullOrEmpty(Ticket) && ExpiresIn > 0;
 }
