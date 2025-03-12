@@ -18,7 +18,7 @@ public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
 
     public WeixinRedisCacheProvider(IDistributedCache cache)
     {
-        _cache = cache;
+        _cache = cache ?? throw new ArgumentNullException(nameof(cache));
     }
 
     public T Get(string appId)
