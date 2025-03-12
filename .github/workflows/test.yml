@@ -21,7 +21,6 @@ on:
 jobs:
   setup-redis:
     runs-on: ubuntu-latest
-    concurrency: redis
     services:
       redis:
         image: redis
@@ -33,26 +32,18 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - name: Get Runner IP Addresses
-        id: ip
-        uses: haythem/public-ip@v1.3
-      - name: Output redis host
+      - name: Output redis_host
         run: |
           hostname
-          echo "IPv4 Address: ${{ steps.ip.outputs.ipv4 }}"
-          echo "IPv6 Address: ${{ steps.ip.outputs.ipv6 }}"
-          echo "Local network IPv4 Address: $(hostname -I | awk '{print $1}')"
-          echo "redis_host=$(hostname)" >> $GITHUB_ENV
-          echo "redis_host=${{ steps.ip.outputs.ipv6 }}" >> $GITHUB_ENV
-          echo "$(hostname -I | awk '{print $1}')" > redis_host.txt
+          redis_host=$(hostname -I | awk '{print $1}')
+          echo "redis_host=${redis_host}" >> $GITHUB_ENV
+          echo "${redis_host}" > redis_host.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: redis_host
           path: redis_host.txt
-          overwrite: true
-      - name: Check out repository code
-        uses: actions/checkout@v4        
+          overwrite: true     
       - name: Install redis-cli
         id: set-env
         run: |
@@ -77,18 +68,13 @@ jobs:
 
   wait-for-redis-server:
     runs-on: ubuntu-latest
-    concurrency: redis
     outputs:
       redis_host: ${{ steps.set-env.outputs.redis_host }}
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
       - name: Install redis-cli
         run: |
           sudo apt-get update
           sudo apt-get install -y redis-tools
-      - name: Wait 10 seconds for upload artifact
-        run: sleep 10
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -105,7 +91,7 @@ jobs:
           ping ${redis_host} -c 1
           WAIT_FOR_REDIS_SERVER_COUNTER=0
           while true; do
-            if redis-cli -h ${redis_host} -p 6379 ping &> /dev/null; then
+            if redis-cli -h ${redis_host} ping &> /dev/null; then
               echo "redis-server ${redis_host} is running."
               redis-cli -h ${redis_host} set redis-server-alive-counter 0
               exit 0
@@ -142,6 +128,7 @@ jobs:
           - version: '9.0.x'
             framework: 'net9.0'
         configuration: [ Debug, Release ]
+      max-parallel: 1
     uses: ./.github/workflows/build-and-test.yml
     secrets:
       WEIXIN__APPID: ${{ secrets.WEIXIN__APPID }}
