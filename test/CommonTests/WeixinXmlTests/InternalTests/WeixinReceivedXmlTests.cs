@@ -26,7 +26,7 @@ public class WeixinReceivedXmlTests
             MsgType = "text"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(s);
+        var result = MyvasXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -34,7 +34,13 @@ public class WeixinReceivedXmlTests
     public void WeixinReceivedXml_Deserialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType></xml>";
-        var o = new ReceivedXml();
+        var o = new ReceivedXml
+        {
+            ToUserName = "",
+            FromUserName = "",
+            CreateTime = 0,
+            MsgType = ""
+        };
 
         var result = MyvasXmlConvert.DeserializeObject<ReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
