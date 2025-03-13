@@ -16,17 +16,15 @@ namespace Myvas.AspNetCore.Weixin
 
         public override string ToXml()
         {
-            var data = new {
-                xml = new
+            var data = new
+            {
+                ToUserName,
+                FromUserName,
+                CreateTime = CreateTimestamp,
+                MsgType = MsgTypeText,
+                Image = new
                 {
-                    ToUserName,
-                    FromUserName,
-                    CreateTime = CreateTimestamp,
-                    MsgType = MsgTypeText,
-                    Image = new
-                    {
-                        MediaId
-                    }
+                    MediaId
                 }
             };
             return MyvasXmlConvert.SerializeObject(data);
