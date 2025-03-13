@@ -9,6 +9,7 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 所有Request和Response消息的基类
     /// </summary>
+    [XmlRoot("xml", Namespace = "")]
     public class WeixinMessage
     {
         public string ToUserName { get; set; }

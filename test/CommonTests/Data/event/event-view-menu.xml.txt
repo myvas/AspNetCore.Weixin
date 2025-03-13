@@ -1,0 +1,8 @@
+<xml>
+<ToUserName><![CDATA[gh_712b448adf85]]></ToUserName>
+<FromUserName><![CDATA[oI3UkuL9uZxTOuj--HHMSMTlO3ks]]></FromUserName>
+<CreateTime>1490872329</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[www.qq.com]]></EventKey>
+</xml>

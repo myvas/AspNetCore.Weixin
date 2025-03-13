@@ -63,11 +63,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Weixin\Myvas.AspNetCore.Weixin.csproj" />
+    <ProjectReference Include="../../src/Weixin/Myvas.AspNetCore.Weixin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
+	<ItemGroup>
+		<ContentWithTargetPath Include="Data\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>Data\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+		</ContentWithTargetPath>
+	</ItemGroup>
+  
 </Project>

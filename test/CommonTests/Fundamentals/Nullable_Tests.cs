@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 
-namespace test;
+namespace Myvas.AspNetCore.Weixin.CommonTests.Fundamentals;
 
 #pragma warning disable CS0464
 

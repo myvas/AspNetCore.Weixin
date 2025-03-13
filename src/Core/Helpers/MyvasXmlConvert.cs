@@ -28,15 +28,17 @@ public static class MyvasXmlConvert
         // Remove crlf
         return xdoc.ToString(SaveOptions.DisableFormatting);
     }
-    
+
     /// <summary>
     /// 序列化：支持匿名对象
     /// </summary>
     /// <param name="objectInstance">普通类对象，或匿名对象</param>
     /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
-		/// <param name="rootElementName">若不为空，则生成的XML以该字符串作为根节点，默认为"xml"。注意：XML只能有一个根节点，所以如果对象是数组，则根节点不能为空。</param>
+    /// <param name="rootElementName">若不为空，则生成的XML以该字符串作为根节点，默认为"xml"。注意：XML只能有一个根节点，所以如果对象是数组，则根节点不能为空。</param>
     /// <returns></returns>
-    public static string SerializeObject(object objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null, string rootElementName = "xml")
+    /// <seealso cref="BaseClassFirstConverter<typeparam name="T">" />
+    public static string SerializeObject<T>(T objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null, string rootElementName = "xml")
+        where T : class
     {
         if (objectInstance == null)
         {
@@ -44,7 +46,11 @@ public static class MyvasXmlConvert
         }
         if (encoding == null) encoding = Encoding.UTF8;
 
-        var jsonText = JsonSerializer.Serialize(objectInstance);
+        var jsonText = JsonSerializer.Serialize(objectInstance, new JsonSerializerOptions
+        {
+            IgnoreNullValues = true,
+            Converters = { new BaseClassFirstXmlConverter<T>() }
+        });
         var xmldoc = JsonToXml(jsonText, rootElementName);
         return xmldoc;
     }

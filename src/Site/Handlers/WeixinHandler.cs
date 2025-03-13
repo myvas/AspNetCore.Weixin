@@ -105,7 +105,11 @@ public class WeixinHandler : IWeixinHandler<ReceivedXml>
         return true;
     }
 
-    private async Task<bool> DefaultResponseAsync()
+    /// <summary>
+    /// Flush a response with status code <see cref="StatusCodes.Status200OK"/>.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual async Task<bool> DefaultResponseAsync()
     {
         var responseBuilder = new PlainTextResponseBuilder(Context);
         responseBuilder.Content = "We have received you message.";

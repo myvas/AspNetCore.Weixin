@@ -60,10 +60,9 @@ public class WeixinSiteMiddlewareTests
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var s = await response.Content.ReadAsStringAsync();
-        Assert.NotNull(s);
-        Assert.NotEmpty(s);
-        Debug.WriteLine(s);
-        Assert.StartsWith("<xml><Content>Your message had been received", s);
+        Assert.StartsWith("<xml>", s);
+        Assert.Contains("<Content>Your message had been received", s);
+        Assert.EndsWith("</xml>", s);
     }
 
     [Fact]

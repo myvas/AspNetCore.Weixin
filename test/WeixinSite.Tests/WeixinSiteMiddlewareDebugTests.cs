@@ -37,7 +37,9 @@ public class WeixinSiteMiddlewareDebugTests
         Assert.NotNull(s);
         Assert.NotEmpty(s);
         Debug.WriteLine(s);
-        Assert.StartsWith("<xml><Content>Your message had been received", s);
+        Assert.StartsWith("<xml>", s);
+        Assert.Contains("<Content>Your message had been received", s);
+        Assert.EndsWith("</xml>", s);
     }
 
     [Fact]
@@ -52,6 +54,8 @@ public class WeixinSiteMiddlewareDebugTests
         Assert.NotNull(s);
         Assert.NotEmpty(s);
         Debug.WriteLine(s);
-        Assert.StartsWith("<xml><Content>Your message had been received", s);
+        Assert.StartsWith("<xml>", s);
+        Assert.Contains("<Content>Your message had been received", s);
+        Assert.EndsWith("</xml>", s);
     }
 }

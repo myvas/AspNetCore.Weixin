@@ -11,6 +11,7 @@ namespace Myvas.AspNetCore.Weixin
     /// <summary>
     /// 响应回复消息
     /// </summary>
+    [XmlRoot("xml", Namespace = "")]
     public abstract class WeixinResponse : WeixinMessage, IWeixinResponse
     {
         [XmlElement("MsgType", Namespace = "")]
