@@ -1,8 +1,8 @@
 <xml>
-  <ToUserName><![CDATA[gh_712b448adf85]]></ToUserName>
+<ToUserName><![CDATA[gh_712b448adf85]]></ToUserName>
 <FromUserName><![CDATA[oI3UkuL9uZxTOuj--HHMSMTlO3ks]]></FromUserName>
 <CreateTime>1490872329</CreateTime>
 <MsgType><![CDATA[text]]></MsgType>
-<Content><![CDATA[中文字符]]></Content>
 <MsgId>6403247895999455936</MsgId>
+<Content><![CDATA[中文字符]]></Content>
 </xml>
