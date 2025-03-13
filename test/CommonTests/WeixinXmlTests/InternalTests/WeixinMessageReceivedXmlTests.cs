@@ -7,7 +7,7 @@ public class WeixinMessageReceivedXmlTests
     [Fact]
     public void WeixinMessageReceivedXml_Serialize()
     {
-        string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><MsgId>0<MsgId></xml>";
+        string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><MsgId>0</MsgId></xml>";
         var o = new MessageReceivedXml();
 
         var result = MyvasXmlConvert.SerializeObject(o);
@@ -27,7 +27,7 @@ public class WeixinMessageReceivedXmlTests
             MsgId = 6403247895999455936
         };
 
-        var result = MyvasXmlConvert.SerializeObject(s);
+        var result = MyvasXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -35,7 +35,14 @@ public class WeixinMessageReceivedXmlTests
     public void WeixinMessageReceivedXml_Deserialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><MsgId>0</MsgId></xml>";
-        var o = new MessageReceivedXml();
+        var o = new MessageReceivedXml
+        {
+            ToUserName = "",
+            FromUserName = "",
+            CreateTime = 0,
+            MsgType = "",
+            MsgId = 0
+        };
 
         var result = MyvasXmlConvert.DeserializeObject<MessageReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
