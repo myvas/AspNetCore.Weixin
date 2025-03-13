@@ -5,7 +5,7 @@ namespace Myvas.AspNetCore.Weixin.CommonTests.WeixinXmlTests.InternalTests;
 public class WeixinEventReceivedXmlTests
 {
     [Fact]
-    public void WeixinEventReceivedXml_Serialize()
+    public void Serialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><Event></Event></xml>";
         var o = new EventReceivedXml();
@@ -15,7 +15,7 @@ public class WeixinEventReceivedXmlTests
     }
 
     [Fact]
-    public void WeixinEventReceivedXml_SerializeSimple()
+    public void SerializeSimple()
     {
         string s = @"<xml><ToUserName>To</ToUserName><FromUserName>From</FromUserName><CreateTime>1490872329</CreateTime><MsgType>text</MsgType><Event>LOCATION</Event></xml>";
         var o = new EventReceivedXml
@@ -32,7 +32,7 @@ public class WeixinEventReceivedXmlTests
     }
 
     [Fact]
-    public void WeixinReceivedXml_Deserialize()
+    public void Deserialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><Event></Event></xml>";
         var o = new EventReceivedXml
@@ -52,7 +52,7 @@ public class WeixinEventReceivedXmlTests
     }
 
     [Fact]
-    public void WeixinReceivedXml_DeserializeSimple()
+    public void DeserializeSimple()
     {
         string s = @"<xml><ToUserName>To</ToUserName><FromUserName>From</FromUserName><CreateTime>1490872329</CreateTime><MsgType>text</MsgType><Event>LOCATION</Event></xml>";
         var o = new EventReceivedXml
