@@ -7,7 +7,7 @@ public class WeixinShortVideoMessageReceivedXmlTests
     [Fact]
     public void Serialize()
     {
-        string s = TestFile.ReadTestFile("msg/msg-shortvideo.xml.txt");
+        string s = TestFile.ReadTestFile("msg/msg-short-video.xml.txt");
         var o = new ShortVideoMessageReceivedXml
         {
             ToUserName = "gh_712b448adf85",
@@ -27,7 +27,7 @@ public class WeixinShortVideoMessageReceivedXmlTests
     [Fact]
     public void Deserialize()
     {
-        string s = TestFile.ReadTestFile("msg/msg-shortvideo.xml.txt");
+        string s = TestFile.ReadTestFile("msg/msg-short-video.xml.txt");
         var o = new ShortVideoMessageReceivedXml
         {
             ToUserName = "gh_712b448adf85",
