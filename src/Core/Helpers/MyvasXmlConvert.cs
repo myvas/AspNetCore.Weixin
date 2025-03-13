@@ -36,6 +36,7 @@ public static class MyvasXmlConvert
     /// <param name="encoding">编码，默认为：System.Text.Encoding.UTF8</param>
     /// <param name="rootElementName">若不为空，则生成的XML以该字符串作为根节点，默认为"xml"。注意：XML只能有一个根节点，所以如果对象是数组，则根节点不能为空。</param>
     /// <returns></returns>
+    /// <seealso cref="BaseClassFirstConverter<typeparam name="T">" />
     public static string SerializeObject<T>(T objectInstance, bool omitAllXsiXsd = true, Encoding encoding = null, string rootElementName = "xml")
         where T : class
     {
