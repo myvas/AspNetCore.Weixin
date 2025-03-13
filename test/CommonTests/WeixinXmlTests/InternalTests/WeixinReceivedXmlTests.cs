@@ -5,7 +5,7 @@ namespace Myvas.AspNetCore.Weixin.CommonTests.WeixinXmlTests.InternalTests;
 public class WeixinReceivedXmlTests
 {
     [Fact]
-    public void WeixinReceivedXml_Serialize()
+    public void Serialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType></xml>";
         var o = new ReceivedXml();
@@ -15,7 +15,7 @@ public class WeixinReceivedXmlTests
     }
 
     [Fact]
-    public void WeixinReceivedXml_SerializeSimple()
+    public void SerializeSimple()
     {
         string s = @"<xml><ToUserName>To</ToUserName><FromUserName>From</FromUserName><CreateTime>1490872329</CreateTime><MsgType>text</MsgType></xml>";
         var o = new ReceivedXml
@@ -31,7 +31,7 @@ public class WeixinReceivedXmlTests
     }
 
     [Fact]
-    public void WeixinReceivedXml_Deserialize()
+    public void Deserialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType></xml>";
         var o = new ReceivedXml
@@ -50,7 +50,7 @@ public class WeixinReceivedXmlTests
     }
 
     [Fact]
-    public void WeixinReceivedXml_DeserializeSimple()
+    public void DeserializeSimple()
     {
         string s = @"<xml><ToUserName>To</ToUserName><FromUserName>From</FromUserName><CreateTime>1490872329</CreateTime><MsgType>text</MsgType></xml>";
         var o = new ReceivedXml
