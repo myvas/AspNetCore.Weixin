@@ -71,4 +71,11 @@
     <Using Include="Myvas.AspNetCore.Weixin" />
   </ItemGroup>
 
+	<ItemGroup>
+		<ContentWithTargetPath Include="Data\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<TargetPath>Data\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+		</ContentWithTargetPath>
+	</ItemGroup>
+  
 </Project>
