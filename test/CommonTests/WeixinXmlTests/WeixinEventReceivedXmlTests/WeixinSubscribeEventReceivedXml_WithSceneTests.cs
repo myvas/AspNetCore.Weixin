@@ -7,7 +7,7 @@ public class WeixinSubscribeEventReceivedXml_WithSceneTests
     [Fact]
     public void Serialize()
     {
-        string s = TestFile.ReadTestFile("event/event-subscribe-scene.xml.txt");
+        string s = TestFile.ReadTestFile("event/event-subscribe-qrscene.xml.txt");
         var o = new SubscribeEventReceivedXml
         {
             ToUserName = "gh_712b448adf85",
@@ -27,7 +27,7 @@ public class WeixinSubscribeEventReceivedXml_WithSceneTests
     [Fact]
     public void Deserialize()
     {
-        string s = TestFile.ReadTestFile("event/event-subscribe-scene.xml.txt");
+        string s = TestFile.ReadTestFile("event/event-subscribe-qrscene.xml.txt");
         var o = new SubscribeEventReceivedXml
         {
             ToUserName = "gh_712b448adf85",
