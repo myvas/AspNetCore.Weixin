@@ -27,10 +27,12 @@ public class LocationMessageReceivedXml : MessageReceivedXml
     /// <example>20</example>
     /// <remarks>注意：与Google Maps不一致</remarks>
     /// </summary>
+    [XmlElement("Scale", Namespace = "")]
     public decimal Scale { get; set; }
 
     /// <summary>
     /// 地址标注
     /// </summary>
+    [XmlElement("Label")]
     public string Label { get; set; }
 }
