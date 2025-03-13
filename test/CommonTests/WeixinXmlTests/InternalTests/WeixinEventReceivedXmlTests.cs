@@ -7,7 +7,7 @@ public class WeixinEventReceivedXmlTests
     [Fact]
     public void WeixinEventReceivedXml_Serialize()
     {
-        string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><Event><Event></xml>";
+        string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><Event></Event></xml>";
         var o = new EventReceivedXml();
 
         var result = MyvasXmlConvert.SerializeObject(o);
@@ -27,7 +27,7 @@ public class WeixinEventReceivedXmlTests
             Event = "LOCATION"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(s);
+        var result = MyvasXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -35,7 +35,14 @@ public class WeixinEventReceivedXmlTests
     public void WeixinReceivedXml_Deserialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType><Event></Event></xml>";
-        var o = new EventReceivedXml();
+        var o = new EventReceivedXml
+        {
+            ToUserName = "",
+            FromUserName = "",
+            CreateTime = 0,
+            MsgType = "",
+            Event = ""
+        };
 
         var result = MyvasXmlConvert.DeserializeObject<EventReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
