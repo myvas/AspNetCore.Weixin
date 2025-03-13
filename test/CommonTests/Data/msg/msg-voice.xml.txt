@@ -3,7 +3,7 @@
 <FromUserName><![CDATA[oI3UkuL9uZxTOuj--HHMSMTlO3ks]]></FromUserName>
 <CreateTime>1490872329</CreateTime>
 <MsgType><![CDATA[text]]></MsgType>
+<MsgId>6403247895999455936</MsgId>
 <MediaId><![CDATA[media_id]]></MediaId>
 <Format><![CDATA[Format]]></Format>
-<MsgId>6403247895999455936</MsgId>
 </xml>

@@ -4,6 +4,6 @@
 <CreateTime>1490872329</CreateTime>
 <MsgType><![CDATA[text]]></MsgType>
 <MsgId>6403247895999455936</MsgId>
-<PicUrl><![CDATA[this is a url]]></PicUrl>
 <MediaId><![CDATA[media_id]]></MediaId>
+<PicUrl><![CDATA[this is a url]]></PicUrl>
 </xml>
