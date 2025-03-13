@@ -68,6 +68,7 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Using Include="Myvas.AspNetCore.Weixin" />
   </ItemGroup>
 
 </Project>
