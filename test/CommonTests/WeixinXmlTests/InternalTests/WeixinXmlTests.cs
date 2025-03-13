@@ -5,7 +5,7 @@ namespace Myvas.AspNetCore.Weixin.CommonTests.WeixinXmlTests.InternalTests;
 public class WeixinXmlTests
 {
     [Fact]
-    public void WeixinXml_Serialize()
+    public void Serialize()
     {
         string s = @"<xml></xml>";
 
@@ -20,7 +20,7 @@ public class WeixinXmlTests
     [InlineData(@"<xml>\r</xml>")]
     [InlineData(@"<xml>\t</xml>")]
     [InlineData(@"<xml> </xml>")]
-    public void WeixinXml_Deserialize(string s)
+    public void Deserialize(string s)
     {
         var result = MyvasXmlConvert.DeserializeObject<WeixinXml>(s);
         Assert.NotNull(result);
