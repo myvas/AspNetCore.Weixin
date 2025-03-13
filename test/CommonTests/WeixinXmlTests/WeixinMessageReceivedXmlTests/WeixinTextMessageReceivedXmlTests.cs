@@ -7,33 +7,34 @@ public class WeixinTextMessageReceivedXmlTests
     [Fact]
     public void WeixinTextMessageReceivedXml_Serialize()
     {
-        string s = TestFile.ReadTestFile("msg/msg-text.xml.txt");
-        var s2 = MyvasXmlConvert.SerializeObject(MyvasXmlConvert.DeserializeObject<WeixinXml>(s));
+        var s = TestFile.ReadTestFile("msg/msg-text.xml.txt");
         var o = new TextMessageReceivedXml
         {
             ToUserName = "gh_712b448adf85",
-            FromUserName = "oI3UkuL9uZxTOuj",
+            FromUserName = "oI3UkuL9uZxTOuj--HHMSMTlO3ks",
             CreateTime = 1490872329,
             MsgType = "text",
-            Content = "中文字符",
-            MsgId = 6403247895999455936
+            MsgId = 6403247895999455936,
+            Content = "中文字符"
         };
 
         var result = MyvasXmlConvert.SerializeObject(o);
+        var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
 
     [Fact]
-    public void WeixinMessageReceivedXml_Deserialize()
+    public void WeixinTextMessageReceivedXml_Deserialize()
     {
         string s = TestFile.ReadTestFile("msg/msg-text.xml.txt");
-        var o = new TextMessageReceivedXml{
+        var o = new TextMessageReceivedXml
+        {
             ToUserName = "gh_712b448adf85",
-            FromUserName = "oI3UkuL9uZxTOuj",
+            FromUserName = "oI3UkuL9uZxTOuj--HHMSMTlO3ks",
             CreateTime = 1490872329,
             MsgType = "text",
-            Content = "中文字符",
-            MsgId = 6403247895999455936
+            MsgId = 6403247895999455936,
+            Content = "中文字符"
         };
 
         var result = MyvasXmlConvert.DeserializeObject<TextMessageReceivedXml>(s);
@@ -42,5 +43,6 @@ public class WeixinTextMessageReceivedXmlTests
         Assert.Equal(o.CreateTime, result.CreateTime);
         Assert.Equal(o.MsgType, result.MsgType);
         Assert.Equal(o.MsgId, result.MsgId);
+        Assert.Equal(o.Content, result.Content);
     }
 }
