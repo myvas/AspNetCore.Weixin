@@ -1,0 +1,9 @@
+<xml>
+  <ToUserName><![CDATA[gh_712b448adf85]]></ToUserName>
+<FromUserName><![CDATA[oI3UkuL9uZxTOuj--HHMSMTlO3ks]]></FromUserName>
+<CreateTime>1490872329</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<MediaId><![CDATA[media_id]]></MediaId>
+<ThumbMediaId><![CDATA[thumb_media_id]]></ThumbMediaId>
+<MsgId>6403247895999455936</MsgId>
+</xml>
