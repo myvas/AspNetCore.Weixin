@@ -16,7 +16,7 @@ public class WeixinVoiceMessageReceivedXmlTests
             MsgType = "text",
             MsgId = 6403247895999455936,
             MediaId = "media_id",
-            Format = "Format",
+            Format = "Format"
         };
 
         var result = MyvasXmlConvert.SerializeObject(o);
