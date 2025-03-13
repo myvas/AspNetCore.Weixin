@@ -48,7 +48,8 @@ public static class MyvasXmlConvert
 
         var jsonText = JsonSerializer.Serialize(objectInstance, new JsonSerializerOptions
         {
-            Converters = { new BaseClassFirstConverter<T>() }
+            IgnoreNullValues = true,
+            Converters = { new BaseClassFirstXmlConverter<T>() }
         });
         var xmldoc = JsonToXml(jsonText, rootElementName);
         return xmldoc;
