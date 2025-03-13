@@ -26,7 +26,7 @@ public class WeixinViewMenuEventReceivedXmlTests
     [Fact]
     public void Deserialize()
     {
-        string s = TestFile.ReadTestFile("event/event-click-menu.xml.txt");
+        string s = TestFile.ReadTestFile("event/event-view-menu.xml.txt");
         var o = new ViewMenuEventReceivedXml
         {
             ToUserName = "gh_712b448adf85",
