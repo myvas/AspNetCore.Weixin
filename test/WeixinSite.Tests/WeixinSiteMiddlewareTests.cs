@@ -62,7 +62,7 @@ public class WeixinSiteMiddlewareTests
         var s = await response.Content.ReadAsStringAsync();
         Assert.StartsWith("<xml>", s);
         Assert.Contains("<Content>Your message had been received", s);
-        Assert.EndsWith("</xml", s);
+        Assert.EndsWith("</xml>", s);
     }
 
     [Fact]
