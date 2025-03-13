@@ -14,8 +14,7 @@ public class WeixinSubscribeEventReceivedXmlTests
             FromUserName = "oI3UkuL9uZxTOuj--HHMSMTlO3ks",
             CreateTime = 1490872329,
             MsgType = "event",
-            Event = "subscribe",
-            EventKey = ""
+            Event = "subscribe"
         };
 
         var result = MyvasXmlConvert.SerializeObject(o);
@@ -33,8 +32,7 @@ public class WeixinSubscribeEventReceivedXmlTests
             FromUserName = "oI3UkuL9uZxTOuj--HHMSMTlO3ks",
             CreateTime = 1490872329,
             MsgType = "event",
-            Event = "subscribe",
-            EventKey = ""
+            Event = "subscribe"
         };
 
         var result = MyvasXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(s);
