@@ -10,5 +10,8 @@ namespace Myvas.AspNetCore.Weixin;
 [XmlRoot("xml", Namespace = "")]
 public class MessageReceivedXml : ReceivedXml
 {
+    /// <summary>
+    /// 消息id，64位整型
+    /// </summary>
     public Int64 MsgId { get; set; }
 }
