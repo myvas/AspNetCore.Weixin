@@ -11,16 +11,13 @@ public class MyvasXmlConvertTests
         var s = @"<xml><ToUserName>To</ToUserName><FromUserName>From</FromUserName><CreateTime>0</CreateTime><MsgType>image</MsgType><Image><MediaId>mediaidxxx</MediaId></Image></xml>";
         var data = new
         {
-            xml = new
+            ToUserName = "To",
+            FromUserName = "From",
+            CreateTime = 0,
+            MsgType = "image",
+            Image = new
             {
-                ToUserName = "To",
-                FromUserName = "From",
-                CreateTime = 0,
-                MsgType = "image",
-                Image = new
-                {
-                    MediaId = "mediaidxxx"
-                }
+                MediaId = "mediaidxxx"
             }
         };
         var result = MyvasXmlConvert.SerializeObject(data);
@@ -114,6 +111,6 @@ public class MyvasXmlConvertTests
 
         var result = MyvasXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
-        Assert.Equal(s, result);
+        Assert.Equal(s2, result);
     }
 }
