@@ -56,7 +56,7 @@ public class WeixinMessageEncryptorDecryptTests
 
 		var result = MyvasXmlConvert.DeserializeObject<ReceivedXml>(xml);
 		Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
-		Assert.Equal(RequestMsgType.text, result.MsgType);
+		Assert.Equal(RequestMsgType.text, result.MsgTypeAsEnum());
 	}
 
 	[Fact]
@@ -86,6 +86,6 @@ public class WeixinMessageEncryptorDecryptTests
 
 		var result = MyvasXmlConvert.DeserializeObject<ReceivedXml>(xml);
 		Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
-		Assert.Equal(RequestMsgType.text, result.MsgType);
+		Assert.Equal(RequestMsgType.text, result.MsgTypeAsEnum());
 	}
 }
