@@ -1,0 +1,8 @@
+<xml><ToUserName><![CDATA[gh_712b448adf85]]></ToUserName>
+<FromUserName><![CDATA[oI3UkuL9uZxTOuj--HHMSMTlO3ks]]></FromUserName>
+<CreateTime>1490872329</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[qrscene_123123]]></EventKey>
+<Ticket><![CDATA[gQE28TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyUkhQZWgzelI4QVUxMDAwMGcwN3kAAgR6ittYAwQAAAAA]]></Ticket>
+</xml>
