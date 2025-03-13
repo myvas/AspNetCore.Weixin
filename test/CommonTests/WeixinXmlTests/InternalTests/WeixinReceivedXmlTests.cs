@@ -8,7 +8,13 @@ public class WeixinReceivedXmlTests
     public void Serialize()
     {
         string s = @"<xml><ToUserName></ToUserName><FromUserName></FromUserName><CreateTime>0</CreateTime><MsgType></MsgType></xml>";
-        var o = new ReceivedXml();
+        var o = new ReceivedXml
+        {
+            ToUserName = "",
+            FromUserName = "",
+            CreateTime = 0,
+            MsgType = ""
+        };
 
         var result = MyvasXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
