@@ -5,7 +5,7 @@ namespace Myvas.AspNetCore.Weixin.CommonTests.WeixinXmlTests;
 public class WeixinTextMessageReceivedXmlTests
 {
     [Fact]
-    public void WeixinTextMessageReceivedXml_Serialize()
+    public void Serialize()
     {
         var s = TestFile.ReadTestFile("msg/msg-text.xml.txt");
         var o = new TextMessageReceivedXml
@@ -24,7 +24,7 @@ public class WeixinTextMessageReceivedXmlTests
     }
 
     [Fact]
-    public void WeixinTextMessageReceivedXml_Deserialize()
+    public void Deserialize()
     {
         string s = TestFile.ReadTestFile("msg/msg-text.xml.txt");
         var o = new TextMessageReceivedXml
