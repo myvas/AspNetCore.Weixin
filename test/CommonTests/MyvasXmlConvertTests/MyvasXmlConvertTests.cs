@@ -3,18 +3,19 @@ using Xunit;
 
 namespace Myvas.AspNetCore.Weixin.CommonTests.MyvasXmlConvertTests;
 
-public class MyvasXmlConvertSerializeTests
+public class MyvasXmlConvertTests
 {
     [Fact]
-    public void AnonymousObjectSerializeShouldSuccess()
+    public void MyvasXmlConvert_Serialize_AnonymousObject()
     {
+        var s = @"<xml><ToUserName>To</ToUserName><FromUserName>From</FromUserName><CreateTime>0</CreateTime><MsgType>image</MsgType><Image><MediaId>mediaidxxx</MediaId></Image></xml>";
         var data = new
         {
             xml = new
             {
-                ToUserName = "toxxx",
-                FromUserName = "fromxxx",
-                CreateTime = DateTime.Now.Ticks,
+                ToUserName = "To",
+                FromUserName = "From",
+                CreateTime = 0,
                 MsgType = "image",
                 Image = new
                 {
@@ -23,49 +24,28 @@ public class MyvasXmlConvertSerializeTests
             }
         };
         var result = MyvasXmlConvert.SerializeObject(data);
-
-        Assert.NotNull(result);
-        Assert.NotEmpty(result);
-        Assert.Contains("<xml>", result);
-        Assert.Contains("</xml>", result);
-        Assert.Contains("<ToUserName>", result);
-        Assert.Contains("</ToUserName>", result);
-        Assert.Contains("<Image>", result);
-        Assert.Contains("</Image>", result);
-        Assert.Contains("<MediaId>", result);
-        Assert.Contains("</MediaId>", result);
-        Assert.Contains("mediaidxxx", result);
+        Assert.Equal(s, result);
     }
 
     [Fact]
-    public void WeixinResponseImageSerializeShouldSuccess()
+    public void WeixinResponseImage_ToXml()
     {
+        var s = @"<xml><ToUserName>toxxx</ToUserName><FromUserName>fromxxx</FromUserName><CreateTime>0</CreateTime><MsgType>image</MsgType><Image><MediaId>mediaidxxx</MediaId></Image></xml>";
         var data = new WeixinResponseImage
         {
             ToUserName = "toxxx",
             FromUserName = "fromxxx",
-            CreateTimestamp = DateTime.Now.Ticks,
+            CreateTimestamp = 0,
             MediaId = "mediaidxxx"
         };
         var result = data.ToXml();
-
-        Assert.NotNull(result);
-        Assert.NotEmpty(result);
-        Assert.Contains("<xml>", result);
-        Assert.Contains("</xml>", result);
-        Assert.Contains("<ToUserName>", result);
-        Assert.Contains("</ToUserName>", result);
-        Assert.Contains("<Image>", result);
-        Assert.Contains("</Image>", result);
-        Assert.Contains("<MediaId>", result);
-        Assert.Contains("</MediaId>", result);
-        Assert.Contains("mediaidxxx", result);
+        Assert.Equal(s, result);
     }
 
     [Fact]
-    public void MustSerializable_ResponseTextMessage()
+    public void MyvasXmlConvert_SerializeObject_WeixinResponseText()
     {
-        string excepted = @"<xml>
+        var s = @"<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
 <FromUserName><![CDATA[fromUser]]></FromUserName>
 <CreateTime>1490872329</CreateTime>
@@ -82,16 +62,14 @@ public class MyvasXmlConvertSerializeTests
         };
 
         var result = MyvasXmlConvert.SerializeObject(o);
-
-        var deserializedExcepted = MyvasXmlConvert.DeserializeObject<WeixinResponseText>(excepted);
-        var reserializedExcepted = MyvasXmlConvert.SerializeObject(deserializedExcepted);
-        Assert.Equal(reserializedExcepted, result);
+        var s2 = WeixinXmlStringNormalizer.Normalize(s);
+        Assert.Equal(s2, result);
     }
 
     [Fact]
     public void MustSerializable_ResponseNewsMessage()
     {
-        string excepted = @"<xml>
+        var s = @"<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
 <FromUserName><![CDATA[fromUser]]></FromUserName>
 <CreateTime>1490872329</CreateTime>
@@ -135,10 +113,7 @@ public class MyvasXmlConvertSerializeTests
         });
 
         var result = MyvasXmlConvert.SerializeObject(o);
-
-        var deserializedExcepted = MyvasXmlConvert.DeserializeObject<WeixinResponseNews>(excepted);
-        var reserializedExcepted = MyvasXmlConvert.SerializeObject(deserializedExcepted);
-        Assert.Equal(reserializedExcepted, result);
+        var s2 = WeixinXmlStringNormalizer.Normalize(s);
+        Assert.Equal(s, result);
     }
-
 }
