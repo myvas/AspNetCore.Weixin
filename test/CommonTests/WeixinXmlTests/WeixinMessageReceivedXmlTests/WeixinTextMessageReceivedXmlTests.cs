@@ -1,6 +1,6 @@
 using Myvas.AspNetCore.Weixin;
 
-namespace Myvas.AspNetCore.Weixin.CommonTests.WeixinXmlTests.InternalTests;
+namespace Myvas.AspNetCore.Weixin.CommonTests.WeixinXmlTests;
 
 public class WeixinTextMessageReceivedXmlTests
 {
