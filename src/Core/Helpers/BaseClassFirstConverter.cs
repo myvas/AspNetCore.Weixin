@@ -47,10 +47,14 @@ public class BaseClassFirstConverter<T> : JsonConverter<T>
 
             foreach (var property in properties)
             {
-                if (property.CanRead)
+                if (property.CanRead && !(options.IgnoreReadOnlyProperties && !property.CanWrite))
                 {
-                    writer.WritePropertyName(property.Name);
-                    JsonSerializer.Serialize(writer, property.GetValue(value), options);
+                    var propertyValue = property.GetValue(value);
+                    if (!(options.IgnoreNullValues && propertyValue == null))
+                    {
+                        writer.WritePropertyName(property.Name);
+                        JsonSerializer.Serialize(writer, propertyValue, options);
+                    }
                 }
             }
         }
@@ -64,10 +68,15 @@ public class BaseClassFirstConverter<T> : JsonConverter<T>
                 var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                 foreach (var property in properties)
                 {
-                    if (property.CanRead)
+                    if (property.CanRead && !(options.IgnoreReadOnlyProperties && !property.CanWrite))
                     {
-                        writer.WritePropertyName(property.Name);
-                        JsonSerializer.Serialize(writer, property.GetValue(value), options);
+                        var propertyValue = property.GetValue(value);
+                        if (!(options.IgnoreNullValues && propertyValue == null))
+                        {
+
+                            writer.WritePropertyName(property.Name);
+                            JsonSerializer.Serialize(writer, propertyValue, options);
+                        }
                     }
                 }
             }
