@@ -5,6 +5,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 收到的微信消息或事件
 /// </summary>
+[XmlRoot("xml", Namespace = "")]
 public class ReceivedXml : WeixinXml
 {
 	/// <summary>
