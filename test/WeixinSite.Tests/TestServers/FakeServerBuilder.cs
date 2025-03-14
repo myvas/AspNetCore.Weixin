@@ -76,6 +76,36 @@ public static class FakeServerBuilder
                     await resp.FlushAsync();
                     return true;
                 };
+                o.Events.OnLocationEventReceived=async (x) =>{
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnLocationEventReceived: Longitude: {x.Xml.Longitude} Latitude: {x.Xml.Latitude} Precision: {x.Xml.Precision}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnClickMenuEventReceived=async (x) =>{
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnClickMenuEventReceived: EventKey: {x.Xml.EventKey}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnViewMenuEventReceived=async (x) =>{
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnViewMenuEventReceived: EventKey: {x.Xml.EventKey}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnQrscanEventReceived=async (x) =>{
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnQrscanEventReceived: EventKey: {x.Xml.EventKey} Ticket: {x.Xml.Ticket}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnSubscribeEventReceived=async (x) =>{
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnSubscribeEventReceived: EventKey: {x.Xml.EventKey} Ticket: {x.Xml.Ticket}";
+                    await resp.FlushAsync();
+                    return true;
+                };
             })
             .AddWeixinMessageEncryptor();
         },
