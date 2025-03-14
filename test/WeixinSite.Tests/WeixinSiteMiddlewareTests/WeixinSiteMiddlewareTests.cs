@@ -113,7 +113,7 @@ public class WeixinSiteMiddlewareTests
     [Theory]
     [InlineData("ReceivedMessages/text.xml", "OnTextMessageReceived: Content: this is a test")]
     [InlineData("ReceivedMessages/image.xml", "OnImageMessageReceived: PicUrl: this is a url")]
-    [InlineData("ReceivedMessages/video.xml", "OnImageMessageReceived: ThumbMediaId: thumb_media_id")]
+    [InlineData("ReceivedMessages/video.xml", "OnVideoMessageReceived: ThumbMediaId: thumb_media_id")]
     public async Task HttpPost_ShouldResponseFromWeixinSite(string xmlFileNameInReceivedMessages, string result)
     {
         var testClient = testServer.CreateClient();
