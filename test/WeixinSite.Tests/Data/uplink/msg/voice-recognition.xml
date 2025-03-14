@@ -9,8 +9,8 @@
   <MediaId>
     <![CDATA[media_id]]></MediaId>
   <Format>
-    <![CDATA[Format]]></Format>
+    <![CDATA[format]]></Format>
   <Recognition>
-    <![CDATA[腾讯微信团队]]></Recognition>
+    <![CDATA[recognition]]></Recognition>
   <MsgId>1234567890123456</MsgId>
 </xml>

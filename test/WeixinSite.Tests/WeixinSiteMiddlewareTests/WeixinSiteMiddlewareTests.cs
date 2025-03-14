@@ -40,36 +40,10 @@ public class WeixinSiteMiddlewareTests
     }
 
     [Fact]
-    public async Task HttpPost_ShouldReturnWeixinXmlContent()
-    {
-        var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
-        var timestamp = DateTime.Now.Ticks.ToString();
-        var nonce = "nonce";
-        var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
-        var query = new QueryBuilder
-        {
-            { "signature", signature },
-            { "timestamp", timestamp },
-            { "nonce", nonce }
-        };
-        var uri = WeixinSiteOptionsDefaults.Path + query.ToString();
-        testClient.DefaultRequestHeaders.Add("User-Agent", MicroMessengerUserAgent);
-
-        var response = await testClient.PostAsync(uri, new StringContent(textXml));
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var s = await response.Content.ReadAsStringAsync();
-        Assert.StartsWith("<xml>", s);
-        Assert.Contains("<Content>Your message had been received", s);
-        Assert.EndsWith("</xml>", s);
-    }
-
-    [Fact]
     public async Task HttpPost_InvalidSignature_Should400()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         // We intentionally do NOT prepare a query string with signature|timestamp|nonce here!
         var url = WeixinSiteOptionsDefaults.Path;
 
@@ -87,7 +61,7 @@ public class WeixinSiteMiddlewareTests
     public async Task HttpPost_NoUserAgentHeader_Should400()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         var timestamp = DateTime.Now.Ticks.ToString();
         var nonce = "nonce";
         var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
@@ -114,7 +88,7 @@ public class WeixinSiteMiddlewareTests
     public async Task HttpPost_NotMicroMessenger_Should400()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         var timestamp = DateTime.Now.Ticks.ToString();
         var nonce = "nonce";
         var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
@@ -134,5 +108,45 @@ public class WeixinSiteMiddlewareTests
         Assert.NotEmpty(s);
         Debug.WriteLine(s);
         Assert.StartsWith("Please access this page via the WeChat client", s);
+    }
+
+    [Theory]
+    [InlineData("uplink/msg/image.xml", "OnImageMessageReceived: PicUrl: https://mp.weixin.qq.com/fake.png")]
+    [InlineData("uplink/msg/link.xml", "OnLinkMessageReceived: Url: https://mp.weixin.qq.com")]
+    [InlineData("uplink/msg/location.xml", "OnLocationMessageReceived: Longitude: 113.358803 Latitude: 23.134521 Label: Somewhere")]
+    [InlineData("uplink/msg/short_video.xml", "OnShortVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
+    [InlineData("uplink/msg/text.xml", "OnTextMessageReceived: Content: content")]
+    [InlineData("uplink/msg/video.xml", "OnVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
+    [InlineData("uplink/msg/voice-recognition.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recognition: recognition")]
+    [InlineData("uplink/msg/voice.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recognition: ")]
+    [InlineData("uplink/event/location.xml", "OnLocationEventReceived: Longitude: 113.358803 Latitude: 23.134521 Precision: 119.385040")]
+    [InlineData("uplink/event/menu_click.xml", "OnClickMenuEventReceived: EventKey: EVENTKEY")]
+    [InlineData("uplink/event/menu_view.xml", "OnViewMenuEventReceived: EventKey: www.qq.com")]
+    [InlineData("uplink/event/scan.xml", "OnQrscanEventReceived: EventKey: SCENE_VALUE Ticket: TICKET")]
+    [InlineData("uplink/event/subscribe.xml", "OnSubscribeEventReceived: EventKey:  Ticket: ")]
+    [InlineData("uplink/event/subscribe_qrscene.xml", "OnSubscribeEventReceived: EventKey: qrscene_123123 Ticket: TICKET")]
+    public async Task HttpPost_WeixinEvents(string fileName, string result)
+    {
+        var testClient = testServer.CreateClient();
+        var textXml = TestFile.ReadTestFile(fileName);
+        var timestamp = DateTime.Now.Ticks.ToString();
+        var nonce = "nonce";
+        var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
+        var query = new QueryBuilder
+        {
+            { "signature", signature },
+            { "timestamp", timestamp },
+            { "nonce", nonce }
+        };
+        var uri = WeixinSiteOptionsDefaults.Path + query.ToString();
+        testClient.DefaultRequestHeaders.Add("User-Agent", MicroMessengerUserAgent);
+
+        var response = await testClient.PostAsync(uri, new StringContent(textXml));
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var s = await response.Content.ReadAsStringAsync();
+        Assert.StartsWith("<xml>", s);
+        Assert.Contains($"<Content>{result}</Content>", s);
+        Assert.EndsWith("</xml>", s);
     }
 }

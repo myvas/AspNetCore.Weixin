@@ -29,7 +29,7 @@ public class WeixinSiteMiddlewareDebugTests
     public async Task HttpPost_DebugAndNotValidSignature_ShouldSuccess()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         var response = await testClient.PostAsync(WeixinSiteOptionsDefaults.Path, new StringContent(textXml));
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
@@ -38,7 +38,7 @@ public class WeixinSiteMiddlewareDebugTests
         Assert.NotEmpty(s);
         Debug.WriteLine(s);
         Assert.StartsWith("<xml>", s);
-        Assert.Contains("<Content>Your message had been received", s);
+        Assert.Contains("<Content>OnTextMessageReceived: Content: content</Content>", s);
         Assert.EndsWith("</xml>", s);
     }
 
@@ -46,7 +46,7 @@ public class WeixinSiteMiddlewareDebugTests
     public async Task HttpPost_DebugAndValidSignature_ShouldSuccess()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         var response = await testClient.PostAsync(WeixinSiteOptionsDefaults.Path, new StringContent(textXml));
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
@@ -55,7 +55,7 @@ public class WeixinSiteMiddlewareDebugTests
         Assert.NotEmpty(s);
         Debug.WriteLine(s);
         Assert.StartsWith("<xml>", s);
-        Assert.Contains("<Content>Your message had been received", s);
+        Assert.Contains("<Content>OnTextMessageReceived: Content: content</Content>", s);
         Assert.EndsWith("</xml>", s);
     }
 }

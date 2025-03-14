@@ -63,11 +63,15 @@ public class WeixinHandler : IWeixinHandler<ReceivedXml>
                     return await FireEventAsync(_options.Events.OnShortVideoMessageReceived);
                 case RequestMsgType.location:
                     return await FireEventAsync(_options.Events.OnLocationMessageReceived);
+                case RequestMsgType.link:
+                    return await FireEventAsync(_options.Events.OnLinkMessageReceived);
                 case RequestMsgType.@event:
                     switch (eventType)
                     {
                         case RequestEventType.subscribe:
                             return await FireEventAsync(_options.Events.OnSubscribeEventReceived);
+                        case RequestEventType.LOCATION:
+                            return await FireEventAsync(_options.Events.OnLocationEventReceived);
                         case RequestEventType.CLICK:
                             return await FireEventAsync(_options.Events.OnClickMenuEventReceived);
                         case RequestEventType.VIEW:

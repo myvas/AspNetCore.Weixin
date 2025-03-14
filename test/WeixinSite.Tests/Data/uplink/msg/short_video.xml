@@ -2,8 +2,8 @@
   <ToUserName><![CDATA[toUser]]></ToUserName>
   <FromUserName><![CDATA[fromUser]]></FromUserName>
   <CreateTime>1357290913</CreateTime>
-  <MsgType><![CDATA[voice]]></MsgType>
+  <MsgType><![CDATA[shortvideo]]></MsgType>
   <MediaId><![CDATA[media_id]]></MediaId>
-  <Format><![CDATA[Format]]></Format>
+  <ThumbMediaId><![CDATA[thumb_media_id]]></ThumbMediaId>
   <MsgId>1234567890123456</MsgId>
 </xml>
