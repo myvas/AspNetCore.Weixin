@@ -43,7 +43,7 @@ public class WeixinSiteMiddlewareTests
     public async Task HttpPost_InvalidSignature_Should400()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         // We intentionally do NOT prepare a query string with signature|timestamp|nonce here!
         var url = WeixinSiteOptionsDefaults.Path;
 
@@ -61,7 +61,7 @@ public class WeixinSiteMiddlewareTests
     public async Task HttpPost_NoUserAgentHeader_Should400()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         var timestamp = DateTime.Now.Ticks.ToString();
         var nonce = "nonce";
         var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
@@ -88,7 +88,7 @@ public class WeixinSiteMiddlewareTests
     public async Task HttpPost_NotMicroMessenger_Should400()
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
+        var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         var timestamp = DateTime.Now.Ticks.ToString();
         var nonce = "nonce";
         var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
