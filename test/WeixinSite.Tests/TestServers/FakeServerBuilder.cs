@@ -27,6 +27,34 @@ public static class FakeServerBuilder
             .AddWeixinSite(o =>
             {
                 o.WebsiteToken = "WEIXINSITETOKEN";
+                o.Events.OnImageMessageReceived = async (x) =>
+                {
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnImageMessageReceived: PicUrl: {x.Xml.PicUrl}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnLinkMessageReceived = async (x) =>
+                {
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnLinkMessageReceived: Url: {x.Xml.Url}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnLocationMessageReceived = async (x) =>
+                {
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnLocationMessageReceived: Longitude: {x.Xml.Longitude} Latitude: {x.Xml.Latitude} Label: {x.Xml.Label}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnShortVideoMessageReceived = async (x) =>
+                {
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnShortVideoMessageReceived: MediaId: {x.Xml.MediaId} ThumbMediaId: {x.Xml.ThumbMediaId}";
+                    await resp.FlushAsync();
+                    return true;
+                };
                 o.Events.OnTextMessageReceived = async (x) =>
                 {
                     var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
@@ -34,15 +62,17 @@ public static class FakeServerBuilder
                     await resp.FlushAsync();
                     return true;
                 };
-                o.Events.OnImageMessageReceived = async (x) => {
+                o.Events.OnVideoMessageReceived = async (x) =>
+                {
                     var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
-                    resp.ResponseEntity.Content = $"OnImageMessageReceived: PicUrl: {x.Xml.PicUrl}";
+                    resp.ResponseEntity.Content = $"OnVideoMessageReceived: MediaId: {x.Xml.MediaId} ThumbMediaId: {x.Xml.ThumbMediaId}";
                     await resp.FlushAsync();
                     return true;
-                };                
-                o.Events.OnVideoMessageReceived = async (x) => {
+                };
+                o.Events.OnVoiceMessageReceived = async (x) =>
+                {
                     var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
-                    resp.ResponseEntity.Content = $"OnVideoMessageReceived: ThumbMediaId: {x.Xml.ThumbMediaId}";
+                    resp.ResponseEntity.Content = $"OnVoiceMessageReceived: Format: {x.Xml.Format} MediaId: {x.Xml.MediaId} Recognition: {x.Xml.Recognition}";
                     await resp.FlushAsync();
                     return true;
                 };
@@ -101,7 +131,7 @@ public static class FakeServerBuilder
                 return true;
             }
 #else
-            if (!req.Headers.ContainsKey("User-Agent") 
+            if (!req.Headers.ContainsKey("User-Agent")
                 && req.Headers["User-Agent"].ToString().Contains("MicroMessenger"))
             {
                 var content = TestFile.ReadTestFile("Responses/invalid-user-agent.xml");
@@ -213,7 +243,7 @@ public static class FakeServerBuilder
                 return true;
             }
 #else
-            if (!req.Headers.ContainsKey("User-Agent") 
+            if (!req.Headers.ContainsKey("User-Agent")
                 && req.Headers["User-Agent"].ToString().Contains("MicroMessenger"))
             {
                 var content = TestFile.ReadTestFile("Responses/invalid-user-agent.xml");
