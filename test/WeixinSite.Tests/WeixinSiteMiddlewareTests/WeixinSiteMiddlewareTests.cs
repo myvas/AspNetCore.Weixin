@@ -40,32 +40,6 @@ public class WeixinSiteMiddlewareTests
     }
 
     [Fact]
-    public async Task HttpPost_ShouldReturnWeixinXmlContent()
-    {
-        var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile("ReceivedMessages/text.xml");
-        var timestamp = DateTime.Now.Ticks.ToString();
-        var nonce = "nonce";
-        var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
-        var query = new QueryBuilder
-        {
-            { "signature", signature },
-            { "timestamp", timestamp },
-            { "nonce", nonce }
-        };
-        var uri = WeixinSiteOptionsDefaults.Path + query.ToString();
-        testClient.DefaultRequestHeaders.Add("User-Agent", MicroMessengerUserAgent);
-
-        var response = await testClient.PostAsync(uri, new StringContent(textXml));
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var s = await response.Content.ReadAsStringAsync();
-        Assert.StartsWith("<xml>", s);
-        Assert.Contains("<Content>Your message had been received", s);
-        Assert.EndsWith("</xml>", s);
-    }
-
-    [Fact]
     public async Task HttpPost_InvalidSignature_Should400()
     {
         var testClient = testServer.CreateClient();
@@ -135,4 +109,33 @@ public class WeixinSiteMiddlewareTests
         Debug.WriteLine(s);
         Assert.StartsWith("Please access this page via the WeChat client", s);
     }
+    
+    [Theory]
+    [InlineData("ReceivedMessages/text.xml", "OnTextMessageReceived: Content: this is a test")]
+    [InlineData("ReceivedMessages/image.xml", "OnImageMessageReceived: PicUrl: this is a url")]
+    [InlineData("ReceivedMessages/video.xml", "OnImageMessageReceived: ThumbMediaId: thumb_media_id")]
+    public async Task HttpPost_ShouldResponseFromWeixinSite(string xmlFileNameInReceivedMessages, string result)
+    {
+        var testClient = testServer.CreateClient();
+        var textXml = TestFile.ReadTestFile(xmlFileNameInReceivedMessages);
+        var timestamp = DateTime.Now.Ticks.ToString();
+        var nonce = "nonce";
+        var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
+        var query = new QueryBuilder
+        {
+            { "signature", signature },
+            { "timestamp", timestamp },
+            { "nonce", nonce }
+        };
+        var uri = WeixinSiteOptionsDefaults.Path + query.ToString();
+        testClient.DefaultRequestHeaders.Add("User-Agent", MicroMessengerUserAgent);
+
+        var response = await testClient.PostAsync(uri, new StringContent(textXml));
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var s = await response.Content.ReadAsStringAsync();
+        Assert.StartsWith("<xml>", s);
+        Assert.Contains($"<Content>{result}</Content>", s);
+        Assert.EndsWith("</xml>", s);
+    }    
 }
