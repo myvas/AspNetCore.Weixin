@@ -109,20 +109,26 @@ public class WeixinSiteMiddlewareTests
         Debug.WriteLine(s);
         Assert.StartsWith("Please access this page via the WeChat client", s);
     }
-    
+
     [Theory]
-    [InlineData("ReceivedMessages/image.xml", "OnImageMessageReceived: PicUrl: https://mp.weixin.qq.com/fake.png")]
-    [InlineData("ReceivedMessages/link.xml", "OnLinkMessageReceived: Url: https://mp.weixin.qq.com")]
-    [InlineData("ReceivedMessages/location.xml", "OnLocationMessageReceived: Longitude: 113.358803 Latitude: 23.134521 Label: Somewhere")]
-    [InlineData("ReceivedMessages/short_video.xml", "OnShortVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
-    [InlineData("ReceivedMessages/text.xml", "OnTextMessageReceived: Content: content")]
-    [InlineData("ReceivedMessages/video.xml", "OnVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
-    [InlineData("ReceivedMessages/voice-recognition.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recognition: recognition")]
-    [InlineData("ReceivedMessages/voice.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recogniation: ")]
-    public async Task HttpPost_ShouldResponseFromWeixinSite(string xmlFileNameInReceivedMessages, string result)
+    [InlineData("uplink/msg/image.xml", "OnImageMessageReceived: PicUrl: https://mp.weixin.qq.com/fake.png")]
+    [InlineData("uplink/msg/link.xml", "OnLinkMessageReceived: Url: https://mp.weixin.qq.com")]
+    [InlineData("uplink/msg/location.xml", "OnLocationMessageReceived: Longitude: 113.358803 Latitude: 23.134521 Label: Somewhere")]
+    [InlineData("uplink/msg/short_video.xml", "OnShortVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
+    [InlineData("uplink/msg/text.xml", "OnTextMessageReceived: Content: content")]
+    [InlineData("uplink/msg/video.xml", "OnVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
+    [InlineData("uplink/msg/voice-recognition.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recognition: recognition")]
+    [InlineData("uplink/msg/voice.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recognition: ")]
+    [InlineData("uplink/event/location.xml", "OnSubscribeEventReceived: Longitude: 113.358803 Latitude: 23.134521 Precision: 119.385040")]
+    [InlineData("uplink/event/menu_click.xml", "OnSubscribeEventReceived: EventKey: EVENTKEY")]
+    [InlineData("uplink/event/menu_view.xml", "OnSubscribeEventReceived: EventKey: www.qq.com")]
+    [InlineData("uplink/event/scan.xml", "OnSubscribeEventReceived: EventKey: SCENE_VALUE Ticket: TICKET")]
+    [InlineData("uplink/event/subscribe.xml", "OnSubscribeEventReceived: EventKey:  Ticket: ")]
+    [InlineData("uplink/event/subscribe_qrscene.xml", "OnSubscribeEventReceived: EventKey: qrscene_123123 Ticket: TICKET")]
+    public async Task HttpPost_WeixinEvents(string fileName, string result)
     {
         var testClient = testServer.CreateClient();
-        var textXml = TestFile.ReadTestFile(xmlFileNameInReceivedMessages);
+        var textXml = TestFile.ReadTestFile(fileName);
         var timestamp = DateTime.Now.Ticks.ToString();
         var nonce = "nonce";
         var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
@@ -142,5 +148,5 @@ public class WeixinSiteMiddlewareTests
         Assert.StartsWith("<xml>", s);
         Assert.Contains($"<Content>{result}</Content>", s);
         Assert.EndsWith("</xml>", s);
-    }    
+    }
 }
