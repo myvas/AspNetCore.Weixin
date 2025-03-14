@@ -111,9 +111,14 @@ public class WeixinSiteMiddlewareTests
     }
     
     [Theory]
-    [InlineData("ReceivedMessages/text.xml", "OnTextMessageReceived: Content: this is a test")]
-    [InlineData("ReceivedMessages/image.xml", "OnImageMessageReceived: PicUrl: this is a url")]
-    [InlineData("ReceivedMessages/video.xml", "OnVideoMessageReceived: ThumbMediaId: thumb_media_id")]
+    [InlineData("ReceivedMessages/image.xml", "OnImageMessageReceived: PicUrl: https://mp.weixin.qq.com/fake.png")]
+    [InlineData("ReceivedMessages/link.xml", "OnLinkMessageReceived: Url: https://mp.weixin.qq.com")]
+    [InlineData("ReceivedMessages/location.xml", "OnLocationMessageReceived: Longitude: 113.358803 Latitude: 23.134521 Label: Somewhere")]
+    [InlineData("ReceivedMessages/short_video.xml", "OnShortVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
+    [InlineData("ReceivedMessages/text.xml", "OnTextMessageReceived: Content: content")]
+    [InlineData("ReceivedMessages/video.xml", "OnVideoMessageReceived: MediaId: media_id ThumbMediaId: thumb_media_id")]
+    [InlineData("ReceivedMessages/voice-recognition.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recognition: recognition")]
+    [InlineData("ReceivedMessages/voice.xml", "OnVoiceMessageReceived: Format: format MediaId: media_id Recogniation: ")]
     public async Task HttpPost_ShouldResponseFromWeixinSite(string xmlFileNameInReceivedMessages, string result)
     {
         var testClient = testServer.CreateClient();
