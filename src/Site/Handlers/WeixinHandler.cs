@@ -70,6 +70,8 @@ public class WeixinHandler : IWeixinHandler<ReceivedXml>
                     {
                         case RequestEventType.subscribe:
                             return await FireEventAsync(_options.Events.OnSubscribeEventReceived);
+                        case RequestEventType.LOCATION:
+                            return await FireEventAsync(_options.Events.OnLocationEventReceived);
                         case RequestEventType.CLICK:
                             return await FireEventAsync(_options.Events.OnClickMenuEventReceived);
                         case RequestEventType.VIEW:
