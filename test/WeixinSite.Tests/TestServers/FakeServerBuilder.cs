@@ -30,7 +30,19 @@ public static class FakeServerBuilder
                 o.Events.OnTextMessageReceived = async (x) =>
                 {
                     var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
-                    resp.ResponseEntity.Content = $"Your message had been received:{x.Xml.Content}";
+                    resp.ResponseEntity.Content = $"OnTextMessageReceived: Content: {x.Xml.Content}";
+                    await resp.FlushAsync();
+                    return true;
+                };
+                o.Events.OnImageMessageReceived = async (x) => {
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnImageMessageReceived: PicUrl: {x.Xml.PicUrl}";
+                    await resp.FlushAsync();
+                    return true;
+                };                
+                o.Events.OnVideoMessageReceived = async (x) => {
+                    var resp = new WeixinResponseBuilder<WeixinResponseText>(x.Context, x.Xml);
+                    resp.ResponseEntity.Content = $"OnVideoMessageReceived: ThumbMediaId: {x.Xml.ThumbMediaId}";
                     await resp.FlushAsync();
                     return true;
                 };
