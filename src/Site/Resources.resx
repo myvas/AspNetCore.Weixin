@@ -137,4 +137,24 @@
     <value>The weixin request content is too large.</value>
     <comment>display when WeixinSite received a large request content</comment>
   </data>
+  <data name="BadRequest" xml:space="preserve">
+    <value>The weixin request content cannot be parsed.</value>
+    <comment>display when WeixinSite received a request but we don't know how to process</comment>
+  </data>
+  <data name="UnknownRequestMessageEvent" xml:space="preserve">
+    <value>The system is unable to recognize and process this event message.</value>
+    <comment/>
+  </data>
+  <data name="UnknownRequestMessage" xml:space="preserve">
+    <value>The system is unable to recognize and process this message.</value>
+    <comment/>
+  </data>
+  <data name="ExceptionOnHandler" xml:space="preserve">
+    <value>An exception occurred while the system was parsing and processing the WeChat message.</value>
+    <comment/>
+  </data>
+  <data name="ErrorOnCallingHandler" xml:space="preserve">
+    <value>An error occurred on the server when calling a handler. Please contact the system adminator.</value>
+    <comment/>
+  </data>
 </root>
