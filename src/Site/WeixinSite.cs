@@ -20,8 +20,6 @@ public class WeixinSite : IWeixinSite
 
     private readonly IEnumerable<IWeixinEventSink> _handlers;
 
-    private ReceivedXml Xml;
-
     public WeixinSite(ILoggerFactory logger,
         IOptions<WeixinSiteOptions> optionsAccessor,
         IServiceProvider serviceProvider)
