@@ -3,17 +3,9 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinHandler
+public interface IWeixinSite
 {
-    /// <summary>
-    /// The <see cref="HttpContext"/> from request.
-    /// </summary>
-    HttpContext Context { get; set; }
-
-    /// <summary>
-    /// The string parsed from the request body of <see cref="Context"/>.
-    /// </summary>
-    string Text { get; set; }
+    WeixinContext Context{get;set;}
 
     /// <summary>
     /// Parse the property <see cref="Text"/>, and flush a response.
@@ -22,7 +14,7 @@ public interface IWeixinHandler
     Task<bool> HandleAsync();
 }
 
-public interface IWeixinHandler<T> : IWeixinHandler
+public interface IWeixinSite<T> : IWeixinSite
     where T : ReceivedXml
 {
     /// <summary>

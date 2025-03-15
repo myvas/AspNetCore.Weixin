@@ -17,11 +17,11 @@ public class WeixinSiteMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger _logger;
     private readonly WeixinSiteOptions _options;
-    private readonly IWeixinHandler _handler;
+    private readonly IWeixinSite _site;
 
     public WeixinSiteMiddleware(
         RequestDelegate next,
-        IWeixinHandler handler,
+        IWeixinSite handler,
         IOptions<WeixinSiteOptions> optionsAccessor,
         ILoggerFactory loggerFactory)
     {
@@ -41,7 +41,7 @@ public class WeixinSiteMiddleware
 
         // _options.Debug
 
-        _handler = handler ?? throw new ArgumentNullException(nameof(handler));
+        _site = handler ?? throw new ArgumentNullException(nameof(handler));
     }
 
     /// <summary>
@@ -169,7 +169,7 @@ public class WeixinSiteMiddleware
 
         // To limit the content length to avoid abnormal requests.
         var contentLength = context.Request.ContentLength ?? 0;
-        if(contentLength > maxRequestContentLength)
+        if (contentLength > maxRequestContentLength)
         {
             var response = new PlainTextResponseBuilder(context);
             response.Context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -187,9 +187,15 @@ public class WeixinSiteMiddleware
         Debug.WriteLine($"Request body({text?.Length}):");
         Debug.WriteLine(text);
 
-        IWeixinHandler handler = _handler;
-        handler.Context = context;
-        handler.Text = text;
-        await handler.HandleAsync();
+        _site.Context = new WeixinContext(context, text);
+        var handled = await _site.HandleAsync();
+        if (!handled)
+        {
+            var response = new PlainTextResponseBuilder(context);
+            response.Context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            response.Content = Resources.BadRequest;
+            await response.FlushAsync();
+            return;
+        }
     }
 }

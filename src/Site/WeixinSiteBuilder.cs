@@ -19,9 +19,9 @@ public class WeixinSiteBuilder
 
     public IServiceCollection Services { get => WeixinBuilder.Services; }
 
-    private IList<IWeixinHandler> _handlers = new List<IWeixinHandler>();
-    public IReadOnlyList<IWeixinHandler> WeixinHandlers { get { return (IReadOnlyList<IWeixinHandler>)_handlers; } }
-    public IWeixinHandler AddHandler(IWeixinHandler handler)
+    private IList<IWeixinSite> _handlers = new List<IWeixinSite>();
+    public IReadOnlyList<IWeixinSite> WeixinHandlers { get { return (IReadOnlyList<IWeixinSite>)_handlers; } }
+    public IWeixinSite AddHandler(IWeixinSite handler)
     {
         if (!_handlers.Contains(handler))
         {

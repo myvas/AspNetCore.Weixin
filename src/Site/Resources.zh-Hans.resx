@@ -137,4 +137,8 @@
     <value>微信请求太大，已超过设定上限值。</value>
     <comment/>
   </data>
+  <data name="BadRequest" xml:space="preserve">
+    <value>无法识别的请求，无法处理。</value>
+    <comment/>
+  </data>
 </root>

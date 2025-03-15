@@ -45,9 +45,7 @@
 		<file src="..\..\..\Api\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Api.dll" target="lib\$TargetFramework$" />
 		<file src="..\..\..\Core\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Core.dll" target="lib\$TargetFramework$" />
 		<file src="..\..\..\EfCore\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.EfCore.dll" target="lib\$TargetFramework$" />
-		<file src="..\..\..\Jssdk\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Jssdk.dll" target="lib\$TargetFramework$" />
 		<file src="..\..\..\Site\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Site.dll" target="lib\$TargetFramework$" />
-		<file src="..\..\..\Stores\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Stores.dll" target="lib\$TargetFramework$" />
 		<!-- Add more files as needed -->
 	</files>
 </package>

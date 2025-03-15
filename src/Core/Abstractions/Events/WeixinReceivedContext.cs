@@ -2,18 +2,14 @@
 
 namespace Myvas.AspNetCore.Weixin
 {
-    public class WeixinReceivedContext<TReceivedXml>
+    public class WeixinReceivedContext<TReceivedXml> : WeixinContext
         where TReceivedXml : ReceivedXml
     {
-        public WeixinReceivedContext(HttpContext requestContext, string text, ReceivedXml xml)
+        public WeixinReceivedContext(HttpContext requestContext, string text, ReceivedXml xml) : base(requestContext, text)
         {
-            Context = requestContext;
-            Text = text;
             Xml = xml as TReceivedXml;
         }
 
-        public HttpContext Context { get; }
-        public string Text { get; }
         public TReceivedXml Xml { get; }
     }
 }
