@@ -39,5 +39,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources.zh-Hans.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
