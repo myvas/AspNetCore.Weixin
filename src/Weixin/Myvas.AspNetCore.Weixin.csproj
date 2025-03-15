@@ -20,9 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="../Site/Myvas.AspNetCore.Weixin.Site.csproj" />
 		<ProjectReference Include="../EfCore/Myvas.AspNetCore.Weixin.EfCore.csproj" />
-		<ProjectReference Include="../Jssdk/Myvas.AspNetCore.Weixin.Jssdk.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
