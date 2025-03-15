@@ -1,43 +1,22 @@
-﻿using Myvas.AspNetCore.Weixin;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin
-{
-    /// <summary>
-    /// "Official account services unavailable. Try again later." 
-    /// will be response while firing an event that returns "false".
-    /// </summary>
-    public class WeixinEvents
-    {
-        public Func<WeixinReceivedContext<ImageMessageReceivedXml>, Task<bool>> OnImageMessageReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<ClickMenuEventReceivedXml>, Task<bool>> OnClickMenuEventReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<ViewMenuEventReceivedXml>, Task<bool>> OnViewMenuEventReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<UnsubscribeEventReceivedXml>, Task<bool>> OnUnsubscribeEventReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<SubscribeEventReceivedXml>, Task<bool>> OnSubscribeEventReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<QrscanEventReceivedXml>, Task<bool>> OnQrscanEventReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<TextMessageReceivedXml>, Task<bool>> OnTextMessageReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<LinkMessageReceivedXml>, Task<bool>> OnLinkMessageReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<VideoMessageReceivedXml>, Task<bool>> OnVideoMessageReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<ShortVideoMessageReceivedXml>, Task<bool>> OnShortVideoMessageReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<VoiceMessageReceivedXml>, Task<bool>> OnVoiceMessageReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<LocationMessageReceivedXml>, Task<bool>> OnLocationMessageReceived { get; set; } = e => Task.FromResult(false);
-        public Func<WeixinReceivedContext<LocationEventReceivedXml>, Task<bool>> OnLocationEventReceived { get; set; } = e => Task.FromResult(false);
+namespace Myvas.AspNetCore.Weixin;
 
-        public virtual Task<bool> ImageMessageReceived(WeixinReceivedContext<ImageMessageReceivedXml> context) => OnImageMessageReceived(context);
-        public virtual Task<bool> ClickMenuEventReceived(WeixinReceivedContext<ClickMenuEventReceivedXml> context) => OnClickMenuEventReceived(context);
-        public virtual Task<bool> ViewMenuEventReceived(WeixinReceivedContext<ViewMenuEventReceivedXml> context) => OnViewMenuEventReceived(context);
-        public virtual Task<bool> UnsubscribeEventReceived(WeixinReceivedContext<UnsubscribeEventReceivedXml> context) => OnUnsubscribeEventReceived(context);
-        public virtual Task<bool> SubscribeEventReceived(WeixinReceivedContext<SubscribeEventReceivedXml> context) => OnSubscribeEventReceived(context);
-        public virtual Task<bool> QrscanEventReceived(WeixinReceivedContext<QrscanEventReceivedXml> context) => OnQrscanEventReceived(context);
-        public virtual Task<bool> TextMessageReceived(WeixinReceivedContext<TextMessageReceivedXml> context) => OnTextMessageReceived(context);
-        public virtual Task<bool> LinkMessageReceived(WeixinReceivedContext<LinkMessageReceivedXml> context) => OnLinkMessageReceived(context);
-        public virtual Task<bool> VideoMessageReceived(WeixinReceivedContext<VideoMessageReceivedXml> context) => OnVideoMessageReceived(context);
-        public virtual Task<bool> ShortVideoMessageReceived(WeixinReceivedContext<ShortVideoMessageReceivedXml> context) => OnShortVideoMessageReceived(context);
-        public virtual Task<bool> VoiceMessageReceived(WeixinReceivedContext<VoiceMessageReceivedXml> context) => OnVoiceMessageReceived(context);
-        public virtual Task<bool> LocationMessageReceived(WeixinReceivedContext<LocationMessageReceivedXml> context) => OnLocationMessageReceived(context);
-        public virtual Task<bool> LocationEventReceived(WeixinReceivedContext<LocationEventReceivedXml> context) => OnLocationEventReceived(context);
-    }
+public class WeixinEvents
+{
+    public Func<object, WeixinEventArgs<ImageMessageReceivedXml>, Task<bool>> OnImageMessageReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<ClickMenuEventReceivedXml>, Task<bool>> OnClickMenuEventReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<ViewMenuEventReceivedXml>, Task<bool>> OnViewMenuEventReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<UnsubscribeEventReceivedXml>, Task<bool>> OnUnsubscribeEventReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<SubscribeEventReceivedXml>, Task<bool>> OnSubscribeEventReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<QrscanEventReceivedXml>, Task<bool>> OnQrscanEventReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<TextMessageReceivedXml>, Task<bool>> OnTextMessageReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<LinkMessageReceivedXml>, Task<bool>> OnLinkMessageReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<VideoMessageReceivedXml>, Task<bool>> OnVideoMessageReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<ShortVideoMessageReceivedXml>, Task<bool>> OnShortVideoMessageReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<VoiceMessageReceivedXml>, Task<bool>> OnVoiceMessageReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<LocationMessageReceivedXml>, Task<bool>> OnLocationMessageReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<LocationEventReceivedXml>, Task<bool>> OnLocationEventReceived { get; set; } = (s, e) => Task.FromResult(false);
+    public Func<object, WeixinEventArgs<EnterEventReceivedXml>, Task<bool>> OnEnterEventReceived { get; set; } = (s, e) => Task.FromResult(false);
 }
