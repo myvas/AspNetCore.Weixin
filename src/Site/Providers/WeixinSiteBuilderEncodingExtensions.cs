@@ -23,4 +23,15 @@ public static class WeixinSiteBuilderEncodingExtensions
 		builder.Services.TryAddSingleton<IWeixinMessageEncryptor, WeixinMessageEncryptor>();
 		return builder;
 	}
+
+	public static WeixinSiteBuilder AddWeixinDebugEventSink(this WeixinSiteBuilder builder)
+	{
+		if (builder == null) throw new ArgumentNullException(nameof(builder));
+
+		// It is safe to call this method multiple times and from different places.
+		// We call it here just make sure ILoggerFactory/ILogger/Logger<T> is added to the builder.Services.
+		builder.Services.AddLogging();
+		builder.Services.TryAddTransient<IWeixinEventSink, WeixinDebugEventSink>();
+		return builder;
+	}
 }
