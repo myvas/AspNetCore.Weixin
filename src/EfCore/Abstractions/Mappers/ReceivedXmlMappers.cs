@@ -23,7 +23,7 @@ public static class ReceivedXmlMappers
     /// <returns></returns>
     public static ReceivedXml ToXml(this ReceivedEntry entity)
     {
-        return entity==null?null:Mapper.Map<ReceivedXml>(entity);
+        return entity == null ? null : Mapper.Map<ReceivedXml>(entity);
     }
 
     /// <summary>
