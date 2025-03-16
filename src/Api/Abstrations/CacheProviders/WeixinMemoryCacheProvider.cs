@@ -41,7 +41,7 @@ public class WeixinMemoryCacheProvider<T> : IWeixinCacheProvider<T>
         _cache.Remove(cacheKey);
     }
 
-    public void Replace(string appId, T accessToken)
+    public bool Replace(string appId, T accessToken)
     {
         var json = JsonSerializer.Serialize(accessToken);
         // Cut off 2 seconds to avoid abnormal expiration
@@ -49,5 +49,10 @@ public class WeixinMemoryCacheProvider<T> : IWeixinCacheProvider<T>
             .SetAbsoluteExpiration(TimeSpan.FromSeconds(accessToken.ExpiresIn - 2));
         var cacheKey = GenerateCacheKey(appId);
         _cache.Set(cacheKey, json, cacheEntryOptions);
+
+        // To ensure the value stored
+        if (_cache.TryGetValue(cacheKey, out string storedJson))
+            return storedJson == json;
+        return false;
     }
 }
