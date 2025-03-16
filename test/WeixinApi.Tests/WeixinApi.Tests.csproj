@@ -5,6 +5,7 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<RootNamespace>Myvas.AspNetCore.Weixin.Api.Tests</RootNamespace>
+		<UserSecretsId>Myvas.AspNetCore.Weixin.Tests</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
