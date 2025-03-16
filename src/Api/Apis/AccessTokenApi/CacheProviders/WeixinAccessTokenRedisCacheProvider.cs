@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinAccessTokenRedisCacheProvider : WeixinRedisCacheProvider<WeixinAccessTokenJson>
+public class WeixinAccessTokenRedisCacheProvider : WeixinExpirationRedisCacheProvider<WeixinAccessTokenJson>
 {
     public WeixinAccessTokenRedisCacheProvider(IDistributedCache cache) : base(cache)
     {
