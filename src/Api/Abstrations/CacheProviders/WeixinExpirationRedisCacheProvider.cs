@@ -49,10 +49,10 @@ public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
         _cache.Remove(cacheKey);
     }
 
-    public void Replace(string appId, T expirableValue)
-        => Task.Run(async () => await ReplaceAsync(appId, expirableValue));
+    public bool Replace(string appId, T expirableValue)
+        => Task.Run(async () => await ReplaceAsync(appId, expirableValue)).Result;
 
-    public async Task ReplaceAsync(string appId, T expirableValue, CancellationToken cancellationToken = default)
+    public async Task<bool> ReplaceAsync(string appId, T expirableValue, CancellationToken cancellationToken = default)
     {
         var cacheKey = GenerateCacheKey(appId);
         var entryOptions = new DistributedCacheEntryOptions
@@ -61,6 +61,10 @@ public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
             AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expirableValue.ExpiresIn - 1)
         };
         await _cache.SetStringAsync(cacheKey, expirableValue.Value, entryOptions, cancellationToken);
+
+        // To ensure value stored
+        var storedValue = await _cache.GetStringAsync(cacheKey, cancellationToken);
+        return storedValue == expirableValue.Value;
     }
 
     /// <summary>
@@ -78,13 +82,10 @@ public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
             throw new InvalidOperationException("Unable to access the internal _cache field of RedisCache.");
         }
 
-        var redisDatabase = databaseField.GetValue(_cache) as IDatabase;
-        if (redisDatabase == null)
-        {
-            throw new InvalidOperationException("The redis database is not available.");
-        }
+        var redisDatabase = databaseField.GetValue(_cache) as IDatabase
+            ?? throw new InvalidOperationException("The redis database is not available.");
 
-        var ttl = redisDatabase.KeyTimeToLive(cacheKey);
+        var ttl = redisDatabase!.KeyTimeToLive(cacheKey);
         if (ttl == null)
         {
             return 0; // Key not found in the internal collection
