@@ -10,7 +10,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <code>
 /// {"ticket":"bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA","expires_in":7200}</code>
 /// </example>
-public class WeixinJsapiTicketJson : WeixinErrorJson, IWeixinCacheJson
+public class WeixinJsapiTicketJson : WeixinErrorJson, IWeixinExpirableValue
 {
     /// <summary>
     /// weixin jsapi ticket
@@ -26,6 +26,12 @@ public class WeixinJsapiTicketJson : WeixinErrorJson, IWeixinCacheJson
     /// <example></example> 
     [JsonPropertyName("expires_in")]
     public int ExpiresIn { get; set; }
-    
+
+    [JsonIgnore]
     public override bool Succeeded => base.Succeeded && !string.IsNullOrEmpty(Ticket) && ExpiresIn > 0;
+
+    [JsonIgnore]
+    public string Value { get => Ticket; set => Ticket = value; }
+
+    public bool Validate() => Succeeded;
 }

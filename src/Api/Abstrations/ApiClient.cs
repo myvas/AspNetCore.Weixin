@@ -117,8 +117,8 @@ public class ApiClient
     /// <returns></returns>
     public async Task<TResult> PostContentAsJsonAsync<TResult>(string requestUri, HttpContent content, CancellationToken cancellationToken = default)
     {
-        var responseMessage = await Http.PostAsync(requestUri, content, cancellationToken)
-            .ContinueWith((postTask) => postTask.Result.EnsureSuccessStatusCode());
+        var responseMessage = await Http.PostAsync(requestUri, content, cancellationToken);
+        responseMessage.EnsureSuccessStatusCode();
         var json = await responseMessage.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<TResult>(json);
     }

@@ -19,7 +19,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// </item><item>
 /// 重复获取将导致上次获取的access_token失效。
 /// </item></list></remarks>
-public class WeixinAccessTokenJson : WeixinErrorJson, IWeixinCacheJson
+public class WeixinAccessTokenJson : WeixinErrorJson, IWeixinExpirableValue
 {
     /// <summary>
     /// 微信公众号全局唯一票据。存储空间需要512个字符或以上。
@@ -36,5 +36,11 @@ public class WeixinAccessTokenJson : WeixinErrorJson, IWeixinCacheJson
     [JsonPropertyName("expires_in")]
     public int ExpiresIn { get; set; }
 
+    [JsonIgnore]
     public override bool Succeeded => base.Succeeded && !string.IsNullOrEmpty(AccessToken) && ExpiresIn > 0;
+
+    [JsonIgnore]
+    public string Value { get => AccessToken; set => AccessToken = value; }
+
+    public bool Validate() => Succeeded;
 }

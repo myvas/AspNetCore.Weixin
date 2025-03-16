@@ -44,7 +44,7 @@ public static class WeixinBuildJsapiTicketApiExtensions
     public static WeixinBuilder AddJsapiTicketCacheProvider<TWeixinCacheProvider>(this WeixinBuilder builder)
         where TWeixinCacheProvider : class, IWeixinCacheProvider<WeixinJsapiTicketJson>
     {
-        builder.AddCacheProvider<WeixinJsapiTicketJson, TWeixinCacheProvider>();
+        builder.AddWeixinCacheProvider<WeixinJsapiTicketJson, TWeixinCacheProvider>();
         return builder;
     }
 }

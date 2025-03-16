@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin;
 
 public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
-    where T : IWeixinCacheJson
+    where T : IWeixinExpirableValue
 {
     //private static readonly string CachePrefix = Guid.NewGuid().ToString("N");
     //private static readonly string CachePrefix = "WX_A_TOKEN";
@@ -28,9 +28,9 @@ public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
     public async Task<T> GetAsync(string appId, CancellationToken cancellationToken = default)
     {
         var cacheKey = GenerateCacheKey(appId);
-        var accessToken = await _cache.GetAsync<T>(cacheKey, cancellationToken);
+        var accessToken = await _cache.GetFromJsonAsync<T>(cacheKey, cancellationToken);
         // If the expiration window is less than 2 seconds, then we need fetch new one.
-        if (accessToken?.Succeeded ?? false)
+        if (accessToken?.Validate() ?? false)
         {
             if (accessToken.ExpiresIn > 2) return accessToken;
         }
@@ -54,6 +54,6 @@ public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
             AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(json.ExpiresIn - 2)
         };
         var cacheKey = GenerateCacheKey(appId);
-        await _cache.SetAsync(cacheKey, json, entryOptions, cancellationToken);
+        await _cache.SetAsJsonAsync(cacheKey, json, entryOptions, cancellationToken);
     }
 }

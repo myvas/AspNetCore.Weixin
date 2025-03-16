@@ -3,14 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 using System.Linq;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
-public class CommonApiServiceTests
+public class WeixinCommonApiTests
 {
     private readonly TestServer _server;
-    public CommonApiServiceTests()
+    public WeixinCommonApiTests()
     {
         _server = FakeServerBuilder.CreateTencentServer();
     }

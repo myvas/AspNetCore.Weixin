@@ -30,7 +30,7 @@ public static class WeixinBuilderAccessTokenApiExtensions{
     public static WeixinBuilder AddAccessTokenCacheProvider<TWeixinCacheProvider>(this WeixinBuilder builder)
         where TWeixinCacheProvider : class, IWeixinCacheProvider<WeixinAccessTokenJson>
     {
-        builder.AddCacheProvider<WeixinAccessTokenJson, TWeixinCacheProvider>();
+        builder.AddWeixinCacheProvider<WeixinAccessTokenJson, TWeixinCacheProvider>();
         return builder;
     }
 }

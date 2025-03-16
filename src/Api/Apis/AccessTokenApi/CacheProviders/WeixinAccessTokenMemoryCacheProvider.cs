@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinAccessTokenMemoryCacheProvider : WeixinMemoryCacheProvider<WeixinAccessTokenJson>
+public class WeixinAccessTokenMemoryCacheProvider : WeixinExpirationMemoryCacheProvider<WeixinAccessTokenJson>
 {
     public WeixinAccessTokenMemoryCacheProvider(IMemoryCache cache) : base(cache)
     {
