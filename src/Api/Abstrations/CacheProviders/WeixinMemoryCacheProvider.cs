@@ -5,7 +5,7 @@ using System.Text.Json;
 namespace Myvas.AspNetCore.Weixin;
 
 public class WeixinMemoryCacheProvider<T> : IWeixinCacheProvider<T>
-    where T : IWeixinCacheJson
+    where T : IWeixinExpirableValue
 {
     //private static readonly string CachePrefix = Guid.NewGuid().ToString("N");
     //private static readonly string CachePrefix = "WX_A_TOKEN";
@@ -29,7 +29,7 @@ public class WeixinMemoryCacheProvider<T> : IWeixinCacheProvider<T>
         {
             var accessToken = JsonSerializer.Deserialize<T>(json);
             // If the expiration window is less than 2 seconds, then we need fetch new one.
-            return (accessToken.Succeeded && accessToken.ExpiresIn > 2) ? accessToken : default;
+            return (accessToken.Validate() && accessToken.ExpiresIn > 2) ? accessToken : default;
         }
 
         return default;
