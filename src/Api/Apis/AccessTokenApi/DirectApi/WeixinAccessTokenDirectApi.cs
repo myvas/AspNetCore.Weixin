@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,18 +36,19 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
     {
         var url = Options?.BuildWeixinApiUrl("/cgi-bin/stable_token");
 
-        var oBody = new
+        var body = new
         {
             grant_type = "client_credential",
             appid = Options.AppId,
             secret = Options.AppSecret,
             force_refresh = forceRefresh
         };
-        var jsonBody = JsonSerializer.Serialize(oBody);
+        var jsonBody = JsonSerializer.Serialize(body);
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
         try
         {
-            var result = await PostContentAsJsonAsync<WeixinAccessTokenJson>(url, new StringContent(jsonBody), cancellationToken);
+            var result = await PostContentAsJsonAsync<WeixinAccessTokenJson>(url, content, cancellationToken);
             return result.Succeeded ? result : throw new WeixinAccessTokenException(result);
         }
         catch (WeixinAccessTokenException)
@@ -60,7 +62,7 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
     }
 
     /// <summary>
-    /// 获取微信公众号全局接口调用凭证(access_token)。
+    /// 获取微信公众号全局接口调用凭证(access_token)。using System;
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
     /// <remarks>至少5分钟内可用，除非用户调用<see cref="GetAndRefreshTokenAsync"/>强制刷新。</remarks>
