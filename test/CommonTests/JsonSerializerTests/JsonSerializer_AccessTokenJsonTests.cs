@@ -7,6 +7,24 @@ namespace Myvas.AspNetCore.Weixin.CommonTests.JsonSerializerTests;
 public class JsonSerializer_AccessTokenJsonTests
 {
     [Fact]
+    public void WeixinAccessTokenJson_Serialize()
+    {
+        var s = @"{""access_token"":""89_RnWF3ynfikijP6gaqt_XlOtYCvV6188JYiMQcFvAEu94Ksih8Z3qML-Vio7ZDthRtZDaVqtbF8-W0LTD9Etenkso_nwmhmlEicOXnA7rQpu1ezENvNU6JhFHSpAVUBfAHAYXE"",""expires_in"":7200}";
+        var obj = new WeixinAccessTokenJson
+        {
+            AccessToken = "89_RnWF3ynfikijP6gaqt_XlOtYCvV6188JYiMQcFvAEu94Ksih8Z3qML-Vio7ZDthRtZDaVqtbF8-W0LTD9Etenkso_nwmhmlEicOXnA7rQpu1ezENvNU6JhFHSpAVUBfAHAYXE",
+            ExpiresIn = 7200
+        };
+
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = false
+        };
+        var result = JsonSerializer.Serialize(obj, options);
+        Assert.Equal(s, result);
+    }
+
+    [Fact]
     public void WeixinAccessTokenJson_DeserializeTest()
     {
         var json = @"{""access_token"":""89_RnWF3ynfikijP6gaqt_XlOtYCvV6188JYiMQcFvAEu94Ksih8Z3qML-Vio7ZDthRtZDaVqtbF8-W0LTD9Etenkso_nwmhmlEicOXnA7rQpu1ezENvNU6JhFHSpAVUBfAHAYXE"",""expires_in"":7200}";
