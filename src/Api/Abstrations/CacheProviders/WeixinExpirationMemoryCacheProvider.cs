@@ -51,13 +51,18 @@ public class WeixinExpirationMemoryCacheProvider<T> : IWeixinCacheProvider<T>
         _cache.Remove(cacheKey);
     }
 
-    public void Replace(string appId, T expirableValue)
+    public bool Replace(string appId, T expirableValue)
     {
         var cacheKey = GenerateCacheKey(appId);
         // Cut off 1s for this Set operation
         var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetAbsoluteExpiration(TimeSpan.FromSeconds(expirableValue.ExpiresIn - 1));
         _cache.Set(cacheKey, expirableValue.Value, cacheEntryOptions);
+
+        // To ensure the value stored        
+        if (_cache.TryGetValue(cacheKey, out string storedValue))
+            return storedValue == expirableValue.Value;
+        return false;
     }
 
     /// <summary>
