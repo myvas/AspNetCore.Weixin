@@ -63,7 +63,7 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
     /// 获取微信公众号全局接口调用凭证(access_token)。
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
-    /// <remarks>至少5分钟内可用，除非用户调用<see cref="RefreshTokenAsync"/>强制刷新。</remarks>
+    /// <remarks>至少5分钟内可用，除非用户调用<see cref="GetAndRefreshTokenAsync"/>强制刷新。</remarks>
     public Task<WeixinAccessTokenJson> GetTokenAsync(CancellationToken cancellationToken = default) => GetStableTokenAsync(false);
 
     /// <summary>
@@ -71,13 +71,13 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
     /// <remarks>注意：本接口调用限制为20次/日。若在30秒内重复调用不会有效作废旧凭证！</remarks>
-    public Task<WeixinAccessTokenJson> RefreshTokenAsync(CancellationToken cancellationToken = default) => GetStableTokenAsync(true);
+    public Task<WeixinAccessTokenJson> GetAndRefreshTokenAsync(CancellationToken cancellationToken = default) => GetStableTokenAsync(true);
 
     /// <summary>
     /// 获取微信公众号全局接口调用凭证(access_token)。
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
-    /// <remarks>至少5分钟内可用，除非用户调用<see cref="RefreshTokenAsync"/>强制刷新。</remarks>
+    /// <remarks>至少5分钟内可用，除非用户调用<see cref="GetAndRefreshTokenAsync"/>强制刷新。</remarks>
     public WeixinAccessTokenJson GetToken() => Task.Run(async () => await GetTokenAsync()).Result;
 
     /// <summary>
@@ -85,7 +85,7 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
     /// <remarks>注意：本接口调用限制为20次/日。若在30秒内重复调用不会有效作废旧凭证！</remarks>
-    public WeixinAccessTokenJson RefreshToken() => Task.Run(async () => await RefreshTokenAsync()).Result;
+    public WeixinAccessTokenJson GetAndRefreshToken() => Task.Run(async () => await GetAndRefreshTokenAsync()).Result;
 
     #region This code is deprecated but kept here for reference and memorization purposes.
     /// <summary>

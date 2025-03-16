@@ -27,11 +27,11 @@ public interface IWeixinAccessTokenDirectApi
     /// 强制刷新微信公众号全局接口调用凭证(access_token)。
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
-    Task<WeixinAccessTokenJson> RefreshTokenAsync(CancellationToken cancellationToken = default);
+    Task<WeixinAccessTokenJson> GetAndRefreshTokenAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 强制刷新微信公众号全局接口调用凭证(access_token)。
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
-    WeixinAccessTokenJson RefreshToken();
+    WeixinAccessTokenJson GetAndRefreshToken();
 }
