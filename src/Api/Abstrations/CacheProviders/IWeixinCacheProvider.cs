@@ -23,5 +23,6 @@ public interface IWeixinCacheProvider<T>
     /// </summary>
     /// <param name="appId"></param>
     /// <param name="json"></param>
-    void Replace(string appId, T json);
+    /// <returns>true: ensure the value stored, false: the store operation failed</returns>
+    bool Replace(string appId, T json);
 }
