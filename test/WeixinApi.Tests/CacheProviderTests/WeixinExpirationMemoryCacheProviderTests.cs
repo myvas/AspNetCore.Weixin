@@ -24,9 +24,8 @@ public class WeixinExpirationMemoryCacheProviderTests
         var api = sp.GetRequiredService<IWeixinCacheProvider<WeixinAccessTokenJson>>();
 
         var randomAccessToken = Guid.NewGuid().ToString("N");
-        api.Replace(randomAppId, new WeixinAccessTokenJson { AccessToken = randomAccessToken, ExpiresIn = 15 });
-
-        Thread.Sleep(TimeSpan.FromSeconds(1));
+        var replaceResult = api.Replace(randomAppId, new WeixinAccessTokenJson { AccessToken = randomAccessToken, ExpiresIn = 15 });
+        Assert.True(replaceResult);
 
         var accessToken = api.Get(randomAppId);
         Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
