@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
 using System;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,17 +11,83 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 获取微信凭证数据服务接口
 /// </summary>
-/// <remarks>
-/// <see cref="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">获取access_token接口官方说明</see>
-/// <see cref="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183">获取access_token接口官方说明</see>
-/// </remarks>
-public class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessTokenDirectApi
+public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessTokenDirectApi
 {
     public WeixinAccessTokenDirectApi(IOptions<WeixinOptions> optionsAccessor)
         : base(optionsAccessor)
     {
     }
 
+    /// <summary>
+    /// 获取稳定版接口调用凭据，可供微信公众号全局后台接口调用时使用。
+    /// </summary>
+    /// <param name="forceRefresh">
+    /// <p>true: 强制刷新模式，该模式调用次数限制为每天20次，调用后将立即作废旧凭证启用新凭证（但再次调用至少间隔30秒，则不会刷新凭证）。</p>
+    /// <p>false: 普通模式，该模式下有效期内重复调用该接口不会更新凭证，且获得的凭证至少5分钟内可用（除非调用强制刷新），因为平台会提前5分钟产生新凭证，此时两个凭证均可用。</p>
+    /// </param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
+    /// <remarks>
+    /// 与<see cref="GetNonstableTokenAsync"/>获取的调用凭证完全隔离，互不影响。
+    /// </remakrs>
+    /// <seealso href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html">微信官方文档</seealso>
+    private async Task<WeixinAccessTokenJson> GetStableTokenAsync(bool forceRefresh, CancellationToken cancellationToken = default)
+    {
+        var url = Options?.BuildWeixinApiUrl("/cgi-bin/stable_token");
+
+        var oBody = new
+        {
+            grant_type = "client_credential",
+            appid = Options.AppId,
+            secret = Options.AppSecret,
+            force_refresh = forceRefresh
+        };
+        var jsonBody = JsonSerializer.Serialize(oBody);
+
+        try
+        {
+            var result = await PostContentAsJsonAsync<WeixinAccessTokenJson>(url, new StringContent(jsonBody), cancellationToken);
+            return result.Succeeded ? result : throw new WeixinAccessTokenException(result);
+        }
+        catch (WeixinAccessTokenException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw WeixinAccessTokenErrors.GenericError(ex);
+        }
+    }
+
+    /// <summary>
+    /// 获取微信公众号全局接口调用凭证(access_token)。
+    /// </summary>
+    /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
+    /// <remarks>至少5分钟内可用，除非用户调用<see cref="RefreshTokenAsync"/>强制刷新。</remarks>
+    public Task<WeixinAccessTokenJson> GetTokenAsync(CancellationToken cancellationToken = default) => GetStableTokenAsync(false);
+
+    /// <summary>
+    /// 强制刷新微信公众号全局接口调用凭证(access_token)。
+    /// </summary>
+    /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
+    /// <remarks>注意：本接口调用限制为20次/日。若在30秒内重复调用不会有效作废旧凭证！</remarks>
+    public Task<WeixinAccessTokenJson> RefreshTokenAsync(CancellationToken cancellationToken = default) => GetStableTokenAsync(true);
+
+    /// <summary>
+    /// 获取微信公众号全局接口调用凭证(access_token)。
+    /// </summary>
+    /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
+    /// <remarks>至少5分钟内可用，除非用户调用<see cref="RefreshTokenAsync"/>强制刷新。</remarks>
+    public WeixinAccessTokenJson GetToken() => Task.Run(async () => await GetTokenAsync()).Result;
+
+    /// <summary>
+    /// 强制刷新微信公众号全局接口调用凭证(access_token)。
+    /// </summary>
+    /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
+    /// <remarks>注意：本接口调用限制为20次/日。若在30秒内重复调用不会有效作废旧凭证！</remarks>
+    public WeixinAccessTokenJson RefreshToken() => Task.Run(async () => await RefreshTokenAsync()).Result;
+
+    #region This code is deprecated but kept here for reference and memorization purposes.
     /// <summary>
     /// 获取微信凭证
     /// <para>access_token是公众号的全局唯一票据，公众号调用各接口时都需使用access_token。正常情况下access_token有效期为7200秒，重复获取将导致上次获取的access_token失效。由于获取access_token的api调用次数非常有限，建议开发者全局存储与更新access_token，频繁刷新access_token会导致api调用受限，影响自身业务。</para>
@@ -39,7 +107,11 @@ public class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessTokenDir
     /// <para>错误时微信会返回错误码等信息，JSON数据包示例如下（该示例为AppID无效错误）:</para>
     /// <code>{"errcode":40013,"errmsg":"invalid appid"}</code>
     /// </exception>
-    public async Task<WeixinAccessTokenJson> GetTokenAsync(CancellationToken cancellationToken = default)
+    /// <remarks>    
+    /// </remarks>
+    /// <seealso href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">微信官方文档</seealso>
+    /// <seealso href="https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140183">微信官方文档</seealso>
+    private async Task<WeixinAccessTokenJson> GetNonstableTokenAsync(CancellationToken cancellationToken = default)
     {
         var url = Options?.BuildWeixinApiUrl("/cgi-bin/token");
 
@@ -65,6 +137,5 @@ public class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessTokenDir
             throw WeixinAccessTokenErrors.GenericError(ex);
         }
     }
-
-    public WeixinAccessTokenJson GetToken() => Task.Run(async () => await GetTokenAsync()).Result;
+    #endregion
 }
