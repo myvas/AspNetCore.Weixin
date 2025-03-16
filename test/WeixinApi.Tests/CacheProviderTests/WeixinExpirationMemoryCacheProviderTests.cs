@@ -26,6 +26,8 @@ public class WeixinExpirationMemoryCacheProviderTests
         var randomAccessToken = Guid.NewGuid().ToString("N");
         api.Replace(randomAppId, new WeixinAccessTokenJson { AccessToken = randomAccessToken, ExpiresIn = 15 });
 
+        Thread.Sleep(TimeSpan.FromSeconds(1));
+
         var accessToken = api.Get(randomAppId);
         Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
         Debug.WriteLine(JsonSerializer.Serialize(accessToken));
