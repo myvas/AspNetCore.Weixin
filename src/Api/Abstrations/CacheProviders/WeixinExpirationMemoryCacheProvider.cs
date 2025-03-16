@@ -101,10 +101,14 @@ public class WeixinExpirationMemoryCacheProvider<T> : IWeixinCacheProvider<T>
 
             // Use reflection to access the EntriesCollection property of CoherentState
             var coherentStateType = coherentState.GetType();
-            var entriesCollectionProperty = coherentStateType.GetProperty("StringEntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance);
+            // net7.0
+            var entriesCollectionProperty = coherentStateType.GetProperty("EntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance);
             if (entriesCollectionProperty == null)
             {
-                throw new InvalidOperationException("Could not find the StringEntriesCollection property.");
+                // net?
+                entriesCollectionProperty = coherentStateType.GetProperty("StringEntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance);
+                if (entriesCollectionProperty == null)
+                    throw new InvalidOperationException("Could not find the EntriesCollection and StringEntriesCollection property.");
             }
 
             // Get the value of the EntriesCollection property
@@ -116,6 +120,7 @@ public class WeixinExpirationMemoryCacheProvider<T> : IWeixinCacheProvider<T>
         }
         else if (fields.FirstOrDefault(x => x.Name == "_entries") != null)
         {
+            //net5.0
             var entriesCollectionField = memoryCacheType.GetField("_entries", BindingFlags.NonPublic | BindingFlags.Instance);
             if (entriesCollectionField == null)
             {
@@ -128,6 +133,21 @@ public class WeixinExpirationMemoryCacheProvider<T> : IWeixinCacheProvider<T>
                 throw new InvalidOperationException("The _entries is null or not a dictionary.");
             }
         }
+        else if (fields.FirstOrDefault(x => x.Name == "_stringKeyEntries") != null)
+        {
+            //net6.0
+            var entriesCollectionField = memoryCacheType.GetField("_stringKeyEntries", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (entriesCollectionField == null)
+            {
+                throw new InvalidOperationException($"Unable to access the internal _stringKeyEntries collection of {memoryCacheType}.");
+            }
+
+            entriesCollection = entriesCollectionField.GetValue(_cache) as IDictionary;
+            if (entriesCollection == null)
+            {
+                throw new InvalidOperationException("The _stringKeyEntries is null or not a dictionary.");
+            }
+        }
 
         // Find the cache entry associated with the key
         if (!entriesCollection!.Contains(cacheKey))
@@ -138,27 +158,37 @@ public class WeixinExpirationMemoryCacheProvider<T> : IWeixinCacheProvider<T>
         var cacheEntry = entriesCollection[cacheKey];
         var cacheEntryType = cacheEntry.GetType();
 
-        // Access the AbsoluteExpiration property
-        DateTimeOffset? absoluteExpiration = null;
-        var absoluteExpirationTicksProperty = cacheEntryType.GetProperty("AbsoluteExpirationTicks", BindingFlags.NonPublic | BindingFlags.Instance);
-        var absoluteExpirationTicks = absoluteExpirationTicksProperty?.GetValue(cacheEntry) as long?;
-        if (absoluteExpirationTicks.HasValue)
+        // net6.0 (PUBLIC)
+        var absolutionExpirationProperty = cacheEntryType.GetProperty("AbsoluteExpiration", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        DateTimeOffset? absoluteExpiration = absolutionExpirationProperty?.GetValue(cacheEntry) as DateTimeOffset?;
+        if (!absoluteExpiration.HasValue)
         {
-            absoluteExpiration = new DateTimeOffset(absoluteExpirationTicks!.Value, TimeSpan.Zero);
-        }
-        else
-        {
-            // Access the SlidingExpiration property
-            var slidingExpirationProperty = cacheEntryType.GetProperty("SlidingExpiration", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            var slidingExpiration = slidingExpirationProperty?.GetValue(cacheEntry) as TimeSpan?;
-            if (slidingExpiration.HasValue)
+            //net5.0
+            absolutionExpirationProperty = cacheEntryType.GetProperty("_absoluteExpiration", BindingFlags.NonPublic | BindingFlags.Instance);
+            absoluteExpiration = absolutionExpirationProperty?.GetValue(cacheEntry) as DateTimeOffset?;
+            if (!absoluteExpiration.HasValue)
             {
-                // Access the LastAccessed property
-                var lastAccessedProperty = cacheEntryType.GetProperty("LastAccessed", BindingFlags.NonPublic | BindingFlags.Instance);
-                var lastAccessed = lastAccessedProperty?.GetValue(cacheEntry) as DateTimeOffset?;
-                if (lastAccessed.HasValue)
+                var absoluteExpirationTicksProperty = cacheEntryType.GetProperty("AbsoluteExpirationTicks", BindingFlags.NonPublic | BindingFlags.Instance);
+                var absoluteExpirationTicks = absoluteExpirationTicksProperty?.GetValue(cacheEntry) as long?;
+                if (absoluteExpirationTicks.HasValue)
                 {
-                    absoluteExpiration = lastAccessed.Value.Add(slidingExpiration.Value);
+                    absoluteExpiration = new DateTimeOffset(absoluteExpirationTicks!.Value, TimeSpan.Zero);
+                }
+                else
+                {
+                    // Access the SlidingExpiration property
+                    var slidingExpirationProperty = cacheEntryType.GetProperty("SlidingExpiration", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    var slidingExpiration = slidingExpirationProperty?.GetValue(cacheEntry) as TimeSpan?;
+                    if (slidingExpiration.HasValue)
+                    {
+                        // Access the LastAccessed property
+                        var lastAccessedProperty = cacheEntryType.GetProperty("LastAccessed", BindingFlags.NonPublic | BindingFlags.Instance);
+                        var lastAccessed = lastAccessedProperty?.GetValue(cacheEntry) as DateTimeOffset?;
+                        if (lastAccessed.HasValue)
+                        {
+                            absoluteExpiration = lastAccessed.Value.Add(slidingExpiration.Value);
+                        }
+                    }
                 }
             }
         }
