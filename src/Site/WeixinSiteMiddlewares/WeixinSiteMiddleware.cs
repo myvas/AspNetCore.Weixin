@@ -93,7 +93,7 @@ public class WeixinSiteMiddleware
         var timestamp = request.Query["timestamp"];
         var nonce = request.Query["nonce"];
 
-        var response = new PlainTextResponseBuilder(context);
+        var response = new WeixinResponsePlainTextBuilder(context);
 
         //【腾讯微信公众号后台程序】发起服务器地址验证请求
         if (SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken))
@@ -134,7 +134,7 @@ public class WeixinSiteMiddleware
         // Validate the signature in query string
         if (!SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken))
         {
-            var response = new PlainTextResponseBuilder(context);
+            var response = new WeixinResponsePlainTextBuilder(context);
             response.Context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             response.Content = Resources.InvalidSignatureDenied;
             await response.FlushAsync();
@@ -145,7 +145,7 @@ public class WeixinSiteMiddleware
         (bool isMicroMessenger, string version) = BrowserDetector.DetectMicroMessenger(context);
         if (!isMicroMessenger)
         {
-            var response = new PlainTextResponseBuilder(context);
+            var response = new WeixinResponsePlainTextBuilder(context);
             response.Context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             response.Content = Resources.NonMicroMessengerDenied;
             await response.FlushAsync();
@@ -171,7 +171,7 @@ public class WeixinSiteMiddleware
         var contentLength = context.Request.ContentLength ?? 0;
         if (contentLength > maxRequestContentLength)
         {
-            var response = new PlainTextResponseBuilder(context);
+            var response = new WeixinResponsePlainTextBuilder(context);
             response.Context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             response.Content = Resources.TooLargeWeixinRequestContent;
             await response.FlushAsync();
@@ -191,7 +191,7 @@ public class WeixinSiteMiddleware
         var handled = await _site.HandleAsync();
         if (!handled)
         {
-            var response = new PlainTextResponseBuilder(context);
+            var response = new WeixinResponsePlainTextBuilder(context);
             response.Context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             response.Content = Resources.BadRequest;
             await response.FlushAsync();
