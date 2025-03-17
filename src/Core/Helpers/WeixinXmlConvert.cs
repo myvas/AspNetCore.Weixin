@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public static class MyvasXmlConvert
+public static class WeixinXmlConvert
 {
     private static string JsonToXml(string json, string rootElementName = "xml")
     {
