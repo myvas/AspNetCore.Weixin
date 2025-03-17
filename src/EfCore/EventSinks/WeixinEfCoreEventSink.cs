@@ -10,12 +10,12 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// Save to database when message or event received.
 /// </summary>
-public class WeixinEfcoreEventSink : WeixinDebugEventSink
+public class WeixinEfCoreEventSink : WeixinDebugEventSink
 {
     protected readonly IReceivedEntryStore<EventReceivedEntry> _eventStore;
     protected readonly IReceivedEntryStore<MessageReceivedEntry> _messageStore;
 
-    public WeixinEfcoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor, ILogger<WeixinEfcoreEventSink> logger, IReceivedEntryStore<MessageReceivedEntry> messageStore, IReceivedEntryStore<EventReceivedEntry> eventStore)
+    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor, ILogger<WeixinEfCoreEventSink> logger, IReceivedEntryStore<MessageReceivedEntry> messageStore, IReceivedEntryStore<EventReceivedEntry> eventStore)
         : base(optionsAccessor, logger)
     {
         _messageStore = messageStore ?? throw new ArgumentNullException(nameof(messageStore));
