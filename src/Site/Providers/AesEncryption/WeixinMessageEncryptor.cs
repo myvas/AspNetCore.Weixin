@@ -18,7 +18,7 @@ namespace Myvas.AspNetCore.Weixin;
 public class WeixinMessageEncryptor : IWeixinMessageEncryptor
 {
     private readonly ILogger _logger;
-    private readonly WeixinSiteEncodingOptions _options;
+    private readonly WeixinSiteMessageProtectionOptions _options;
 
     /// <summary>
     /// 构造函数
@@ -27,7 +27,7 @@ public class WeixinMessageEncryptor : IWeixinMessageEncryptor
     /// <param name="encodingAesKey">公众平台后台由开发者指定的EncodingAESKey</param>
     /// <param name="appId">公众帐号的appid</param>
     public WeixinMessageEncryptor(
-        IOptions<WeixinSiteEncodingOptions> optionsAccessor,
+        IOptions<WeixinSiteMessageProtectionOptions> optionsAccessor,
         ILoggerFactory loggerFactory)
     {
         _logger = loggerFactory?.CreateLogger<WeixinMessageEncryptor>() ?? throw new ArgumentNullException(nameof(loggerFactory));
