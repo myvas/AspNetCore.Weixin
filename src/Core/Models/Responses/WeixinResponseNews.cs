@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Myvas.AspNetCore.Weixin;
 
 [XmlRoot("xml", Namespace = "")]
-public class WeixinResponseNews : WeixinResponse, IWeixinResponse
+public class WeixinResponseNews : WeixinResponse, IWeixinResponseMessage
 {
     public int ArticleCount
     {

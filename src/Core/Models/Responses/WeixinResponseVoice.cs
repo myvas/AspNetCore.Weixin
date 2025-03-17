@@ -6,7 +6,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// 需要预先上传多媒体文件到微信服务器，只支持认证服务号。
 /// </summary>
 [XmlRoot("xml", Namespace = "")]
-public class WeixinResponseVoice : WeixinResponse, IWeixinResponse
+public class WeixinResponseVoice : WeixinResponse, IWeixinResponseMessage
 {
     public WeixinResponseVoice()
     {

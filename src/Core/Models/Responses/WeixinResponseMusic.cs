@@ -3,7 +3,7 @@
 namespace Myvas.AspNetCore.Weixin;
 
 [XmlRoot("xml", Namespace = "")]
-public class WeixinResponseMusic : WeixinResponse, IWeixinResponse
+public class WeixinResponseMusic : WeixinResponse, IWeixinResponseMessage
 {
     public WeixinResponseMusic()
     {

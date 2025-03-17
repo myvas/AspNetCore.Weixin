@@ -7,7 +7,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// 响应回复消息
 /// </summary>
 [XmlRoot("xml", Namespace = "")]
-public abstract class WeixinResponse : WeixinMessage, IWeixinResponse
+public abstract class WeixinResponse : WeixinMessage, IWeixinResponseMessage
 {
     [XmlElement("MsgType", Namespace = "")]
     public string MsgTypeText { get; set; }

@@ -7,7 +7,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// </summary>
 /// <remarks>ref to: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1458557405 </remarks>
 [XmlRoot("xml", Namespace = "")]
-public class WeixinResponseForward : WeixinResponse, IWeixinResponse
+public class WeixinResponseForward : WeixinResponse, IWeixinResponseMessage
 {
     public WeixinResponseForward()
     {
