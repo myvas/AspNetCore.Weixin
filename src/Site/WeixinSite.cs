@@ -154,7 +154,7 @@ public class WeixinSite : IWeixinSite
     /// <returns></returns>
     protected virtual async Task<bool> DefaultResponseAsync()
     {
-        var responseBuilder = new PlainTextResponseBuilder(Context.Context);
+        var responseBuilder = new WeixinResponsePlainTextBuilder(Context.Context);
         responseBuilder.Content = Resources.ErrorOnCallingHandler;
         await responseBuilder.FlushAsync();
         return true;
