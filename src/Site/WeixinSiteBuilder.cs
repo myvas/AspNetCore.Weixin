@@ -32,7 +32,6 @@ public class WeixinSiteBuilder
 
     //public OptionsBuilder<WeixinOptions> ApiOptions { get=>WeixinBuilder.Options; }
     public OptionsBuilder<WeixinSiteOptions> SiteOptions { get; set; }
-    public OptionsBuilder<WeixinSiteEncodingOptions> EncodingOptions { get; set; }
 
     /// <summary>
     /// Gets the <see cref="Type"/> used for Weixin subscriber.
