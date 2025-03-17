@@ -109,7 +109,7 @@ public class WeixinSite : IWeixinSite
     private async Task<bool> FireEventAsync<TReceivedXml>(string methodName)
         where TReceivedXml : ReceivedXml
     {
-        var receivedXml = MyvasXmlConvert.DeserializeObject<TReceivedXml>(Context.Text);
+        var receivedXml = WeixinXmlConvert.DeserializeObject<TReceivedXml>(Context.Text);
         var ctx = new WeixinEventArgs<TReceivedXml>(Context, receivedXml);
         var handled = false;
         foreach (var handler in _handlers)
@@ -154,7 +154,7 @@ public class WeixinSite : IWeixinSite
     /// <returns></returns>
     protected virtual async Task<bool> DefaultResponseAsync()
     {
-        var responseBuilder = new PlainTextResponseBuilder(Context.Context);
+        var responseBuilder = new WeixinResponsePlainTextBuilder(Context.Context);
         responseBuilder.Content = Resources.ErrorOnCallingHandler;
         await responseBuilder.FlushAsync();
         return true;

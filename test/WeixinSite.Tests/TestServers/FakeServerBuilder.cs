@@ -24,7 +24,7 @@ public static class FakeServerBuilder
             {
                 o.WebsiteToken = "WEIXINSITETOKEN";
             })
-            .AddWeixinMessageEncryptor()
+            .AddWeixinMessageProtection()
             .AddWeixinDebugEventSink();
         },
         async context =>

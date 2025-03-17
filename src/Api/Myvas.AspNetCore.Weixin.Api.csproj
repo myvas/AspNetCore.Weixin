@@ -27,4 +27,22 @@
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.4" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Compile Update="Properties/Resources.Designer.cs">
+			<DependentUpon>Properties/Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties/Resources.resx">
+			<LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties/Resources.zh-Hans.resx">
+			<LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>

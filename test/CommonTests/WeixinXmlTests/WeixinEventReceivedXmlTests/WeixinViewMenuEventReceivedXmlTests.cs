@@ -18,7 +18,7 @@ public class WeixinViewMenuEventReceivedXmlTests
             EventKey = "www.qq.com"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
@@ -37,7 +37,7 @@ public class WeixinViewMenuEventReceivedXmlTests
             EventKey = "www.qq.com"
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<ViewMenuEventReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<ViewMenuEventReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);

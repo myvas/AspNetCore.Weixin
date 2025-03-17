@@ -8,34 +8,35 @@
 		<licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
 		<readme>README.md</readme>
 		<projectUrl>https://github.com/myvas/AspNetCore.Weixin</projectUrl>
-		<description>WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis.</description>
+		<description>This package is a wrapper around the Tencent WeChat (also known as Weixin) platform APIs, designed to streamline integration and enhance developer productivity.</description>
 		<copyright>© 2025 Myvas Foundation</copyright>
-		<tags>Myvas AspNetCore WeixinApi IWeixinAccessToken</tags>
+		<tags>Myvas AspNetCore Weixin WeChat</tags>
 		<repository type="git" url="https://github.com/myvas/AspNetCore.Weixin" />
 		<dependencies>
-			<!-- WeixinApi dependencies -->
-			<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
-			<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
-			<dependency id="System.Net.Http.Json" version="3.2.0" />
-			<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="3.1.4" />
-			<dependency id="Microsoft.Extensions.Logging" version="3.1.4" />
+		    <group TargetFramework=".NETStandard2.0">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
+				<dependency id="System.Net.Http.Json" version="3.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="3.1.4" />
+				<dependency id="Microsoft.Extensions.Logging" version="3.1.4" />
 
-			<!-- WeixinCore dependencies -->
+				<!-- WeixinCore dependencies -->
 
-			<!-- WeixinSite dependencies -->
+				<!-- WeixinSite dependencies -->
 
-			<!-- WeixinEfCore dependencies -->
-			<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
-			<dependency id="AutoMapper" version="10.1.1" />
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
 		</dependencies>
 	</metadata>
 	<files>
 		<!-- Include the compiled DLLs from each project -->
 		<file src="README.md" target="README.md" />
 		<file src="LICENSE.txt" target="LICENSE.txt" />
-		<file src="..\..\..\Api\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Api.dll" target="lib\$TargetFramework$" />
-		<file src="..\..\..\Core\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Core.dll" target="lib\$TargetFramework$" />
-		<file src="..\..\..\EfCore\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.EfCore.dll" target="lib\$TargetFramework$" />
-		<file src="..\..\..\Site\bin\$Configuration$\$TargetFramework$\Myvas.AspNetCore.Weixin.Site.dll" target="lib\$TargetFramework$" />
+		<file src="../../../Api/bin/$Configuration$/$TargetFramework$/Myvas.AspNetCore.Weixin.Api.dll" target="lib/$TargetFramework$" />
+		<file src="../../../Site/bin/$Configuration$/$TargetFramework$/Myvas.AspNetCore.Weixin.Site.dll" target="lib/$TargetFramework$" />
+		<file src="../../../EfCore/bin/$Configuration$/$TargetFramework$/Myvas.AspNetCore.Weixin.EfCore.dll" target="lib/$TargetFramework$" />
 	</files>
 </package>

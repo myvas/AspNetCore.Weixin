@@ -10,7 +10,7 @@ public class WeixinXmlTests
         string s = @"<xml></xml>";
 
         var o = new WeixinXml();
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -22,7 +22,7 @@ public class WeixinXmlTests
     [InlineData(@"<xml> </xml>")]
     public void Deserialize(string s)
     {
-        var result = MyvasXmlConvert.DeserializeObject<WeixinXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<WeixinXml>(s);
         Assert.NotNull(result);
     }
 }

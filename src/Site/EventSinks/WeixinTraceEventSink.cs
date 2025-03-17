@@ -37,7 +37,7 @@ public class WeixinTraceEventSink : WeixinEventSinkBase
         _logger.LogTrace($"sender: {sender?.ToString()}[type: {sender?.GetType().Name}]");
 
         // event info
-        _logger.LogTrace(MyvasXmlConvert.SerializeObject(obj));
+        _logger.LogTrace(WeixinXmlConvert.SerializeObject(obj));
 
         return Task.FromResult(false);
     }

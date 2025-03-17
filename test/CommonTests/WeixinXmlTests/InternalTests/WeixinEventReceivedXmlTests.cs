@@ -17,7 +17,7 @@ public class WeixinEventReceivedXmlTests
             Event = ""
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -34,7 +34,7 @@ public class WeixinEventReceivedXmlTests
             Event = "LOCATION"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -51,7 +51,7 @@ public class WeixinEventReceivedXmlTests
             Event = ""
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<EventReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<EventReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);
@@ -71,7 +71,7 @@ public class WeixinEventReceivedXmlTests
             Event = "LOCATION"
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<EventReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<EventReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);
