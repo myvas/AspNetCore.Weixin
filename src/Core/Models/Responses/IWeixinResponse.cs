@@ -1,8 +1,7 @@
-﻿namespace Myvas.AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin;
+
+public interface IWeixinResponse : IWeixinMessage
 {
-    public interface IWeixinResponse : IWeixinMessage
-    {
-        ResponseMsgType MsgType { get; }
-        string ToXml();
-    }
+    ResponseMsgType MsgType { get; }
+    string ToXml();
 }
