@@ -3,7 +3,7 @@ namespace Microsoft.AspNetCore.Http;
 /// <summary>
 /// For netstandard2.0, We need these extensions to support for setting Cache-Control and Pragma headers in IHeaderDictionary.
 /// </summary>
-public static class IHeaderDictionaryExtensions
+public static class IHeaderDictionaryCacheAndPragmaExtensions
 {
     public static void SetCacheControl(this IHeaderDictionary headers, string value)
     {
