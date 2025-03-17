@@ -3,10 +3,10 @@ using Xunit;
 
 namespace Myvas.AspNetCore.Weixin.CommonTests.MyvasXmlConvertTests;
 
-public class MyvasXmlConvertTests
+public class WeixinXmlConvertTests
 {
     [Fact]
-    public void MyvasXmlConvert_Serialize_AnonymousObject()
+    public void Serialize_AnonymousObject()
     {
         var s = @"<xml><ToUserName>To</ToUserName><FromUserName>From</FromUserName><CreateTime>0</CreateTime><MsgType>image</MsgType><Image><MediaId>mediaidxxx</MediaId></Image></xml>";
         var data = new
@@ -20,7 +20,7 @@ public class MyvasXmlConvertTests
                 MediaId = "mediaidxxx"
             }
         };
-        var result = MyvasXmlConvert.SerializeObject(data);
+        var result = WeixinXmlConvert.SerializeObject(data);
         Assert.Equal(s, result);
     }
 
@@ -40,7 +40,7 @@ public class MyvasXmlConvertTests
     }
 
     [Fact]
-    public void MyvasXmlConvert_SerializeObject_WeixinResponseText()
+    public void SerializeObject_WeixinResponseText()
     {
         var s = @"<xml>
 <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -58,7 +58,7 @@ public class MyvasXmlConvertTests
             Content = "你好"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
@@ -109,7 +109,7 @@ public class MyvasXmlConvertTests
             Url = "url"
         });
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
