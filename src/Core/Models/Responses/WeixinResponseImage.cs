@@ -1,33 +1,31 @@
-﻿using System.Collections;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+[XmlRoot("xml", Namespace = "")]
+public class WeixinResponseImage : WeixinResponse, IWeixinResponse
 {
-    [XmlRoot("xml", Namespace = "")]
-    public class WeixinResponseImage : WeixinResponse, IWeixinResponse
+    public WeixinResponseImage()
     {
-        public WeixinResponseImage()
+        MsgType = ResponseMsgType.image;
+    }
+
+    public string MediaId { get; set; }
+
+
+    public override string ToXml()
+    {
+        var data = new
         {
-            MsgType = ResponseMsgType.image;
-        }
-
-        public string MediaId { get; set; }
-
-
-        public override string ToXml()
-        {
-            var data = new
+            ToUserName,
+            FromUserName,
+            CreateTime = CreateTimestamp,
+            MsgType = MsgTypeText,
+            Image = new
             {
-                ToUserName,
-                FromUserName,
-                CreateTime = CreateTimestamp,
-                MsgType = MsgTypeText,
-                Image = new
-                {
-                    MediaId
-                }
-            };
-            return MyvasXmlConvert.SerializeObject(data);
-        }
+                MediaId
+            }
+        };
+        return WeixinXmlConvert.SerializeObject(data);
     }
 }
