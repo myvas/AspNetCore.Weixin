@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class HtmlResponseBuilder : ResponseBuilder
+public class WeixinResponseHtmlBuilder : WeixinResponseBuilder
 {
-    public HtmlResponseBuilder(HttpContext context) : base(context)
+    public WeixinResponseHtmlBuilder(HttpContext context) : base(context)
     {
     }
 
