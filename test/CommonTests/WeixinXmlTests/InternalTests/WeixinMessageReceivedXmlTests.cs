@@ -17,7 +17,7 @@ public class WeixinMessageReceivedXmlTests
             MsgId = 0
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -34,7 +34,7 @@ public class WeixinMessageReceivedXmlTests
             MsgId = 6403247895999455936
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         Assert.Equal(s, result);
     }
 
@@ -51,7 +51,7 @@ public class WeixinMessageReceivedXmlTests
             MsgId = 0
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<MessageReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<MessageReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);
@@ -72,7 +72,7 @@ public class WeixinMessageReceivedXmlTests
             MsgId = 6403247895999455936
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<MessageReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<MessageReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);
