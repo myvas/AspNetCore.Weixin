@@ -45,7 +45,7 @@ public class WeixinMessageEncryptorDecryptTests
 		var msg_signature = "a76bb4d3348628369b38e8fecebf5f0545d48786";
 		var encrypt_type = "aes";
 
-		var received = MyvasXmlConvert.DeserializeObject<ReceivedXml>(xml);
+		var received = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 		if (encrypt_type == "aes")
 		{
 			var decryptedXml = _encryptor.Decrypt(msg_signature, timestamp, nonce, xml);
@@ -54,7 +54,7 @@ public class WeixinMessageEncryptorDecryptTests
 			xml = decryptedXml;
 		}
 
-		var result = MyvasXmlConvert.DeserializeObject<ReceivedXml>(xml);
+		var result = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 		Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
 		Assert.Equal(RequestMsgType.text, result.MsgTypeAsEnum());
 	}
@@ -84,7 +84,7 @@ public class WeixinMessageEncryptorDecryptTests
 			xml = decryptedXml;
 		}
 
-		var result = MyvasXmlConvert.DeserializeObject<ReceivedXml>(xml);
+		var result = WeixinXmlConvert.DeserializeObject<ReceivedXml>(xml);
 		Assert.Equal("gh_08dc1481d8cc", result.ToUserName);
 		Assert.Equal(RequestMsgType.text, result.MsgTypeAsEnum());
 	}

@@ -18,7 +18,7 @@ public class WeixinTextMessageReceivedXmlTests
             Content = "中文字符"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
@@ -37,7 +37,7 @@ public class WeixinTextMessageReceivedXmlTests
             Content = "中文字符"
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<TextMessageReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<TextMessageReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);

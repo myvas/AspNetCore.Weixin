@@ -19,7 +19,7 @@ public class WeixinSubscribeEventReceivedXml_WithSceneTests
             Ticket = "gQE28TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyUkhQZWgzelI4QVUxMDAwMGcwN3kAAgR6ittYAwQAAAAA"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
@@ -39,7 +39,7 @@ public class WeixinSubscribeEventReceivedXml_WithSceneTests
             Ticket = "gQE28TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyUkhQZWgzelI4QVUxMDAwMGcwN3kAAgR6ittYAwQAAAAA"
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);
