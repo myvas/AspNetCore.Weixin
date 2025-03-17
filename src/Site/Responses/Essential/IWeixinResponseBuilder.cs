@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IResponseBuilder
+public interface IWeixinResponseBuilder
 {
     HttpContext Context { get; }
     string ContentType { get; set; }
