@@ -13,7 +13,7 @@
 		<tags>Myvas AspNetCore Weixin WeChat</tags>
 		<repository type="git" url="https://github.com/myvas/AspNetCore.Weixin" />
 		<dependencies>
-		    <group TargetFramework=".NETStandard2.0">
+		    <group targetFramework=".NETStandard2.0">
 				<!-- WeixinApi dependencies -->
 				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
 				<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
