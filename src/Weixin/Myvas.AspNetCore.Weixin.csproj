@@ -3,8 +3,8 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<description>WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis.</description>
-		<PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
+		<description>This package is a wrapper around the Tencent WeChat (also known as Weixin) platform APIs, designed to streamline integration and enhance developer productivity.</description>
+		<PackageTags>Myvas AspNetCore Weixin WeChat</PackageTags>
 		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
 		<PackageId>Myvas.AspNetCore.Weixin</PackageId>
 		<AssemblyName>Myvas.AspNetCore.Weixin</AssemblyName>
