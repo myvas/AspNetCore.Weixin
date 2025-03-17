@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public abstract class ResponseBuilder : IResponseBuilder
+public abstract class WeixinResponseBuilder : IWeixinResponseBuilder
 {
     public HttpContext Context { get; }
     public string ContentType { get; set; }
     public string Content { get; set; }
 
-    public ResponseBuilder(HttpContext context)
+    public WeixinResponseBuilder(HttpContext context)
     {
         Context = context;
     }
