@@ -7,7 +7,7 @@ namespace Myvas.AspNetCore.Weixin
 {
     public static class GpsHelper
     {
-        /// <summary>
+        /// <summary>src/Core/Abstractions
         ///计算两点GPS坐标的距离（单位：米）
         /// </summary>
         /// <param name="n1">第一点的纬度坐标</param>
