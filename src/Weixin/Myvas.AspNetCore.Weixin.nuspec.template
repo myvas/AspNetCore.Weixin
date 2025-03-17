@@ -14,19 +14,19 @@
 		<repository type="git" url="https://github.com/myvas/AspNetCore.Weixin" />
 		<dependencies>
 			<!-- WeixinApi dependencies -->
-			<PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
-			<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.4" />
-			<PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
-			<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.4" />
-			<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.4" />
+			<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+			<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
+			<dependency id="System.Net.Http.Json" version="3.2.0" />
+			<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="3.1.4" />
+			<dependency id="Microsoft.Extensions.Logging" version="3.1.4" />
 
 			<!-- WeixinCore dependencies -->
 
 			<!-- WeixinSite dependencies -->
 
 			<!-- WeixinEfCore dependencies -->
-			<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
-			<PackageReference Include="AutoMapper" Version="10.1.1" />
+			<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
+			<dependency id="AutoMapper" version="10.1.1" />
 		</dependencies>
 	</metadata>
 	<files>
