@@ -1,37 +1,36 @@
 ﻿using System.Xml.Serialization;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+/// <summary>
+/// 需要预先上传多媒体文件到微信服务器，只支持认证服务号。
+/// </summary>
+[XmlRoot("xml", Namespace = "")]
+public class WeixinResponseVoice : WeixinResponse, IWeixinResponse
 {
-    /// <summary>
-    /// 需要预先上传多媒体文件到微信服务器，只支持认证服务号。
-    /// </summary>
-    [XmlRoot("xml", Namespace = "")]
-    public class WeixinResponseVoice : WeixinResponse, IWeixinResponse
+    public WeixinResponseVoice()
     {
-        public WeixinResponseVoice()
-        {
-            MsgType = ResponseMsgType.voice;
-        }
+        MsgType = ResponseMsgType.voice;
+    }
 
-        public string MediaId { get; set; }
+    public string MediaId { get; set; }
 
-        public override string ToXml()
+    public override string ToXml()
+    {
+        var data = new
         {
-            var data = new
+            xml = new
             {
-                xml = new
+                ToUserName,
+                FromUserName,
+                CreateTime = CreateTimestamp,
+                MsgType = MsgTypeText,
+                Voice = new
                 {
-                    ToUserName,
-                    FromUserName,
-                    CreateTime = CreateTimestamp,
-                    MsgType = MsgTypeText,
-                    Voice = new
-                    {
-                        MediaId
-                    }
+                    MediaId
                 }
-            };
-            return MyvasXmlConvert.SerializeObject(data);
-        }
+            }
+        };
+        return WeixinXmlConvert.SerializeObject(data);
     }
 }
