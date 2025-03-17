@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class JsonResponseBuilder : ResponseBuilder
+public class WeixinResponseJsonBuilder : WeixinResponseBuilder
 {
-    public JsonResponseBuilder(HttpContext context) : base(context)
+    public WeixinResponseJsonBuilder(HttpContext context) : base(context)
     {
     }
 
