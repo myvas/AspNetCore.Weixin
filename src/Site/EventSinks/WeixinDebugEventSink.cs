@@ -71,7 +71,7 @@ public class WeixinDebugEventSink : WeixinTraceEventSink
         // var body = entity.ToXml();
         // await resp.WriteAsync(body);
 
-        var responseBuilder = new XmlResponseBuilder(context.Context);
+        var responseBuilder = new WeixinResponseXmlBuilder(context.Context);
         responseBuilder.Content = entity.ToXml();
         await responseBuilder.FlushAsync();
         return true;
