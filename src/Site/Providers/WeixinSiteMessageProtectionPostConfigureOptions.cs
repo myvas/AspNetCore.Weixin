@@ -4,15 +4,15 @@ using Microsoft.Extensions.Options;
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
-/// Set values for <see cref="WeixinSiteEncodingOptions"/> from <see cref="WeixinSiteOptions"/>.
+/// Set values for <see cref="WeixinSiteMessageProtectionOptions"/> from <see cref="WeixinSiteOptions"/>.
 /// </summary>
 /// <typeparam name="TOptions"></typeparam>
-public class WeixinSiteEncodingPostConfigureOptions<TOptions> : IPostConfigureOptions<TOptions>
-    where TOptions : WeixinSiteEncodingOptions, new()
+public class WeixinSiteMessageProtectionPostConfigureOptions<TOptions> : IPostConfigureOptions<TOptions>
+    where TOptions : WeixinSiteMessageProtectionOptions, new()
 {
     private readonly WeixinSiteOptions _siteOptions;
 
-    public WeixinSiteEncodingPostConfigureOptions(IOptions<WeixinSiteOptions> optionsAccessor)
+    public WeixinSiteMessageProtectionPostConfigureOptions(IOptions<WeixinSiteOptions> optionsAccessor)
     {
         _siteOptions = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
     }
