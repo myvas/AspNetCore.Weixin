@@ -1,4 +1,4 @@
-﻿using Myvas.AspNetCore.Weixin.Core;
+﻿using Myvas.AspNetCore.Weixin.Api.Properties;
 using System;
 
 namespace Myvas.AspNetCore.Weixin
