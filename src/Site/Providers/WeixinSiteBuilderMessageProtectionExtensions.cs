@@ -8,14 +8,14 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// <summary>
 /// Extension methods for setting up Weixin message protection services in the <see cref="WeixinSiteBuilder.Services" />.
 /// </summary>
-public static class WeixinSiteBuilderEncodingExtensions
+public static class WeixinSiteBuilderMessageProtectionExtensions
 {
-	public static WeixinSiteBuilder AddWeixinMessageEncryptor(this WeixinSiteBuilder builder, Action<WeixinSiteEncodingOptions> setupAction = null)
+	public static WeixinSiteBuilder AddWeixinMessageProtection(this WeixinSiteBuilder builder, Action<WeixinSiteMessageProtectionOptions> setupAction = null)
 	{
 		if (builder == null) throw new ArgumentNullException(nameof(builder));
 
 		if (setupAction != null) builder.Services.Configure(setupAction);
-		builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinSiteEncodingOptions>, WeixinSiteEncodingPostConfigureOptions<WeixinSiteEncodingOptions>>());
+		builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinSiteMessageProtectionOptions>, WeixinSiteMessageProtectionPostConfigureOptions<WeixinSiteMessageProtectionOptions>>());
 
 		// It is safe to call this method multiple times and from different places.
 		// We call it here just make sure ILoggerFactory/ILogger/Logger<T> is added to the builder.Services.
