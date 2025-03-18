@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Myvas.AspNetCore.Weixin.Models;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EfCore;
 
 /// <summary>
 /// Extensions methods to map to/from xml/entity.
