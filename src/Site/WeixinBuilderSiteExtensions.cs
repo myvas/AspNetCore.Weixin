@@ -18,7 +18,7 @@ public static class WeixinBuilderExtensions
     /// <returns>The <see cref="WeixinSiteBuilder"/> which contains a <see cref="WeixinBuilder"/> to access <see cref="WeixinBuilder.Services"/>.</returns>
     /// <seealso cref="WeixinBuilder"/>
     /// <seealso cref="WeixinSiteOptions"/>
-    public static WeixinSiteBuilder AddSite(this WeixinBuilder builder, Action<WeixinSiteOptions> setupAction)
+    public static WeixinSiteBuilder AddWeixinSite(this WeixinBuilder builder, Action<WeixinSiteOptions> setupAction)
     {
         if (builder?.Services == null)
         {
