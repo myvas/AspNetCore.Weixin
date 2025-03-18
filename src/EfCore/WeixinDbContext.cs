@@ -8,8 +8,8 @@ using System.Linq;
 namespace Myvas.AspNetCore.Weixin;
 
 public class WeixinDbContext : WeixinDbContext<WeixinSubscriber, string>
-{
-    public WeixinDbContext(DbContextOptions options) : base(options)
+{ 
+    public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options)
     {
     }
 
