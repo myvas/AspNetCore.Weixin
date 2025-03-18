@@ -79,6 +79,19 @@ public class BaseClassFirstXmlConverter<T> : JsonConverter<T>
                     if (property.CanRead && !(options.IgnoreReadOnlyProperties && !property.CanWrite))
                     {
                         var propertyValue = property.GetValue(value);
+                        #if NET5_0_OR_GREATER
+                        if (!(options.DefaultIgnoreCondition==JsonIgnoreCondition.WhenWritingNull
+                            && propertyValue == null))
+                        {
+                            if (property.GetCustomAttribute<XmlIgnoreAttribute>() == null)
+                            {
+                                var xmlElementName = property.GetCustomAttribute<XmlElementAttribute>()?.ElementName;
+                                var propertyName = xmlElementName ?? property.Name;
+                                writer.WritePropertyName(propertyName);
+                                JsonSerializer.Serialize(writer, propertyValue, options);
+                            }
+                        }
+                        #else
                         if (!(options.IgnoreNullValues && propertyValue == null))
                         {
                             if (property.GetCustomAttribute<XmlIgnoreAttribute>() == null)
@@ -89,6 +102,7 @@ public class BaseClassFirstXmlConverter<T> : JsonConverter<T>
                                 JsonSerializer.Serialize(writer, propertyValue, options);
                             }
                         }
+                        #endif
                     }
                 }
             }
