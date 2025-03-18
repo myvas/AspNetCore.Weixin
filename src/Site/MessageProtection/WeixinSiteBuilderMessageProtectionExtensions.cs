@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public static class WeixinSiteBuilderMessageProtectionExtensions
 {
-	public static WeixinSiteBuilder AddWeixinMessageProtection(this WeixinSiteBuilder builder, Action<WeixinSiteMessageProtectionOptions> setupAction = null)
+	public static WeixinSiteBuilder AddMessageProtection(this WeixinSiteBuilder builder, Action<WeixinSiteMessageProtectionOptions> setupAction = null)
 	{
 		if (builder == null) throw new ArgumentNullException(nameof(builder));
 
@@ -24,7 +24,7 @@ public static class WeixinSiteBuilderMessageProtectionExtensions
 		return builder;
 	}
 
-	public static WeixinSiteBuilder AddWeixinDebugEventSink(this WeixinSiteBuilder builder)
+	public static WeixinSiteBuilder AddDebugEventSink(this WeixinSiteBuilder builder)
 	{
 		if (builder == null) throw new ArgumentNullException(nameof(builder));
 
