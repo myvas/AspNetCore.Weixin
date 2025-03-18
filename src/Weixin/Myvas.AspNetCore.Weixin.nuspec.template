@@ -98,7 +98,7 @@
 				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
 				<dependency id="Microsoft.Extensions.Caching.Memory" version="7.0.0" />
 				<dependency id="System.Net.Http.Json" version="7.0.0" />
-				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="7.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="6.0.0" />
 				<dependency id="Microsoft.Extensions.Logging" version="7.0.0" />
 				<!-- WeixinSite dependencies -->
 				<!-- WeixinEfCore dependencies -->
@@ -110,7 +110,7 @@
 				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
 				<dependency id="Microsoft.Extensions.Caching.Memory" version="8.0.1" />
 				<dependency id="System.Net.Http.Json" version="8.0.0" />
-				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="8.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="6.0.0" />
 				<dependency id="Microsoft.Extensions.Logging" version="8.0.0" />
 				<!-- WeixinSite dependencies -->
 				<!-- WeixinEfCore dependencies -->
@@ -122,7 +122,7 @@
 				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
 				<dependency id="Microsoft.Extensions.Caching.Memory" version="9.0.0" />
 				<dependency id="System.Net.Http.Json" version="9.0.0" />
-				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="9.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="6.0.0" />
 				<dependency id="Microsoft.Extensions.Logging" version="9.0.0" />
 				<!-- WeixinSite dependencies -->
 				<!-- WeixinEfCore dependencies -->
