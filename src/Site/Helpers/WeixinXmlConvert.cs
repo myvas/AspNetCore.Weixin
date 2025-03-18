@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -48,7 +49,11 @@ public static class WeixinXmlConvert
 
         var jsonText = JsonSerializer.Serialize(objectInstance, new JsonSerializerOptions
         {
+#if NET5_0_OR_GREATER
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+#else
             IgnoreNullValues = true,
+#endif
             Converters = { new BaseClassFirstXmlConverter<T>() }
         });
         var xmldoc = JsonToXml(jsonText, rootElementName);

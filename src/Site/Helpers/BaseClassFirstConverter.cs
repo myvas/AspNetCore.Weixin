@@ -50,7 +50,12 @@ public class BaseClassFirstConverter<T> : JsonConverter<T>
                 if (property.CanRead && !(options.IgnoreReadOnlyProperties && !property.CanWrite))
                 {
                     var propertyValue = property.GetValue(value);
+#if NET5_0_OR_GREATER
+                    if (!(options.DefaultIgnoreCondition == JsonIgnoreCondition.WhenWritingNull
+                        && propertyValue == null))
+#else
                     if (!(options.IgnoreNullValues && propertyValue == null))
+#endif
                     {
                         writer.WritePropertyName(property.Name);
                         JsonSerializer.Serialize(writer, propertyValue, options);
@@ -71,12 +76,22 @@ public class BaseClassFirstConverter<T> : JsonConverter<T>
                     if (property.CanRead && !(options.IgnoreReadOnlyProperties && !property.CanWrite))
                     {
                         var propertyValue = property.GetValue(value);
+#if NET5_0_OR_GREATER
+                        if (!(options.DefaultIgnoreCondition == JsonIgnoreCondition.WhenWritingNull
+                            && propertyValue == null))
+                        {
+
+                            writer.WritePropertyName(property.Name);
+                            JsonSerializer.Serialize(writer, propertyValue, options);
+                        }
+#else
                         if (!(options.IgnoreNullValues && propertyValue == null))
                         {
 
                             writer.WritePropertyName(property.Name);
                             JsonSerializer.Serialize(writer, propertyValue, options);
                         }
+#endif
                     }
                 }
             }

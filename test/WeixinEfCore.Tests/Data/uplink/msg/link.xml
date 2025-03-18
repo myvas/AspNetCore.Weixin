@@ -1,0 +1,10 @@
+﻿<xml>
+  <ToUserName><![CDATA[to-msg-link]]></ToUserName>
+  <FromUserName><![CDATA[from-msg-link]]></FromUserName>
+  <CreateTime>1351776360</CreateTime>
+  <MsgType><![CDATA[link]]></MsgType>
+  <Title><![CDATA[公众平台官网链接]]></Title>
+  <Description><![CDATA[公众平台官网链接]]></Description>
+  <Url><![CDATA[https://mp.weixin.qq.com]]></Url>
+  <MsgId>1234567890123456</MsgId>
+</xml>

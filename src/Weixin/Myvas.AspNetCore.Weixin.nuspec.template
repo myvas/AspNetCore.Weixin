@@ -29,14 +29,117 @@
 				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
 				<dependency id="AutoMapper" version="10.1.1" />
 			</group>
+		    <group targetFramework=".NETStandard2.1">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
+				<dependency id="System.Net.Http.Json" version="3.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="3.1.4" />
+				<dependency id="Microsoft.Extensions.Logging" version="3.1.4" />
+
+				<!-- WeixinCore dependencies -->
+
+				<!-- WeixinSite dependencies -->
+
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
+		    <group targetFramework=".NETStandard2.1">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
+				<dependency id="System.Net.Http.Json" version="3.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="3.1.4" />
+				<dependency id="Microsoft.Extensions.Logging" version="3.1.4" />
+				<!-- WeixinSite dependencies -->
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
+		    <group targetFramework="netcoreapp3.1">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="3.1.4" />
+				<dependency id="System.Net.Http.Json" version="3.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="3.1.4" />
+				<dependency id="Microsoft.Extensions.Logging" version="3.1.4" />
+				<!-- WeixinSite dependencies -->
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="3.1.4" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
+		    <group targetFramework="net5.0">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="5.0.0" />
+				<dependency id="System.Net.Http.Json" version="5.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="5.0.0" />
+				<dependency id="Microsoft.Extensions.Logging" version="5.0.0" />
+				<!-- WeixinSite dependencies -->
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="5.0.0" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
+		    <group targetFramework="net6.0">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="6.0.2" />
+				<dependency id="System.Net.Http.Json" version="6.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="6.0.0" />
+				<dependency id="Microsoft.Extensions.Logging" version="6.0.0" />
+				<!-- WeixinSite dependencies -->
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="6.0.0" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
+		    <group targetFramework="net7.0">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="7.0.0" />
+				<dependency id="System.Net.Http.Json" version="7.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="7.0.0" />
+				<dependency id="Microsoft.Extensions.Logging" version="7.0.0" />
+				<!-- WeixinSite dependencies -->
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="7.0.0" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
+		    <group targetFramework="net8.0">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="8.0.1" />
+				<dependency id="System.Net.Http.Json" version="8.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="8.0.0" />
+				<dependency id="Microsoft.Extensions.Logging" version="8.0.0" />
+				<!-- WeixinSite dependencies -->
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="8.0.0" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
+		    <group targetFramework="net9.0">
+				<!-- WeixinApi dependencies -->
+				<dependency id="Microsoft.AspNetCore.Http.Extensions" version="2.2.0" />
+				<dependency id="Microsoft.Extensions.Caching.Memory" version="9.0.0" />
+				<dependency id="System.Net.Http.Json" version="9.0.0" />
+				<dependency id="Microsoft.Extensions.Caching.StackExchangeRedis" version="9.0.0" />
+				<dependency id="Microsoft.Extensions.Logging" version="9.0.0" />
+				<!-- WeixinSite dependencies -->
+				<!-- WeixinEfCore dependencies -->
+				<dependency id="Microsoft.EntityFrameworkCore.Relational" version="9.0.0" />
+				<dependency id="AutoMapper" version="10.1.1" />
+			</group>
 		</dependencies>
 	</metadata>
 	<files>
 		<!-- Include the compiled DLLs from each project -->
 		<file src="README.md" target="README.md" />
 		<file src="LICENSE.txt" target="LICENSE.txt" />
+		<!-- 
 		<file src="../../../Api/bin/$Configuration$/$TargetFramework$/Myvas.AspNetCore.Weixin.Api.dll" target="lib/$TargetFramework$" />
 		<file src="../../../Site/bin/$Configuration$/$TargetFramework$/Myvas.AspNetCore.Weixin.Site.dll" target="lib/$TargetFramework$" />
 		<file src="../../../EfCore/bin/$Configuration$/$TargetFramework$/Myvas.AspNetCore.Weixin.EfCore.dll" target="lib/$TargetFramework$" />
+		 -->
+		 $FileEntries$
 	</files>
 </package>

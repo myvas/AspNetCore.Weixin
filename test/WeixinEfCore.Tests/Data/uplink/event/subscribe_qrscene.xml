@@ -1,0 +1,9 @@
+﻿<xml>
+  <ToUserName><![CDATA[to-event-subscribe-qrscene]]></ToUserName>
+  <FromUserName><![CDATA[from-event-subscribe-qrscene]]></FromUserName>
+  <CreateTime>123456789</CreateTime>
+  <MsgType><![CDATA[event]]></MsgType>
+  <Event><![CDATA[subscribe]]></Event>
+  <EventKey><![CDATA[qrscene_123123]]></EventKey>
+  <Ticket><![CDATA[TICKET]]></Ticket>
+</xml>

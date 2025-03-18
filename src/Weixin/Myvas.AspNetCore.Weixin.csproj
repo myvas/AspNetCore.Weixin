@@ -2,7 +2,7 @@
 	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<description>This package is a wrapper around the Tencent WeChat (also known as Weixin) platform APIs, designed to streamline integration and enhance developer productivity.</description>
 		<PackageTags>Myvas AspNetCore Weixin WeChat</PackageTags>
 		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
@@ -33,12 +33,32 @@
 			<TargetPath>..\%(Filename)%(Extension)</TargetPath>
 		</ContentWithTargetPath>
 	</ItemGroup>
+
 	<Target Name="CustomFileVersion" AfterTargets="MinVer">
 		<Message Importance="high" Text="Running GenerateNuspec target" />
+
+  		<!-- Read the template file -->
 		<ReadLinesFromFile File="Myvas.AspNetCore.Weixin.nuspec.template">
 			<Output TaskParameter="Lines" ItemName="TemplateLines" />
 		</ReadLinesFromFile>
-		<WriteLinesToFile File="bin\$(Configuration)\Myvas.AspNetCore.Weixin.nuspec" Lines="@(TemplateLines-&gt;Replace('$MinVerVersion$', '$(MinVerVersion)')-&gt;Replace('$Configuration$', '$(Configuration)')-&gt;Replace('$TargetFramework$', '$(TargetFramework)'))" Overwrite="true" />
+
+		<ItemGroup>
+			<TargetFrameworks Include="$(TargetFrameworks)" />
+		</ItemGroup>
+
+  		<!-- Generate the <file> entries for each target framework -->
+		<ItemGroup>
+			<FileEntries Include="@(TargetFrameworks->'&lt;file src=&quot;../../../Api/bin/$(Configuration)/%(Identity)/Myvas.AspNetCore.Weixin.Api.dll&quot; target=&quot;lib/%(Identity)&quot; /&gt;
+&lt;file src=&quot;../../../Site/bin/$(Configuration)/%(Identity)/Myvas.AspNetCore.Weixin.Site.dll&quot; target=&quot;lib/%(Identity)&quot; /&gt;
+&lt;file src=&quot;../../../EfCore/bin/$(Configuration)/%(Identity)/Myvas.AspNetCore.Weixin.EfCore.dll&quot; target=&quot;lib/%(Identity)&quot; /&gt;')"></FileEntries>
+		</ItemGroup>
+
+		<PropertyGroup>
+			<FileEntriesCombined>@(FileEntries, '&#xD;&#xA;')</FileEntriesCombined>
+		</PropertyGroup>
+
+		<WriteLinesToFile File="bin\$(Configuration)\Myvas.AspNetCore.Weixin.nuspec" Lines="@(TemplateLines-&gt;Replace('$MinVerVersion$', '$(MinVerVersion)')-&gt;Replace('$Configuration$', '$(Configuration)')-&gt;Replace('$TargetFramework$', '$(TargetFramework)')-&gt;Replace('$FileEntries$', '$(FileEntriesCombined)'))" Overwrite="true" />
+		
 		<Message Importance="high" Text="Generated Myvas.AspNetCore.Weixin.nuspec with version $(MinVerVersion)" />
 	</Target>
 

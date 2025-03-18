@@ -17,7 +17,7 @@ public class WeixinMessageEncryptorDecryptTests
 		{
 			options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
 		})
-		.AddWeixinMessageProtection(options =>
+		.AddMessageProtection(options =>
 		{
 			options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
 		});

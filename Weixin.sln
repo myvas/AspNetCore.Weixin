@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinApi.Tests", "test\Wei
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinSite.Tests", "test\WeixinSite.Tests\WeixinSite.Tests.csproj", "{71793ECF-B628-4D23-8DE5-9A9BC7F60128}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeixinEfCore.Tests", "test\WeixinEfCore.Tests\WeixinEfCore.Tests.csproj", "{F45F0560-005B-4143-884C-7EFA2A3E1EFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,6 +152,18 @@ Global
 		{71793ECF-B628-4D23-8DE5-9A9BC7F60128}.Release|x64.Build.0 = Release|Any CPU
 		{71793ECF-B628-4D23-8DE5-9A9BC7F60128}.Release|x86.ActiveCfg = Release|Any CPU
 		{71793ECF-B628-4D23-8DE5-9A9BC7F60128}.Release|x86.Build.0 = Release|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Debug|x64.Build.0 = Debug|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Release|x64.ActiveCfg = Release|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Release|x64.Build.0 = Release|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +178,7 @@ Global
 		{FE4E2248-9C7D-4BDB-BA8B-CF26D81258B2} = {21531676-F91A-486C-B452-FA1AC80C66FA}
 		{0E77E967-E3DD-4BE3-9EDB-19C0BD2DB36A} = {21531676-F91A-486C-B452-FA1AC80C66FA}
 		{71793ECF-B628-4D23-8DE5-9A9BC7F60128} = {21531676-F91A-486C-B452-FA1AC80C66FA}
+		{F45F0560-005B-4143-884C-7EFA2A3E1EFC} = {21531676-F91A-486C-B452-FA1AC80C66FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FAAFA2C3-3BC3-4465-BA96-D8FBF0A8E1FA}

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Myvas.AspNetCore.Weixin.Models;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EfCore;
 
 /// <summary>
 /// Defines <see cref="ReceivedXml"/> and <see cref="ReceivedEntry"/> mapping.
@@ -15,6 +15,7 @@ public class ReceivedXmlMapperProfile : Profile
     {
         CreateMap<ReceivedXml, ReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<ReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 
@@ -30,6 +31,7 @@ public class MessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<MessageReceivedXml, MessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<MessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 
@@ -46,6 +48,7 @@ public class EventReceivedXmlMapperProfile : Profile
     {
         CreateMap<EventReceivedXml, EventReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<EventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
     }
 }
 
@@ -61,6 +64,7 @@ public class TextMessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<TextMessageReceivedXml, TextMessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<TextMessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 
@@ -77,6 +81,7 @@ public class ImageMessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<ImageMessageReceivedXml, ImageMessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<ImageMessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 /// <summary>
@@ -91,6 +96,7 @@ public class LinkMessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<LinkMessageReceivedXml, LinkMessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<LinkMessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 /// <summary>
@@ -105,6 +111,7 @@ public class LocationMessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<LocationMessageReceivedXml, LocationMessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<LocationMessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 /// <summary>
@@ -119,6 +126,7 @@ public class ShortVideoMessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<ShortVideoMessageReceivedXml, ShortVideoMessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<ShortVideoMessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 /// <summary>
@@ -133,6 +141,7 @@ public class VideoMessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<VideoMessageReceivedXml, VideoMessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<VideoMessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
 /// <summary>
@@ -147,10 +156,9 @@ public class VoiceMessageReceivedXmlMapperProfile : Profile
     {
         CreateMap<VoiceMessageReceivedXml, VoiceMessageReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<VoiceMessageReceivedXml, WeixinReceivedMessage>(MemberList.Destination);
     }
 }
-
-
 
 /// <summary>
 /// Defines <see cref="SubscribeEventReceivedXml"/> and <see cref="SubscribeEventReceivedEntry"/> mapping.
@@ -164,6 +172,7 @@ public class SubscribeEventReceivedXmlMapperProfile : Profile
     {
         CreateMap<SubscribeEventReceivedXml, SubscribeEventReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<SubscribeEventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
     }
 }
 
@@ -179,6 +188,7 @@ public class UnsubscribeEventReceivedXmlMapperProfile : Profile
     {
         CreateMap<UnsubscribeEventReceivedXml, UnsubscribeEventReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<UnsubscribeEventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
     }
 }
 
@@ -194,6 +204,23 @@ public class QrscanEventReceivedXmlMapperProfile : Profile
     {
         CreateMap<QrscanEventReceivedXml, QrscanEventReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<QrscanEventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
+    }
+}
+
+/// <summary>
+/// Defines <see cref="EnterEventReceivedXml"/> and <see cref="EnterEventReceivedEntry"/> mapping.
+/// </summary>
+public class EnterEventReceivedXmlMapperProfile : Profile
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public EnterEventReceivedXmlMapperProfile()
+    {
+        CreateMap<EnterEventReceivedXml, EnterEventReceivedEntry>(MemberList.Destination)
+            .ReverseMap();
+        CreateMap<EnterEventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
     }
 }
 
@@ -209,6 +236,7 @@ public class LocationEventReceivedXmlMapperProfile : Profile
     {
         CreateMap<LocationEventReceivedXml, LocationEventReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<LocationEventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
     }
 }
 
@@ -224,6 +252,7 @@ public class ClickMenuEventReceivedXmlMapperProfile : Profile
     {
         CreateMap<ClickMenuEventReceivedXml, ClickMenuEventReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<ClickMenuEventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
     }
 }
 
@@ -239,6 +268,7 @@ public class ViewMenuEventReceivedXmlMapperProfile : Profile
     {
         CreateMap<ViewMenuEventReceivedXml, ViewMenuEventReceivedEntry>(MemberList.Destination)
             .ReverseMap();
+        CreateMap<ViewMenuEventReceivedXml, WeixinReceivedEvent>(MemberList.Destination);
     }
 }
 

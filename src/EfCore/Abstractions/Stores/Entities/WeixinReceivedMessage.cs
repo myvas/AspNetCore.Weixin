@@ -6,6 +6,7 @@ namespace Myvas.AspNetCore.Weixin
         IWeixinReceivedText,
         IWeixinReceivedImage,
         IWeixinReceivedVoice,
+        IWeixinReceivedVoiceWithRecognition,
         IWeixinReceivedVideo,
         IWeixinReceivedShortVideo,
         IWeixinReceivedLink,
@@ -25,6 +26,7 @@ namespace Myvas.AspNetCore.Weixin
         public virtual string PicUrl { get; set; }
         public virtual string MediaId { get; set; }
         public virtual string Format { get; set; }
+        public virtual string Recognition { get; set; }
         public virtual string ThumbMediaId { get; set; }
         public virtual decimal? Longitude { get; set; }
         public virtual decimal? Latitude { get; set; }

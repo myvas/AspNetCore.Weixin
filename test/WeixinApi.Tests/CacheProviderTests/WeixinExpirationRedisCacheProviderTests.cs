@@ -28,7 +28,7 @@ public class WeixinExpirationRedisCacheProviderTests
         services.AddWeixinCore(o =>
         {
             o.AppId = randomAppId;
-            o.AppSecret = "FAKE_INVALID_SECRET";
+            o.AppSecret = "NOT_USED_SECRET";
         })
         .AddAccessTokenRedisCacheProvider(o =>
         {

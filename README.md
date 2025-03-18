@@ -6,9 +6,9 @@
 [![NuGet](https://img.shields.io/nuget/v/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
 [![NuGet](https://img.shields.io/nuget/vpre/Myvas.AspNetCore.Weixin.svg)](https://www.nuget.org/packages/Myvas.AspNetCore.Weixin)
 
-WeixinApi services and WeixinSite middleware for Tencent Wechat/Weixin messages, events and apis. (微信公众平台/接口调用服务)
+This solution is working around the Tencent WeChat (also known as Weixin) platform APIs, designed to streamline integration and enhance developer productivity.
 
-微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用及搭建站点。NuGet Packages
+微信公众平台/接口调用服务：在微信公众平台上申请服务号或订阅号后，经配置部署可提供自定义菜单、即时信息交流、微信网页授权、模板消息通知等接口调用及搭建站点。
 
 ## 获取配置参数 Options
 
@@ -68,9 +68,6 @@ services.AddWeixin(o => {
   - `WeixinRedisCacheProvider<TWeixinCacheJson>`
     - `<WeixinBuilder>.AddWeixinRedisCacheProvider<TWeixinCacheJson>(Action<RedisCacheOptions>)`
   - Customized Interface type: `IWeixinCacheProvider<TWeixinCacheJson>`
-    - XxxCacheProviderOptions: `TOptions`
-    - XxxCacheProviderPostConfigureOptions: `IPostConfigureOptions<TOptions>`
-    - WeixinBuilderXxxCacheProviderExtensions: `<WeixinBuilder>.AddWeixinCacheProvider<TWeixinCacheJson, TWeixinCacheProvider>(Action<TWeixinCacheProviderOptions> setupAction = null)`
 
 ## 微信公众号服务站点-中间件 `WeixinSiteMiddleware`
 
@@ -96,17 +93,23 @@ services.AddWeixin(o => {
 		o.WebsiteToken = Configuration["Weixin:WebsiteToken"];
 		o.Debug = false; //默认为false，即：不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
 	})
+	// AddWeixinSite默认注入 WeixinDebugEventSink (测试用，上行消息及事件通知）
 
 	// 上下行消息加解密
-	.AddWeixinMessageProtection(o => {
+	.AddMessageProtection(o => {
 		o.StrictMode = true; // default is false (compatible with ClearText)
 		o.EncodingAESKey = Configuration["Weixin:EncodingAESKey"];//请注意检查该值正确无误！
 		// （1）若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；
 		// （2）若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或不配置。
-	});
+	})
 
-	// 上行消息及事件通知，已默认注入`WeixinEventSink`
-	//.AddWeixinEventSink<TWeixinEventSink>()
+	// 自动存储上行消息及事件（将替换WeixinDebugEventSink）
+	.AddWeixinEfCore(o => {
+		// 启用订阅者名单同步服务
+		o.EnableSubscriberSync = false; // default is true
+	})
+	// 使用自定义数据类型
+	//.AddWeixinEfCore<TWeixinSubscriber, TWeixinDbContext>(Action<TWeixinEfCoreOptions>)
 
 	// 接口服务：发送模板消息
 	.AddWeixinTemplateMessaging(o => {
@@ -116,15 +119,7 @@ services.AddWeixin(o => {
 	// 接口服务：发送客服响应消息
 	.AddWeixinPassiveResponseMessaging(o => {
 		o.TrySmsOnFailed = true; // default is false
-	})
-
-	// 自动存储上行消息及事件
-	.AddWeixinEntityFrameworkCore(o => {
-		// 启用订阅者名单同步服务
-		o.EnableSubscriberSync = false; // default is true
-	})
-	// 自定义数据类型
-	//.AddWeixinEntityFrameworkCore<TWeixinSubscriber, TWeixinDbContext>(Action<TWeixinEntityFrameworkCoreOptions>);
+	});
 	```
  
 ## Demo

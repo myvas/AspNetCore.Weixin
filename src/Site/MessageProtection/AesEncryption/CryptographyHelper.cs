@@ -102,7 +102,11 @@ internal static class CryptographyHelper
 
 	private static string AesEncrypt(string data, byte[] iv, byte[] key)
 	{
+#if NET5_0_OR_GREATER
+		var aes = Aes.Create();
+#else
 		var aes = new RijndaelManaged();
+#endif
 		//秘钥的大小，以位为单位
 		aes.KeySize = 256;
 		//支持的块大小
@@ -131,19 +135,23 @@ internal static class CryptographyHelper
 
 	private static string AesEncrypt(byte[] data, byte[] iv, byte[] key)
 	{
-		var aes = new RijndaelManaged
-		{
-			//秘钥的大小，以位为单位
-			KeySize = 256,
-			//支持的块大小
-			BlockSize = 128,
-			//填充模式
-			//aes.Padding = PaddingMode.PKCS7;
-			Padding = PaddingMode.None,
-			Mode = CipherMode.CBC,
-			Key = key,
-			IV = iv
-		};
+#if NET5_0_OR_GREATER
+		var aes = Aes.Create();
+#else
+		var aes = new RijndaelManaged();
+#endif
+
+		//秘钥的大小，以位为单位
+		aes.KeySize = 256;
+		//支持的块大小
+		aes.BlockSize = 128;
+		//填充模式
+		//aes.Padding = PaddingMode.PKCS7;
+		aes.Padding = PaddingMode.None;
+		aes.Mode = CipherMode.CBC;
+		aes.Key = key;
+		aes.IV = iv;
+
 		var encrypt = aes.CreateEncryptor(aes.Key, aes.IV);
 		byte[] xBuff = null;
 
@@ -205,7 +213,11 @@ internal static class CryptographyHelper
 
 	private static byte[] AesDecrypt(string data, byte[] iv, byte[] key)
 	{
-		RijndaelManaged aes = new RijndaelManaged();
+#if NET5_0_OR_GREATER
+		var aes = Aes.Create();
+#else
+		var aes = new RijndaelManaged();
+#endif
 		aes.KeySize = 256;
 		aes.BlockSize = 128;
 		aes.Mode = CipherMode.CBC;

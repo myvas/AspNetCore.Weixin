@@ -1,10 +1,9 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using Xunit;
 
 namespace Myvas.AspNetCore.Weixin.CommonTests.JsonSerializerTests;
 
-public class JsonSerializer_AccessTokenJsonTests
+public class JsonSerializerTests
 {
     [Fact]
     public void WeixinAccessTokenJson_Serialize()
@@ -27,7 +26,7 @@ public class JsonSerializer_AccessTokenJsonTests
     }
 
     [Fact]
-    public void WeixinAccessTokenJson_DeserializeTest()
+    public void WeixinAccessTokenJson_Deserialize()
     {
         var json = @"{""access_token"":""89_RnWF3ynfikijP6gaqt_XlOtYCvV6188JYiMQcFvAEu94Ksih8Z3qML-Vio7ZDthRtZDaVqtbF8-W0LTD9Etenkso_nwmhmlEicOXnA7rQpu1ezENvNU6JhFHSpAVUBfAHAYXE"",""expires_in"":7200}";
         var result = JsonSerializer.Deserialize<WeixinAccessTokenJson>(json);
@@ -38,7 +37,7 @@ public class JsonSerializer_AccessTokenJsonTests
     }
 
     [Fact]
-    public void WeixinAccessTokenJson_DeserializeTest2()
+    public void WeixinAccessTokenJson_Deserialize2()
     {
         string json = @"{
 ""access_token"": ""54_1s-7myKXeZhBU163CbCf18snjgjaBooBBIS82GC9ZGVfC40XZdRIzgygRV1oJSQJ3jlCfHc1_doBlx3Umf7vW1h7rMQEA8Tnzu0kDrkoHVHHmWiOw5Qzjf2eVENo8KDWwtFO-FjViHr6Q25qAJXeAEAQZN"",
@@ -52,7 +51,7 @@ public class JsonSerializer_AccessTokenJsonTests
     }
 
     [Fact]
-    public void UserGetJson_DeserializeTest()
+    public void UserGetJson_Deserialize()
     {
         string json = @"{
 ""total"":2,
@@ -71,7 +70,7 @@ public class JsonSerializer_AccessTokenJsonTests
     }
 
     [Fact]
-    public void UserInfoJson_DeserializeTest()
+    public void UserInfoJson_Deserialize()
     {
         string json = @"{
     ""subscribe"": 1, 
