@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EfCore;
 
 public class WeixinSendMessageStore<TContext> : WeixinSendMessageStore<WeixinSendMessage, TContext>, IWeixinSendMessageStore
     where TContext : DbContext

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EfCore;
 
 public class WeixinReceivedEventStore<TContext> : WeixinReceivedEventStore<WeixinReceivedEvent, TContext>, IWeixinReceivedEventStore
     where TContext : DbContext
