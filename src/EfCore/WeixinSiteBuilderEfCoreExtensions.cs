@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.EfCore;
-using Myvas.AspNetCore.Weixin.EntityFrameworkCore;
-using Myvas.AspNetCore.Weixin.Models;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -15,32 +13,32 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public static class WeixinSiteBuilderEfCoreExtensions
 {
-    public static WeixinSiteBuilder AddEfCore<TWeixinDbContext>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
     {
-        AddEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<string>), typeof(string));
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<string>), typeof(string));
         return builder;
     }
 
-    public static WeixinSiteBuilder AddEfCore<TWeixinDbContext, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
         where TKey : IEquatable<TKey>
     {
-        AddEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<TKey>), typeof(TKey));
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<TKey>), typeof(TKey));
         return builder;
     }
 
-    public static WeixinSiteBuilder AddEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
         where TWeixinSubscriber : WeixinSubscriber<TKey>
         where TKey : IEquatable<TKey>
     {
-        AddEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriber), typeof(TKey));
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriber), typeof(TKey));
         return builder;
     }
 
 
-    private static void AddEfCore(IServiceCollection services, Type contextType, Type subscriberType, Type keyType)
+    private static void AddWeixinEfCore(IServiceCollection services, Type contextType, Type subscriberType, Type keyType)
     {
         Type subscriberStoreType = null;
         Type receivedMessageStoreType = null;
