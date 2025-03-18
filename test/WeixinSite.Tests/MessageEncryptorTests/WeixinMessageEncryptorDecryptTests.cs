@@ -13,7 +13,7 @@ public class WeixinMessageEncryptorDecryptTests
 			options.AppId = "wxaf5aa2d87ff3b700";
 			options.AppSecret = "USELESS_IN_THIS_TEST";
 		})
-		.AddSite(options =>
+		.AddWeixinSite(options =>
 		{
 			options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
 		})
