@@ -3,7 +3,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.EfCore;
 using Myvas.AspNetCore.Weixin.EntityFrameworkCore;
+using Myvas.AspNetCore.Weixin.Models;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -13,32 +15,32 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public static class WeixinSiteBuilderEfCoreExtensions
 {
-    public static WeixinSiteBuilder AddWeixinSiteEfCore<TWeixinDbContext>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddEfCore<TWeixinDbContext>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
     {
-        AddWeixinSiteEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<string>), typeof(string));
+        AddEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<string>), typeof(string));
         return builder;
     }
 
-    public static WeixinSiteBuilder AddWeixinSiteEfCore<TWeixinDbContext, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddEfCore<TWeixinDbContext, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
         where TKey : IEquatable<TKey>
     {
-        AddWeixinSiteEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<TKey>), typeof(TKey));
+        AddEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriber<TKey>), typeof(TKey));
         return builder;
     }
 
-    public static WeixinSiteBuilder AddWeixinSiteEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
         where TWeixinSubscriber : WeixinSubscriber<TKey>
         where TKey : IEquatable<TKey>
     {
-        AddWeixinSiteEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriber), typeof(TKey));
+        AddEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriber), typeof(TKey));
         return builder;
     }
 
 
-    private static void AddWeixinSiteEfCore(IServiceCollection services, Type contextType, Type subscriberType, Type keyType)
+    private static void AddEfCore(IServiceCollection services, Type contextType, Type subscriberType, Type keyType)
     {
         Type subscriberStoreType = null;
         Type receivedMessageStoreType = null;
@@ -89,6 +91,11 @@ public static class WeixinSiteBuilderEfCoreExtensions
             services.TryAddScoped(typeof(IWeixinResponseMessageStore), typeof(WeixinResponseMessageStore<>).MakeGenericType(contextType));
             services.TryAddScoped(typeof(IWeixinSendMessageStore), typeof(WeixinSendMessageStore<>).MakeGenericType(contextType));
         }
+
+        // Add event sink
+        services.Where(x => x.ServiceType == typeof(IWeixinEventSink)).ToList()
+            .ForEach(x => services.Remove(x));
+        services.AddTransient<IWeixinEventSink, WeixinEfCoreEventSink>();
     }
 
     private static TypeInfo FindGenericBaseType(Type currentType, Type genericBaseType)
