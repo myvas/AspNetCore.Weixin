@@ -37,7 +37,6 @@ public static class WeixinSiteBuilderEfCoreExtensions
         return builder;
     }
 
-
     private static void AddWeixinEfCore(IServiceCollection services, Type contextType, Type subscriberType, Type keyType)
     {
         Type subscriberStoreType = null;
