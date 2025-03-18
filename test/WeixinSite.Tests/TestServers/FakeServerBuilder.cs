@@ -24,8 +24,8 @@ public static class FakeServerBuilder
             {
                 o.WebsiteToken = "WEIXINSITETOKEN";
             })
-            .AddWeixinMessageProtection()
-            .AddWeixinDebugEventSink();
+            .AddMessageProtection()
+            .AddDebugEventSink();
         },
         async context =>
         {
@@ -61,7 +61,7 @@ public static class FakeServerBuilder
                 o.WebsiteToken = "WEIXINSITETOKEN";
                 o.Debug = true; // Important!
             })
-            .AddWeixinDebugEventSink();
+            .AddDebugEventSink();
         },
         async context =>
         {
