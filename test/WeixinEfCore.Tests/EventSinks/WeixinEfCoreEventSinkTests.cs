@@ -41,7 +41,7 @@ public class WeixinEfCoreEventSinkTests
                 o.WebsiteToken = "WEIXINSITETOKEN";
             })
             .AddMessageProtection()
-            .AddEfCore<WeixinDbContext>();
+            .AddWeixinEfCore<WeixinDbContext>();
         },
         async context =>
         {
