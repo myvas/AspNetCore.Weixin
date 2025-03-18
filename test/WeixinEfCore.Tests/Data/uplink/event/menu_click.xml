@@ -1,0 +1,8 @@
+﻿<xml>
+  <ToUserName><![CDATA[to-event-menu_click]]></ToUserName>
+  <FromUserName><![CDATA[from-event-menu_click]]></FromUserName>
+  <CreateTime>123456789</CreateTime>
+  <MsgType><![CDATA[event]]></MsgType>
+  <Event><![CDATA[CLICK]]></Event>
+  <EventKey><![CDATA[EVENTKEY]]></EventKey>
+</xml>

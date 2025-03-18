@@ -1,0 +1,9 @@
+﻿<xml>
+  <ToUserName><![CDATA[to-msg-image]]></ToUserName>
+  <FromUserName><![CDATA[from-msg-image]]></FromUserName>
+  <CreateTime>1348831860</CreateTime>
+  <MsgType><![CDATA[image]]></MsgType>
+  <PicUrl><![CDATA[https://mp.weixin.qq.com/fake.png]]></PicUrl>
+  <MediaId><![CDATA[media_id]]></MediaId>
+  <MsgId>1234567890123456</MsgId>
+</xml>
