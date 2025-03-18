@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EfCore;
 
 public class WeixinReceivedMessageManager<TWeixinReceivedMessage> : IDisposable
     where TWeixinReceivedMessage : WeixinReceivedMessage
