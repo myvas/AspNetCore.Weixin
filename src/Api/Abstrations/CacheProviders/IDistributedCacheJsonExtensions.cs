@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
@@ -25,7 +26,11 @@ public static class IDistributedCacheGenericExtensions
             PropertyNamingPolicy = null,
             WriteIndented = true,
             AllowTrailingCommas = true,
+#if NET5_0_OR_GREATER
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+#else
             IgnoreNullValues = true
+#endif
         };
     }
 }
