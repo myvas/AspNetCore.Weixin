@@ -10,7 +10,7 @@ public static class WeixinBuilderCacheProviderExtensions
         where TWeixinCacheJson : IWeixinExpirableValue, new()
     {
         builder.Services.AddMemoryCache();
-        builder.Services.Where(x => x.ImplementationType == typeof(IWeixinCacheProvider<TWeixinCacheJson>)).ToList()
+        builder.Services.Where(x => x.ServiceType == typeof(IWeixinCacheProvider<TWeixinCacheJson>)).ToList()
             .ForEach(x => builder.Services.Remove(x));
         builder.Services.AddSingleton<IWeixinCacheProvider<TWeixinCacheJson>, WeixinExpirationMemoryCacheProvider<TWeixinCacheJson>>();
         return builder;
@@ -20,7 +20,7 @@ public static class WeixinBuilderCacheProviderExtensions
         where TWeixinCacheJson : IWeixinExpirableValue, new()
     {
         builder.Services.AddMemoryCache();
-        builder.Services.Where(x => x.ImplementationType == typeof(IWeixinCacheProvider<TWeixinCacheJson>)).ToList()
+        builder.Services.Where(x => x.ServiceType == typeof(IWeixinCacheProvider<TWeixinCacheJson>)).ToList()
             .ForEach(x => builder.Services.Remove(x));
         builder.Services.AddSingleton<IWeixinCacheProvider<TWeixinCacheJson>, WeixinExpirationRedisCacheProvider<TWeixinCacheJson>>();
         return builder;
@@ -30,7 +30,7 @@ public static class WeixinBuilderCacheProviderExtensions
         where TWeixinCacheJson : IWeixinExpirableValue
         where TWeixinCacheProvider : class, IWeixinCacheProvider<TWeixinCacheJson>
     {
-        builder.Services.Where(x => x.ImplementationType == typeof(IWeixinCacheProvider<TWeixinCacheJson>)).ToList()
+        builder.Services.Where(x => x.ServiceType == typeof(IWeixinCacheProvider<TWeixinCacheJson>)).ToList()
             .ForEach(x => builder.Services.Remove(x));
         builder.Services.AddSingleton<IWeixinCacheProvider<TWeixinCacheJson>, TWeixinCacheProvider>();
         builder.Services.AddSingleton<TWeixinCacheProvider>();
