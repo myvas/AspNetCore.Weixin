@@ -5,7 +5,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 本批次拿到的订阅者OpenId列表
 /// </summary>
-public class OpenIdListJson
+public class WeixinOpenIdListJson
 {
     public List<string> openid { get; set; }
 }
@@ -13,7 +13,7 @@ public class OpenIdListJson
 /// <summary>
 /// 订阅者OpenId列表
 /// </summary>
-public class UserGetJson : WeixinErrorJson
+public class WeixinUserGetJson : WeixinErrorJson
 {
     /// <summary>
     /// 订阅者总数
@@ -28,7 +28,7 @@ public class UserGetJson : WeixinErrorJson
     /// <summary>
     /// 本批次拿到的订阅者OpenId列表
     /// </summary>
-    public OpenIdListJson data { get; set; }
+    public WeixinOpenIdListJson data { get; set; }
 
     /// <summary>
     /// 下一批次将从此OpenId开始拿

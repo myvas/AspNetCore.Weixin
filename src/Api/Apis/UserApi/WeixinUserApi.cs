@@ -9,9 +9,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// 用户接口
 /// <remarks>接口详见：http://mp.weixin.qq.com/wiki/index.php?title=%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF</remarks>
 /// </summary>
-public class UserApi : SecureWeixinApiClient, IUserApi
+public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
 {
-    public UserApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinUserApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 
@@ -28,7 +28,7 @@ public class UserApi : SecureWeixinApiClient, IUserApi
     /// {"errcode":40013,"errmsg":"invalid appid"}
     /// </code>
     /// </remarks>
-    public async Task<UserInfoJson> Info(string openId, WeixinLanguage lang = WeixinLanguage.zh_CN, CancellationToken cancellationToken = default)
+    public async Task<WeixinUserInfoJson> Info(string openId, WeixinLanguage lang = WeixinLanguage.zh_CN, CancellationToken cancellationToken = default)
     {
         var accessToken = await GetTokenAsync(cancellationToken);
 
@@ -36,7 +36,7 @@ public class UserApi : SecureWeixinApiClient, IUserApi
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
         url = string.Format(url, accessToken, openId, lang.ToString());
 
-        return await GetFromJsonAsync<UserInfoJson>(url);
+        return await GetFromJsonAsync<WeixinUserInfoJson>(url);
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class UserApi : SecureWeixinApiClient, IUserApi
     /// <param name="accessToken"></param>
     /// <param name="nextOpenId"></param>
     /// <returns></returns>
-    public async Task<UserGetJson> Get(string nextOpenId, CancellationToken cancellationToken = default)
+    public async Task<WeixinUserGetJson> Get(string nextOpenId, CancellationToken cancellationToken = default)
     {
         var accessToken = await GetTokenAsync(cancellationToken);
 
@@ -56,7 +56,7 @@ public class UserApi : SecureWeixinApiClient, IUserApi
         {
             url += "&next_openid=" + nextOpenId;
         }
-        return await GetFromJsonAsync<UserGetJson>(url);
+        return await GetFromJsonAsync<WeixinUserGetJson>(url);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public class UserApi : SecureWeixinApiClient, IUserApi
         string nextOpenId = "";
         do
         {
-            UserGetJson followerResult = await Get(nextOpenId);
+            WeixinUserGetJson followerResult = await Get(nextOpenId);
             int count = followerResult.count;
             if (count > 0)
             {
@@ -88,16 +88,16 @@ public class UserApi : SecureWeixinApiClient, IUserApi
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    public async Task<List<UserInfoJson>> GetAllUserInfo(CancellationToken cancellationToken = default)
+    public async Task<List<WeixinUserInfoJson>> GetAllUserInfo(CancellationToken cancellationToken = default)
     {
-        List<UserInfoJson> subscribers = new List<UserInfoJson>();
+        List<WeixinUserInfoJson> subscribers = new List<WeixinUserInfoJson>();
 
         List<string> openids = await GetAllOpenIds();
         foreach (string openid in openids)
         {
             try
             {
-                UserInfoJson userInfo = await Info(openid);
+                WeixinUserInfoJson userInfo = await Info(openid);
                 if (userInfo != null)
                 {
                     subscribers.Add(userInfo);

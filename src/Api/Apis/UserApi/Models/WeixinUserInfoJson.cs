@@ -10,7 +10,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <remarks>
 /// https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html
 /// </remarks>
-public class UserInfoJson : WeixinErrorJson
+public class WeixinUserInfoJson : WeixinErrorJson
 {
     /// <summary>
     /// 用户是否订阅该公众号标识。参考值：1 
