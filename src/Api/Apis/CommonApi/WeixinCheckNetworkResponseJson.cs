@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class CheckNetworkResponseJson : WeixinErrorJson
+public class WeixinCheckNetworkResponseJson : WeixinErrorJson
 {
     [JsonPropertyName("dns")]
     public IList<IpOperatorDnsMap> Dns { get; set; }

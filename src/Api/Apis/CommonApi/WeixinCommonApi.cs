@@ -7,7 +7,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 获取微信服务器地址
 /// </summary>
-public class WeixinCommonApi : SecureWeixinApiClient, IWeixinCommonApi
+public class WeixinCommonApi : WeixinSecureApiClient, IWeixinCommonApi
 {
     public WeixinCommonApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
@@ -19,12 +19,12 @@ public class WeixinCommonApi : SecureWeixinApiClient, IWeixinCommonApi
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IpResponseJson> GetCallbackIpsAsync(CancellationToken cancellationToken = default)
+    public async Task<WeixinIpResponseJson> GetCallbackIpsAsync(CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
 
-        var result = await SecureGetFromJsonAsync<IpResponseJson>(url);
+        var result = await SecureGetFromJsonAsync<WeixinIpResponseJson>(url);
         if (result.Succeeded)
             return result;
         else
@@ -37,12 +37,12 @@ public class WeixinCommonApi : SecureWeixinApiClient, IWeixinCommonApi
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<IpResponseJson> GetTencentServerIpsAsync(CancellationToken cancellationToken = default)
+    public async Task<WeixinIpResponseJson> GetTencentServerIpsAsync(CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/get_api_domain_ip?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
 
-        var result = await SecureGetFromJsonAsync<IpResponseJson>(url);
+        var result = await SecureGetFromJsonAsync<WeixinIpResponseJson>(url);
         if (result.Succeeded)
             return result;
         else
@@ -56,7 +56,7 @@ public class WeixinCommonApi : SecureWeixinApiClient, IWeixinCommonApi
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<CheckNetworkResponseJson> CheckNetworkAsync(CheckNetworkRequestJson data, CancellationToken cancellationToken = default)
+    public async Task<WeixinCheckNetworkResponseJson> CheckNetworkAsync(WeixinCheckNetworkRequestJson data, CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/callback/check?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
@@ -66,13 +66,13 @@ public class WeixinCommonApi : SecureWeixinApiClient, IWeixinCommonApi
         //    action = "all",
         //    check_operator = "DEFAULT"
         //};
-        var result = await SecurePostAsJsonAsync<CheckNetworkRequestJson, CheckNetworkResponseJson>(url, data);
+        var result = await SecurePostAsJsonAsync<WeixinCheckNetworkRequestJson, WeixinCheckNetworkResponseJson>(url, data);
         if (result.Succeeded)
             return result;
         else
             throw new WeixinException(result);
     }
 
-    public Task<CheckNetworkResponseJson> CheckNetworkAsync(string action, string check_operator, CancellationToken cancellationToken = default)
-        => CheckNetworkAsync(new CheckNetworkRequestJson(action, check_operator), cancellationToken);
+    public Task<WeixinCheckNetworkResponseJson> CheckNetworkAsync(string action, string check_operator, CancellationToken cancellationToken = default)
+        => CheckNetworkAsync(new WeixinCheckNetworkRequestJson(action, check_operator), cancellationToken);
 }

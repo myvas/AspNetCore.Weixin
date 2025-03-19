@@ -2,24 +2,24 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class CheckNetworkRequestJson
+public class WeixinCheckNetworkRequestJson
 {
-    public CheckNetworkRequestJson() { }
+    public WeixinCheckNetworkRequestJson() { }
     
-    public CheckNetworkRequestJson(string action, string checkOperator)
+    public WeixinCheckNetworkRequestJson(string action, string checkOperator)
     {
         Action = action;
         CheckOperator = checkOperator;
     }
 
     /// <summary>
-    /// 执行的检测动作，<see cref="CheckNetworkActions"/>
+    /// 执行的检测动作，<see cref="WeixinCheckNetworkActions"/>
     /// </summary>
     [JsonPropertyName("action")]
     public string Action { get; set; }
 
     /// <summary>
-    /// 通信运营商，<see cref="CheckNetworkOperators"/>
+    /// 通信运营商，<see cref="WeixinCheckNetworkOperators"/>
     /// </summary>
     [JsonPropertyName("check_operator")]
     public string CheckOperator { get; set; }

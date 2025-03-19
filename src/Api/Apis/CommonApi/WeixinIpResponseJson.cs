@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class IpResponseJson : WeixinErrorJson
+public class WeixinIpResponseJson : WeixinErrorJson
 {
     [JsonPropertyName("ip_list")]
     public IList<string> Ips { get; set; }
