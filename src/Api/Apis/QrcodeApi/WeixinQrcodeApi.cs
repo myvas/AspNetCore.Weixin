@@ -11,9 +11,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// </summary>
 /// <remarks>See: http://mp.weixin.qq.com/wiki/index.php?title=%E7%94%9F%E6%88%90%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81
 /// </remarks>
-public class QrcodeApi : SecureWeixinApiClient, IQrcodeApi
+public class WeixinQrcodeApi : WeixinSecureApiClient, IWeixinQrcodeApi
 {
-    public QrcodeApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinQrcodeApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 
@@ -23,7 +23,7 @@ public class QrcodeApi : SecureWeixinApiClient, IQrcodeApi
     /// <param name="expireSeconds">该二维码有效时间，以秒为单位。 最大不超过604800（即7天）。当值0时，将生成永久二维码</param>
     /// <param name="sceneId">场景值ID，临时二维码时为32位非0整型，永久二维码时最大值为100000</param>
     /// <returns></returns>
-    public async Task<CreateQrCodeResult> Create(int expireSeconds, int sceneId)
+    public async Task<WeixinCreateQrCodeResult> Create(int expireSeconds, int sceneId)
     {
         var pathAndQuery = "/cgi-bin/qrcode/create?access_token={0}";
         var url = Options?.BuildWeixinPlatformUrl(pathAndQuery);
@@ -58,7 +58,7 @@ public class QrcodeApi : SecureWeixinApiClient, IQrcodeApi
                 }
             };
         }
-        return await SecurePostAsJsonAsync<object, CreateQrCodeResult>(url, data);
+        return await SecurePostAsJsonAsync<object, WeixinCreateQrCodeResult>(url, data);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class QrcodeApi : SecureWeixinApiClient, IQrcodeApi
     /// <param name="expireSeconds">该二维码有效时间，以秒为单位。 最大不超过1800。0时为永久二维码</param>
     /// <param name="sceneId">场景值ID，临时二维码时为32位整型，永久二维码时最大值为1000</param>
     /// <returns></returns>
-    public async Task<CreateQrCodeResult> Create(string actionName, string sceneStr, CancellationToken cancellationToken = default)
+    public async Task<WeixinCreateQrCodeResult> Create(string actionName, string sceneStr, CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/qrcode/create?access_token={0}";
         var url = Options?.BuildWeixinPlatformUrl(pathAndQuery);
@@ -85,7 +85,7 @@ public class QrcodeApi : SecureWeixinApiClient, IQrcodeApi
             }
         };
 
-        return await PostAsJsonAsync<object, CreateQrCodeResult>(url, data);
+        return await PostAsJsonAsync<object, WeixinCreateQrCodeResult>(url, data);
     }
 
     /// <summary>

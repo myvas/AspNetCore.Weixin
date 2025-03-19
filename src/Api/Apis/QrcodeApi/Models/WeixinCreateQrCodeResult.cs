@@ -3,7 +3,7 @@
 /// <summary>
 /// 二维码创建返回结果
 /// </summary>
-public class CreateQrCodeResult : WeixinErrorJson
+public class WeixinCreateQrCodeResult : WeixinErrorJson
 {
     /// <summary>
     /// 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。
