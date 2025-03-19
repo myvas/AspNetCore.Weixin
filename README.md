@@ -48,7 +48,7 @@ services.AddWeixin(o => {
 - 基础会话接口：
   - `IWeixinAccessTokenApi`： [Usage](docs/Usages/IWeixinAccessTokenApi.md)
   - `IWeixinJsapiTicketApi`： [Usage](docs/Usages/IWeixinJsapiTicketApi.md)
-  - `IWeixinCardApiTicketApi`: 
+  - `IWeixinCardTicketApi`: [Usage](docs/Usages/IWeixinCardTicketApi.md)
 - 数据管理接口：
   - `IWeixinUserApi`: 
   - `IWeixinUserProfileApi`: 
@@ -62,16 +62,16 @@ services.AddWeixin(o => {
   - `IWeixinGroupMessageApi`: 
   - `IWeixinQrcodeApi`: 
   - `IWeixinWifiApi`: 
-- Generic Cache Providers for `TWeixinCacheJson` : `IWeixinCacheJson`
-  - `WeixinMemoryCacheProvider<TWeixinCacheJson>` (Default injected in `AddWeixin(...)` and `AddWeixinCore(...)`)
-    - `<WeixinBuilder>.AddWeixinMemoryCacheProvider<TWeixinCacheJson>()`
-  - `WeixinRedisCacheProvider<TWeixinCacheJson>`
-    - `<WeixinBuilder>.AddWeixinRedisCacheProvider<TWeixinCacheJson>(Action<RedisCacheOptions>)`
-  - Customized Interface type: `IWeixinCacheProvider<TWeixinCacheJson>`
+- Generic cache providers: 
+  - Cache object: `IWeixinExpirableValue`
+  - Memory cache provider: `WeixinMemoryCacheProvider<TWeixinCacheJson>` (Default injected in `AddWeixin(...)` and `AddWeixinCore(...)`)
+  - Redis cache provider: `WeixinRedisCacheProvider<TWeixinCacheJson>`
+  - `<WeixinBuilder>.AddWeixinRedisCacheProvider<TWeixinCacheJson>(Action<RedisCacheOptions>)`
+  - Customized cache provider type: `IWeixinCacheProvider<TWeixinCacheJson> where TWeixinCacheJson : IWeixinExpirableValue`
 
 ## 微信公众号服务站点-中间件 `WeixinSiteMiddleware`
 
-- Use Middleware: `<IApplicationBuilder>.UseMiddleware<WeixinSiteMiddleware>`
+- Use `WeixinSiteMiddleware`: 
 
 	```csharp
 	app.UseWeixinSite();
@@ -91,7 +91,7 @@ services.AddWeixin(o => {
 	.AddWeixinSite(o => {
 		o.Path = Configuration["Weixin:Path"];
 		o.WebsiteToken = Configuration["Weixin:WebsiteToken"];
-		o.Debug = false; //默认为false，即：不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
+		o.Debug = false; //默认为false，即不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
 	})
 	// AddWeixinSite默认注入 WeixinDebugEventSink (测试用，上行消息及事件通知）
 
@@ -104,12 +104,12 @@ services.AddWeixin(o => {
 	})
 
 	// 自动存储上行消息及事件（将替换WeixinDebugEventSink）
-	.AddWeixinEfCore(o => {
+	.AddWeixinEfCore<TWeixinDbContext>(o => {
 		// 启用订阅者名单同步服务
 		o.EnableSubscriberSync = false; // default is true
 	})
 	// 使用自定义数据类型
-	//.AddWeixinEfCore<TWeixinSubscriber, TWeixinDbContext>(Action<TWeixinEfCoreOptions>)
+	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>()
 
 	// 接口服务：发送模板消息
 	.AddWeixinTemplateMessaging(o => {
