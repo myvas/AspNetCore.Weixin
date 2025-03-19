@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin.Site.Properties
 {
     using System;
 
