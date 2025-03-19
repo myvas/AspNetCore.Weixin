@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin.Site.Properties;
 
 namespace Myvas.AspNetCore.Weixin;
 
