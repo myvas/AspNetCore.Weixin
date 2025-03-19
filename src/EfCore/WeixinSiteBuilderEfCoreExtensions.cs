@@ -92,7 +92,8 @@ public static class WeixinSiteBuilderEfCoreExtensions
         // Add event sink
         services.Where(x => x.ServiceType == typeof(IWeixinEventSink)).ToList()
             .ForEach(x => services.Remove(x));
-        services.AddTransient<IWeixinEventSink, WeixinEfCoreEventSink>();
+        var eventSinkImplType = typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType);
+        services.TryAddTransient(typeof(IWeixinEventSink), eventSinkImplType);
     }
 
     private static TypeInfo FindGenericBaseType(Type currentType, Type genericBaseType)
