@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Myvas.AspNetCore.Weixin.EfCore {
+namespace Myvas.AspNetCore.Weixin.EfCore.Properties {
     using System;
     
     
