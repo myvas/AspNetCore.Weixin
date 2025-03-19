@@ -10,9 +10,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 客服接口
 /// </summary>
-public class CustomerSupportApi : SecureWeixinApiClient, ICustomerSupportApi
+public class WeixinCustomerSupportApi : WeixinSecureApiClient, IWeixinCustomerSupportApi
 {
-    public CustomerSupportApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinCustomerSupportApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 

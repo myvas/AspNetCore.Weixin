@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface ICustomerSupportApi
+public interface IWeixinCustomerSupportApi
 {
     Task<WeixinErrorJson> SendImage(string openId, string mediaId);
     Task<WeixinErrorJson> SendMusic(string openId, string title, string description, string musicUrl, string hqMusicUrl, string thumbMediaId);
