@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinJsapiTicketDirectApi : SecureWeixinApiClient, IWeixinJsapiTicketDirectApi
+public class WeixinJsapiTicketDirectApi : WeixinSecureApiClient, IWeixinJsapiTicketDirectApi
 {
     public WeixinJsapiTicketDirectApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
@@ -27,5 +27,5 @@ public class WeixinJsapiTicketDirectApi : SecureWeixinApiClient, IWeixinJsapiTic
     }
 
     public WeixinJsapiTicketJson GetTicket()
-        => Task.Run(async()=>await GetTicketAsync()).Result;
+        => Task.Run(async () => await GetTicketAsync()).Result;
 }

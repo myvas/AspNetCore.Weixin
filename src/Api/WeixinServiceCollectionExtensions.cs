@@ -51,18 +51,20 @@ public static class WeixinServiceCollectionExtensions
 
 		builder.AddJsapiTicketMemoryCacheProvider();
 		builder.AddWeixinJsapiTicketApi();
+		
+		builder.AddCardTicketMemoryCacheProvider();
+		builder.AddWeixinCardTicketApi();
 
         builder.Services.AddTransient<IWeixinCommonApi, WeixinCommonApi>();
         builder.Services.AddTransient<IWeixinMenuApi, WeixinMenuApi>();
-        builder.Services.AddTransient<ICardApiTicketApi, CardApiTicketApi>();
-        builder.Services.AddTransient<ICustomerSupportApi, CustomerSupportApi>();
-        builder.Services.AddTransient<IGroupMessageApi, GroupMessageApi>();
-        builder.Services.AddTransient<IMediaApi, MediaApi>();
-        builder.Services.AddTransient<IQrcodeApi, QrcodeApi>();
-        builder.Services.AddTransient<IUserApi, UserApi>();
-        builder.Services.AddTransient<IGroupsApi, GroupsApi>();
-        builder.Services.AddTransient<IUserProfileApi, UserProfileApi>();
-        builder.Services.AddTransient<IWifiApi, WifiApi>();
+        builder.Services.AddTransient<IWeixinCustomerSupportApi, WeixinCustomerSupportApi>();
+        builder.Services.AddTransient<IWeixinGroupMessageApi, WeixinGroupMessageApi>();
+        builder.Services.AddTransient<IWeixinMediaApi, WeixinMediaApi>();
+        builder.Services.AddTransient<IWeixinQrcodeApi, WeixinQrcodeApi>();
+        builder.Services.AddTransient<IWeixinUserApi, WeixinUserApi>();
+        builder.Services.AddTransient<IWeixinGroupsApi, WeixinGroupsApi>();
+        builder.Services.AddTransient<IWeixinUserProfileApi, WeixinUserProfileApi>();
+        builder.Services.AddTransient<IWeixinWifiApi, WeixinWifiApi>();
 
 		return builder;
 	}

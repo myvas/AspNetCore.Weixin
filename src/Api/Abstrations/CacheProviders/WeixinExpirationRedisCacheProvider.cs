@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using System;
 using System.Collections;
@@ -9,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
+/// <summary>
+/// Use IDatabase direct access.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
     where T : IWeixinExpirableValue, new()
 {
@@ -19,11 +25,28 @@ public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
     private static readonly string CachePrefix = "WX_" + typeof(T).Name;
     private string GenerateCacheKey(string appId) { return $"{CachePrefix}_{appId}"; }
 
-    private readonly IDistributedCache _cache;
-
-    public WeixinExpirationRedisCacheProvider(IDistributedCache cache)
+    private readonly RedisCacheOptions _options;
+    private static IDatabase _cache;
+    private static readonly object _lock = new object(); // Mutex lock object
+    private IDatabase GetDatabase()
     {
-        _cache = cache ?? throw new ArgumentNullException(nameof(cache));
+        if (_cache == null)
+        {
+            lock (_lock) // Ensure only one thread can enter this block at a time
+            {
+                if (_cache == null) // Double-check to prevent race conditions
+                {
+                    _cache = ConnectionMultiplexer.Connect(_options.Configuration)?.GetDatabase();
+                }
+            }
+        }
+        return _cache;
+    }
+
+    public WeixinExpirationRedisCacheProvider(IOptions<RedisCacheOptions> optionsAccessor)
+    {
+        _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
+        _cache = GetDatabase() ?? throw new ArgumentNullException(nameof(optionsAccessor));
     }
 
     public T Get(string appId)
@@ -33,11 +56,11 @@ public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
     {
         var cacheKey = GenerateCacheKey(appId);
         var expirableValue = new T();
-        var value = await _cache.GetStringAsync(cacheKey, cancellationToken);
+        var value = await GetDatabase()?.StringGetAsync(cacheKey);
         expirableValue.Value = value;
         if (!string.IsNullOrEmpty(value))
         {
-            expirableValue.ExpiresIn = GetAbsoluteExpiration(cacheKey);
+            expirableValue.ExpiresIn = ((int?)(await GetDatabase()?.KeyTimeToLiveAsync(cacheKey))?.TotalSeconds) ?? 0;
             if (expirableValue.Validate()) return expirableValue;
         }
         return expirableValue;
@@ -46,7 +69,7 @@ public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
     public void Remove(string appId)
     {
         var cacheKey = GenerateCacheKey(appId);
-        _cache.Remove(cacheKey);
+        GetDatabase()?.KeyDeleteAsync(cacheKey);
     }
 
     public bool Replace(string appId, T expirableValue)
@@ -55,42 +78,10 @@ public class WeixinExpirationRedisCacheProvider<T> : IWeixinCacheProvider<T>
     public async Task<bool> ReplaceAsync(string appId, T expirableValue, CancellationToken cancellationToken = default)
     {
         var cacheKey = GenerateCacheKey(appId);
-        var entryOptions = new DistributedCacheEntryOptions
-        {
-            // Cut off 2 seconds to avoid abnormal expiration
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(expirableValue.ExpiresIn - 1)
-        };
-        await _cache.SetStringAsync(cacheKey, expirableValue.Value, entryOptions, cancellationToken);
+        await GetDatabase()?.StringSetAsync(cacheKey, expirableValue.Value, TimeSpan.FromSeconds(expirableValue.ExpiresIn - 1));
 
         // To ensure value stored
-        var storedValue = await _cache.GetStringAsync(cacheKey, cancellationToken);
+        var storedValue = await GetDatabase()?.StringGetAsync(cacheKey);
         return storedValue == expirableValue.Value;
-    }
-
-    /// <summary>
-    /// Get AbsoluteExpiration property value
-    /// </summary>
-    /// <param name="cacheKey"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    private int GetAbsoluteExpiration(string cacheKey)
-    {
-        var memoryCacheType = _cache.GetType();
-        var databaseField = memoryCacheType.GetField("_cache", BindingFlags.NonPublic | BindingFlags.Instance);
-        if (databaseField == null)
-        {
-            throw new InvalidOperationException("Unable to access the internal _cache field of RedisCache.");
-        }
-
-        var redisDatabase = databaseField.GetValue(_cache) as IDatabase
-            ?? throw new InvalidOperationException("The redis database is not available.");
-
-        var ttl = redisDatabase!.KeyTimeToLive(cacheKey);
-        if (ttl == null)
-        {
-            return 0; // Key not found in the internal collection
-        }
-
-        return (int)ttl!.Value.TotalSeconds;
     }
 }

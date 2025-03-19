@@ -35,9 +35,7 @@ public static class WeixinBuildJsapiTicketApiExtensions
 
     public static WeixinBuilder AddJsapiTicketRedisCacheProvider(this WeixinBuilder builder, Action<RedisCacheOptions> setupAction = null)
     {
-        //builder.Services.Add(ServiceDescriptor.Singleton<IDistributedCache, Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache>());
-        builder.Services.AddStackExchangeRedisCache(setupAction); // IDistributedCache
-        builder.AddRedisCacheProvider<WeixinJsapiTicketJson>();
+        builder.AddRedisCacheProvider<WeixinJsapiTicketJson>(setupAction);
         return builder;
     }
 

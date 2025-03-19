@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.EfCore;
+using Myvas.AspNetCore.Weixin.EfCore.Properties;
 using System;
 using System.Linq;
 using System.Reflection;

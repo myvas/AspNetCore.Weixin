@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin.Site.Properties;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

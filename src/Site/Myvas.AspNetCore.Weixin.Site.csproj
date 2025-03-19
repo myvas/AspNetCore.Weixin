@@ -5,7 +5,7 @@
     <PackageTags>myvas;AspNetCore;Weixin;UseWeixinSite</PackageTags>
     <IsShippingAssembly>true</IsShippingAssembly>
     <IsPackable>true</IsPackable>
-    <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+    <RootNamespace>Myvas.AspNetCore.Weixin.Site</RootNamespace>
     <PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
     <AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
     <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
@@ -24,20 +24,20 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="Resources.Designer.cs">
+    <Compile Update="Properties/Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Properties/Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="Resources.resx">
+    <EmbeddedResource Update="Properties/Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources.zh-Hans.resx">
+    <EmbeddedResource Update="Properties/Resources.zh-Hans.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

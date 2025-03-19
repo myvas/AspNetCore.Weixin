@@ -66,10 +66,10 @@ public class WeixinCommonApiTests
         });
         var serviceProvider = services.BuildServiceProvider();
         var api = serviceProvider.GetRequiredService<IWeixinCommonApi>();
-        var data = new CheckNetworkRequestJson
+        var data = new WeixinCheckNetworkRequestJson
         {
-            Action = CheckNetworkActions.All,
-            CheckOperator = CheckNetworkOperators.Default
+            Action = WeixinCheckNetworkActions.All,
+            CheckOperator = WeixinCheckNetworkOperators.Default
         };
         var json = await api.CheckNetworkAsync(data);
 
