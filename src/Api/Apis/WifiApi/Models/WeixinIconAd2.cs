@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class IconAd2 : IconAd
+public class WeixinIconAd2 : WeixinIconAd
 {
     /// <summary>
     /// 图标广告的副标题
@@ -8,7 +8,7 @@ public class IconAd2 : IconAd
     /// </summary>
     public string iconDesc;
 
-    public IconAd2()
+    public WeixinIconAd2()
     {
         iconDesc = "";
     }

@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class IconAd
+public class WeixinIconAd
 {
     /// <summary>
     /// 图标广告的标题

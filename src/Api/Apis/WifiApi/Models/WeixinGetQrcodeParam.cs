@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class GetQrcodeParam
+public class WeixinGetQrcodeParam
 {
     /// <summary>
     /// Wi-Fi连接SSID，必须

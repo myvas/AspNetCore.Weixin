@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class GetAuditStatusResultJson : WifiErrorJson
+public class WeixinGetAuditStatusResultJson : WeixinWifiErrorJson
 {
     /// <summary>
     /// 审核结果

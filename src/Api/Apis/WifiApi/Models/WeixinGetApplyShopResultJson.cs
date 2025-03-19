@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class GetApplyShopResultJson : WifiErrorJson
+public class WeixinGetApplyShopResultJson : WeixinWifiErrorJson
 {
     public string applyDate { get; set; }
     public DateTime GetApplyDate()
@@ -12,5 +12,5 @@ public class GetApplyShopResultJson : WifiErrorJson
         return DateTime.ParseExact(applyDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
     }
 
-    public List<ShopApplyForm> shopList = new List<ShopApplyForm>();
+    public List<WeixinShopApplyForm> shopList = new List<WeixinShopApplyForm>();
 }

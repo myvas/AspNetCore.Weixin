@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class AdDetail_Template1 : AdDetail
+public class WeixinAdDetail_Template1 : WeixinAdDetail
 {
     /// <summary>
     /// 文字广告位标题
@@ -14,14 +14,14 @@ public class AdDetail_Template1 : AdDetail
     /// <summary>
     /// 拒绝无参构造，以免用户忘记参数text和textUrl
     /// </summary>
-    private AdDetail_Template1() { }
+    private WeixinAdDetail_Template1() { }
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="text">附加文本广告。不能为空!</param>
     /// <param name="textUrl">附加文本广告URL。不能为空！</param>
-    public AdDetail_Template1(string text, string textUrl)
+    public WeixinAdDetail_Template1(string text, string textUrl)
     {
         if (string.IsNullOrEmpty(text)
             || string.IsNullOrEmpty(textUrl))

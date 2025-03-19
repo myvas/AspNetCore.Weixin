@@ -12,7 +12,7 @@
 /// 错误时微信会返回错误码等信息，JSON数据包示例如下（该示例为AppID无效错误）:
 /// <code>
 /// {"errcode":40013,"errmsg":"invalid appid"}</code></example>
-public class GetQrcodeResultJson : WifiErrorJson
+public class WeixinGetQrcodeResultJson : WeixinWifiErrorJson
 {
     /// <summary>
     /// 微信WIFI二维码图片地址。

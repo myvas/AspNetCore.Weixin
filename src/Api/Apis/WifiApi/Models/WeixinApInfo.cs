@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信WiFi无线访问点（AP）信息
 /// </summary>
-public class ApInfo
+public class WeixinApInfo
 {
     /// <summary>
     /// 系统门店唯一标识ID,如果设备非系统指定安装，该项为空

@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class ShopApplyForm
+public class WeixinShopApplyForm
 {
     /// <summary>
     /// 需要安装wifi的门店id，在设置AP接口同步回来

@@ -1,5 +1,5 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class IconAd1 : IconAd
+public class WeixinIconAd1 : WeixinIconAd
 {
 }

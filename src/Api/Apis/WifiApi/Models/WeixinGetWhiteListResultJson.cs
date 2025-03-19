@@ -2,7 +2,7 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class GetWhiteListResultJson : WifiErrorJson
+public class WeixinGetWhiteListResultJson : WeixinWifiErrorJson
 {
     public List<string> ipList = new List<string>();
     public List<string> domainList = new List<string>();

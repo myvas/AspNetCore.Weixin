@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class GetPublishedAdResultJson : WifiErrorJson
+public class WeixinGetPublishedAdResultJson : WeixinWifiErrorJson
 {
     /// <summary>
     /// 商家主页线上的url

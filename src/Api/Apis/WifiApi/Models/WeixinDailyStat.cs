@@ -2,7 +2,7 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class DailyStat
+public class WeixinDailyStat
 {
     public List<DeviceStat> statList = new List<DeviceStat>();
 }

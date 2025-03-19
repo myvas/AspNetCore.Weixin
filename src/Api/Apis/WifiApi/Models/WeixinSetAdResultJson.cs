@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class SetAdResultJson : WifiErrorJson
+public class WeixinSetAdResultJson : WeixinWifiErrorJson
 {
     /// <summary>
     /// 该次请求生产的广告id。用于查询审核结果。

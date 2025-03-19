@@ -7,13 +7,13 @@ namespace Myvas.AspNetCore.Weixin;
 /// 微信WiFi相关API返回值（JSON）
 /// </summary>
 /// <remarks>注意：微信WiFi相关API与微信基础API的JSON属性名不一样!</remarks>
-public class WifiErrorJson : WeixinJson, IWeixinError
+public class WeixinWifiErrorJson : WeixinJson, IWeixinError
 {
-    public WifiErrorJson()
+    public WeixinWifiErrorJson()
     {
     }
 
-    public WifiErrorJson(int? code, string msg) : this()
+    public WeixinWifiErrorJson(int? code, string msg) : this()
     {
         ErrorCode = code;
         ErrorMessage = msg;

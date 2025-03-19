@@ -2,10 +2,10 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class AdDetail
+public class WeixinAdDetail
 {
     /// <summary>
     /// 图标广告list
     /// </summary>
-    public List<IconAd> iconAds = new List<IconAd>();
+    public List<WeixinIconAd> iconAds = new List<WeixinIconAd>();
 }

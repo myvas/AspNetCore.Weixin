@@ -6,7 +6,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 微信WiFi无线访问点（AP）信息
 /// </summary>
-public class Ad
+public class WeixinAd
 {
     /// <summary>
     /// 广告编号
@@ -44,17 +44,17 @@ public class Ad
     /// </summary>
     public List<string> deviceNos = new List<string>();
     
-    public void SetAdDetail(AdDetail detail)
+    public void SetAdDetail(WeixinAdDetail detail)
     {
-        if (detail is AdDetail_Template1)
+        if (detail is WeixinAdDetail_Template1)
         {
             adTemplet = 1;
-            adDetail = JsonSerializer.Serialize(detail as AdDetail_Template1);
+            adDetail = JsonSerializer.Serialize(detail as WeixinAdDetail_Template1);
         }
-        else if (detail is AdDetail_Template2)
+        else if (detail is WeixinAdDetail_Template2)
         {
             adTemplet = 2;
-            adDetail = JsonSerializer.Serialize(detail as AdDetail_Template2);
+            adDetail = JsonSerializer.Serialize(detail as WeixinAdDetail_Template2);
         }
     }
 

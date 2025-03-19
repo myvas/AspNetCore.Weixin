@@ -3,7 +3,7 @@
 /// <summary>
 /// 需要推送给腾讯服务器的AP心跳数据
 /// </summary>
-public class ApOnlineData
+public class WeixinApOnlineData
 {
     /// <summary>
     /// AP设备编号
