@@ -15,13 +15,13 @@ namespace Myvas.AspNetCore.Weixin;
 /// <remarks>
 /// <see cref="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html">获取access_token接口官方说明</see>
 /// </remarks>
-public abstract class SecureWeixinApiClient : WeixinApiClient
+public abstract class WeixinSecureApiClient : WeixinApiClient
 {
     protected IWeixinAccessTokenApi Token { get; private set; }
 
     protected string AppId { get { return Options.AppId; } }
 
-    public SecureWeixinApiClient(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider)
+    public WeixinSecureApiClient(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider)
         : base(optionsAccessor)
     {
         Token = tokenProvider ?? throw new ArgumentException(nameof(tokenProvider));
