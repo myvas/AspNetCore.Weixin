@@ -6,9 +6,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 高级群发接口
 /// </summary>
-public class GroupMessageApi : SecureWeixinApiClient, IGroupMessageApi
+public class WeixinGroupMessageApi : WeixinSecureApiClient, IWeixinGroupMessageApi
 {
-    public GroupMessageApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinGroupMessageApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 
@@ -25,7 +25,7 @@ public class GroupMessageApi : SecureWeixinApiClient, IGroupMessageApi
     /// <param name="groupId">群发到的分组的group_id</param>
     /// <param name="mediaId">用于群发的消息的media_id</param>
     /// <returns></returns>
-    public async Task<SendResult> SendGroupMessageByGroupId(string groupId, string mediaId)
+    public async Task<WeixinSendResult> SendGroupMessageByGroupId(string groupId, string mediaId)
     {
         var pathAndQuery = "/cgi-bin/message/mass/sendall?access_token={0}";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
@@ -42,7 +42,7 @@ public class GroupMessageApi : SecureWeixinApiClient, IGroupMessageApi
             },
             msgtype = "mpnews"
         };
-        return await SecurePostAsJsonAsync<object, SendResult>(url, data);
+        return await SecurePostAsJsonAsync<object, WeixinSendResult>(url, data);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class GroupMessageApi : SecureWeixinApiClient, IGroupMessageApi
     /// <param name="mediaId">用于群发的消息的media_id</param>
     /// <param name="openIds">openId字符串数组</param>
     /// <returns></returns>
-    public async Task<SendResult> SendGroupMessageByOpenId(string mediaId, params string[] openIds)
+    public async Task<WeixinSendResult> SendGroupMessageByOpenId(string mediaId, params string[] openIds)
     {
         var pathAndQuery = "/cgi-bin/message/mass/send?access_token={0}";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
@@ -66,7 +66,7 @@ public class GroupMessageApi : SecureWeixinApiClient, IGroupMessageApi
             },
             msgtype = "mpnews"
         };
-        return await SecurePostAsJsonAsync<object, SendResult>(url, data);
+        return await SecurePostAsJsonAsync<object, WeixinSendResult>(url, data);
     }
 
     /// <summary>

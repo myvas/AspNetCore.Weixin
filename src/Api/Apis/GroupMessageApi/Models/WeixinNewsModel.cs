@@ -3,7 +3,7 @@
 /// <summary>
 /// 图文消息模型
 /// </summary>
-public class NewsModel
+public class WeixinNewsModel
 {
     /// <summary>
     /// 图文消息缩略图的media_id，可以在基础支持上传多媒体文件接口中获得
