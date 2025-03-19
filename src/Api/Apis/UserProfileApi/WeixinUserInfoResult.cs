@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class UserInfoResult: WeixinErrorJson
+public class WeixinUserInfoResult : WeixinErrorJson
 {
     /// <summary>
     /// 用户是否订阅该公众号标识，值为0时，拉取不到其余信息

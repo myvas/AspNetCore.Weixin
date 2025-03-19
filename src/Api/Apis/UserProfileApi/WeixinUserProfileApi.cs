@@ -8,9 +8,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 微信基础功能接口
 /// </summary>
-public class UserProfileApi : SecureWeixinApiClient, IUserProfileApi
+public class WeixinUserProfileApi : WeixinSecureApiClient, IWeixinUserProfileApi
 {
-    public UserProfileApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinUserProfileApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 
@@ -20,14 +20,14 @@ public class UserProfileApi : SecureWeixinApiClient, IUserProfileApi
     /// <param name="accessToken"></param>
     /// <param name="openID"></param>
     /// <returns></returns>
-    public async Task<UserInfoResult> GetUserInfo(string openID, CancellationToken cancellationToken = default)
+    public async Task<WeixinUserInfoResult> GetUserInfo(string openID, CancellationToken cancellationToken = default)
     {
         var accessToken = await GetTokenAsync(cancellationToken);
 
         var url = string.Format(
             "http://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}",
             accessToken, openID);
-        UserInfoResult result = await GetFromJsonAsync<UserInfoResult>(url);
+        WeixinUserInfoResult result = await GetFromJsonAsync<WeixinUserInfoResult>(url);
         return result;
     }
 
@@ -45,7 +45,7 @@ public class UserProfileApi : SecureWeixinApiClient, IUserProfileApi
     /// <param name="UploadMediaType">上传文件类型</param>
     /// <param name="fileName">上传文件完整路径+文件名</param>
     /// <returns></returns>
-    public async Task<UploadMediaResult> UploadMediaFile(MediaType type, string fileName, CancellationToken cancellationToken = default)
+    public async Task<WeixinUploadMediaResult> UploadMediaFile(WeixinMediaType type, string fileName, CancellationToken cancellationToken = default)
     {
         var accessToken = await GetTokenAsync(cancellationToken);
 
@@ -54,7 +54,7 @@ public class UserProfileApi : SecureWeixinApiClient, IUserProfileApi
 
         var url = string.Format(requestUriFormat,
             accessToken, type.ToString(), Path.GetFileName(fileName), fileStream != null ? fileStream.Length : 0);
-        UploadMediaResult result = await PostFileAsJsonAsync<UploadMediaResult>(url, fileStream);
+        WeixinUploadMediaResult result = await PostFileAsJsonAsync<WeixinUploadMediaResult>(url, fileStream);
         return result;
     }
 }
