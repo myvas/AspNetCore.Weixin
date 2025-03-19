@@ -21,9 +21,7 @@ public static class WeixinBuilderAccessTokenApiExtensions{
 
     public static WeixinBuilder AddAccessTokenRedisCacheProvider(this WeixinBuilder builder, Action<RedisCacheOptions> setupAction = null)
     {
-        //builder.Services.Add(ServiceDescriptor.Singleton<IDistributedCache, Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache>());
-        builder.Services.AddStackExchangeRedisCache(setupAction); // IDistributedCache
-        builder.AddRedisCacheProvider<WeixinAccessTokenJson>();
+        builder.AddRedisCacheProvider<WeixinAccessTokenJson>(setupAction);
         return builder;
     }
 
