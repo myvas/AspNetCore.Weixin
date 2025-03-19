@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.EfCore;
@@ -92,7 +93,8 @@ public static class WeixinSiteBuilderEfCoreExtensions
         // Add event sink
         services.Where(x => x.ServiceType == typeof(IWeixinEventSink)).ToList()
             .ForEach(x => services.Remove(x));
-        services.AddTransient<IWeixinEventSink, WeixinEfCoreEventSink>();
+        var eventSinkImplType = typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType);
+        services.TryAddTransient(typeof(IWeixinEventSink), eventSinkImplType);
     }
 
     private static TypeInfo FindGenericBaseType(Type currentType, Type genericBaseType)
