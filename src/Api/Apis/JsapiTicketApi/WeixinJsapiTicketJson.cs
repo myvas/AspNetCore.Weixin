@@ -13,7 +13,7 @@ namespace Myvas.AspNetCore.Weixin;
 public class WeixinJsapiTicketJson : WeixinErrorJson, IWeixinExpirableValue
 {
     /// <summary>
-    /// weixin jsapi ticket
+    /// Weixin Jsapi Ticket
     /// </summary>
     /// <example>bxLdikRXVbTPdHSM05e5u5sUoXNKd8-41ZO3MhKoyN5OfkWITDGgnr2fwJ0m9E8NYzWKVZvdVtaUgWvsdshFKA</example>
     [JsonPropertyName("ticket")]
