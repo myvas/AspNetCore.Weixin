@@ -4,44 +4,43 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin
+namespace Myvas.AspNetCore.Weixin;
+
+public abstract class WeixinReceivedEventStoreBase<TWeixinReceivedEvent> : EntityStoreBase<TWeixinReceivedEvent>, IWeixinReceivedEventStore<TWeixinReceivedEvent>
+    where TWeixinReceivedEvent : WeixinReceivedEvent
 {
-    public abstract class WeixinReceivedEventStoreBase<TWeixinReceivedEvent> : EntityStoreBase<TWeixinReceivedEvent>, IWeixinReceivedEventStore<TWeixinReceivedEvent>
-        where TWeixinReceivedEvent : WeixinReceivedEvent
+    public WeixinReceivedEventStoreBase(WeixinErrorDescriber describer)
     {
-        public WeixinReceivedEventStoreBase(WeixinErrorDescriber describer)
+        ErrorDescriber = describer ?? throw new ArgumentNullException(nameof(describer));
+    }
+
+    /// <summary>
+    /// Gets or sets the <see cref="WeixinErrorDescriber"/> for any error that occurred with the current operation.
+    /// </summary>
+    public WeixinErrorDescriber ErrorDescriber { get; set; }
+
+    public virtual Task<int> GetCountByOpenIdAsync(string openId, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (openId == null)
         {
-            ErrorDescriber = describer ?? throw new ArgumentNullException(nameof(describer));
+            throw new ArgumentNullException(nameof(openId));
         }
+        var result = Items.Count(x => x.FromUserName == openId);
+        return Task.FromResult(result);
+    }
 
-        /// <summary>
-        /// Gets or sets the <see cref="WeixinErrorDescriber"/> for any error that occurred with the current operation.
-        /// </summary>
-        public WeixinErrorDescriber ErrorDescriber { get; set; }
 
-        public virtual Task<int> GetCountByOpenIdAsync(string openId, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TWeixinReceivedEvent>> GetItemsByOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (openId == null)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (openId == null)
-            {
-                throw new ArgumentNullException(nameof(openId));
-            }
-            var result = Items.Count(x => x.FromUserName == openId);
-            return Task.FromResult(result);
+            throw new ArgumentNullException(nameof(openId));
         }
-
-
-        public virtual Task<IList<TWeixinReceivedEvent>> GetItemsByOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (openId == null)
-            {
-                throw new ArgumentNullException(nameof(openId));
-            }
-            var result = Items.Where(x => x.FromUserName == openId);
-            return Task.FromResult((IList<TWeixinReceivedEvent>)result);
-        }
+        var result = Items.Where(x => x.FromUserName == openId);
+        return Task.FromResult((IList<TWeixinReceivedEvent>)result);
     }
 }
