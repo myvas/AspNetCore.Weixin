@@ -59,7 +59,7 @@ public class JsonSerializerTests
 ""data"":{""openid"":[""OPENID1"",""OPENID2""]},
 ""next_openid"":""NEXT_OPENID""
 }";
-        var result = JsonSerializer.Deserialize<UserGetJson>(json);
+        var result = JsonSerializer.Deserialize<WeixinUserGetJson>(json);
         Assert.Equal(2, result.total);
         Assert.Equal(2, result.count);
         Assert.Equal(2, result.data.openid.Count);
@@ -85,7 +85,7 @@ public class JsonSerializerTests
     ""qr_scene"": 98765,
     ""qr_scene_str"": """"
 }";
-        var result = JsonSerializer.Deserialize<UserInfoJson>(json);
+        var result = JsonSerializer.Deserialize<WeixinUserInfoJson>(json);
         Assert.Equal(1, result.subscribe);
         Assert.Equal("o6_bmjrPTlm6_2sgVt7hMZOPfL2M", result.OpenId);
         Assert.Equal("zh_CN", result.Language);
