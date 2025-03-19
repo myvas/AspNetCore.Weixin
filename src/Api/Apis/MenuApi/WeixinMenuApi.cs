@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinMenuApi : SecureWeixinApiClient, IWeixinMenuApi
+public class WeixinMenuApi : WeixinSecureApiClient, IWeixinMenuApi
 {
     public WeixinMenuApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
