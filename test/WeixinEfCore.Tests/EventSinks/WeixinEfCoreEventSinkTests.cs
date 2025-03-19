@@ -105,8 +105,6 @@ public class WeixinEfCoreEventSinkTests
     [InlineData("uplink/event/menu_click.xml", "OnClickMenuEventReceived: EventKey: EVENTKEY", "from-event-menu_click")]
     [InlineData("uplink/event/menu_view.xml", "OnViewMenuEventReceived: EventKey: www.qq.com", "from-event-menu_view")]
     [InlineData("uplink/event/scan.xml", "OnQrscanEventReceived: EventKey: SCENE_VALUE, Ticket: TICKET", "from-event-scan")]
-    [InlineData("uplink/event/subscribe.xml", "OnSubscribeEventReceived: EventKey: , Ticket: ", "from-event-subscribe")]
-    [InlineData("uplink/event/subscribe_qrscene.xml", "OnSubscribeEventReceived: EventKey: qrscene_123123, Ticket: TICKET", "from-event-subscribe-qrscene")]
     public async Task HttpPost_WeixinEvents(string fileName, string result, string fromUserName)
     {
         var testClient = testServer.CreateClient();
@@ -136,6 +134,44 @@ public class WeixinEfCoreEventSinkTests
         var db = testServer.Services.GetRequiredService<WeixinDbContext>();
         {
             var entity = await db.WeixinReceivedEvents.FirstOrDefaultAsync(x => x.FromUserName == fromUserName);
+            Assert.NotNull(entity);
+        }
+    }
+    [Theory]
+    [InlineData("uplink/event/subscribe.xml", "OnSubscribeEventReceived: EventKey: , Ticket: ", "from-event-subscribe")]
+    [InlineData("uplink/event/subscribe_qrscene.xml", "OnSubscribeEventReceived: EventKey: qrscene_123123, Ticket: TICKET", "from-event-subscribe-qrscene")]
+    public async Task HttpPost_WeixinEvent_Subscribe(string fileName, string result, string fromUserName)
+    {
+        var testClient = testServer.CreateClient();
+        var textXml = TestFile.ReadTestFile(fileName);
+        var timestamp = DateTime.Now.Ticks.ToString();
+        var nonce = "nonce";
+        var signature = SignatureHelper.CalculateSignature(timestamp, nonce, "WEIXINSITETOKEN");
+        var query = new QueryBuilder
+        {
+            { "signature", signature },
+            { "timestamp", timestamp },
+            { "nonce", nonce }
+        };
+        var uri = WeixinSiteOptionsDefaults.Path + query.ToString();
+        testClient.DefaultRequestHeaders.Add("User-Agent", MicroMessengerUserAgent);
+
+        var response = await testClient.PostAsync(uri, new StringContent(textXml));
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        // Assert message on client-side
+        var s = await response.Content.ReadAsStringAsync();
+        Assert.StartsWith("<xml>", s);
+        Assert.Contains($"<Content>{result}</Content>", s);
+        Assert.EndsWith("</xml>", s);
+
+        // Assert db on server-side
+        var db = testServer.Services.GetRequiredService<WeixinDbContext>();
+        {
+            var entity = await db.WeixinReceivedEvents.FirstOrDefaultAsync(x => x.FromUserName == fromUserName);
+            Assert.NotNull(entity);
+
+            var subscriber = await db.WeixinSubscribers.FirstOrDefaultAsync(x=>x.OpenId==fromUserName);
             Assert.NotNull(entity);
         }
     }
