@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public static class MediaApiHelper
+public static class WeixinMediaApiHelper
 {
     public static string ExtractFileExtFromDisposition(string disposition)
     {

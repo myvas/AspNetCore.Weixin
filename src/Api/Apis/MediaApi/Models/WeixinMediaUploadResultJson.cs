@@ -3,9 +3,9 @@
 /// <summary>
 /// 上传媒体文件返回结果
 /// </summary>
-public class MediaUploadResultJson : WeixinErrorJson
+public class WeixinMediaUploadResultJson : WeixinErrorJson
 {
-    public UploadMediaType type;
+    public WeixinUploadMediaType type;
     public string media_id;
     public long created_at;
 }

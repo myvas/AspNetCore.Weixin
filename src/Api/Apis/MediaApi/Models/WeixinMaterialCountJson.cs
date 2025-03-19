@@ -2,7 +2,7 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class MaterialCountJson
+public class WeixinMaterialCountJson
 {
     [JsonPropertyName("video_count")]
     public int VideoCount { get; set; }

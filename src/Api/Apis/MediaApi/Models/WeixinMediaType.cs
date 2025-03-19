@@ -4,7 +4,7 @@
 /// <summary>
 /// 可下载的多媒体文件格式
 /// </summary>
-public enum DownloadMediaType
+public enum WeixinDownloadMediaType
 {
     /// <summary>
     /// 图片: 1MB，支持JPG格式
@@ -28,7 +28,7 @@ public enum DownloadMediaType
 /// <summary>
 /// 上传媒体文件类型
 /// </summary>
-public enum MediaType
+public enum WeixinMediaType
 {
     /// <summary>
     /// 图片: 1M，支持JPG格式

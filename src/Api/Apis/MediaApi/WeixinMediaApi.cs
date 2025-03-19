@@ -11,9 +11,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 多媒体文件接口
 /// </summary>
-public class MediaApi : SecureWeixinApiClient, IMediaApi
+public class WeixinMediaApi : WeixinSecureApiClient, IWeixinMediaApi
 {
-    public MediaApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinMediaApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 
@@ -24,11 +24,11 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
     /// 注意：微信服务器只保存3天。
     /// </summary>
     /// <param name="accessToken">访问令牌</param>
-    /// <param name="type">文件类型。支持JPG, MP3, MP4, AMR等格式，详见<see cref="UploadMediaType"/></param>
+    /// <param name="type">文件类型。支持JPG, MP3, MP4, AMR等格式，详见<see cref="WeixinUploadMediaType"/></param>
     /// <param name="file">文件路径</param>
     /// <returns>若成功，则返回上传成功的时间、文件格式、以及资源ID；若失败，则抛出异常。</returns>
     /// <exception cref="WeixinException">下载不成功，则抛出该异常</exception>
-    public async Task<MediaUploadResultJson> Upload(UploadMediaType type, string file, CancellationToken cancellationToken = default)
+    public async Task<WeixinMediaUploadResultJson> Upload(WeixinUploadMediaType type, string file, CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/media/upload?access_token=ACCESS_TOKEN&UploadMediaType=UPLOADMEDIATYPE";
         var url = Options?.BuildWeixinFileApiUrl(pathAndQuery);
@@ -38,10 +38,10 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
         //var fileDictionary = new Dictionary<string, string>();
         //fileDictionary["media"] = file;
         //return HttpUtilityPost.PostFileGetJson<MediaUploadResultJson>(url, null, fileDictionary, null);
-        return await PostAsJsonAsync<string, MediaUploadResultJson>(url, file);
+        return await PostAsJsonAsync<string, WeixinMediaUploadResultJson>(url, file);
     }
 
-    public async Task<MaterialCountJson> GetMaterialCount(CancellationToken cancellationToken = default)
+    public async Task<WeixinMaterialCountJson> GetMaterialCount(CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinFileApiUrl(pathAndQuery);
@@ -65,9 +65,9 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
 
 
         int voiceCount, videoCount, imageCount, newsCount;
-        if (MediaApiHelper.GetAllCounts(payload, out voiceCount, out videoCount, out imageCount, out newsCount))
+        if (WeixinMediaApiHelper.GetAllCounts(payload, out voiceCount, out videoCount, out imageCount, out newsCount))
         {
-            return new MaterialCountJson
+            return new WeixinMaterialCountJson
             {
                 VoiceCount = voiceCount,
                 VideoCount = videoCount,
@@ -78,7 +78,7 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
         throw new Exception($"The remote server returned an unknown formatted string while retrieving the count of materials.");
     }
 
-    public async Task<BatchGetMaterialsJson> BatchGetMaterials(string materialType, int offset, int count, CancellationToken cancellationToken = default)
+    public async Task<WeixinBatchGetMaterialsJson> BatchGetMaterials(string materialType, int offset, int count, CancellationToken cancellationToken = default)
     {
         string pathAndQuery = "/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinFileApiUrl(pathAndQuery);
@@ -90,7 +90,7 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
             offset = offset,
             count = count
         };
-        return await PostAsJsonAsync<object, BatchGetMaterialsJson>(url, content);
+        return await PostAsJsonAsync<object, WeixinBatchGetMaterialsJson>(url, content);
     }
 
     /// <summary>
@@ -99,11 +99,11 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
     /// <param name="accessToken"></param>
     /// <param name="materialType">news, image, video, voice</param>
     /// <returns></returns>
-    public async Task<BatchGetMaterialsJson> GetAllMaterialsAsync(MaterialType materialType, CancellationToken cancellationToken = default)
+    public async Task<WeixinBatchGetMaterialsJson> GetAllMaterialsAsync(WeixinMaterialType materialType, CancellationToken cancellationToken = default)
     {
         var type = materialType.ToString();
 
-        var result = new BatchGetMaterialsJson();
+        var result = new WeixinBatchGetMaterialsJson();
 
         var materialCount = await GetMaterialCount(cancellationToken);
         var newsCount = materialCount.NewsCount;
@@ -172,7 +172,7 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
     /// <param name="accessToken">Token</param>
     /// <param name="news">图文消息组</param>
     /// <returns></returns>
-    public async Task<UploadMediaResult> UploadNews(CancellationToken cancellationToken = default, params NewsModel[] news)
+    public async Task<WeixinUploadMediaResult> UploadNews(CancellationToken cancellationToken = default, params WeixinNewsModel[] news)
     {
         var pathAndQuery = "/cgi-bin/media/uploadnews?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinFileApiUrl(pathAndQuery);
@@ -181,6 +181,6 @@ public class MediaApi : SecureWeixinApiClient, IMediaApi
         {
             articles = news
         };
-        return await SecurePostAsJsonAsync<object, UploadMediaResult>(url, data);
+        return await SecurePostAsJsonAsync<object, WeixinUploadMediaResult>(url, data);
     }
 }

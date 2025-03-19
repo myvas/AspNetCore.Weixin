@@ -2,7 +2,7 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class BatchGetMaterialsJson
+public class WeixinBatchGetMaterialsJson
 {
     public int total_count { get; set; }
     public int item_count { get; set; }

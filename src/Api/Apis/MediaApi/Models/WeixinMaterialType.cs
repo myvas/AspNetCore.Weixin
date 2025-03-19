@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public enum MaterialType
+public enum WeixinMaterialType
 {
 	news,
 	images,

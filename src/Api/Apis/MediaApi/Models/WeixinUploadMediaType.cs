@@ -3,7 +3,7 @@
 /// <summary>
 /// 可上传的多媒体文件格式
 /// </summary>
-public enum UploadMediaType
+public enum WeixinUploadMediaType
 {
     /// <summary>
     /// 图片: 1MB，支持JPG格式
