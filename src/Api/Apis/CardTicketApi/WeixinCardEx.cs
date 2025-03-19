@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public class CardEx
+public class WeixinCardEx
 {
 	public string code;
 	public string openid;

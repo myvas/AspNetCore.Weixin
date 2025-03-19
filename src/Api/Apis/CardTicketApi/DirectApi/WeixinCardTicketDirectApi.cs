@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 
 namespace Myvas.AspNetCore.Weixin;
@@ -6,9 +7,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 获取微信卡券调用凭证
 /// </summary>
-public class CardApiTicketApi : SecureWeixinApiClient, ICardApiTicketApi
+public class WeixinCardTicketDirectApi : WeixinSecureApiClient, IWeixinCardTicketDirectApi
 {
-    public CardApiTicketApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinCardTicketDirectApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 
@@ -25,15 +26,18 @@ public class CardApiTicketApi : SecureWeixinApiClient, ICardApiTicketApi
     /// <para>错误时微信会返回错误码等信息，JSON数据包示例如下（该示例为AppID无效错误）:</para>
     /// <code>{"errcode":40013,"errmsg":"invalid appid"}</code>
     /// </exception>
-    public async Task<CardApiTicketJson> GetCardApiTicket()
+    public async Task<WeixinCardTicketJson> GetTicketAsync(CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=wx_card";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
 
-        var result = await SecureGetFromJsonAsync<CardApiTicketJson>(url);
+        var result = await SecureGetFromJsonAsync<WeixinCardTicketJson>(url);
         if (result.Succeeded)
             return result;
         else
             throw new WeixinException(result);
     }
+
+    public WeixinCardTicketJson GetTicket()
+        => Task.Run(async () => await GetTicketAsync()).Result;
 }
