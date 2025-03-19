@@ -1,6 +1,10 @@
 
+using System;
 using System.Linq;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.Options;
 using Myvas.AspNetCore.Weixin;
+using StackExchange.Redis;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -16,10 +20,14 @@ public static class WeixinBuilderCacheProviderExtensions
         return builder;
     }
 
-    public static WeixinBuilder AddRedisCacheProvider<TWeixinCacheJson>(this WeixinBuilder builder)
+    public static WeixinBuilder AddRedisCacheProvider<TWeixinCacheJson>(this WeixinBuilder builder, Action<RedisCacheOptions> setupAction = null)
         where TWeixinCacheJson : IWeixinExpirableValue, new()
     {
-        builder.Services.AddMemoryCache();
+        if (setupAction != null)
+        {
+            builder.Services.Configure(setupAction);
+        }
+
         builder.Services.Where(x => x.ServiceType == typeof(IWeixinCacheProvider<TWeixinCacheJson>)).ToList()
             .ForEach(x => builder.Services.Remove(x));
         builder.Services.AddSingleton<IWeixinCacheProvider<TWeixinCacheJson>, WeixinExpirationRedisCacheProvider<TWeixinCacheJson>>();
