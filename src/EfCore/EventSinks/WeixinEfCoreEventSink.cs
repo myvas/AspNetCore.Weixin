@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Myvas.AspNetCore.Weixin.EfCore;
-using Myvas.AspNetCore.Weixin.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -10,17 +9,103 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// Save to database when message or event received.
 /// </summary>
-public class WeixinEfCoreEventSink : WeixinDebugEventSink
+public class WeixinEfCoreEventSink : WeixinEfCoreEventSink<WeixinSubscriber, string>
+{
+    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor, ILogger<WeixinEfCoreEventSink> logger, IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore, IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore, IWeixinSubscriberStore<WeixinSubscriber, string> subscriberStore) : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
+    {
+    }
+}
+
+/// <summary>
+/// Save to database when message or event received.
+/// </summary>
+public class WeixinEfCoreEventSink<TWeixinSubscriber, TKey> : WeixinDebugEventSink
+    where TWeixinSubscriber : WeixinSubscriber<TKey>, new()
+    where TKey : IEquatable<TKey>
 {
     protected readonly IWeixinReceivedEventStore<WeixinReceivedEvent> _eventStore;
     protected readonly IWeixinReceivedMessageStore<WeixinReceivedMessage> _messageStore;
+    protected readonly IWeixinSubscriberStore<TWeixinSubscriber, TKey> _subscriberStore;
 
-    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor, ILogger<WeixinEfCoreEventSink> logger,
-        IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore, IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore)
+    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor, ILogger<WeixinEfCoreEventSink<TWeixinSubscriber, TKey>> logger,
+        IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore,
+        IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore,
+        IWeixinSubscriberStore<TWeixinSubscriber, TKey> subscriberStore)
         : base(optionsAccessor, logger)
     {
         _messageStore = messageStore ?? throw new ArgumentNullException(nameof(messageStore));
         _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
+        _subscriberStore = subscriberStore ?? throw new ArgumentNullException(nameof(subscriberStore));
+    }
+
+    /// <inheritdoc/>
+    public override async Task<bool> OnSubscribeEventReceived(object sender, WeixinEventArgs<SubscribeEventReceivedXml> e)
+    {
+        // Store
+        try
+        {
+            var createResult = await _eventStore.CreateAsync(e.Xml.ToEvent());
+            _logger.LogTrace("已将微信订阅事件存入数据库。{subscriber}, {eventKey}", e.Xml.FromUserName, e.Xml.EventKey);
+
+            var entity = await _subscriberStore.FindByOpenIdAsync(e.Xml.FromUserName);
+            if (entity == null)
+            {
+                entity = new TWeixinSubscriber()
+                {
+                    OpenId = e.Xml.FromUserName,
+                    SubscribedTime = DateTimeOffset.Now,
+                    Unsubscribed = false
+                };
+                var subscribeResult = await _subscriberStore.CreateAsync(entity);
+                _logger.LogTrace("已将新的微信订阅者存入数据库。{subscriber}, {eventKey}", e.Xml.FromUserName, e.Xml.EventKey);
+            }
+            else
+            {
+                entity.SubscribedTime = DateTimeOffset.Now;
+                entity.Unsubscribed = false;
+                var resubscribeResult = await _subscriberStore.UpdateAsync(entity);
+                _logger.LogTrace("已将现有微信订阅者更新订阅标记。{subscriber}, {eventKey}", e.Xml.FromUserName, e.Xml.EventKey);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("将微信订阅事件存入数据库时发生异常。");
+            _logger.LogDebug(ex, ex.Message);
+            _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
+        }
+        return await base.OnSubscribeEventReceived(sender, e);
+    }
+
+    /// <inheritdoc/>
+    public override async Task<bool> OnUnsubscribeEventReceived(object sender, WeixinEventArgs<UnsubscribeEventReceivedXml> e)
+    {
+        // Store
+        try
+        {
+            var createResult = await _eventStore.CreateAsync(e.Xml.ToEvent());
+            _logger.LogTrace("已将微信退订事件存入数据库。{subscriber}", e.Xml.FromUserName);
+
+            var entity = await _subscriberStore.FindByOpenIdAsync(e.Xml.FromUserName);
+            if (entity == null)
+            {
+                _logger.LogWarning("在微信订阅者数据中未找到记录。{subscriber}", e.Xml.FromUserName);
+            }
+            else
+            {
+                entity.Unsubscribed = true;
+                entity.UnsubscribedTime = DateTimeOffset.Now;
+                var unsubscribeResult = await _subscriberStore.UpdateAsync(entity);
+                _logger.LogInformation("已在微信订阅者数据中标记退订。{subscriber}", e.Xml.FromUserName);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("将微信退订事件存入数据库时发生异常。");
+            _logger.LogDebug(ex, ex.Message);
+            _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
+        }
+
+        return await base.OnUnsubscribeEventReceived(sender, e);
     }
 
     /// <inheritdoc/>
@@ -234,43 +319,6 @@ public class WeixinEfCoreEventSink : WeixinDebugEventSink
         }
 
         return await base.OnQrscanEventReceived(sender, e);
-    }
-
-    /// <inheritdoc/>
-    public override async Task<bool> OnSubscribeEventReceived(object sender, WeixinEventArgs<SubscribeEventReceivedXml> e)
-    {
-        // Store
-        try
-        {
-            await _eventStore.CreateAsync(e.Xml.ToEvent());
-            _logger.LogTrace("已将微信订阅事件存入数据库。{subscriber}, {eventKey}", e.Xml.FromUserName, e.Xml.EventKey);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning("将微信订阅事件存入数据库时发生异常。");
-            _logger.LogDebug(ex, ex.Message);
-            _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
-        }
-        return await base.OnSubscribeEventReceived(sender, e);
-    }
-
-    /// <inheritdoc/>
-    public override async Task<bool> OnUnsubscribeEventReceived(object sender, WeixinEventArgs<UnsubscribeEventReceivedXml> e)
-    {
-        // Store
-        try
-        {
-            await _eventStore.CreateAsync(e.Xml.ToEvent());
-            _logger.LogTrace("已将微信退订事件存入数据库。{subscriber}", e.Xml.FromUserName);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning("将微信退订事件存入数据库时发生异常。");
-            _logger.LogDebug(ex, ex.Message);
-            _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
-        }
-
-        return await base.OnUnsubscribeEventReceived(sender, e);
     }
 
     /// <inheritdoc/>
