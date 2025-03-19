@@ -5,7 +5,7 @@
     <PackageTags>myvas;AspNetCore;Weixin;UseWeixinSite</PackageTags>
     <IsShippingAssembly>true</IsShippingAssembly>
     <IsPackable>true</IsPackable>
-    <RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+    <RootNamespace>Myvas.AspNetCore.Weixin.Site</RootNamespace>
     <PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
     <AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
     <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
