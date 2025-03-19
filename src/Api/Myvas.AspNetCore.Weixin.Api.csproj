@@ -4,7 +4,7 @@
 		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<Description>IWeixinAccessToken, IWeixinMenuApi and such-like Apis for Tencent Weixin/Wechat.</Description>
 		<PackageTags>Myvas;AspNetCore;WeixinApi;IWeixinAccessToken</PackageTags>
-		<RootNamespace>Myvas.AspNetCore.Weixin</RootNamespace>
+		<RootNamespace>Myvas.AspNetCore.Weixin.Api</RootNamespace>
 		<PackageId>Myvas.AspNetCore.Weixin.Api</PackageId>
 		<AssemblyName>Myvas.AspNetCore.Weixin.Api</AssemblyName>
 		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
