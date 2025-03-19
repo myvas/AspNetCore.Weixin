@@ -1,10 +1,9 @@
-﻿namespace Myvas.AspNetCore.Weixin
+﻿namespace Myvas.AspNetCore.Weixin;
+
+public interface IWeixinReceived
 {
-    public interface IWeixinReceived
-    {
-        string FromUserName { get; set; }
-        string ToUserName { get; set; }
-        long CreateTime { get; set; }
-        string MsgType { get; set; }
-    }
+    string FromUserName { get; set; }
+    string ToUserName { get; set; }
+    long CreateTime { get; set; }
+    string MsgType { get; set; }
 }
