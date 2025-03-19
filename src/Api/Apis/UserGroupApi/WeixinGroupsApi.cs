@@ -7,9 +7,9 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// 用户组接口
 /// </summary>
-public class GroupsApi : SecureWeixinApiClient, IGroupsApi
+public class WeixinGroupsApi : WeixinSecureApiClient, IWeixinGroupsApi
 {
-    public GroupsApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
+    public WeixinGroupsApi(IOptions<WeixinOptions> optionsAccessor, IWeixinAccessTokenApi tokenProvider) : base(optionsAccessor, tokenProvider)
     {
     }
 
@@ -17,7 +17,7 @@ public class GroupsApi : SecureWeixinApiClient, IGroupsApi
     /// 创建分组
     /// </summary>
     /// <returns></returns>
-    public async Task<CreateGroupResult> Create(string name, CancellationToken cancellationToken = default)
+    public async Task<WeixinCreateGroupResult> Create(string name, CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/groups/create?access_token={0}";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
@@ -30,7 +30,7 @@ public class GroupsApi : SecureWeixinApiClient, IGroupsApi
                 name = name
             }
         };
-        return await PostAsJsonAsync<object, CreateGroupResult>(url, data);
+        return await PostAsJsonAsync<object, WeixinCreateGroupResult>(url, data);
     }
 
     /// <summary>
@@ -38,12 +38,12 @@ public class GroupsApi : SecureWeixinApiClient, IGroupsApi
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    public async Task<GroupsJson> Get()
+    public async Task<WeixinGroupsJson> Get()
     {
         var pathAndQuery = "/cgi-bin/groups/get?access_token={0}";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
 
-        return await SecureGetFromJsonAsync<GroupsJson>(url);
+        return await SecureGetFromJsonAsync<WeixinGroupsJson>(url);
     }
 
     /// <summary>
@@ -52,14 +52,14 @@ public class GroupsApi : SecureWeixinApiClient, IGroupsApi
     /// <param name="accessToken"></param>
     /// <param name="openId"></param>
     /// <returns></returns>
-    public async Task<GetGroupIdResult> GetId(string accessToken, string openId, CancellationToken cancellationToken = default)
+    public async Task<WeixinGetGroupIdResult> GetId(string accessToken, string openId, CancellationToken cancellationToken = default)
     {
         var pathAndQuery = "/cgi-bin/groups/getid?access_token={0}";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
         url = await FormatUrlWithTokenAsync(url, cancellationToken);
 
         var data = new { openid = openId };
-        return await PostAsJsonAsync<object, GetGroupIdResult>(url, data);
+        return await PostAsJsonAsync<object, WeixinGetGroupIdResult>(url, data);
     }
 
     /// <summary>

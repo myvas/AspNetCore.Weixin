@@ -2,12 +2,12 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class GroupsJson : WeixinErrorJson
+public class WeixinGroupsJson : WeixinErrorJson
 {
-    public List<GroupsJson_Group> groups { get; set; }
+    public List<WeixinGroupsJson_Group> groups { get; set; }
 }
 
-public class GroupsJson_Group
+public class WeixinGroupsJson_Group
 {
     public int id { get; set; }
     public string name { get; set; }
