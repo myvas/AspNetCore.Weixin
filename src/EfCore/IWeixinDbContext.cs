@@ -8,18 +8,18 @@ public interface IWeixinDbContext : IWeixinDbContext<WeixinSubscriberEntity>
 }
 
 public interface IWeixinDbContext<TWeixinSubscriber> : IWeixinDbContext<TWeixinSubscriber, string>
-    where TWeixinSubscriber : class, IWeixinSubscriber<string>
+    where TWeixinSubscriber : class, IWeixinSubscriber<string>, IEntity
 {
 }
 
-public interface IWeixinDbContext<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>
+public interface IWeixinDbContext<TWeixinSubscriberEntity, TKey>
+    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity
     where TKey : IEquatable<TKey>
 {
     /// <summary>
     /// Weixin subscribers.
     /// </summary>
-    DbSet<TWeixinSubscriber> WeixinSubscribers { get; set; }
+    DbSet<TWeixinSubscriberEntity> WeixinSubscribers { get; set; }
 
     /// <summary>
     /// Weixin received (uplink) events
