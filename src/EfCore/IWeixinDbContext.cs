@@ -3,6 +3,15 @@ using System;
 
 namespace Myvas.AspNetCore.Weixin;
 
+public interface IWeixinDbContext : IWeixinDbContext<WeixinSubscriber>
+{
+}
+
+public interface IWeixinDbContext<TWeixinSubscriber> : IWeixinDbContext<TWeixinSubscriber, string>
+    where TWeixinSubscriber : WeixinSubscriber
+{
+}
+
 public interface IWeixinDbContext<TWeixinSubscriber, TKey>
     where TWeixinSubscriber : WeixinSubscriber<TKey>
     where TKey : IEquatable<TKey>
