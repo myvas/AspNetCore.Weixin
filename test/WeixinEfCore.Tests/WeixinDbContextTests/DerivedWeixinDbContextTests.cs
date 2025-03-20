@@ -12,9 +12,19 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore.Tests;
 
-public class DerivedWeixinDbContext : WeixinDbContext
+public class DerivedWeixinDbContext : DbContext, IWeixinDbContext<WeixinSubscriber<int>, int>
 {
+    public DerivedWeixinDbContext(DbContextOptions<DerivedWeixinDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<WeixinSubscriber<int>> WeixinSubscribers { get; set; }
+    public DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
+    public DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
+    public DbSet<WeixinResponseMessage> WeixinResponseMessages { get; set; }
+    public DbSet<WeixinSendMessage> WeixinSendMessages { get; set; }
 }
+
 public class DerivedWeixinDbContextTests
 {
     public const string MicroMessengerUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Mobile/9B176 MicroMessenger/4.3.2";
@@ -30,7 +40,7 @@ public class DerivedWeixinDbContextTests
         {
             services.AddDbContext<DerivedWeixinDbContext>(o =>
             {
-                o.UseInMemoryDatabase(databaseName: "WeixinTestDatabase" + Guid.NewGuid().ToString("N"));
+                o.UseInMemoryDatabase(databaseName: "DerivedWeixinTestDatabase" + Guid.NewGuid().ToString("N"));
             });
 
             services.AddWeixin(o =>
@@ -88,7 +98,7 @@ public class DerivedWeixinDbContextTests
         Assert.EndsWith("</xml>", s);
 
         // Assert db on server-side
-        var db = testServer.Services.GetRequiredService<WeixinDbContext>();
+        var db = testServer.Services.GetRequiredService<DerivedWeixinDbContext>();
         {
             var entity = await db.WeixinReceivedEvents.FirstOrDefaultAsync(x => x.FromUserName == fromUserName);
             Assert.NotNull(entity);
