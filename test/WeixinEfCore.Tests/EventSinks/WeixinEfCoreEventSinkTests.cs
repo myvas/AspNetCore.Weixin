@@ -171,7 +171,7 @@ public class WeixinEfCoreEventSinkTests
             var entity = await db.WeixinReceivedEvents.FirstOrDefaultAsync(x => x.FromUserName == fromUserName);
             Assert.NotNull(entity);
 
-            var subscriber = await db.WeixinSubscribers.FirstOrDefaultAsync(x=>x.OpenId==fromUserName);
+            var subscriber = await db.WeixinSubscribers.FirstOrDefaultAsync(x => x.OpenId == fromUserName);
             Assert.NotNull(entity);
         }
     }
