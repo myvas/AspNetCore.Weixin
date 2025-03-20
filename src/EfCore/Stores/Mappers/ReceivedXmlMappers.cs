@@ -36,8 +36,8 @@ public static class ReceivedXmlMappers
         return xml == null ? null : Mapper.Map<ReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this ReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this ReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -85,8 +85,8 @@ public static class MessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<MessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this MessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this MessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -133,8 +133,8 @@ public static class EventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<EventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this EventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this EventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -182,8 +182,8 @@ public static class TextMessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<TextMessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this TextMessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this TextMessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -229,8 +229,8 @@ public static class ImageMessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<ImageMessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this ImageMessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this ImageMessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -276,8 +276,8 @@ public static class LinkMessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<LinkMessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this LinkMessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this LinkMessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -323,8 +323,8 @@ public static class LocationMessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<LocationMessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this LocationMessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this LocationMessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -370,8 +370,8 @@ public static class VoiceMessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<VoiceMessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this VoiceMessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this VoiceMessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -418,8 +418,8 @@ public static class VideoMessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<VideoMessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this VideoMessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this VideoMessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -465,8 +465,8 @@ public static class ShortVideoMessageReceivedXmlMappers
         return xml == null ? null : Mapper.Map<ShortVideoMessageReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedMessage ToMessage(this ShortVideoMessageReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedMessage>(xml);
+    public static WeixinReceivedMessageEntity ToMessage(this ShortVideoMessageReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedMessageEntity>(xml);
     }
 
     /// <summary>
@@ -514,8 +514,8 @@ public static class SubscribeEventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<SubscribeEventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedEvent ToEvent(this SubscribeEventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedEvent>(xml);
+    public static WeixinReceivedEventEntity ToEvent(this SubscribeEventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedEventEntity>(xml);
     }
 
     /// <summary>
@@ -561,8 +561,8 @@ public static class UnsubscribeEventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<UnsubscribeEventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedEvent ToEvent(this UnsubscribeEventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedEvent>(xml);
+    public static WeixinReceivedEventEntity ToEvent(this UnsubscribeEventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedEventEntity>(xml);
     }
 
     /// <summary>
@@ -609,8 +609,8 @@ public static class EnterEventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<EnterEventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedEvent ToEvent(this EnterEventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedEvent>(xml);
+    public static WeixinReceivedEventEntity ToEvent(this EnterEventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedEventEntity>(xml);
     }
 
     /// <summary>
@@ -657,8 +657,8 @@ public static class LocationEventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<LocationEventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedEvent ToEvent(this LocationEventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedEvent>(xml);
+    public static WeixinReceivedEventEntity ToEvent(this LocationEventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedEventEntity>(xml);
     }
 
     /// <summary>
@@ -704,8 +704,8 @@ public static class ClickMenuEventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<ClickMenuEventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedEvent ToEvent(this ClickMenuEventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedEvent>(xml);
+    public static WeixinReceivedEventEntity ToEvent(this ClickMenuEventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedEventEntity>(xml);
     }
 
     /// <summary>
@@ -751,8 +751,8 @@ public static class ViewMenuEventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<ViewMenuEventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedEvent ToEvent(this ViewMenuEventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedEvent>(xml);
+    public static WeixinReceivedEventEntity ToEvent(this ViewMenuEventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedEventEntity>(xml);
     }
 
     /// <summary>
@@ -798,8 +798,8 @@ public static class QrscanEventReceivedXmlMappers
         return xml == null ? null : Mapper.Map<QrscanEventReceivedEntry>(xml);
     }
 
-    public static WeixinReceivedEvent ToEvent(this QrscanEventReceivedXml xml){
-        return xml==null?null: Mapper.Map<WeixinReceivedEvent>(xml);
+    public static WeixinReceivedEventEntity ToEvent(this QrscanEventReceivedXml xml){
+        return xml==null?null: Mapper.Map<WeixinReceivedEventEntity>(xml);
     }
 
     /// <summary>
