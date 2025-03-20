@@ -1,6 +1,6 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinReceivedEvent
+public interface IWeixinReceivedEvent : IWeixinReceived
 {
     string Event { get; set; }
 }
