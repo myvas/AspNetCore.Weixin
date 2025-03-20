@@ -12,8 +12,12 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore.Tests;
 
-public class SimpleDbContext : DbContext, IWeixinDbContext<WeixinSubscriber, string>
+public class SimpleDbContext : DbContext, IWeixinDbContext
 {
+    public SimpleDbContext(DbContextOptions options) : base(options)
+    {
+    }
+
     public DbSet<WeixinSubscriber> WeixinSubscribers { get; set; }
     public DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
     public DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
@@ -36,7 +40,7 @@ public class SimpleDbContextTests
         {
             services.AddDbContext<SimpleDbContext>(o =>
             {
-                o.UseInMemoryDatabase(databaseName: "WeixinTestDatabase" + Guid.NewGuid().ToString("N"));
+                o.UseInMemoryDatabase(databaseName: "SimpleDbTestDatabase" + Guid.NewGuid().ToString("N"));
             });
 
             services.AddWeixin(o =>
@@ -94,7 +98,7 @@ public class SimpleDbContextTests
         Assert.EndsWith("</xml>", s);
 
         // Assert db on server-side
-        var db = testServer.Services.GetRequiredService<WeixinDbContext>();
+        var db = testServer.Services.GetRequiredService<SimpleDbContext>();
         {
             var entity = await db.WeixinReceivedEvents.FirstOrDefaultAsync(x => x.FromUserName == fromUserName);
             Assert.NotNull(entity);
