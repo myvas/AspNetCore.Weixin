@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore.Tests;
 
-public class DerivedWeixinDbContext : DbContext, IWeixinDbContext<WeixinSubscriber<int>, int>
+public class DerivedWeixinDbContext : DbContext, IWeixinDbContext<WeixinSubscriberEntity<int>, int>
 {
     public DerivedWeixinDbContext(DbContextOptions<DerivedWeixinDbContext> options) : base(options)
     {
     }
 
-    public DbSet<WeixinSubscriber<int>> WeixinSubscribers { get; set; }
-    public DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
-    public DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
-    public DbSet<WeixinResponseMessage> WeixinResponseMessages { get; set; }
-    public DbSet<WeixinSendMessage> WeixinSendMessages { get; set; }
+    public DbSet<WeixinSubscriberEntity<int>> WeixinSubscribers { get; set; }
+    public DbSet<WeixinReceivedEventEntity> WeixinReceivedEvents { get; set; }
+    public DbSet<WeixinReceivedMessageEntity> WeixinReceivedMessages { get; set; }
+    public DbSet<WeixinResponseMessageEntity> WeixinResponseMessages { get; set; }
+    public DbSet<WeixinSendMessageEntity> WeixinSendMessages { get; set; }
 }
 
 public class DerivedWeixinDbContextTests

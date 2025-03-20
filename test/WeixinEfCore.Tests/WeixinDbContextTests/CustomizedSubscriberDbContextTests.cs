@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore.Tests;
 
-public class MySubscriber : WeixinSubscriber
+public class MySubscriber : WeixinSubscriberEntity
 {
 
 }
@@ -24,10 +24,10 @@ public class CustomizedSubscriberDbContext : DbContext, IWeixinDbContext<MySubsc
     }
 
     public DbSet<MySubscriber> WeixinSubscribers { get; set; }
-    public DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
-    public DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
-    public DbSet<WeixinResponseMessage> WeixinResponseMessages { get; set; }
-    public DbSet<WeixinSendMessage> WeixinSendMessages { get; set; }
+    public DbSet<WeixinReceivedEventEntity> WeixinReceivedEvents { get; set; }
+    public DbSet<WeixinReceivedMessageEntity> WeixinReceivedMessages { get; set; }
+    public DbSet<WeixinResponseMessageEntity> WeixinResponseMessages { get; set; }
+    public DbSet<WeixinSendMessageEntity> WeixinSendMessages { get; set; }
 }
 
 public class CustomizedSubscriberDbContextTests
