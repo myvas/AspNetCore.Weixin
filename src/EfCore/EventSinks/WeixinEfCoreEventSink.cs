@@ -9,9 +9,27 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// Save to database when message or event received.
 /// </summary>
-public class WeixinEfCoreEventSink : WeixinEfCoreEventSink<WeixinSubscriber, string>
+public class WeixinEfCoreEventSink : WeixinEfCoreEventSink<WeixinSubscriber>
 {
-    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor, ILogger<WeixinEfCoreEventSink> logger, IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore, IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore, IWeixinSubscriberStore<WeixinSubscriber, string> subscriberStore) : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
+    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
+        ILogger<WeixinEfCoreEventSink> logger,
+        IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore,
+        IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore,
+        IWeixinSubscriberStore<WeixinSubscriber> subscriberStore)
+        : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
+    {
+    }
+}
+
+public class WeixinEfCoreEventSink<TWeixinSubscriber> : WeixinEfCoreEventSink<TWeixinSubscriber, string>
+    where TWeixinSubscriber : WeixinSubscriber<string>, new()
+{
+    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
+        ILogger<WeixinEfCoreEventSink<TWeixinSubscriber>> logger,
+        IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore,
+        IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore,
+        IWeixinSubscriberStore<TWeixinSubscriber, string> subscriberStore)
+        : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
     {
     }
 }
@@ -27,7 +45,8 @@ public class WeixinEfCoreEventSink<TWeixinSubscriber, TKey> : WeixinDebugEventSi
     protected readonly IWeixinReceivedMessageStore<WeixinReceivedMessage> _messageStore;
     protected readonly IWeixinSubscriberStore<TWeixinSubscriber, TKey> _subscriberStore;
 
-    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor, ILogger<WeixinEfCoreEventSink<TWeixinSubscriber, TKey>> logger,
+    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
+        ILogger<WeixinEfCoreEventSink<TWeixinSubscriber, TKey>> logger,
         IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore,
         IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore,
         IWeixinSubscriberStore<TWeixinSubscriber, TKey> subscriberStore)
@@ -53,7 +72,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriber, TKey> : WeixinDebugEventSi
                 entity = new TWeixinSubscriber()
                 {
                     OpenId = e.Xml.FromUserName,
-                    SubscribedTime = DateTimeOffset.Now,
+                    SubscribedTime = DateTimeOffset.Now.ToUnixTime(),
                     Unsubscribed = false
                 };
                 var subscribeResult = await _subscriberStore.CreateAsync(entity);
@@ -61,7 +80,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriber, TKey> : WeixinDebugEventSi
             }
             else
             {
-                entity.SubscribedTime = DateTimeOffset.Now;
+                entity.SubscribedTime = DateTimeOffset.Now.ToUnixTime();
                 entity.Unsubscribed = false;
                 var resubscribeResult = await _subscriberStore.UpdateAsync(entity);
                 _logger.LogTrace("已将现有微信订阅者更新订阅标记。{subscriber}, {eventKey}", e.Xml.FromUserName, e.Xml.EventKey);
@@ -93,7 +112,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriber, TKey> : WeixinDebugEventSi
             else
             {
                 entity.Unsubscribed = true;
-                entity.UnsubscribedTime = DateTimeOffset.Now;
+                entity.UnsubscribedTime = DateTimeOffset.Now.ToUnixTime();
                 var unsubscribeResult = await _subscriberStore.UpdateAsync(entity);
                 _logger.LogInformation("已在微信订阅者数据中标记退订。{subscriber}", e.Xml.FromUserName);
             }
