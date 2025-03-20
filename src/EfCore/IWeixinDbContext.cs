@@ -7,8 +7,8 @@ public interface IWeixinDbContext : IWeixinDbContext<WeixinSubscriberEntity>
 {
 }
 
-public interface IWeixinDbContext<TWeixinSubscriber> : IWeixinDbContext<TWeixinSubscriber, string>
-    where TWeixinSubscriber : class, IWeixinSubscriber<string>, IEntity
+public interface IWeixinDbContext<TWeixinSubscriberEntity> : IWeixinDbContext<TWeixinSubscriberEntity, string>
+    where TWeixinSubscriberEntity : class, IWeixinSubscriber<string>, IEntity
 {
 }
 
