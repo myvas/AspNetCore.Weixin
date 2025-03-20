@@ -5,6 +5,12 @@
 /// </summary>
 public class WeixinSiteEfCoreOptions
 {
+    public const int MinSyncIntervalInMinutesForWeixinSubscribers = 1;
+
+    public bool EnableSyncForWeixinSubscribers { get; set; }
+
+    public int SyncIntervalInMinutesForWeixinSubscribers { get; set; }
+
     /// <summary>
     /// If set to a positive number, the default OnModelCreating will use this value as the max length for any 
     /// properties used as keys, i.e. UserId, LoginProvider, ProviderKey.
