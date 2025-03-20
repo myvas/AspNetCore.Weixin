@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
 public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSubscriberStoreBase<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>
+    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>, IEntity
     where TKey : IEquatable<TKey>
     where TContext : DbContext
 {

@@ -16,7 +16,7 @@ public class WeixinDbContext : WeixinDbContext<WeixinSubscriberEntity>
 
 
 public class WeixinDbContext<TWeixinSubscriber> : WeixinDbContext<TWeixinSubscriber, string>
- where TWeixinSubscriber : class, IWeixinSubscriber<string>
+ where TWeixinSubscriber : class, IWeixinSubscriber<string>, IEntity
 {
     public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options) { }
 
@@ -24,7 +24,7 @@ public class WeixinDbContext<TWeixinSubscriber> : WeixinDbContext<TWeixinSubscri
 }
 
 public class WeixinDbContext<TWeixinSubscriber, TKey> : DbContext, IWeixinDbContext<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>
+    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>, IEntity
     where TKey : IEquatable<TKey>
 {
     public WeixinDbContext(DbContextOptions options) : base(options) { }
