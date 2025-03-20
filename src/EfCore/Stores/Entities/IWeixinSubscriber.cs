@@ -47,9 +47,9 @@ public interface IWeixinSubscriber<TKey>
     long? SubscribedTime { get; set; }
 
     /// <summary>
-    /// Whether this subscriber is unsubscribed.
+    /// Whether this subscriber is subscribed.
     /// </summary>
-    bool Unsubscribed { get; set; }
+    bool Subscribed { get; set; }
 
     /// <summary>
     /// The Unix time of action to unsubscribe
