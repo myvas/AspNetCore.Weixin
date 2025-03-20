@@ -70,11 +70,25 @@ public static class WeixinSiteBuilderEfCoreExtensions
                 //subscriberType = typeof(WeixinSubscriber<>).MakeGenericType(keyType);
             }
         }
+
         subscriberStoreType = typeof(WeixinSubscriberStore<,,>).MakeGenericType(subscriberType, keyType, contextType);
         receivedMessageStoreType = typeof(WeixinReceivedMessageStore<,>).MakeGenericType(typeof(WeixinReceivedMessage), contextType);
         receivedEventStoreType = typeof(WeixinReceivedEventStore<,>).MakeGenericType(typeof(WeixinReceivedEvent), contextType);
         responseMessageStoreType = typeof(WeixinResponseMessageStore<,>).MakeGenericType(typeof(WeixinResponseMessage), contextType);
         sendMessageStoreType = typeof(WeixinSendMessageStore<,>).MakeGenericType(typeof(WeixinSendMessage), contextType);
+
+        services.TryAddScoped(typeof(IWeixinDbContext<,>).MakeGenericType(subscriberType, keyType), contextType);
+        if (keyType == typeof(string))
+        {
+            if (subscriberType == typeof(WeixinSubscriber))
+            {
+                services.TryAddScoped(typeof(IWeixinDbContext), contextType);
+            }
+            else
+            {
+                services.TryAddScoped(typeof(IWeixinDbContext<>).MakeGenericType(subscriberType), contextType);
+            }
+        }
 
         services.TryAddScoped(typeof(IWeixinSubscriberStore<,>).MakeGenericType(subscriberType, keyType), subscriberStoreType);
         services.TryAddScoped(typeof(IWeixinReceivedMessageStore<>).MakeGenericType(typeof(WeixinReceivedMessage)), receivedMessageStoreType);
