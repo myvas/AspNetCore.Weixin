@@ -9,25 +9,25 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// Save to database when message or event received.
 /// </summary>
-public class WeixinEfCoreEventSink : WeixinEfCoreEventSink<WeixinSubscriber>
+public class WeixinEfCoreEventSink : WeixinEfCoreEventSink<WeixinSubscriberEntity>
 {
     public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
         ILogger<WeixinEfCoreEventSink> logger,
-        IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore,
-        IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore,
-        IWeixinSubscriberStore<WeixinSubscriber> subscriberStore)
+        IWeixinReceivedMessageStore<WeixinReceivedMessageEntity> messageStore,
+        IWeixinReceivedEventStore<WeixinReceivedEventEntity> eventStore,
+        IWeixinSubscriberStore<WeixinSubscriberEntity> subscriberStore)
         : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
     {
     }
 }
 
 public class WeixinEfCoreEventSink<TWeixinSubscriber> : WeixinEfCoreEventSink<TWeixinSubscriber, string>
-    where TWeixinSubscriber : WeixinSubscriber<string>, new()
+    where TWeixinSubscriber : WeixinSubscriberEntity<string>, new()
 {
     public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
         ILogger<WeixinEfCoreEventSink<TWeixinSubscriber>> logger,
-        IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore,
-        IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore,
+        IWeixinReceivedMessageStore<WeixinReceivedMessageEntity> messageStore,
+        IWeixinReceivedEventStore<WeixinReceivedEventEntity> eventStore,
         IWeixinSubscriberStore<TWeixinSubscriber, string> subscriberStore)
         : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
     {
@@ -37,19 +37,19 @@ public class WeixinEfCoreEventSink<TWeixinSubscriber> : WeixinEfCoreEventSink<TW
 /// <summary>
 /// Save to database when message or event received.
 /// </summary>
-public class WeixinEfCoreEventSink<TWeixinSubscriber, TKey> : WeixinDebugEventSink
-    where TWeixinSubscriber : WeixinSubscriber<TKey>, new()
+public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugEventSink
+    where TWeixinSubscriberEntity : WeixinSubscriberEntity<TKey>, new()
     where TKey : IEquatable<TKey>
 {
-    protected readonly IWeixinReceivedEventStore<WeixinReceivedEvent> _eventStore;
-    protected readonly IWeixinReceivedMessageStore<WeixinReceivedMessage> _messageStore;
-    protected readonly IWeixinSubscriberStore<TWeixinSubscriber, TKey> _subscriberStore;
+    protected readonly IWeixinReceivedEventStore<WeixinReceivedEventEntity> _eventStore;
+    protected readonly IWeixinReceivedMessageStore<WeixinReceivedMessageEntity> _messageStore;
+    protected readonly IWeixinSubscriberStore<TWeixinSubscriberEntity, TKey> _subscriberStore;
 
     public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
-        ILogger<WeixinEfCoreEventSink<TWeixinSubscriber, TKey>> logger,
-        IWeixinReceivedMessageStore<WeixinReceivedMessage> messageStore,
-        IWeixinReceivedEventStore<WeixinReceivedEvent> eventStore,
-        IWeixinSubscriberStore<TWeixinSubscriber, TKey> subscriberStore)
+        ILogger<WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey>> logger,
+        IWeixinReceivedMessageStore<WeixinReceivedMessageEntity> messageStore,
+        IWeixinReceivedEventStore<WeixinReceivedEventEntity> eventStore,
+        IWeixinSubscriberStore<TWeixinSubscriberEntity, TKey> subscriberStore)
         : base(optionsAccessor, logger)
     {
         _messageStore = messageStore ?? throw new ArgumentNullException(nameof(messageStore));
@@ -69,7 +69,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriber, TKey> : WeixinDebugEventSi
             var entity = await _subscriberStore.FindByOpenIdAsync(e.Xml.FromUserName);
             if (entity == null)
             {
-                entity = new TWeixinSubscriber()
+                entity = new TWeixinSubscriberEntity()
                 {
                     OpenId = e.Xml.FromUserName,
                     SubscribedTime = DateTimeOffset.Now.ToUnixTime(),
