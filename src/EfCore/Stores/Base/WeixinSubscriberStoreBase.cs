@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public abstract class WeixinSubscriberStoreBase<TWeixinSubscriber, TKey> : EntityStoreBase<TWeixinSubscriber>, IWeixinSubscriberStore<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : WeixinSubscriber<TKey>
+public abstract class WeixinSubscriberStoreBase<TWeixinSubscriberEntity, TKey> : EntityStoreBase<TWeixinSubscriberEntity>, IWeixinSubscriberStore<TWeixinSubscriberEntity, TKey>
+    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>
     where TKey : IEquatable<TKey>
 {
     public WeixinSubscriberStoreBase(WeixinErrorDescriber describer)
@@ -25,7 +25,7 @@ public abstract class WeixinSubscriberStoreBase<TWeixinSubscriber, TKey> : Entit
     /// </summary>
     public WeixinErrorDescriber ErrorDescriber { get; set; }
 
-    public virtual Task<WeixinResult> SetUserIdAsync(TWeixinSubscriber subscriber, TKey userId, CancellationToken cancellationToken = default)
+    public virtual Task<WeixinResult> SetUserIdAsync(TWeixinSubscriberEntity subscriber, TKey userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -37,7 +37,7 @@ public abstract class WeixinSubscriberStoreBase<TWeixinSubscriber, TKey> : Entit
         return Task.FromResult(WeixinResult.Success);
     }
 
-    public virtual Task<WeixinResult> SetMentorIdAsync(TWeixinSubscriber subscriber, TKey mentorId, CancellationToken cancellationToken = default)
+    public virtual Task<WeixinResult> SetMentorIdAsync(TWeixinSubscriberEntity subscriber, TKey mentorId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -49,17 +49,17 @@ public abstract class WeixinSubscriberStoreBase<TWeixinSubscriber, TKey> : Entit
         return Task.FromResult(WeixinResult.Success);
     }
 
-    public virtual Task<WeixinResult> AddAssociationAsync(TWeixinSubscriber subscriber, TKey userId, CancellationToken cancellationToken = default)
+    public virtual Task<WeixinResult> AddAssociationAsync(TWeixinSubscriberEntity subscriber, TKey userId, CancellationToken cancellationToken = default)
     {
         return SetUserIdAsync(subscriber, userId, cancellationToken);
     }
 
-    public virtual Task<WeixinResult> RemoveAssociationAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default)
+    public virtual Task<WeixinResult> RemoveAssociationAsync(TWeixinSubscriberEntity subscriber, CancellationToken cancellationToken = default)
     {
         return SetUserIdAsync(subscriber, default, cancellationToken);
     }
 
-    public virtual Task<TWeixinSubscriber> FindByUserIdAsync(TKey userId, CancellationToken cancellationToken = default)
+    public virtual Task<TWeixinSubscriberEntity> FindByUserIdAsync(TKey userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -71,7 +71,7 @@ public abstract class WeixinSubscriberStoreBase<TWeixinSubscriber, TKey> : Entit
         return Task.FromResult(item);
     }
 
-    public virtual Task<TWeixinSubscriber> FindByOpenIdAsync(string openId, CancellationToken cancellationToken = default)
+    public virtual Task<TWeixinSubscriberEntity> FindByOpenIdAsync(string openId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -84,7 +84,7 @@ public abstract class WeixinSubscriberStoreBase<TWeixinSubscriber, TKey> : Entit
     }
 
 
-    public virtual Task<IList<TWeixinSubscriber>> GetItemsByMentorIdAsync(TKey mentorId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TWeixinSubscriberEntity>> GetItemsByMentorIdAsync(TKey mentorId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -93,7 +93,7 @@ public abstract class WeixinSubscriberStoreBase<TWeixinSubscriber, TKey> : Entit
             throw new ArgumentNullException(nameof(mentorId));
         }
         var item = Items.Where(x => mentorId.Equals(x.MentorId)).ToList();
-        return Task.FromResult((IList<TWeixinSubscriber>)item);
+        return Task.FromResult((IList<TWeixinSubscriberEntity>)item);
     }
 
     #region TKey to string
