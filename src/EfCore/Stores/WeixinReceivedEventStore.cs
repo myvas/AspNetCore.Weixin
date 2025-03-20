@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
-public class WeixinReceivedEventStore<TContext> : WeixinReceivedEventStore<WeixinReceivedEvent, TContext>, IWeixinReceivedEventStore
+public class WeixinReceivedEventStore<TContext> : WeixinReceivedEventStore<WeixinReceivedEventEntity, TContext>, IWeixinReceivedEventStore
     where TContext : DbContext
 {
     public WeixinReceivedEventStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
@@ -15,7 +15,7 @@ public class WeixinReceivedEventStore<TContext> : WeixinReceivedEventStore<Weixi
 }
 
 public class WeixinReceivedEventStore<TWeixinReceivedEvent, TContext> : WeixinReceivedEventStoreBase<TWeixinReceivedEvent>
-    where TWeixinReceivedEvent : WeixinReceivedEvent
+    where TWeixinReceivedEvent : WeixinReceivedEventEntity
     where TContext : DbContext
 {
     public WeixinReceivedEventStore(TContext context, WeixinErrorDescriber describer = null)

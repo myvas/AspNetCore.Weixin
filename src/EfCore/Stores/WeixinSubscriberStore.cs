@@ -6,16 +6,8 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
-public class WeixinSubscriberStore<TContext> : WeixinSubscriberStore<WeixinSubscriber, string, TContext>, IWeixinSubscriberStore
-    where TContext : DbContext
-{
-    public WeixinSubscriberStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
-    {
-    }
-}
-
 public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSubscriberStoreBase<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : WeixinSubscriber<TKey>
+    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>
     where TKey : IEquatable<TKey>
     where TContext : DbContext
 {
