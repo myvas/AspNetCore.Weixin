@@ -1,27 +1,70 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Myvas.AspNetCore.Weixin.Api.Properties;
 
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
-/// 性别（由微信公众号SDK定义）
+/// Gender (Defined by Tencent)
 /// </summary>
 public enum WeixinGender
 {
     /// <summary>
-    /// 男
+    /// Male
     /// </summary>
-    [Display(Name = "男")]
+    [Display(Name = "Male")]
     Male = 1,
 
     /// <summary>
-    /// 女
+    /// Female
     /// </summary>
-    [Display(Name = "女")]
+    [Display(Name = "Female")]
     Female = 2,
 
     /// <summary>
-    /// 未知或其他
+    /// Unknown
     /// </summary>
-    [Display(Name = "未知")]
+    [Display(Name = "Unknown")]
     Unknown = 0
 }
+
+public static class WeixinGenderExtensions
+{
+    /// <summary>
+    /// The <see cref="int"/> value stored in the database
+    /// </summary>
+    /// <param name="value">The value defined by Tencent, which male is 1, female is 2, unknown is 0</param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public static int ToInt(this WeixinGender value)
+    {
+        return (int)value;
+    }
+
+    public static string ToDisplayName(this WeixinGender value)
+    {
+        return value switch
+        {
+            WeixinGender.Male => Resources.GenderMale,
+            WeixinGender.Female => Resources.GenderFemale,
+            WeixinGender.Unknown => Resources.GenderUnknown,
+            _ => throw new NotSupportedException(),
+        };
+    }
+}
+
+// NOTE: Do not use extensions for standard data type
+public static class WeixinGenderHelper
+{
+    public static WeixinGender FromInt(int? value)
+    {
+        if (value == null) return WeixinGender.Unknown;
+        return value!.Value switch
+        {
+            1 => WeixinGender.Male,
+            2 => WeixinGender.Female,
+            _ => WeixinGender.Unknown,
+        };
+    }
+}
+
