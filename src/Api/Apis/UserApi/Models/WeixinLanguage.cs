@@ -28,7 +28,11 @@ public class WeixinLanguage
     public WeixinLanguage(string code)
     {
         Code = code ?? throw new ArgumentNullException(nameof(code));
+#if NETSTANDARD2_1_OR_GREATER
         DisplayName = _table.GetValueOrDefault(code) ?? throw new ArgumentNullException(nameof(code));
+#else
+        DisplayName = _table.FirstOrDefault(x => x.Key == code).Value ?? throw new ArgumentNullException(nameof(code));
+#endif
     }
 
     public override string ToString()
