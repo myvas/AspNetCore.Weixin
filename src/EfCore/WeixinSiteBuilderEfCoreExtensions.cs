@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Myvas.AspNetCore.Weixin;
 using Myvas.AspNetCore.Weixin.EfCore;
-using Myvas.AspNetCore.Weixin.EfCore.Properties;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -17,24 +16,33 @@ public static class WeixinSiteBuilderEfCoreExtensions
     public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
     {
-        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriberEntity<string>), typeof(string));
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriberEntity), typeof(string));
+
+        builder.Services.TryAddScoped<WeixinSubscriberSyncService<WeixinSubscriberEntity, string>>();
+        builder.Services.AddHostedService<WeixinSubscriberSyncHostedService<WeixinSubscriberEntity, string>>();
         return builder;
     }
 
-    public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriberEntity>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
-        where TKey : IEquatable<TKey>
+        where TWeixinSubscriberEntity : class, IWeixinSubscriber<string>, IEntity, new()
     {
-        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriberEntity<TKey>), typeof(TKey));
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriberEntity), typeof(string));
+
+        builder.Services.TryAddScoped<WeixinSubscriberSyncService<TWeixinSubscriberEntity, string>>();
+        builder.Services.AddHostedService<WeixinSubscriberSyncHostedService<TWeixinSubscriberEntity, string>>();
         return builder;
     }
 
-    public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
+    public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriberEntity, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
-        where TWeixinSubscriber : WeixinSubscriberEntity<TKey>
+        where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
         where TKey : IEquatable<TKey>
     {
-        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriber), typeof(TKey));
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriberEntity), typeof(TKey));
+
+        builder.Services.TryAddScoped<WeixinSubscriberSyncService<TWeixinSubscriberEntity, TKey>>();
+        builder.Services.AddHostedService<WeixinSubscriberSyncHostedService<TWeixinSubscriberEntity, TKey>>();
         return builder;
     }
 
