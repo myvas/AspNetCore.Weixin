@@ -22,7 +22,7 @@ public class InMemoryTests
         // Act
         using (var context = new WeixinDbContext(options))
         {
-            var entity = new WeixinSubscriber
+            var entity = new WeixinSubscriberEntity
             {
                 OpenId = randomOpenId,
                 Nickname = randomNickname
@@ -56,7 +56,7 @@ public class InMemoryTests
         // Act
         using (var context = new WeixinDbContext(options))
         {
-            var entity = new WeixinReceivedMessage
+            var entity = new WeixinReceivedMessageEntity
             {
                 MsgId = randomMsgId,
                 Content = randomContent
