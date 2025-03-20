@@ -2,15 +2,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.EfCore.Tests;
+namespace Myvas.AspNetCore.Weixin.EfCore.Tests.WeixinDbContextTests;
 
 public class DerivedWeixinDbContext : DbContext, IWeixinDbContext<WeixinSubscriberEntity<int>, int>
 {
