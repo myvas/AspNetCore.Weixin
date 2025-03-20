@@ -7,49 +7,44 @@ using System.Linq;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinDbContext : WeixinDbContext<WeixinSubscriber, string>
-{ 
-    public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options)
-    {
-    }
+public class WeixinDbContext : WeixinDbContext<WeixinSubscriberEntity>
+{
+    public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options) { }
+
+    protected WeixinDbContext() { }
+}
+
+
+public class WeixinDbContext<TWeixinSubscriber> : WeixinDbContext<TWeixinSubscriber, string>
+ where TWeixinSubscriber : class, IWeixinSubscriber<string>
+{
+    public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options) { }
 
     protected WeixinDbContext() { }
 }
 
 public class WeixinDbContext<TWeixinSubscriber, TKey> : DbContext, IWeixinDbContext<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : WeixinSubscriber<TKey>
+    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>
     where TKey : IEquatable<TKey>
 {
-    public WeixinDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    public WeixinDbContext(DbContextOptions options) : base(options) { }
 
     protected WeixinDbContext() { }
 
-    /// <summary>
-    /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinSubscriber"/>.
-    /// </summary>
+    /// <inheritdoc/>
     public DbSet<TWeixinSubscriber> WeixinSubscribers { get; set; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinReceivedMessage"/>.
-    /// </summary>
-    public DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
+    /// <inheritdoc/>
+    public DbSet<WeixinReceivedMessageEntity> WeixinReceivedMessages { get; set; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinReceivedEvent"/>.
-    /// </summary>
-    public DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
+    /// <inheritdoc/>
+    public DbSet<WeixinReceivedEventEntity> WeixinReceivedEvents { get; set; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinSendMessage"/>.
-    /// </summary>
-    public DbSet<WeixinSendMessage> WeixinSendMessages { get; set; }
+    /// <inheritdoc/>
+    public DbSet<WeixinSendMessageEntity> WeixinSendMessages { get; set; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="DbSet{TEntity}"/> of <see cref="WeixinResponseMessage"/>.
-    /// </summary>
-    public DbSet<WeixinResponseMessage> WeixinResponseMessages { get; set; }
+    /// <inheritdoc/>
+    public DbSet<WeixinResponseMessageEntity> WeixinResponseMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
