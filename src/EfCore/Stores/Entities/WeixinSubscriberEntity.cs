@@ -102,7 +102,7 @@ public class WeixinSubscriberEntity<TKey> : Entity, IWeixinSubscriber<TKey>
     public virtual long? SubscribedTime { get; set; }
 
     /// <inheritdoc/>
-    public virtual bool Unsubscribed { get; set; }
+    public virtual bool Subscribed { get; set; }
 
     /// <inheritdoc/>
     public virtual long? UnsubscribedTime { get; set; }
