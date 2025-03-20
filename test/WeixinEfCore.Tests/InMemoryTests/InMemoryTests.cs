@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Myvas.AspNetCore.Weixin.EfCore.Tests;
 
-public class WeixinDbContextTests
+public class InMemoryTests
 {
     [Fact]
     public void Subscribers_AddEntity()
