@@ -106,7 +106,8 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
                     subscribers.Add(userInfo);
                 }
             }
-            catch { }
+            catch {
+            }
         }
 
         return subscribers;
