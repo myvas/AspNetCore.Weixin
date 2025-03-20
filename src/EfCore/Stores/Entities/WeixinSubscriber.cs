@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
 /// The Weixin subscriber with a string-typed primary key (named <see cref="Id"/>), who might have one or two foreign key(s) (<see cref="UserId"/> and <see cref="MentorId"/>) link to the master app's UserId with a primary key type of <see cref="TKey"/>.
 /// </summary>
-public class WeixinSubscriber : WeixinSubscriber<string>
+public class WeixinSubscriber : WeixinSubscriber<string>, IWeixinSubscriber
 {
 
 }
@@ -15,7 +16,7 @@ public class WeixinSubscriber : WeixinSubscriber<string>
 /// The Weixin subscriber with a string-typed primary key (named <see cref="Id"/>), who might have one or two foreign key(s) (<see cref="UserId"/> and <see cref="MentorId"/>) link to the master app's UserId with a primary key type of <see cref="TKey"/>.
 /// </summary>
 /// <typeparam name="TKey">The type of <see cref="UserId"/> and <see cref="MentorId"/>, which are both related to AppUsers. NOTE: It's not the key type of this entity!</typeparam>
-public class WeixinSubscriber<TKey> : Entity
+public class WeixinSubscriber<TKey> : Entity, IWeixinSubscriber<TKey>
     where TKey : IEquatable<TKey>
 {
     public WeixinSubscriber() : base()
@@ -59,9 +60,10 @@ public class WeixinSubscriber<TKey> : Entity
     public string OpenId { get; set; }
 
     /// <summary>
-    /// 性别
+    /// 性别，null未知，0女，1男。
     /// </summary>
-    public WeixinGender Gender { get; set; }
+    /// <remarks>注意：与腾讯定义不同</remarks>
+    public int? Gender { get; set; }
 
     /// <summary>
     /// 昵称
@@ -100,16 +102,19 @@ public class WeixinSubscriber<TKey> : Entity
     public string Remark { get; set; }
 
     /// <summary>
-    /// 订阅时间
+    /// 订阅时间, UnixTime
     /// </summary>
-    public DateTimeOffset? SubscribedTime { get; set; }
+    public long? SubscribedTime { get; set; }
 
     /// <summary>
     /// Whether the subscriber has unsubscribed from this Weixin subscripation list
     /// </summary>
     public bool Unsubscribed { get; set; }
 
-    public DateTimeOffset? UnsubscribedTime { get; set; }
+    /// <summary>
+    /// 退订时间，UnixTime
+    /// </summary>
+    public long? UnsubscribedTime { get; set; }
 
     /// <summary>
     /// [Optional] Links to the master app's UserId
