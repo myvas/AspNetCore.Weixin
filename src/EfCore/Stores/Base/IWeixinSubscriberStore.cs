@@ -5,14 +5,24 @@ using System.Collections.Generic;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinSubscriberStore : IWeixinSubscriberStore<WeixinSubscriber, string> { }
+public interface IWeixinSubscriberStore : IWeixinSubscriberStore<WeixinSubscriber>
+{
+
+}
+
+
+public interface IWeixinSubscriberStore<TWeixinSubscriber> : IWeixinSubscriberStore<TWeixinSubscriber, string>
+    where TWeixinSubscriber : class, IEntity, IWeixinSubscriber
+{
+
+}
 
 /// <summary>
 /// Provides an abstraction for storing information of Weixin subscribers (and its related IdentityUser).
 /// </summary>
 /// <typeparam name="TWeixinSubscriber">The type that represents a Weixin subscriber.</typeparam>
 public interface IWeixinSubscriberStore<TWeixinSubscriber, TKey> : IEntityStore<TWeixinSubscriber>, IQueryableEntityStore<TWeixinSubscriber>
-    where TWeixinSubscriber : class, IEntity
+    where TWeixinSubscriber : class, IEntity, IWeixinSubscriber<TKey>
     where TKey : IEquatable<TKey>
 {
     /// <summary>
@@ -41,5 +51,22 @@ public interface IWeixinSubscriberStore<TWeixinSubscriber, TKey> : IEntityStore<
     /// <returns>A <see cref="Task{TResult}"/> that result of the look up.</returns>
     Task<TWeixinSubscriber> FindByUserIdAsync(TKey userId, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Set the MentorId field with the UserId of mentor.
+    /// </summary>
+    /// <param name="subscriber"></param>
+    /// <param name="mentorId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<WeixinResult> SetMentorIdAsync(TWeixinSubscriber subscriber, TKey mentorId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get all subscribers related to a MentorId
+    /// </summary>
+    /// <param name="mentorId"></param>
+    /// <param name="perPage"></param>
+    /// <param name="pageIndex"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     Task<IList<TWeixinSubscriber>> GetItemsByMentorIdAsync(TKey mentorId, int perPage, int pageIndex, CancellationToken cancellationToken = default);
 }
