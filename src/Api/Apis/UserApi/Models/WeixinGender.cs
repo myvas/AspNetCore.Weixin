@@ -31,7 +31,7 @@ public enum WeixinGender
 public static class WeixinGenderExtensions
 {
     /// <summary>
-    /// The <see cref="int"/> value stored in the database
+    /// The <see cref="int"/> value defined to store in the database
     /// </summary>
     /// <param name="value">The value defined by Tencent, which male is 1, female is 2, unknown is 0</param>
     /// <returns></returns>
