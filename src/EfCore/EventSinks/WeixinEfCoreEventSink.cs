@@ -73,7 +73,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
                 {
                     OpenId = e.Xml.FromUserName,
                     SubscribedTime = DateTimeOffset.Now.ToUnixTime(),
-                    Unsubscribed = false
+                    Subscribed = true
                 };
                 var subscribeResult = await _subscriberStore.CreateAsync(entity);
                 _logger.LogTrace("已将新的微信订阅者存入数据库。{subscriber}, {eventKey}", e.Xml.FromUserName, e.Xml.EventKey);
@@ -81,7 +81,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
             else
             {
                 entity.SubscribedTime = DateTimeOffset.Now.ToUnixTime();
-                entity.Unsubscribed = false;
+                entity.Subscribed = true;
                 var resubscribeResult = await _subscriberStore.UpdateAsync(entity);
                 _logger.LogTrace("已将现有微信订阅者更新订阅标记。{subscriber}, {eventKey}", e.Xml.FromUserName, e.Xml.EventKey);
             }
@@ -111,7 +111,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
             }
             else
             {
-                entity.Unsubscribed = true;
+                entity.Subscribed = false;
                 entity.UnsubscribedTime = DateTimeOffset.Now.ToUnixTime();
                 var unsubscribeResult = await _subscriberStore.UpdateAsync(entity);
                 _logger.LogInformation("已在微信订阅者数据中标记退订。{subscriber}", e.Xml.FromUserName);
