@@ -3,41 +3,41 @@ using System;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinDbContext : IWeixinDbContext<WeixinSubscriber>
+public interface IWeixinDbContext : IWeixinDbContext<WeixinSubscriberEntity>
 {
 }
 
 public interface IWeixinDbContext<TWeixinSubscriber> : IWeixinDbContext<TWeixinSubscriber, string>
-    where TWeixinSubscriber : WeixinSubscriber
+    where TWeixinSubscriber : class, IWeixinSubscriber<string>
 {
 }
 
 public interface IWeixinDbContext<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : WeixinSubscriber<TKey>
+    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>
     where TKey : IEquatable<TKey>
 {
     /// <summary>
-    /// Weixin subscribers
+    /// Weixin subscribers.
     /// </summary>
     DbSet<TWeixinSubscriber> WeixinSubscribers { get; set; }
 
     /// <summary>
     /// Weixin received (uplink) events
     /// </summary>
-    DbSet<WeixinReceivedEvent> WeixinReceivedEvents { get; set; }
+    DbSet<WeixinReceivedEventEntity> WeixinReceivedEvents { get; set; }
 
     /// <summary>
     /// Weixin received (uplink) messages
     /// </summary>
-    DbSet<WeixinReceivedMessage> WeixinReceivedMessages { get; set; }
+    DbSet<WeixinReceivedMessageEntity> WeixinReceivedMessages { get; set; }
 
     /// <summary>
     /// Weixin passive response (uplink) messages
     /// </summary>
-    DbSet<WeixinResponseMessage> WeixinResponseMessages { get; set; }
+    DbSet<WeixinResponseMessageEntity> WeixinResponseMessages { get; set; }
 
     /// <summary>
     /// Weixin active send (downlink) message
     /// </summary>
-    DbSet<WeixinSendMessage> WeixinSendMessages { get; set; }
+    DbSet<WeixinSendMessageEntity> WeixinSendMessages { get; set; }
 }
