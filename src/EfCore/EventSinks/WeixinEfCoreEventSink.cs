@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Myvas.AspNetCore.Weixin.EfCore;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
@@ -9,36 +10,8 @@ namespace Myvas.AspNetCore.Weixin;
 /// <summary>
 /// Save to database when message or event received.
 /// </summary>
-public class WeixinEfCoreEventSink : WeixinEfCoreEventSink<WeixinSubscriberEntity>
-{
-    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
-        ILogger<WeixinEfCoreEventSink> logger,
-        IWeixinReceivedMessageStore<WeixinReceivedMessageEntity> messageStore,
-        IWeixinReceivedEventStore<WeixinReceivedEventEntity> eventStore,
-        IWeixinSubscriberStore<WeixinSubscriberEntity> subscriberStore)
-        : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
-    {
-    }
-}
-
-public class WeixinEfCoreEventSink<TWeixinSubscriber> : WeixinEfCoreEventSink<TWeixinSubscriber, string>
-    where TWeixinSubscriber : WeixinSubscriberEntity<string>, new()
-{
-    public WeixinEfCoreEventSink(IOptions<WeixinSiteOptions> optionsAccessor,
-        ILogger<WeixinEfCoreEventSink<TWeixinSubscriber>> logger,
-        IWeixinReceivedMessageStore<WeixinReceivedMessageEntity> messageStore,
-        IWeixinReceivedEventStore<WeixinReceivedEventEntity> eventStore,
-        IWeixinSubscriberStore<TWeixinSubscriber, string> subscriberStore)
-        : base(optionsAccessor, logger, messageStore, eventStore, subscriberStore)
-    {
-    }
-}
-
-/// <summary>
-/// Save to database when message or event received.
-/// </summary>
 public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugEventSink
-    where TWeixinSubscriberEntity : WeixinSubscriberEntity<TKey>, new()
+    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
     where TKey : IEquatable<TKey>
 {
     protected readonly IWeixinReceivedEventStore<WeixinReceivedEventEntity> _eventStore;
@@ -88,6 +61,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信订阅事件存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -119,6 +93,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信退订事件存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -137,6 +112,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信图片消息存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -160,6 +136,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信链接消息存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -179,6 +156,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信位置消息存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -198,6 +176,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信短视频消息存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -217,6 +196,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信文本消息存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -236,6 +216,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信视频消息存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -256,6 +237,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信语音消息存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -275,6 +257,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信点击事件存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -294,6 +277,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信点击事件存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -313,6 +297,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信定位事件存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -332,6 +317,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信扫码事件存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
@@ -351,6 +337,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugE
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             _logger.LogWarning("将微信跳转事件存入数据库时发生异常。");
             _logger.LogDebug(ex, ex.Message);
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
