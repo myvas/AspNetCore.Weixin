@@ -13,13 +13,10 @@ public static class FakeServerBuilder
 {
     public static TestServer CreateTencentServer()
     {
-        return TestServerBuilder.CreateServer(null, null,
-        async context =>
+        return TestServerBuilder.CreateServer(null, null, async context =>
         {
             var req = context.Request;
-            // It's wired that there is a query string in the req.Path, so we must remove it!
-            string[] wiredPath = req.Path.Value.Split('?');
-            switch (wiredPath[0])
+            switch (req.Path.Value)
             {
                 case "/cgi-bin/token":
                     {
