@@ -57,38 +57,59 @@ public static class WeixinSiteBuilderEfCoreExtensions
         Type responseMessageStoreType = null;
         Type sendMessageStoreType = null;
 
-        var tryWeixinDbContext2Type = FindBaseInterface(contextType, typeof(IWeixinDbContext<,>));
-        if (tryWeixinDbContext2Type != null)
+        if (contextType == null)
         {
-            // IWeixinDbContext<TWeixinSubscriber, TKey>
-            keyType = tryWeixinDbContext2Type.GenericTypeArguments[1];
-            subscriberType = tryWeixinDbContext2Type.GenericTypeArguments[0];
-            services.TryAddScoped(typeof(IWeixinDbContext<,>).MakeGenericType(subscriberType, keyType), contextType);
+            throw new ArgumentNullException(nameof(contextType));
+        }
+
+        if (subscriberType == null)
+        {
+            var tryWeixinDbContext2Type = FindBaseInterface(contextType, typeof(IWeixinDbContext<,>));
+            if (tryWeixinDbContext2Type != null)
+            {
+                // IWeixinDbContext<TWeixinSubscriber, TKey>
+                keyType ??= tryWeixinDbContext2Type.GenericTypeArguments[1];
+                subscriberType = tryWeixinDbContext2Type.GenericTypeArguments[0];
+            }
+            else
+            {
+                // IWeixinDbContext<TWeixinSubscriber>
+                var tryWeixinDbContext1Type = FindBaseInterface(contextType, typeof(IWeixinDbContext<>));
+                if (tryWeixinDbContext1Type != null)
+                {
+                    subscriberType = tryWeixinDbContext1Type.GenericTypeArguments[0];
+                }
+                else
+                {
+                    // If cannot find subscriberType, then the subscriberType must not be null.
+                    throw new ArgumentNullException(nameof(subscriberType));
+                }
+            }
         }
         else
         {
-            // IWeixinDbContext<TWeixinSubscriber>
-            var tryWeixinDbContext1Type = FindBaseInterface(contextType, typeof(IWeixinDbContext<>));
-            if (tryWeixinDbContext1Type != null)
+            if (keyType == null)
             {
-                subscriberType = tryWeixinDbContext1Type.GenericTypeArguments[0];
-                services.TryAddScoped(typeof(IWeixinDbContext<>).MakeGenericType(subscriberType), contextType);
-            }
-            else
-            {
-                services.TryAddScoped(typeof(IWeixinDbContext), contextType);
-            }
+                var trySubscriberType1Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriber<>));
+                if (trySubscriberType1Type != null)
+                {
+                    // IWeixinSubscriber<TKey>
+                    keyType = trySubscriberType1Type.GenericTypeArguments[0];
+                }
+                else
+                {
+                    var trySubscriber0Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriber));
+                    if (trySubscriber0Type != null)
+                    {
+                        keyType = typeof(string);
 
-            var trySubscriberType1Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriber<>));
-            if (trySubscriberType1Type != null)
-            {
-                // IWeixinSubscriber<TKey>
-                keyType = trySubscriberType1Type.GenericTypeArguments[0];
-            }
-            else
-            {
-                // Set default key type
-                keyType = typeof(string);
+                    }
+                    else
+                    {
+                        // If cannot find keyType, then the keyType must not be null.
+                        throw new ArgumentNullException(nameof(keyType));
+                    }
+                }
             }
         }
 
