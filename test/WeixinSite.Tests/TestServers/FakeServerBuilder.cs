@@ -26,14 +26,13 @@ public static class FakeServerBuilder
             })
             .AddMessageProtection()
             .AddDebugEventSink();
-        },
-        async context =>
+        }, async context =>
         {
             var req = context.Request;
-            if (!req.Path.Value.Equals(WeixinSiteOptionsDefaults.Path))
+            if (req.Path.Value != WeixinSiteOptionsDefaults.Path)
             {
 
-                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
                 var content = "404 NOT FOUND";
                 await context.Response.WriteAsync(content);
                 return true;
@@ -47,9 +46,7 @@ public static class FakeServerBuilder
         return TestServerBuilder.CreateServer(app =>
         {
             app.UseWeixinSite();
-
-        },
-        services =>
+        }, services =>
         {
             services.AddWeixin(o =>
             {
@@ -59,17 +56,15 @@ public static class FakeServerBuilder
             .AddWeixinSite(o =>
             {
                 o.WebsiteToken = "WEIXINSITETOKEN";
-                o.Debug = true; // Important!
+                o.Debug = true; // Important in this test suit!
             })
             .AddDebugEventSink();
-        },
-        async context =>
+        }, async context =>
         {
             var req = context.Request;
-            if (!req.Path.Value.Equals(WeixinSiteOptionsDefaults.Path))
+            if (req.Path.Value != WeixinSiteOptionsDefaults.Path)
             {
-
-                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
                 var content = "404 NOT FOUND";
                 await context.Response.WriteAsync(content);
                 return true;
