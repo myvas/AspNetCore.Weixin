@@ -17,15 +17,15 @@ public class WeixinApiEndpoint
     public WeixinApiEndpoint(string host, string pathValue)
     {
         host ??= WeixinApiServers.Default;
-        if (host.StartsWith("http"))
+        if (!host.StartsWith("http"))
         {
-            Uri = new Uri(new Uri(host), pathValue);
+            var uriBuilder = new UriBuilder("https", host, 443, "");
+            host = uriBuilder.Uri.ToString();
         }
-        else
-        {
-            var uriBuiler = new UriBuilder("https", host, 443, pathValue);
-            Uri = uriBuiler.Uri;
-        }
+        
+        host = host.TrimEnd('/');
+        pathValue = pathValue.TrimStart('/');
+        Uri = new Uri($"{host}/{pathValue}");
     }
 
     public WeixinApiEndpoint()
