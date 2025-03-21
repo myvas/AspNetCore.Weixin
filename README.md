@@ -114,14 +114,14 @@ services.AddWeixin(o => {
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber>(o => ...)
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(o => ...)
 
-	// 接口服务：发送模板消息
-	.AddWeixinTemplateMessaging(o => {
-		o.MaxRetryTimes = 5; // default is 3
-	})
-
 	// 接口服务：发送客服响应消息
 	.AddWeixinPassiveResponseMessaging(o => {
 		o.TrySmsOnFailed = true; // default is false
+	})
+
+	// 接口服务：发送模板消息
+	.AddWeixinTemplateMessaging(o => {
+		o.MaxRetryTimes = 5; // default is 3
 	});
 	```
  
