@@ -3,7 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinSubscriberEntity : WeixinSubscriberEntity<string> { }
+public class WeixinSubscriberEntity : WeixinSubscriberEntity<string>, IWeixinSubscriber
+{
+
+}
 
 
 /// <summary>
