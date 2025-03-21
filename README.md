@@ -106,19 +106,22 @@ services.AddWeixin(o => {
 	// 自动存储上行消息及事件（将替换WeixinDebugEventSink）
 	.AddWeixinEfCore<TWeixinDbContext>(o => {
 		// 启用订阅者名单同步服务
-		o.EnableSubscriberSync = false; // default is true
+		o.EnableSyncForWeixinSubscribers = true; // default is false
+    // 执行同步服务的时间间隔
+    o.SyncIntervalInMinutesForWeixinSubscribers = 10; // min is 1 minute
 	})
 	// 使用自定义数据类型
-	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>()
-
-	// 接口服务：发送模板消息
-	.AddWeixinTemplateMessaging(o => {
-		o.MaxRetryTimes = 5; // default is 3
-	})
+	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber>(o => ...)
+	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(o => ...)
 
 	// 接口服务：发送客服响应消息
 	.AddWeixinPassiveResponseMessaging(o => {
 		o.TrySmsOnFailed = true; // default is false
+	})
+
+	// 接口服务：发送模板消息
+	.AddWeixinTemplateMessaging(o => {
+		o.MaxRetryTimes = 5; // default is 3
 	});
 	```
  

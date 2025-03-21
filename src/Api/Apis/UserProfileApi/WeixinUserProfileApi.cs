@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,10 +24,9 @@ public class WeixinUserProfileApi : WeixinSecureApiClient, IWeixinUserProfileApi
     public async Task<WeixinUserInfoResult> GetUserInfo(string openID, CancellationToken cancellationToken = default)
     {
         var accessToken = await GetTokenAsync(cancellationToken);
-
-        var url = string.Format(
-            "http://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}",
-            accessToken, openID);
+        var pathAndQuery = "/cgi-bin/user/info?access_token={0}&openid={1}";
+        pathAndQuery = string.Format(pathAndQuery, accessToken, openID);
+        var url = Options?.BuildWeixinApiUrl(pathAndQuery);
         WeixinUserInfoResult result = await GetFromJsonAsync<WeixinUserInfoResult>(url);
         return result;
     }
@@ -49,11 +49,13 @@ public class WeixinUserProfileApi : WeixinSecureApiClient, IWeixinUserProfileApi
     {
         var accessToken = await GetTokenAsync(cancellationToken);
 
-        var requestUriFormat = "http://api.weixin.qq.com/cgi-bin/media/upload?access_token={0}&UploadMediaType={1}&filename={2}&filelength={3}";
+        var requestUriFormat = "/cgi-bin/media/upload?access_token={0}&UploadMediaType={1}&filename={2}&filelength={3}";
+        requestUriFormat = Options?.BuildWeixinApiUrl(requestUriFormat);
         var fileStream = FileStreamHelper.GetFileStream(fileName);
 
         var url = string.Format(requestUriFormat,
-            accessToken, type.ToString(), Path.GetFileName(fileName), fileStream != null ? fileStream.Length : 0);
+            accessToken, type.ToString(), Path.GetFileName(fileName),
+            fileStream != null ? fileStream.Length : 0);
         WeixinUploadMediaResult result = await PostFileAsJsonAsync<WeixinUploadMediaResult>(url, fileStream);
         return result;
     }

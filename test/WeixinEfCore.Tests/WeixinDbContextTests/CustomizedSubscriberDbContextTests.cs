@@ -57,14 +57,13 @@ public class CustomizedSubscriberDbContextTests
             })
             .AddMessageProtection()
             .AddWeixinEfCore<CustomizedSubscriberDbContext>();
-        },
-        async context =>
+        }, async context =>
         {
             var req = context.Request;
-            if (!req.Path.Value.Equals(WeixinSiteOptionsDefaults.Path))
+            if (req.Path.Value != WeixinSiteOptionsDefaults.Path)
             {
 
-                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
                 var content = "404 NOT FOUND";
                 await context.Response.WriteAsync(content);
                 return true;

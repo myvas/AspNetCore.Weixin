@@ -16,10 +16,11 @@ public static class WeixinSiteBuilderEfCoreExtensions
     public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
     {
-        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(WeixinSubscriberEntity), typeof(string));
-
-        builder.Services.TryAddScoped<WeixinSubscriberSyncService<WeixinSubscriberEntity, string>>();
-        builder.Services.AddHostedService<WeixinSubscriberSyncHostedService<WeixinSubscriberEntity, string>>();
+        if (setupAction != null)
+        {
+            builder.Services.Configure(setupAction);
+        }
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), null, null);
         return builder;
     }
 
@@ -27,10 +28,11 @@ public static class WeixinSiteBuilderEfCoreExtensions
         where TWeixinDbContext : DbContext
         where TWeixinSubscriberEntity : class, IWeixinSubscriber<string>, IEntity, new()
     {
-        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriberEntity), typeof(string));
-
-        builder.Services.TryAddScoped<WeixinSubscriberSyncService<TWeixinSubscriberEntity, string>>();
-        builder.Services.AddHostedService<WeixinSubscriberSyncHostedService<TWeixinSubscriberEntity, string>>();
+        if (setupAction != null)
+        {
+            builder.Services.Configure(setupAction);
+        }
+        AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriberEntity), null);
         return builder;
     }
 
@@ -39,10 +41,11 @@ public static class WeixinSiteBuilderEfCoreExtensions
         where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
         where TKey : IEquatable<TKey>
     {
+        if (setupAction != null)
+        {
+            builder.Services.Configure(setupAction);
+        }
         AddWeixinEfCore(builder.Services, typeof(TWeixinDbContext), typeof(TWeixinSubscriberEntity), typeof(TKey));
-
-        builder.Services.TryAddScoped<WeixinSubscriberSyncService<TWeixinSubscriberEntity, TKey>>();
-        builder.Services.AddHostedService<WeixinSubscriberSyncHostedService<TWeixinSubscriberEntity, TKey>>();
         return builder;
     }
 
@@ -54,7 +57,7 @@ public static class WeixinSiteBuilderEfCoreExtensions
         Type responseMessageStoreType = null;
         Type sendMessageStoreType = null;
 
-        var tryWeixinDbContext2Type = FindGenericBaseType(contextType, typeof(IWeixinDbContext<,>));
+        var tryWeixinDbContext2Type = FindBaseInterface(contextType, typeof(IWeixinDbContext<,>));
         if (tryWeixinDbContext2Type != null)
         {
             // IWeixinDbContext<TWeixinSubscriber, TKey>
@@ -65,7 +68,7 @@ public static class WeixinSiteBuilderEfCoreExtensions
         else
         {
             // IWeixinDbContext<TWeixinSubscriber>
-            var tryWeixinDbContext1Type = FindGenericBaseType(contextType, typeof(IWeixinDbContext<>));
+            var tryWeixinDbContext1Type = FindBaseInterface(contextType, typeof(IWeixinDbContext<>));
             if (tryWeixinDbContext1Type != null)
             {
                 subscriberType = tryWeixinDbContext1Type.GenericTypeArguments[0];
@@ -76,7 +79,7 @@ public static class WeixinSiteBuilderEfCoreExtensions
                 services.TryAddScoped(typeof(IWeixinDbContext), contextType);
             }
 
-            var trySubscriberType1Type = FindGenericBaseType(subscriberType, typeof(IWeixinSubscriber<>));
+            var trySubscriberType1Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriber<>));
             if (trySubscriberType1Type != null)
             {
                 // IWeixinSubscriber<TKey>
@@ -118,21 +121,117 @@ public static class WeixinSiteBuilderEfCoreExtensions
             .ForEach(x => services.Remove(x));
         var eventSinkImplType = typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType);
         services.TryAddTransient(typeof(IWeixinEventSink), eventSinkImplType);
+
+        // Add hosted service
+        services.TryAddScoped(typeof(DbContextFactory<>).MakeGenericType(contextType));
+        services.TryAddScoped(typeof(IWeixinSubscriberSyncService), typeof(WeixinSubscriberSyncService<,,>).MakeGenericType(contextType, subscriberType, keyType));
+        services.AddHostedService<WeixinSubscriberSyncHostedService>();
     }
 
-    private static TypeInfo FindGenericBaseType(Type currentType, Type genericBaseType)
+    /// <summary>
+    /// Finds a specific base type (generic or non-generic) in the inheritance hierarchy of a given type.
+    /// </summary>
+    /// <param name="currentType">The type to inspect.</param>
+    /// <param name="baseTypeToFind">The base type to search for (generic or non-generic).</param>
+    /// <returns>A TypeInfo object representing the matched type, or null if not found.</returns>
+    public static TypeInfo FindBaseType(Type currentType, Type baseTypeToFind)
     {
-        var type = currentType;
-        while (type != null)
+        if (currentType == null)
         {
-            var typeInfo = type.GetTypeInfo();
-            var genericType = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
-            if (genericType != null && genericType == genericBaseType)
-            {
-                return typeInfo;
-            }
-            type = type.BaseType;
+            throw new ArgumentNullException(nameof(currentType));
         }
+
+        if (baseTypeToFind == null)
+        {
+            throw new ArgumentNullException(nameof(baseTypeToFind));
+        }
+
+        // Traverse the type and its base types
+        Type typeToInspect = currentType;
+
+        while (typeToInspect != null)
+        {
+            // Check if the current type matches the target type
+            if (baseTypeToFind.IsGenericTypeDefinition)
+            {
+                // Handle generic type definition (e.g., BaseClass<> or IBaseInterface<>)
+                if (typeToInspect.IsGenericType && typeToInspect.GetGenericTypeDefinition() == baseTypeToFind)
+                {
+                    return typeToInspect.GetTypeInfo();
+                }
+            }
+            else
+            {
+                // Handle non-generic type or interface
+                if (typeToInspect == baseTypeToFind)
+                {
+                    return typeToInspect.GetTypeInfo();
+                }
+            }
+
+            // Move up the inheritance hierarchy
+            typeToInspect = typeToInspect.BaseType;
+        }
+
+        // No matching type or interface found
+        return null;
+    }
+
+
+    /// <summary>
+    /// Finds a specific base interface, generic type, or non-generic type in the inheritance hierarchy of a given type.
+    /// </summary>
+    /// <param name="currentType">The type to inspect.</param>
+    /// <param name="baseInterfaceToFind">The base interface, generic type, or non-generic type to search for.</param>
+    /// <returns>A TypeInfo object representing the matched type, or null if not found.</returns>
+    public static TypeInfo FindBaseInterface(Type currentType, Type baseInterfaceToFind)
+    {
+        if (currentType == null)
+        {
+            throw new ArgumentNullException(nameof(currentType));
+        }
+
+        if (baseInterfaceToFind == null)
+        {
+            throw new ArgumentNullException(nameof(baseInterfaceToFind));
+        }
+
+        if (!baseInterfaceToFind.IsInterface)
+        {
+            throw new ArgumentException("The baseInterfaceTypeToFind parameter must be an interface type.", nameof(baseInterfaceToFind));
+        }
+
+        // Traverse the type and its base types
+        Type typeToInspect = currentType;
+
+        while (typeToInspect != null)
+        {
+            // Check all interfaces implemented by the current type
+            foreach (Type interfaceType in typeToInspect.GetInterfaces())
+            {
+                if (baseInterfaceToFind.IsGenericTypeDefinition)
+                {
+                    // Handle generic interface definition (e.g., IBaseInterface<>)
+                    if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == baseInterfaceToFind)
+                    {
+                        return interfaceType.GetTypeInfo();
+                    }
+                }
+                else
+                {
+                    // Handle non-generic interface
+                    if (interfaceType == baseInterfaceToFind)
+                    {
+                        return interfaceType.GetTypeInfo();
+                    }
+                }
+            }
+
+            // Move up the inheritance hierarchy
+            typeToInspect = typeToInspect.BaseType;
+        }
+
+        // No matching type or interface found
         return null;
     }
 }

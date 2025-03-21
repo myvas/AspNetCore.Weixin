@@ -11,25 +11,21 @@ namespace Myvas.AspNetCore.Weixin.EfCore;
 /// <summary>
 /// Sync service to pull <see cref="IWeixinSubscriber{TKey}"/> from Tencent server.
 /// </summary>
-public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEntity, TKey> : IWeixinSubscriberSyncService
-    where TWeixinDbContext : DbContext, IWeixinDbContext<TWeixinSubscriberEntity, TKey>
+public class WeixinSubscriberSyncServiceX<TWeixinSubscriberEntity, TKey> : IWeixinSubscriberSyncService
     where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
     where TKey : IEquatable<TKey>
 {
     private readonly IWeixinUserApi _api;
-    private readonly DbContextOptions<TWeixinDbContext> _options;
-    private readonly DbContextFactory<TWeixinDbContext> _contextFactory;
-    private readonly ILogger<WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEntity, TKey>> _logger;
+    private readonly IWeixinSubscriberStore<TWeixinSubscriberEntity, TKey> _store;
+    private readonly ILogger<WeixinSubscriberSyncServiceX<TWeixinSubscriberEntity, TKey>> _logger;
 
-    public WeixinSubscriberSyncService(
+    public WeixinSubscriberSyncServiceX(
         IWeixinUserApi api,
-        DbContextOptions<TWeixinDbContext> options,
-        DbContextFactory<TWeixinDbContext> contextFactory,
-        ILogger<WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEntity, TKey>> logger)
+        IWeixinSubscriberStore<TWeixinSubscriberEntity, TKey> store,
+        ILogger<WeixinSubscriberSyncServiceX<TWeixinSubscriberEntity, TKey>> logger)
     {
         _api = api ?? throw new ArgumentNullException(nameof(api));
-        _options = options;
-        _contextFactory = contextFactory ?? throw new ArgumentNullException(nameof(contextFactory));
+        _store = store ?? throw new ArgumentNullException(nameof(store));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -63,11 +59,9 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
             return; // Exit the method if the API call fails
         }
 
-        using var context = _contextFactory.CreateDbContext(_options);
-
         foreach (var user in userInfos)
         {
-            var subscriber = await context.WeixinSubscribers.FirstOrDefaultAsync(x => x.OpenId == user.OpenId, cancellationToken);
+            var subscriber = await _store.Items.FirstOrDefaultAsync(x => x.OpenId == user.OpenId, cancellationToken);
             if (subscriber == null)
             {
                 msg = $"Find a new subscriber: {user.OpenId}";
@@ -75,7 +69,7 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
                 _logger.LogTrace(msg);
                 try
                 {
-                    var createResult = await context.AddAsync(new TWeixinSubscriberEntity
+                    var createResult = await _store.CreateAsync(new TWeixinSubscriberEntity
                     {
                         OpenId = user.OpenId,
                         AvatorImageUrl = user.AvatorImageUrl,
@@ -90,8 +84,7 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
                         SubscribedTime = user.SubscribedTime,
                         Subscribed = user.SubscribeAsBool()
                     }, cancellationToken);
-                    var saveResult = await context.SaveChangesAsync(cancellationToken);
-                    if (saveResult == 1)
+                    if (createResult.Succeeded)
                     {
                         createdCounter++;
 
@@ -106,12 +99,6 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
                         _logger.LogTrace(msg);
                     }
                 }
-                catch (DbUpdateConcurrencyException cex)
-                {
-                    msg = $"An update concurrency exception occurred while creating a subscriber: {user.OpenId}";
-                    Trace.WriteLine(msg);
-                    _logger.LogError(cex, msg);
-                }
                 catch (DbUpdateException uex)
                 {
                     msg = $"An error occurred while creating a subscriber: {user.OpenId}";
@@ -121,9 +108,8 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
                 catch (Exception ex)
                 {
                     // Handle other database-related exceptions
-                    msg = $"An unexpected error occurred during database operations for creating a subscriber: {user.OpenId}";
+                    msg = $"An unexpected error occurred during database operations for subscriber: {user.OpenId}";
                     Trace.WriteLine(msg);
-                    Debug.WriteLine(ex);
                     _logger.LogError(ex, msg);
                 }
             }
@@ -146,8 +132,7 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
                 {
                     try
                     {
-                        var updateResult = context.Update(subscriber);
-                        var saveResult = await context.SaveChangesAsync(cancellationToken);
+                        await _store.UpdateAsync(subscriber, cancellationToken);
                         updatedCounter++;
 
                         msg = $"Update a subscriber: {user.OpenId}";
@@ -171,9 +156,10 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
                 }
             }
         }
-        var totalSubscribedInDb = await context.WeixinSubscribers.CountAsync(x => x.Subscribed, cancellationToken);
-        var totalUnsubscribedInDb = await context.WeixinSubscribers.CountAsync(x => !x.Subscribed, cancellationToken);
-        Trace.WriteLine($"In db, subscribed: {totalSubscribedInDb}, unsubscribed: {totalUnsubscribedInDb}");
+
+        var totalSubscribedInDb = await _store.Items.CountAsync(x => x.Subscribed, cancellationToken);
+        var totalUnsubscribedInDb = await _store.Items.CountAsync(x => !x.Subscribed, cancellationToken);
+        Trace.WriteLine($"In db {_store.GetHashCode()}, subscribed: {totalSubscribedInDb}, unsubscribed: {totalUnsubscribedInDb}");
         msg = $"This round of pulling task is done. total: {totalCounter}, new: {createdCounter}, updated: {updatedCounter}";
         Trace.WriteLine(msg);
         _logger.LogInformation(msg);
