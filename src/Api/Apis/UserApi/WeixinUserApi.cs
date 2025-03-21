@@ -28,7 +28,7 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
     /// {"errcode":40013,"errmsg":"invalid appid"}
     /// </code>
     /// </remarks>
-    public async Task<WeixinUserInfoJson> Info(string openId, WeixinLanguage lang = WeixinLanguage.zh_CN, CancellationToken cancellationToken = default)
+    public async Task<WeixinUserInfoJson> Info(string openId, string lang = "zh_CN", CancellationToken cancellationToken = default)
     {
         var accessToken = await GetTokenAsync(cancellationToken);
 
@@ -38,6 +38,9 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
 
         return await GetFromJsonAsync<WeixinUserInfoJson>(url);
     }
+
+    public Task<WeixinUserInfoJson> Info(string openId, WeixinLanguage lang, CancellationToken cancellationToken = default)
+        => Info(openId, lang.Code, cancellationToken);
 
     /// <summary>
     /// 获取一个批次的订阅者的OpenId
@@ -103,7 +106,8 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
                     subscribers.Add(userInfo);
                 }
             }
-            catch { }
+            catch {
+            }
         }
 
         return subscribers;

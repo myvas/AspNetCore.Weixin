@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
-public class WeixinSendMessageStore<TContext> : WeixinSendMessageStore<WeixinSendMessage, TContext>, IWeixinSendMessageStore
+public class WeixinSendMessageStore<TContext> : WeixinSendMessageStore<WeixinSendMessageEntity, TContext>, IWeixinSendMessageStore
     where TContext : DbContext
 {
     public WeixinSendMessageStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
@@ -15,7 +15,7 @@ public class WeixinSendMessageStore<TContext> : WeixinSendMessageStore<WeixinSen
 }
 
 public class WeixinSendMessageStore<TWeixinSendMessage, TContext> : WeixinSendMessageStoreBase<TWeixinSendMessage>
-    where TWeixinSendMessage : WeixinSendMessage
+    where TWeixinSendMessage : WeixinSendMessageEntity
     where TContext : DbContext
 {
     public WeixinSendMessageStore(TContext context, WeixinErrorDescriber describer = null)

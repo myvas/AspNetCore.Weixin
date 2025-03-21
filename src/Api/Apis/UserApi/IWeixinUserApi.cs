@@ -9,5 +9,6 @@ public interface IWeixinUserApi
     Task<WeixinUserGetJson> Get(string nextOpenId, CancellationToken cancellationToken = default);
     Task<List<string>> GetAllOpenIds(CancellationToken cancellationToken = default);
     Task<List<WeixinUserInfoJson>> GetAllUserInfo(CancellationToken cancellationToken = default);
-    Task<WeixinUserInfoJson> Info(string openId, WeixinLanguage lang = WeixinLanguage.zh_CN, CancellationToken cancellationToken = default);
+    Task<WeixinUserInfoJson> Info(string openId, WeixinLanguage lang, CancellationToken cancellationToken = default);
+    Task<WeixinUserInfoJson> Info(string openId, string lang = "zh_CN", CancellationToken cancellationToken = default);
 }

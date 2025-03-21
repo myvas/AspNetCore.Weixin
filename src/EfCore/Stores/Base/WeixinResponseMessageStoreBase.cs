@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public abstract class WeixinResponseMessageStoreBase<TWeixinResponseMessage> : EntityStoreBase<TWeixinResponseMessage>, IWeixinResponseMessageStore<TWeixinResponseMessage>
-    where TWeixinResponseMessage : WeixinResponseMessage
+public abstract class WeixinResponseMessageStoreBase<TWeixinResponseMessageEntity> : EntityStoreBase<TWeixinResponseMessageEntity>, IWeixinResponseMessageStore<TWeixinResponseMessageEntity>
+    where TWeixinResponseMessageEntity : WeixinResponseMessageEntity
 {
     public WeixinResponseMessageStoreBase(WeixinErrorDescriber describer)
     {
@@ -31,7 +31,7 @@ public abstract class WeixinResponseMessageStoreBase<TWeixinResponseMessage> : E
         return Task.FromResult(result);
     }
 
-    public virtual Task<IList<TWeixinResponseMessage>> GetItemsByDestOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TWeixinResponseMessageEntity>> GetItemsByDestOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -40,10 +40,10 @@ public abstract class WeixinResponseMessageStoreBase<TWeixinResponseMessage> : E
             throw new ArgumentNullException(nameof(openId));
         }
         var result = Items.Where(x => x.ToUserName == openId);
-        return Task.FromResult((IList<TWeixinResponseMessage>)result);
+        return Task.FromResult((IList<TWeixinResponseMessageEntity>)result);
     }
 
-    public virtual Task<IList<TWeixinResponseMessage>> GetRequestMessagesAsync(string id, int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TWeixinResponseMessageEntity>> GetRequestMessagesAsync(string id, int perPage, int pageIndex, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

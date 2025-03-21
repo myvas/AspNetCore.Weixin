@@ -86,18 +86,18 @@ public class JsonSerializerTests
     ""qr_scene_str"": """"
 }";
         var result = JsonSerializer.Deserialize<WeixinUserInfoJson>(json);
-        Assert.Equal(1, result.subscribe);
+        Assert.Equal(1, result.Subscribed);
         Assert.Equal("o6_bmjrPTlm6_2sgVt7hMZOPfL2M", result.OpenId);
         Assert.Equal("zh_CN", result.Language);
-        Assert.Equal(1382694957, result.SubscribeUnixTime);
+        Assert.Equal(1382694957, result.SubscribedTime);
         Assert.Equal("o6_bmasdasdsad6_2sgVt7hMZOPfL", result.UnionId);
         Assert.Empty(result.Remark);
-        Assert.Equal(0, result.groupid);
-        Assert.Equal(2, result.tagid_list.Count);
-        Assert.Contains(128, result.tagid_list);
-        Assert.Contains(2, result.tagid_list);
-        Assert.Equal("ADD_SCENE_QR_CODE", result.subscribe_scene);
-        Assert.Empty(result.qr_scene_str);
+        Assert.Equal(0, result.GroupId);
+        Assert.Equal(2, result.TagIdList.Count);
+        Assert.Contains(128, result.TagIdList);
+        Assert.Contains(2, result.TagIdList);
+        Assert.Equal("ADD_SCENE_QR_CODE", result.SubscribeScene);
+        Assert.Empty(result.QrsceneNote);
         Assert.True(result.Succeeded);
     }
 }

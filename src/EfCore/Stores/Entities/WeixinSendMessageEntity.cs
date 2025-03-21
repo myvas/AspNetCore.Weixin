@@ -2,15 +2,15 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinSendMessageHistory : WeixinSendMessage
+public class WeixinSendMessageHistoryEntity : WeixinSendMessageEntity
 {
 }
 
 /// <summary>
 /// A message to be send, which must match one of the pre-configured templates in mp.weixin.qq.com
-/// <seealso cref="WeixinSendMessageHistory"/>
+/// <seealso cref="WeixinSendMessageHistoryEntity"/>
 /// </summary>
-public class WeixinSendMessage : Entity
+public class WeixinSendMessageEntity : Entity, IWeixinSendMessage
 {
     public virtual string FromUserName { get; set; }
     public virtual string ToUserName { get; set; }

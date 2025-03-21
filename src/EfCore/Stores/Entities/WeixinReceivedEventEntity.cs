@@ -2,7 +2,7 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinReceivedEvent : Entity,
+public class WeixinReceivedEventEntity : Entity,
     IWeixinReceivedEventSubscribe,
     IWeixinReceivedEventSubscribeWithScene,
     IWeixinReceivedEventLocation,

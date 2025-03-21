@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Myvas.AspNetCore.Weixin.EfCore.Tests;
 
-public class WeixinDbContextTests
+public class InMemoryTests
 {
     [Fact]
     public void Subscribers_AddEntity()
@@ -22,7 +22,7 @@ public class WeixinDbContextTests
         // Act
         using (var context = new WeixinDbContext(options))
         {
-            var entity = new WeixinSubscriber
+            var entity = new WeixinSubscriberEntity
             {
                 OpenId = randomOpenId,
                 Nickname = randomNickname
@@ -56,7 +56,7 @@ public class WeixinDbContextTests
         // Act
         using (var context = new WeixinDbContext(options))
         {
-            var entity = new WeixinReceivedMessage
+            var entity = new WeixinReceivedMessageEntity
             {
                 MsgId = randomMsgId,
                 Content = randomContent

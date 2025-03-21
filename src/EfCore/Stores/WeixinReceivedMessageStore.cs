@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
-public class WeixinReceivedMessageStore<TContext> : WeixinReceivedMessageStore<WeixinReceivedMessage, TContext>, IWeixinReceivedMessageStore
+public class WeixinReceivedMessageStore<TContext> : WeixinReceivedMessageStore<WeixinReceivedMessageEntity, TContext>, IWeixinReceivedMessageStore
     where TContext : DbContext
 {
     public WeixinReceivedMessageStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
@@ -15,7 +15,7 @@ public class WeixinReceivedMessageStore<TContext> : WeixinReceivedMessageStore<W
 }
 
 public class WeixinReceivedMessageStore<TWeixinReceivedMessage, TContext> : WeixinReceivedMessageStoreBase<TWeixinReceivedMessage>
-    where TWeixinReceivedMessage : WeixinReceivedMessage
+    where TWeixinReceivedMessage : WeixinReceivedMessageEntity
     where TContext : DbContext
 {
     public WeixinReceivedMessageStore(TContext context, WeixinErrorDescriber describer = null)

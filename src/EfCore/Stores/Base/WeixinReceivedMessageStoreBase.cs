@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public abstract class WeixinReceivedMessageStoreBase<TWeixinReceivedMessage> : EntityStoreBase<TWeixinReceivedMessage>, IWeixinReceivedMessageStore<TWeixinReceivedMessage>
-    where TWeixinReceivedMessage : WeixinReceivedMessage
+public abstract class WeixinReceivedMessageStoreBase<TWeixinReceivedMessageEntity> : EntityStoreBase<TWeixinReceivedMessageEntity>, IWeixinReceivedMessageStore<TWeixinReceivedMessageEntity>
+    where TWeixinReceivedMessageEntity : WeixinReceivedMessageEntity
 {
     public WeixinReceivedMessageStoreBase(WeixinErrorDescriber describer)
     {
@@ -31,7 +31,7 @@ public abstract class WeixinReceivedMessageStoreBase<TWeixinReceivedMessage> : E
         return Task.FromResult(result);
     }
 
-    public virtual Task<IList<TWeixinReceivedMessage>> GetItemsBySourceOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TWeixinReceivedMessageEntity>> GetItemsBySourceOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -40,10 +40,10 @@ public abstract class WeixinReceivedMessageStoreBase<TWeixinReceivedMessage> : E
             throw new ArgumentNullException(nameof(openId));
         }
         var result = Items.Where(x => x.FromUserName == openId);
-        return Task.FromResult((IList<TWeixinReceivedMessage>)result);
+        return Task.FromResult((IList<TWeixinReceivedMessageEntity>)result);
     }
 
-    public virtual Task<IList<TWeixinReceivedMessage>> GetResponseMessagesAsync(string id, int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TWeixinReceivedMessageEntity>> GetResponseMessagesAsync(string id, int perPage, int pageIndex, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

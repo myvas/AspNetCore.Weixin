@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public abstract class WeixinReceivedEventStoreBase<TWeixinReceivedEvent> : EntityStoreBase<TWeixinReceivedEvent>, IWeixinReceivedEventStore<TWeixinReceivedEvent>
-    where TWeixinReceivedEvent : WeixinReceivedEvent
+public abstract class WeixinReceivedEventStoreBase<TWeixinReceivedEventEntity> : EntityStoreBase<TWeixinReceivedEventEntity>, IWeixinReceivedEventStore<TWeixinReceivedEventEntity>
+    where TWeixinReceivedEventEntity : WeixinReceivedEventEntity
 {
     public WeixinReceivedEventStoreBase(WeixinErrorDescriber describer)
     {
@@ -32,7 +32,7 @@ public abstract class WeixinReceivedEventStoreBase<TWeixinReceivedEvent> : Entit
     }
 
 
-    public virtual Task<IList<TWeixinReceivedEvent>> GetItemsByOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TWeixinReceivedEventEntity>> GetItemsByOpenIdAsync(string openId, int perPage, int pageIndex, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -41,6 +41,6 @@ public abstract class WeixinReceivedEventStoreBase<TWeixinReceivedEvent> : Entit
             throw new ArgumentNullException(nameof(openId));
         }
         var result = Items.Where(x => x.FromUserName == openId);
-        return Task.FromResult((IList<TWeixinReceivedEvent>)result);
+        return Task.FromResult((IList<TWeixinReceivedEventEntity>)result);
     }
 }
