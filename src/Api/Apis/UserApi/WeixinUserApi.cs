@@ -33,8 +33,8 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
         var accessToken = await GetTokenAsync(cancellationToken);
 
         var pathAndQuery = "/cgi-bin/user/info?access_token={0}&openid={1}&lang={2}";
+        pathAndQuery = string.Format(pathAndQuery, accessToken, openId, lang);
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
-        url = string.Format(url, accessToken, openId, lang.ToString());
 
         return await GetFromJsonAsync<WeixinUserInfoJson>(url);
     }
@@ -52,13 +52,9 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
     {
         var accessToken = await GetTokenAsync(cancellationToken);
 
-        var pathAndQuery = "/cgi-bin/user/get?access_token={0}";
+        var pathAndQuery = "/cgi-bin/user/get?access_token={0}&next_openid={1}";
+        pathAndQuery = string.Format(pathAndQuery, accessToken, nextOpenId);
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
-        url = string.Format(url, accessToken);
-        if (!string.IsNullOrEmpty(nextOpenId))
-        {
-            url += "&next_openid=" + nextOpenId;
-        }
         return await GetFromJsonAsync<WeixinUserGetJson>(url);
     }
 
@@ -79,8 +75,16 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
             if (count > 0)
             {
                 openids.AddRange(followerResult.data.openid);
+                nextOpenId = followerResult.next_openid;
+                if (openids.Count >= followerResult.total)
+                {
+                    break;
+                }
             }
-            nextOpenId = followerResult.next_openid;
+            else
+            {
+                break;
+            }
         } while (!string.IsNullOrEmpty(nextOpenId));
 
         return openids;
@@ -106,7 +110,8 @@ public class WeixinUserApi : WeixinSecureApiClient, IWeixinUserApi
                     subscribers.Add(userInfo);
                 }
             }
-            catch {
+            catch
+            {
             }
         }
 
