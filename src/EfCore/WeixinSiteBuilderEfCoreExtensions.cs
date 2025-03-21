@@ -123,10 +123,10 @@ public static class WeixinSiteBuilderEfCoreExtensions
         services.TryAddTransient(typeof(IWeixinEventSink), eventSinkImplType);
 
         // Add hosted service
-        services.TryAddScoped(typeof(IWeixinSubscriberSyncService), typeof(WeixinSubscriberSyncService<,>).MakeGenericType(subscriberType, keyType));
+        services.TryAddScoped(typeof(DbContextFactory<>).MakeGenericType(contextType));
+        services.TryAddScoped(typeof(IWeixinSubscriberSyncService), typeof(WeixinSubscriberSyncService<,,>).MakeGenericType(contextType, subscriberType, keyType));
         services.AddHostedService<WeixinSubscriberSyncHostedService>();
     }
-
 
     /// <summary>
     /// Finds a specific base type (generic or non-generic) in the inheritance hierarchy of a given type.
