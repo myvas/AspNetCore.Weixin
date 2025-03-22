@@ -9,21 +9,21 @@ using Microsoft.Extensions.Logging;
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
 /// <summary>
-/// Sync service to pull <see cref="IWeixinSubscriber{TKey}"/> from Tencent server.
+/// Sync service to pull <see cref="IWeixinSubscriberEntity{TKey}"/> from Tencent server.
 /// </summary>
 public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEntity, TKey> : IWeixinSubscriberSyncService
     where TWeixinDbContext : DbContext, IWeixinDbContext<TWeixinSubscriberEntity, TKey>
-    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>, new()
     where TKey : IEquatable<TKey>
 {
     private readonly IWeixinUserApi _api;
-    private readonly DbContextOptions<TWeixinDbContext> _options;
+    private readonly DbContextOptions _options;
     private readonly DbContextFactory<TWeixinDbContext> _contextFactory;
     private readonly ILogger<WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEntity, TKey>> _logger;
 
     public WeixinSubscriberSyncService(
         IWeixinUserApi api,
-        DbContextOptions<TWeixinDbContext> options,
+        DbContextOptions options,
         DbContextFactory<TWeixinDbContext> contextFactory,
         ILogger<WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEntity, TKey>> logger)
     {
