@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WeixinSiteSample.Data;
 
 namespace WeixinSiteSample.Data;
 
