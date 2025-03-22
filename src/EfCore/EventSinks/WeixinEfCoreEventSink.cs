@@ -11,7 +11,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// Save to database when message or event received.
 /// </summary>
 public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinDebugEventSink
-    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>, new()
     where TKey : IEquatable<TKey>
 {
     protected readonly IWeixinReceivedEventStore<WeixinReceivedEventEntity> _eventStore;
