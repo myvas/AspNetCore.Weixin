@@ -14,8 +14,8 @@ public class WeixinReceivedEventStore<TContext> : WeixinReceivedEventStore<Weixi
     }
 }
 
-public class WeixinReceivedEventStore<TWeixinReceivedEvent, TContext> : WeixinReceivedEventStoreBase<TWeixinReceivedEvent>
-    where TWeixinReceivedEvent : WeixinReceivedEventEntity
+public class WeixinReceivedEventStore<TWeixinReceivedEventEntity, TContext> : WeixinReceivedEventStoreBase<TWeixinReceivedEventEntity>
+    where TWeixinReceivedEventEntity : class, IWeixinReceivedEventEntity
     where TContext : DbContext
 {
     public WeixinReceivedEventStore(TContext context, WeixinErrorDescriber describer = null)
@@ -28,13 +28,12 @@ public class WeixinReceivedEventStore<TWeixinReceivedEvent, TContext> : WeixinRe
         Context = context;
     }
 
-
     /// <summary>
     /// Gets the database context for this store.
     /// </summary>
     public virtual TContext Context { get; private set; }
 
-    public override IQueryable<TWeixinReceivedEvent> Items => Context.Set<TWeixinReceivedEvent>(); 
+    public override IQueryable<TWeixinReceivedEventEntity> Items => Context.Set<TWeixinReceivedEventEntity>(); 
 
     /// <summary>
     /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -52,7 +51,7 @@ public class WeixinReceivedEventStore<TWeixinReceivedEvent, TContext> : WeixinRe
         return AutoSaveChanges ? Context.SaveChangesAsync(cancellationToken) : Task.CompletedTask;
     }
 
-    public override async Task<WeixinResult> CreateAsync(TWeixinReceivedEvent item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> CreateAsync(TWeixinReceivedEventEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -65,7 +64,7 @@ public class WeixinReceivedEventStore<TWeixinReceivedEvent, TContext> : WeixinRe
         return WeixinResult.Success;
     }
 
-    public override async Task<WeixinResult> UpdateAsync(TWeixinReceivedEvent item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> UpdateAsync(TWeixinReceivedEventEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -88,7 +87,7 @@ public class WeixinReceivedEventStore<TWeixinReceivedEvent, TContext> : WeixinRe
         return WeixinResult.Success;
     }
 
-    public override async Task<WeixinResult> DeleteAsync(TWeixinReceivedEvent item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> DeleteAsync(TWeixinReceivedEventEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
