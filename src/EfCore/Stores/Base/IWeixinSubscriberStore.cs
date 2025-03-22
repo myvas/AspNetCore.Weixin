@@ -10,9 +10,8 @@ public interface IWeixinSubscriberStore : IWeixinSubscriberStore<WeixinSubscribe
 
 }
 
-
 public interface IWeixinSubscriberStore<TWeixinSubscriberEntity> : IWeixinSubscriberStore<TWeixinSubscriberEntity, string>
-    where TWeixinSubscriberEntity : class, IEntity, IWeixinSubscriber<string>
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<string>
 {
 
 }
@@ -22,7 +21,7 @@ public interface IWeixinSubscriberStore<TWeixinSubscriberEntity> : IWeixinSubscr
 /// </summary>
 /// <typeparam name="TWeixinSubscriberEntity">The type that represents a Weixin subscriber.</typeparam>
 public interface IWeixinSubscriberStore<TWeixinSubscriberEntity, TKey> : IEntityStore<TWeixinSubscriberEntity>, IQueryableEntityStore<TWeixinSubscriberEntity>
-    where TWeixinSubscriberEntity : class, IEntity, IWeixinSubscriber<TKey>
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     /// <summary>
