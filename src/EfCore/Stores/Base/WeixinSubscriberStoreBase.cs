@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin;
 
 public abstract class WeixinSubscriberStoreBase<TWeixinSubscriberEntity, TKey> : EntityStoreBase<TWeixinSubscriberEntity>, IWeixinSubscriberStore<TWeixinSubscriberEntity, TKey>
-    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>, IEntity
     where TKey : IEquatable<TKey>
 {
     public WeixinSubscriberStoreBase(WeixinErrorDescriber describer)

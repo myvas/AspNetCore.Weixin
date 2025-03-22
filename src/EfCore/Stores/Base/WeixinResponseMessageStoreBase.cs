@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin;
 
 public abstract class WeixinResponseMessageStoreBase<TWeixinResponseMessageEntity> : EntityStoreBase<TWeixinResponseMessageEntity>, IWeixinResponseMessageStore<TWeixinResponseMessageEntity>
-    where TWeixinResponseMessageEntity : WeixinResponseMessageEntity
+    where TWeixinResponseMessageEntity : class, IWeixinResponseMessageEntity
 {
     public WeixinResponseMessageStoreBase(WeixinErrorDescriber describer)
     {
