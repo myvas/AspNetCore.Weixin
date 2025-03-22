@@ -1,10 +1,10 @@
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinResponseMessage
+public interface IWeixinResponseMessageEntity : IEntity
 {
     string FromUserName { get; set; }
     string ToUserName { get; set; }
-    string CreateTime { get; set; }
+    long? CreateTime { get; set; }
     string MsgType { get; set; }
     string MsgId { get; set; }
     string Content { get; set; }
