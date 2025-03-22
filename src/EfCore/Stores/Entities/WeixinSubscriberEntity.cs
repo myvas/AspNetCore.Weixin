@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinSubscriberEntity : WeixinSubscriberEntity<string>, IWeixinSubscriber
+public class WeixinSubscriberEntity : WeixinSubscriberEntity<string>, IWeixinSubscriberEntity
 {
 
 }
@@ -12,7 +12,7 @@ public class WeixinSubscriberEntity : WeixinSubscriberEntity<string>, IWeixinSub
 /// <summary>
 /// The Weixin subscriber.
 /// </summary>
-public class WeixinSubscriberEntity<TKey> : Entity, IWeixinSubscriber<TKey>
+public class WeixinSubscriberEntity<TKey> : Entity, IWeixinSubscriberEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     public WeixinSubscriberEntity() : base()

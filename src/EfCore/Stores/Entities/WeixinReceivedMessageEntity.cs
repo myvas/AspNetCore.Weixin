@@ -2,26 +2,14 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinReceivedMessageEntity : Entity,
-    IWeixinReceivedText,
-    IWeixinReceivedImage,
-    IWeixinReceivedVoice,
-    IWeixinReceivedVoiceWithRecognition,
-    IWeixinReceivedVideo,
-    IWeixinReceivedShortVideo,
-    IWeixinReceivedLink,
-    IWeixinReceivedLocation
+public class WeixinReceivedMessageEntity : Entity, IWeixinReceivedMessageEntity
 {
     public virtual string FromUserName { get; set; }
     public virtual string ToUserName { get; set; }
-    public virtual long CreateTime { get; set; }
-    public virtual DateTimeOffset? CreateTimeOffset
-    {
-        get { return WeixinTimestampHelper.ToLocalTime(CreateTime); }
-    }
+    public virtual long? CreateTime { get; set; }
     public virtual string MsgType { get; set; }
 
-    public virtual long MsgId { get; set; }
+    public virtual long? MsgId { get; set; }
     public virtual string Content { get; set; }
     public virtual string PicUrl { get; set; }
     public virtual string MediaId { get; set; }
