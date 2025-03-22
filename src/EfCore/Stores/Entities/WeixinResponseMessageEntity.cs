@@ -2,11 +2,11 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinResponseMessageEntity : Entity
+public class WeixinResponseMessageEntity : Entity, IWeixinResponseMessageEntity
 {
     public virtual string FromUserName { get; set; }
     public virtual string ToUserName { get; set; }
-    public virtual string CreateTime { get; set; }
+    public virtual long? CreateTime { get; set; }
     public virtual string MsgType { get; set; }
 
     public virtual string MsgId { get; set; }
