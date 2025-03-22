@@ -19,8 +19,6 @@ public class WeixinSite : IWeixinSite
 
     private readonly IServiceProvider _serviceProvider;
 
-    private readonly IEnumerable<IWeixinEventSink> _handlers;
-
     public WeixinSite(ILoggerFactory logger,
         IOptions<WeixinSiteOptions> optionsAccessor,
         IServiceProvider serviceProvider)
@@ -28,7 +26,6 @@ public class WeixinSite : IWeixinSite
         _logger = logger?.CreateLogger<WeixinSite>() ?? throw new ArgumentNullException(nameof(logger));
         _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-        _handlers = _serviceProvider.GetServices<IWeixinEventSink>();
     }
 
     /// <summary>
@@ -113,10 +110,14 @@ public class WeixinSite : IWeixinSite
         var receivedXml = WeixinXmlConvert.DeserializeObject<TReceivedXml>(Context.Text);
         var ctx = new WeixinEventArgs<TReceivedXml>(Context, receivedXml);
         var handled = false;
-        foreach (var handler in _handlers)
+        using (var scope = _serviceProvider.CreateScope())
         {
-            handled = await CallHandlerMethodAsync(handler, methodName, ctx);
-            if (handled) return true;
+            var _handlers = scope.ServiceProvider.GetServices<IWeixinEventSink>();
+            foreach (var handler in _handlers)
+            {
+                handled = await CallHandlerMethodAsync(handler, methodName, ctx);
+                if (handled) return true;
+            }
         }
         if (!handled)
         {
