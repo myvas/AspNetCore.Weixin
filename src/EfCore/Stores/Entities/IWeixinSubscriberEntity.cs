@@ -2,9 +2,9 @@ using System;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinSubscriber : IWeixinSubscriber<string> { }
+public interface IWeixinSubscriberEntity : IWeixinSubscriberEntity<string> { }
 
-public interface IWeixinSubscriber<TKey>
+public interface IWeixinSubscriberEntity<TKey> : IEntity
     where TKey : IEquatable<TKey>
 {
     /// <summary>
