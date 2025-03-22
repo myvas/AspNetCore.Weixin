@@ -7,6 +7,6 @@ public interface IWeixinSendMessageStore : IWeixinSendMessageStore<WeixinSendMes
 /// </summary>
 /// <typeparam name="IWeixinSendMessage">The type that represents a message to a Weixin subscriber.</typeparam>
 public interface IWeixinSendMessageStore<TWeixinSendMessageEntity> : IEntityStore<TWeixinSendMessageEntity>, IQueryableEntityStore<TWeixinSendMessageEntity>
-    where TWeixinSendMessageEntity : class, IWeixinSendMessage, IEntity
+    where TWeixinSendMessageEntity : class, IWeixinSendMessageEntity
 {
 }
