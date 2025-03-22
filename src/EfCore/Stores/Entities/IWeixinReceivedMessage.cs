@@ -1,9 +1,7 @@
 ﻿namespace Myvas.AspNetCore.Weixin;
-
-
 public interface IWeixinReceivedMessage : IWeixinReceived
 {
-    long MsgId { get; set; }
+    long? MsgId { get; set; }
 }
 public interface IWeixinReceivedText : IWeixinReceivedMessage
 {
