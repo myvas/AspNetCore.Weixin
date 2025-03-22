@@ -162,8 +162,7 @@ public static class WeixinSiteBuilderEfCoreExtensions
         // Add event sink
         services.Where(x => x.ServiceType == typeof(IWeixinEventSink)).ToList()
             .ForEach(x => services.Remove(x));
-        var eventSinkImplType = typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType);
-        services.TryAddTransient(typeof(IWeixinEventSink), eventSinkImplType);
+        services.TryAddEnumerable(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType)));
 
         // Add hosted service
         services.TryAddScoped(typeof(DbContextFactory<>).MakeGenericType(contextType));
