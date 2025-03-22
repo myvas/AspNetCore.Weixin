@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
 /// <summary>
-/// Sync service to pull <see cref="IWeixinSubscriber{TKey}"/> from Tencent server.
+/// Sync service to pull <see cref="IWeixinSubscriberEntity{TKey}"/> from Tencent server.
 /// </summary>
 public class WeixinSubscriberSyncServiceX<TWeixinSubscriberEntity, TKey> : IWeixinSubscriberSyncService
-    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>, IEntity, new()
     where TKey : IEquatable<TKey>
 {
     private readonly IWeixinUserApi _api;
