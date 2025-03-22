@@ -2,16 +2,16 @@ using System;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinSendMessage
+public interface IWeixinSendMessageEntity : IEntity
 {
     string FromUserName { get; set; }
     string ToUserName { get; set; }
-    long CreateTime { get; set; }
+    long? CreateTime { get; set; }
     string Content { get; set; }
-    DateTimeOffset? ScheduleTime { get; set; }
+    long? ScheduleTime { get; set; }
     int? LastRetCode { get; set; }
     string LastRetMsg { get; set; }
     int RetryTimes { get; set; }
-    DateTimeOffset? LastTried { get; set; }
+    long? LastTried { get; set; }
     string ConcurrencyStamp { get; set; }
 }
