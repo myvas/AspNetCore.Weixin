@@ -254,3 +254,4 @@ app.sqlitedb-wal
 # Unnecessary files created by MVC template
 appsettings.Development.json
 launchSettings.json
+samples/WeixinSiteSample/Migrations/
