@@ -67,7 +67,7 @@ public class WeixinSubscriberSyncService<TWeixinDbContext, TWeixinSubscriberEnti
 
         foreach (var user in userInfos)
         {
-            var subscriber = await context.WeixinSubscribers.FirstOrDefaultAsync(x => x.OpenId == user.OpenId, cancellationToken);
+            var subscriber = await context.WeixinSubscribers.FirstOrDefaultAsync(x => x.OpenId == (user.OpenId ?? ""), cancellationToken);
             if (subscriber == null)
             {
                 msg = $"Find a new subscriber: {user.OpenId}";
