@@ -108,7 +108,7 @@ services.AddWeixin(o => {
 		// 启用订阅者名单同步服务
 		o.EnableSyncForWeixinSubscribers = true; // default is false
     // 执行同步服务的时间间隔
-    o.SyncIntervalInMinutesForWeixinSubscribers = 10; // min is 1 minute
+    o.SyncIntervalInMinutesForWeixinSubscribers = 10; // min is 3 minute
 	})
 	// 使用自定义数据类型
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber>(o => ...)
