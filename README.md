@@ -129,6 +129,16 @@ services.AddWeixin(o => {
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
 
 ## For Developers
+### samples/WeixinSiteSample
+1. Install the EF Core Tools (globally)
+```
+dotnet tool install --global dotnet-ef
+```
+2. Create Migrations (Run in dir: samples/WeixinSiteSample)
+```
+dotnet ef migrations add InitialCreate
+```
+
 * [Visual Studio 2022](https://visualstudio.microsoft.com)  
   - [Tools/ResX Manager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager)
 * [Visual Studio Code](https://code.visualstudio.com)
