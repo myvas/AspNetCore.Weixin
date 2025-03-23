@@ -44,7 +44,7 @@ public class CustomizedSubscriberDbContextTests
             services.AddDbContext<CustomizedSubscriberDbContext>(o =>
             {
                 o.UseInMemoryDatabase(databaseName: "DerivedWeixinTestDatabase" + Guid.NewGuid().ToString("N"));
-            });
+            }, ServiceLifetime.Singleton);
 
             services.AddWeixin(o =>
             {

@@ -39,7 +39,7 @@ public class DerivedWeixinDbContextTests
             services.AddDbContext<DerivedWeixinDbContext>(o =>
             {
                 o.UseInMemoryDatabase(databaseName: "DerivedWeixinTestDatabase" + Guid.NewGuid().ToString("N"));
-            });
+            }, ServiceLifetime.Singleton);
 
             services.AddWeixin(o =>
             {

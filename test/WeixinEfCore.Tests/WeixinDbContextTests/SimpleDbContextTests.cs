@@ -39,7 +39,7 @@ public class SimpleDbContextTests
             services.AddDbContext<SimpleDbContext>(o =>
             {
                 o.UseInMemoryDatabase(databaseName: "SimpleDbTestDatabase" + Guid.NewGuid().ToString("N"));
-            });
+            }, ServiceLifetime.Singleton);
 
             services.AddWeixin(o =>
             {
