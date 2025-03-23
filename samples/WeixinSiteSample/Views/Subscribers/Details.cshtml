@@ -1,0 +1,25 @@
+@model WeixinSubscriberEntity
+@{
+    ViewData["Title"] = "Subscriber";
+}
+
+<div>@Model.OpenId (Union Id: @Model.UnionId)</div>
+
+<dl>
+    <dt>Subscribed</dt>
+    <dd>@Model.Subscribed</dd>
+    <dt>SubscribeTime</dt>
+    <dd>@Model.SubscribeTime</dd>
+    <dt>Sex</dt>
+    <dd>@Model.Sex</dd>
+    <dt>Language</dt>
+    <dd>@Model.Language</dd>
+    <dt>Nickname</dt>
+    <dd>@Model.Nickname</dd>
+    <dt>City</dt>
+    <dd>@Model.City</dd>
+    <dt>Remark</dt>
+    <dd>@Model.Remark</dd>
+</dl>
+
+<a asp-action="Index" asp-route-id="">Subscribers</a>

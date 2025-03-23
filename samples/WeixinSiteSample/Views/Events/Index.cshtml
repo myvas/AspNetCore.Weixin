@@ -1,0 +1,90 @@
+@model EntitiesViewModel<WeixinReceivedEventEntity>
+@{
+    ViewData["Title"] = "Events";
+}
+
+<div>@Model.TotalRecords records. Page @Model.PageIndex of @Model.TotalPages (Page Size: @Model.PageSize)</div>
+
+@if (Model.Items == null || !Model.Items.Any())
+{
+    <div>No records found!</div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">@ViewData["Title"]</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].FromUserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].ToUserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Event)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].EventKey)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].CreateTime)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FromUserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ToUserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Event)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EventKey)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateTime)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            @if (Model.PageIndex > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?n=@(Model.PageIndex - 1)">Previous</a>
+                </li>
+            }
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="?n=@i">@i</a>
+                </li>
+            }
+            @if (Model.PageIndex < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?n=@(Model.PageIndex + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

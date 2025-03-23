@@ -1,0 +1,21 @@
+@model WeixinReceivedEventEntity
+@{
+    ViewData["Title"] = "Events";
+}
+
+<div>@Model.Event (EventKey: @Model.EventKey)</div>
+
+<dl>
+    <dt>FromUserName</dt>
+    <dd>@Model.FromUserName</dd>
+    <dt>ToUserName</dt>
+    <dd>@Model.ToUserName</dd>
+    <dt>CreateTime</dt>
+    <dd>@Model.CreateTime</dd>
+    <dt>ConcurrencyStamp</dt>
+    <dd>@Model.ConcurrencyStamp</dd>
+    <dt>ToString()</dt>
+    <dd>@Model.ToString()</dd>
+</dl>
+
+<a asp-action="Index" asp-route-id="">Messages</a>

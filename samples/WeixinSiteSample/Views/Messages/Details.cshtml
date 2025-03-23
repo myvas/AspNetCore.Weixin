@@ -1,0 +1,29 @@
+@model WeixinReceivedMessageEntity
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<div>@Model.MsgId (Union Id: @Model.MsgType)</div>
+
+<dl>
+    <dt>FromUserName</dt>
+    <dd>@Model.FromUserName</dd>
+    <dt>ToUserName</dt>
+    <dd>@Model.ToUserName</dd>
+    <dt>Content</dt>
+    <dd>@Model.Content</dd>
+    <dt>Title</dt>
+    <dd>@Model.Title</dd>
+    <dt>Url</dt>
+    <dd>@Model.Url</dd>
+    <dt>PicUrl</dt>
+    <dd>@Model.PicUrl</dd>
+    <dt>MediaId</dt>
+    <dd>@Model.MediaId</dd>
+    <dt>ThumbMediaId</dt>
+    <dd>@Model.ThumbMediaId</dd>
+    <dt>ToString()</dt>
+    <dd>@Model.ToString()</dd>
+</dl>
+
+<a asp-action="Index" asp-route-id="">Messages</a>
