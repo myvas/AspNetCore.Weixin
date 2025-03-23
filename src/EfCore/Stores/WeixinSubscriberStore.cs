@@ -6,8 +6,25 @@ using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
-public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSubscriberStoreBase<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>, IEntity
+public class WeixinSubscriberStore<TContext> : WeixinSubscriberStore<WeixinSubscriberEntity, TContext>, IWeixinSubscriberStore
+    where TContext : DbContext
+{
+    public WeixinSubscriberStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
+    {
+    }
+}
+
+public class WeixinSubscriberStore<TWeixinSubscriberEntity, TContext> : WeixinSubscriberStore<TWeixinSubscriberEntity, string, TContext>, IWeixinSubscriberStore<TWeixinSubscriberEntity>
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<string>
+    where TContext : DbContext
+{
+    public WeixinSubscriberStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
+    {
+    }
+}
+
+public class WeixinSubscriberStore<TWeixinSubscriberEntity, TKey, TContext> : WeixinSubscriberStoreBase<TWeixinSubscriberEntity, TKey>
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>
     where TKey : IEquatable<TKey>
     where TContext : DbContext
 {
@@ -26,7 +43,7 @@ public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSu
     /// </summary>
     public virtual TContext Context { get; private set; }
 
-    public override IQueryable<TWeixinSubscriber> Items => Context.Set<TWeixinSubscriber>();
+    public override IQueryable<TWeixinSubscriberEntity> Items => Context.Set<TWeixinSubscriberEntity>();
 
     /// <summary>
     /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -50,19 +67,18 @@ public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSu
     /// <param name="role">The role to create in the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="IdentityResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> CreateAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> CreateAsync(TWeixinSubscriberEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
-        if (subscriber == null)
+        if (item == null)
         {
-            throw new ArgumentNullException(nameof(subscriber));
+            throw new ArgumentNullException(nameof(item));
         }
-        Context.Add(subscriber);
+        Context.Add(item);
         await SaveChanges(cancellationToken);
         return WeixinResult.Success;
     }
-
 
     /// <summary>
     /// Updates a role in a store as an asynchronous operation.
@@ -70,17 +86,17 @@ public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSu
     /// <param name="role">The role to update in the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="IdentityResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> UpdateAsync(TWeixinSubscriber subscriber, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> UpdateAsync(TWeixinSubscriberEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
-        if (subscriber == null)
+        if (item == null)
         {
-            throw new ArgumentNullException(nameof(subscriber));
+            throw new ArgumentNullException(nameof(item));
         }
-        Context.Attach(subscriber);
-        subscriber.ConcurrencyStamp = Guid.NewGuid().ToString();
-        Context.Update(subscriber);
+        Context.Attach(item);
+        item.ConcurrencyStamp = Guid.NewGuid().ToString();
+        Context.Update(item);
         try
         {
             await SaveChanges(cancellationToken);
@@ -98,7 +114,7 @@ public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSu
     /// <param name="item">The item to delete from the store.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the <see cref="WeixinResult"/> of the asynchronous query.</returns>
-    public async override Task<WeixinResult> DeleteAsync(TWeixinSubscriber item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> DeleteAsync(TWeixinSubscriberEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -125,7 +141,7 @@ public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSu
     /// <param name="roleName">The name of the role.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public override Task<WeixinResult> SetUserIdAsync(TWeixinSubscriber item, TKey userId, CancellationToken cancellationToken = default)
+    public override Task<WeixinResult> SetUserIdAsync(TWeixinSubscriberEntity item, TKey userId, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -137,9 +153,9 @@ public class WeixinSubscriberStore<TWeixinSubscriber, TKey, TContext> : WeixinSu
         return UpdateAsync(item, cancellationToken);
     }
 
-    public override Task<WeixinResult> AddAssociationAsync(TWeixinSubscriber item, TKey userId, CancellationToken cancellationToken = default)
+    public override Task<WeixinResult> AddAssociationAsync(TWeixinSubscriberEntity item, TKey userId, CancellationToken cancellationToken = default)
         => SetUserIdAsync(item, userId, cancellationToken);
 
-    public override Task<WeixinResult> RemoveAssociationAsync(TWeixinSubscriber item, CancellationToken cancellationToken = default)
+    public override Task<WeixinResult> RemoveAssociationAsync(TWeixinSubscriberEntity item, CancellationToken cancellationToken = default)
         => SetUserIdAsync(item, default, cancellationToken);
 }

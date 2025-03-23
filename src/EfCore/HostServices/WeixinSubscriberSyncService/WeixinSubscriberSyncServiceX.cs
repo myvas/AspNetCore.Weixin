@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 namespace Myvas.AspNetCore.Weixin.EfCore;
 
 /// <summary>
-/// Sync service to pull <see cref="IWeixinSubscriber{TKey}"/> from Tencent server.
+/// Sync service to pull <see cref="IWeixinSubscriberEntity{TKey}"/> from Tencent server.
 /// </summary>
 public class WeixinSubscriberSyncServiceX<TWeixinSubscriberEntity, TKey> : IWeixinSubscriberSyncService
-    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>, IEntity, new()
     where TKey : IEquatable<TKey>
 {
     private readonly IWeixinUserApi _api;
@@ -72,16 +72,16 @@ public class WeixinSubscriberSyncServiceX<TWeixinSubscriberEntity, TKey> : IWeix
                     var createResult = await _store.CreateAsync(new TWeixinSubscriberEntity
                     {
                         OpenId = user.OpenId,
-                        AvatorImageUrl = user.AvatorImageUrl,
+                        HeadImgUrl = user.HeadImgUrl,
                         City = user.City,
                         Province = user.Province,
                         Country = user.Country,
                         Nickname = user.Nickname,
-                        Gender = user.Gender,
+                        Sex = user.Sex,
                         Language = user.Language,
                         Remark = user.Remark,
                         UnionId = user.UnionId,
-                        SubscribedTime = user.SubscribedTime,
+                        SubscribeTime = user.SubscribeTime,
                         Subscribed = user.SubscribeAsBool()
                     }, cancellationToken);
                     if (createResult.Succeeded)
@@ -116,16 +116,16 @@ public class WeixinSubscriberSyncServiceX<TWeixinSubscriberEntity, TKey> : IWeix
             else
             {
                 bool dirty = false;
-                if (subscriber.AvatorImageUrl != user.AvatorImageUrl) { dirty = true; subscriber.AvatorImageUrl = user.AvatorImageUrl; }
+                if (subscriber.HeadImgUrl != user.HeadImgUrl) { dirty = true; subscriber.HeadImgUrl = user.HeadImgUrl; }
                 if (subscriber.City != user.City) { dirty = true; subscriber.City = user.City; }
                 if (subscriber.Province != user.Province) { dirty = true; subscriber.Province = user.Province; }
                 if (subscriber.Country != user.Country) { dirty = true; subscriber.Country = user.Country; }
                 if (subscriber.Nickname != user.Nickname) { dirty = true; subscriber.Nickname = user.Nickname; }
-                if (subscriber.Gender != user.Gender) { dirty = true; subscriber.Gender = user.Gender; }
+                if (subscriber.Sex != user.Sex) { dirty = true; subscriber.Sex = user.Sex; }
                 if (subscriber.Language != user.Language) { dirty = true; subscriber.Language = user.Language; }
                 if (subscriber.Remark != user.Remark) { dirty = true; subscriber.Remark = user.Remark; }
                 if (subscriber.UnionId != user.UnionId) { dirty = true; subscriber.UnionId = user.UnionId; }
-                if (subscriber.SubscribedTime != user.SubscribedTime) { dirty = true; subscriber.SubscribedTime = user.SubscribedTime; }
+                if (subscriber.SubscribeTime != user.SubscribeTime) { dirty = true; subscriber.SubscribeTime = user.SubscribeTime; }
                 if (subscriber.Subscribed != user.SubscribeAsBool()) { dirty = true; subscriber.Subscribed = user.SubscribeAsBool(); }
 
                 if (dirty)

@@ -10,11 +10,11 @@ public class WeixinSendMessageHistoryEntity : WeixinSendMessageEntity
 /// A message to be send, which must match one of the pre-configured templates in mp.weixin.qq.com
 /// <seealso cref="WeixinSendMessageHistoryEntity"/>
 /// </summary>
-public class WeixinSendMessageEntity : Entity, IWeixinSendMessage
+public class WeixinSendMessageEntity : Entity, IWeixinSendMessageEntity
 {
     public virtual string FromUserName { get; set; }
     public virtual string ToUserName { get; set; }
-    public virtual long CreateTime { get; set; }
+    public virtual long? CreateTime { get; set; }
 
     public virtual string Content { get; set; }
 
@@ -35,4 +35,6 @@ public class WeixinSendMessageEntity : Entity, IWeixinSendMessage
     /// A random value that must change whenever a user is persisted to the store
     /// </summary>
     public virtual string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
+    long? IWeixinSendMessageEntity.ScheduleTime { get;set;}
+    long? IWeixinSendMessageEntity.LastTried { get;set;}
 }

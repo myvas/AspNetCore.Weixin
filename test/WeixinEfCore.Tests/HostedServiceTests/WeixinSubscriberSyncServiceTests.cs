@@ -132,7 +132,7 @@ public class WeixinSubscriberSyncServiceTests
             services.AddDbContext<CustomizedSubscriberDbContext>(o =>
             {
                 o.UseInMemoryDatabase(databaseName: "SyncTestDb" + Guid.NewGuid().ToString("N"));
-            });
+            }, ServiceLifetime.Singleton);
 
             services.AddWeixin(o =>
             {

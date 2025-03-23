@@ -8,12 +8,12 @@ public interface IWeixinDbContext : IWeixinDbContext<WeixinSubscriberEntity>
 }
 
 public interface IWeixinDbContext<TWeixinSubscriberEntity> : IWeixinDbContext<TWeixinSubscriberEntity, string>
-    where TWeixinSubscriberEntity : class, IWeixinSubscriber<string>, IEntity
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<string>
 {
 }
 
 public interface IWeixinDbContext<TWeixinSubscriberEntity, TKey>
-    where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity
+    where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     /// <summary>

@@ -50,5 +50,5 @@ public interface IEntityStore<TEntity> : IDisposable
 
     Task<int> GetCountAsync(CancellationToken cancellationToken = default);
 
-    Task<IList<TEntity>> GetItemsAsync(int perPage, int pageIndex, CancellationToken cancellationToken = default);
+    Task<IList<TEntity>> GetItemsAsync(int pageSize, int pageIndex, CancellationToken cancellationToken = default);
 }

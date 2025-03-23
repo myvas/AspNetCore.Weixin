@@ -16,15 +16,15 @@ public class WeixinUserInfoJson : WeixinErrorJson
     /// 用户是否订阅该公众号标识。参考值：1 
     /// </summary>
     /// <remarks>值为0时，代表此用户没有关注该公众号，拉取不到其余信息;值为1时，代表用户已关注该公众号，可以拉取其余信息</remarks>
-    
+
     [JsonPropertyName("subscribe")]
-    public int Subscribed { get; set; }
+    public int Subscribe { get; set; }
 
     /// <summary>
     /// 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
     /// </summary>
     [JsonPropertyName("subscribe_time")]
-    public long? SubscribedTime { get; set; }
+    public long? SubscribeTime { get; set; }
 
     /// <summary>
     /// 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。参考值：o6_bmasdasdsad6_2sgVt7hMZOPfL
@@ -66,7 +66,21 @@ public class WeixinUserInfoJson : WeixinErrorJson
     /// <summary>
     /// 返回用户关注的渠道来源
     /// </summary>
-    /// <remarks>ADD_SCENE_SEARCH 公众号搜索，ADD_SCENE_ACCOUNT_MIGRATION 公众号迁移，ADD_SCENE_PROFILE_CARD 名片分享，ADD_SCENE_QR_CODE 扫描二维码，ADD_SCENE_PROFILE_LINK 图文页内名称点击，ADD_SCENE_PROFILE_ITEM 图文页右上角菜单，ADD_SCENE_PAID 支付后关注，ADD_SCENE_WECHAT_ADVERTISEMENT 微信广告，ADD_SCENE_REPRINT 他人转载 ,ADD_SCENE_LIVESTREAM 视频号直播，ADD_SCENE_CHANNELS 视频号 , ADD_SCENE_OTHERS 其他。注意：2020年6月8日起，用户关注来源“微信广告（ADD_SCENE_WECHAT_ADVERTISEMENT）”从“其他（ADD_SCENE_OTHERS）”中拆分给出。</remarks>
+    /// <remarks>
+    /// ADD_SCENE_SEARCH 公众号搜索，
+    /// ADD_SCENE_ACCOUNT_MIGRATION 公众号迁移，
+    /// ADD_SCENE_PROFILE_CARD 名片分享，
+    /// ADD_SCENE_QR_CODE 扫描二维码，
+    /// ADD_SCENE_PROFILE_LINK 图文页内名称点击，
+    /// ADD_SCENE_PROFILE_ITEM 图文页右上角菜单，
+    /// ADD_SCENE_PAID 支付后关注，
+    /// ADD_SCENE_WECHAT_ADVERTISEMENT 微信广告，
+    /// ADD_SCENE_REPRINT 他人转载,
+    /// ADD_SCENE_LIVESTREAM 视频号直播，
+    /// ADD_SCENE_CHANNELS 视频号, 
+    /// ADD_SCENE_OTHERS 其他。
+    /// 注意：2020年6月8日起，用户关注来源“微信广告（ADD_SCENE_WECHAT_ADVERTISEMENT）”从“其他（ADD_SCENE_OTHERS）”中拆分给出。
+    /// </remarks>
     [JsonPropertyName("subscribe_scene")]
     public string SubscribeScene { get; set; }
 
@@ -74,13 +88,13 @@ public class WeixinUserInfoJson : WeixinErrorJson
     /// 二维码扫码场景（开发者自定义）。参考值：98765
     /// </summary>
     [JsonPropertyName("qr_scene")]
-    public int? Qrscene { get; set; }
+    public int? QrScene { get; set; }
 
     /// <summary>
     /// 二维码扫码场景描述（开发者自定义）
     /// </summary>
     [JsonPropertyName("qr_scene_str")]
-    public string QrsceneNote { get; set; }
+    public string QrSceneStr { get; set; }
 
     #region 2021年12月27日之后，不再输出头像、昵称信息。
     /// <summary>
@@ -95,10 +109,10 @@ public class WeixinUserInfoJson : WeixinErrorJson
     /// </summary>
     /// <remarks>2021年12月27日之后，不再输出头像、昵称信息。</remarks>
     [JsonPropertyName("headimgurl")]
-    public string AvatorImageUrl { get; set; }
+    public string HeadImgUrl { get; set; }
 
     [JsonPropertyName("sex")]
-    public int? Gender { get; set; }
+    public int? Sex { get; set; }
 
     /// <summary>
     /// The city name.
@@ -118,4 +132,7 @@ public class WeixinUserInfoJson : WeixinErrorJson
     [JsonPropertyName("country")]
     public string Country { get; set; }
     #endregion
+
+    [JsonIgnore]
+    public override bool Succeeded => base.Succeeded && OpenId != null;
 }

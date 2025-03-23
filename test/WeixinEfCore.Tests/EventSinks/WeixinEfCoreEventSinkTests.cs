@@ -27,7 +27,7 @@ public class WeixinEfCoreEventSinkTests
             services.AddDbContext<WeixinDbContext>(o =>
             {
                 o.UseInMemoryDatabase(databaseName: "WeixinTestDatabase" + Guid.NewGuid().ToString("N"));
-            });
+            }, ServiceLifetime.Singleton);
 
             services.AddWeixin(o =>
             {

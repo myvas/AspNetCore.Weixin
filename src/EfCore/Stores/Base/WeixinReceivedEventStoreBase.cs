@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin;
 
 public abstract class WeixinReceivedEventStoreBase<TWeixinReceivedEventEntity> : EntityStoreBase<TWeixinReceivedEventEntity>, IWeixinReceivedEventStore<TWeixinReceivedEventEntity>
-    where TWeixinReceivedEventEntity : WeixinReceivedEventEntity
+    where TWeixinReceivedEventEntity : class, IWeixinReceivedEventEntity
 {
     public WeixinReceivedEventStoreBase(WeixinErrorDescriber describer)
     {

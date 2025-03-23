@@ -1,0 +1,108 @@
+@model EntitiesViewModel<WeixinSubscriberEntity>
+@{
+    ViewData["Title"] = "Subscribers";
+}
+
+<div>@Model.TotalRecords records. Page @Model.PageIndex of @Model.TotalPages (Page Size: @Model.PageSize)</div>
+
+@if (Model.Items == null || !Model.Items.Any())
+{
+    <div>No records found!</div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">@ViewData["Title"]</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Subscribed)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].OpenId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].UnionId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Sex)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Language)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].Remark)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].SubscribeTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items[0].UnsubscribeTime)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subscribed)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpenId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnionId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Sex)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Language)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remark)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SubscribeTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnsubscribeTime)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            @if (Model.PageIndex > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?n=@(Model.PageIndex - 1)">Previous</a>
+                </li>
+            }
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="?n=@i">@i</a>
+                </li>
+            }
+            @if (Model.PageIndex < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?n=@(Model.PageIndex + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

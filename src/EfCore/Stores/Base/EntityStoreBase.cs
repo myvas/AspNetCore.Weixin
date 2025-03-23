@@ -73,11 +73,11 @@ public abstract class EntityStoreBase<TEntity> : IEntityStore<TEntity>, IQueryab
         return Task.FromResult(result);
     }
 
-    public virtual Task<IList<TEntity>> GetItemsAsync(int perPage, int pageIndex, CancellationToken cancellationToken = default)
+    public virtual Task<IList<TEntity>> GetItemsAsync(int pageSize, int pageIndex, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
-        var result = Items.Skip(perPage * pageIndex).Take(perPage).ToList();
+        var result = Items.OrderBy(x => x.Id).Skip(pageSize * pageIndex).Take(pageSize).ToList();
         return Task.FromResult((IList<TEntity>)result);
     }
 

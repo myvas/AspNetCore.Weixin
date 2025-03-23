@@ -9,22 +9,21 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class WeixinDbContext : WeixinDbContext<WeixinSubscriberEntity>
 {
-    public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options) { }
+    public WeixinDbContext(DbContextOptions options) : base(options) { }
 
     protected WeixinDbContext() { }
 }
 
-
 public class WeixinDbContext<TWeixinSubscriber> : WeixinDbContext<TWeixinSubscriber, string>
- where TWeixinSubscriber : class, IWeixinSubscriber<string>, IEntity
+ where TWeixinSubscriber : class, IWeixinSubscriberEntity<string>
 {
-    public WeixinDbContext(DbContextOptions<WeixinDbContext> options) : base(options) { }
+    public WeixinDbContext(DbContextOptions options) : base(options) { }
 
     protected WeixinDbContext() { }
 }
 
 public class WeixinDbContext<TWeixinSubscriber, TKey> : DbContext, IWeixinDbContext<TWeixinSubscriber, TKey>
-    where TWeixinSubscriber : class, IWeixinSubscriber<TKey>, IEntity
+    where TWeixinSubscriber : class, IWeixinSubscriberEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     public WeixinDbContext(DbContextOptions options) : base(options) { }

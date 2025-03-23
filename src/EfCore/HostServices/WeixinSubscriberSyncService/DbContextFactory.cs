@@ -14,9 +14,9 @@ namespace Myvas.AspNetCore.Weixin.EfCore;
 public class DbContextFactory<TDbContext>
     where TDbContext : DbContext
 {
-    private readonly DbContextOptions<TDbContext> _options;
+    private readonly DbContextOptions _options;
 
-    public DbContextFactory(DbContextOptions<TDbContext> options)
+    public DbContextFactory(DbContextOptions options)
     {
         _options = options;
     }
@@ -26,7 +26,7 @@ public class DbContextFactory<TDbContext>
         return (TDbContext)Activator.CreateInstance(typeof(TDbContext), _options);
     }
 
-    public TDbContext CreateDbContext(DbContextOptions<TDbContext> options)
+    public TDbContext CreateDbContext(DbContextOptions options)
     {
         return (TDbContext)Activator.CreateInstance(typeof(TDbContext), options);
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -31,7 +32,10 @@ public class WeixinUserGetJson : WeixinErrorJson
     public WeixinOpenIdListJson data { get; set; }
 
     /// <summary>
-    /// 下一批次将从此OpenId开始拿
+    /// 本批次最后一个OpenId，作为下一次调用入参next_openid。
     /// </summary>
     public string next_openid { get; set; }
+
+    [JsonIgnore]
+    public override bool Succeeded => base.Succeeded && (next_openid != null);
 }

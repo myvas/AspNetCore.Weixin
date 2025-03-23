@@ -2,18 +2,11 @@
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinReceivedEventEntity : Entity,
-    IWeixinReceivedEventSubscribe,
-    IWeixinReceivedEventSubscribeWithScene,
-    IWeixinReceivedEventLocation,
-    IWeixinReceivedEventQrscan,
-    IWeixinReceivedEventClickMenu,
-    IWeixinReceivedEventViewMenu
+public class WeixinReceivedEventEntity : Entity, IWeixinReceivedEventEntity
 {
     public virtual string FromUserName { get; set; }
     public virtual string ToUserName { get; set; }
-    public virtual long CreateTime { get; set; }
-    public virtual DateTimeOffset? CreateTimeOffset { get { return WeixinTimestampHelper.ToLocalTime(CreateTime); } }
+    public virtual long? CreateTime { get; set; }
     public virtual string MsgType { get; set; }
     public virtual string Event { get; set; }
     public virtual string EventKey { get; set; }
@@ -21,7 +14,6 @@ public class WeixinReceivedEventEntity : Entity,
     public virtual decimal? Longitude { get; set; }
     public virtual decimal? Latitude { get; set; }
     public virtual decimal? Precision { get; set; }
-
 
     /// <summary>
     /// A random value that must change whenever a user is persisted to the store

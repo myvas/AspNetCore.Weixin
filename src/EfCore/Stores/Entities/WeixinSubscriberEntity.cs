@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinSubscriberEntity : WeixinSubscriberEntity<string>, IWeixinSubscriber
+public class WeixinSubscriberEntity : WeixinSubscriberEntity<string>, IWeixinSubscriberEntity
 {
 
 }
@@ -12,7 +12,7 @@ public class WeixinSubscriberEntity : WeixinSubscriberEntity<string>, IWeixinSub
 /// <summary>
 /// The Weixin subscriber.
 /// </summary>
-public class WeixinSubscriberEntity<TKey> : Entity, IWeixinSubscriber<TKey>
+public class WeixinSubscriberEntity<TKey> : Entity, IWeixinSubscriberEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     public WeixinSubscriberEntity() : base()
@@ -67,10 +67,9 @@ public class WeixinSubscriberEntity<TKey> : Entity, IWeixinSubscriber<TKey>
     public virtual string OpenId { get; set; }
 
     /// <summary>
-    /// 性别，null未知，0女，1男。
+    /// 性别，null,0其他，1男，2女。
     /// </summary>
-    /// <remarks>注意：与腾讯定义不同</remarks>
-    public virtual int? Gender { get; set; }
+    public virtual int? Sex { get; set; }
 
     /// <summary>
     /// 昵称
@@ -96,19 +95,19 @@ public class WeixinSubscriberEntity<TKey> : Entity, IWeixinSubscriber<TKey>
     public virtual string Language { get; set; }
 
     /// <inheritdoc/>
-    public virtual string AvatorImageUrl { get; set; }
+    public virtual string HeadImgUrl { get; set; }
 
     /// <inheritdoc/>
     public virtual string Remark { get; set; }
 
     /// <inheritdoc/>
-    public virtual long? SubscribedTime { get; set; }
+    public virtual long? SubscribeTime { get; set; }
 
     /// <inheritdoc/>
     public virtual bool Subscribed { get; set; }
 
     /// <inheritdoc/>
-    public virtual long? UnsubscribedTime { get; set; }
+    public virtual long? UnsubscribeTime { get; set; }
 
     /// <inheritdoc/>
     public virtual string SecurityStamp { get; set; }

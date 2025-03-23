@@ -26,7 +26,7 @@ public static class WeixinSiteBuilderEfCoreExtensions
 
     public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriberEntity>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
-        where TWeixinSubscriberEntity : class, IWeixinSubscriber<string>, IEntity, new()
+        where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<string>, IEntity, new()
     {
         if (setupAction != null)
         {
@@ -38,7 +38,7 @@ public static class WeixinSiteBuilderEfCoreExtensions
 
     public static WeixinSiteBuilder AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriberEntity, TKey>(this WeixinSiteBuilder builder, Action<WeixinSiteEfCoreOptions> setupAction = null)
         where TWeixinDbContext : DbContext
-        where TWeixinSubscriberEntity : class, IWeixinSubscriber<TKey>, IEntity, new()
+        where TWeixinSubscriberEntity : class, IWeixinSubscriberEntity<TKey>, IEntity, new()
         where TKey : IEquatable<TKey>
     {
         if (setupAction != null)
@@ -49,17 +49,30 @@ public static class WeixinSiteBuilderEfCoreExtensions
         return builder;
     }
 
+    /// <summary>
+    /// Inject 5 store types, and 1 hosted services.
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="contextType"></param>
+    /// <param name="subscriberType"></param>
+    /// <param name="keyType"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
     private static void AddWeixinEfCore(IServiceCollection services, Type contextType, Type subscriberType, Type keyType)
     {
-        Type subscriberStoreType = null;
-        Type receivedMessageStoreType = null;
-        Type receivedEventStoreType = null;
-        Type responseMessageStoreType = null;
-        Type sendMessageStoreType = null;
+        Type receivedMessageType = typeof(WeixinReceivedMessageEntity);
+        Type receivedEventType = typeof(WeixinReceivedEventEntity);
+        Type responseMessageType = typeof(WeixinResponseMessageEntity);
+        Type sendMessageType = typeof(WeixinSendMessageEntity);
 
         if (contextType == null)
         {
             throw new ArgumentNullException(nameof(contextType));
+        }
+        var tryDbContextType = FindBaseType(contextType, typeof(DbContext));
+        if (tryDbContextType == null)
+        {
+            throw new ArgumentException($"{nameof(contextType)} must be derived from DbContext.", nameof(contextType));
         }
 
         if (subscriberType == null)
@@ -86,62 +99,70 @@ public static class WeixinSiteBuilderEfCoreExtensions
                 }
             }
         }
-        else
+
+        if (subscriberType != null && keyType == null)
         {
-            if (keyType == null)
+            var trySubscriberType1Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriberEntity<>));
+            if (trySubscriberType1Type != null)
             {
-                var trySubscriberType1Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriber<>));
-                if (trySubscriberType1Type != null)
+                // IWeixinSubscriber<TKey>
+                keyType = trySubscriberType1Type.GenericTypeArguments[0];
+            }
+            else
+            {
+                var trySubscriber0Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriberEntity));
+                if (trySubscriber0Type != null)
                 {
-                    // IWeixinSubscriber<TKey>
-                    keyType = trySubscriberType1Type.GenericTypeArguments[0];
+                    keyType = typeof(string);
                 }
                 else
                 {
-                    var trySubscriber0Type = FindBaseInterface(subscriberType, typeof(IWeixinSubscriber));
-                    if (trySubscriber0Type != null)
-                    {
-                        keyType = typeof(string);
-
-                    }
-                    else
-                    {
-                        // If cannot find keyType, then the keyType must not be null.
-                        throw new ArgumentNullException(nameof(keyType));
-                    }
+                    // If cannot find keyType, then the keyType must not be null.
+                    throw new ArgumentNullException(nameof(keyType));
                 }
             }
         }
 
-        subscriberStoreType = typeof(WeixinSubscriberStore<,,>).MakeGenericType(subscriberType, keyType, contextType);
-        receivedMessageStoreType = typeof(WeixinReceivedMessageStore<,>).MakeGenericType(typeof(WeixinReceivedMessageEntity), contextType);
-        receivedEventStoreType = typeof(WeixinReceivedEventStore<,>).MakeGenericType(typeof(WeixinReceivedEventEntity), contextType);
-        responseMessageStoreType = typeof(WeixinResponseMessageStore<,>).MakeGenericType(typeof(WeixinResponseMessageEntity), contextType);
-        sendMessageStoreType = typeof(WeixinSendMessageStore<,>).MakeGenericType(typeof(WeixinSendMessageEntity), contextType);
+        var subscriberStoreType = typeof(WeixinSubscriberStore<,,>).MakeGenericType(subscriberType, keyType, contextType);
+        var receivedMessageStoreType = typeof(WeixinReceivedMessageStore<,>).MakeGenericType(receivedMessageType, contextType);
+        var receivedEventStoreType = typeof(WeixinReceivedEventStore<,>).MakeGenericType(receivedEventType, contextType);
+        var responseMessageStoreType = typeof(WeixinResponseMessageStore<,>).MakeGenericType(responseMessageType, contextType);
+        var sendMessageStoreType = typeof(WeixinSendMessageStore<,>).MakeGenericType(sendMessageType, contextType);
 
         services.TryAddScoped(typeof(IWeixinSubscriberStore<,>).MakeGenericType(subscriberType, keyType), subscriberStoreType);
-        services.TryAddScoped(typeof(IWeixinReceivedMessageStore<>).MakeGenericType(typeof(WeixinReceivedMessageEntity)), receivedMessageStoreType);
-        services.TryAddScoped(typeof(IWeixinReceivedEventStore<>).MakeGenericType(typeof(WeixinReceivedEventEntity)), receivedEventStoreType);
-        services.TryAddScoped(typeof(IWeixinResponseMessageStore<>).MakeGenericType(typeof(WeixinResponseMessageEntity)), responseMessageStoreType);
-        services.TryAddScoped(typeof(IWeixinSendMessageStore<>).MakeGenericType(typeof(WeixinSendMessageEntity)), sendMessageStoreType);
+        services.TryAddScoped(typeof(IWeixinReceivedMessageStore<>).MakeGenericType(receivedMessageType), receivedMessageStoreType);
+        services.TryAddScoped(typeof(IWeixinReceivedEventStore<>).MakeGenericType(receivedEventType), receivedEventStoreType);
+        services.TryAddScoped(typeof(IWeixinResponseMessageStore<>).MakeGenericType(responseMessageType), responseMessageStoreType);
+        services.TryAddScoped(typeof(IWeixinSendMessageStore<>).MakeGenericType(sendMessageType), sendMessageStoreType);
         if (keyType == typeof(string))
         {
-            services.TryAddScoped(typeof(IWeixinSubscriberStore<>).MakeGenericType(subscriberType), subscriberStoreType);
+            services.TryAddScoped(typeof(IWeixinSubscriberStore<>).MakeGenericType(subscriberType), typeof(WeixinSubscriberStore<,>).MakeGenericType(subscriberType, contextType));
             if (subscriberType == typeof(WeixinSubscriberEntity))
             {
-                services.TryAddScoped(typeof(IWeixinSubscriberStore), subscriberStoreType);
+                services.TryAddScoped(typeof(IWeixinSubscriberStore), typeof(WeixinSubscriberStore<>).MakeGenericType(contextType));
             }
         }
-        services.TryAddScoped(typeof(IWeixinReceivedMessageStore), receivedMessageStoreType);
-        services.TryAddScoped(typeof(IWeixinReceivedEventStore), receivedEventStoreType);
-        services.TryAddScoped(typeof(IWeixinResponseMessageStore), responseMessageStoreType);
-        services.TryAddScoped(typeof(IWeixinSendMessageStore), sendMessageStoreType);
+        if (receivedMessageType == typeof(WeixinReceivedMessageEntity))
+        {
+            services.TryAddScoped(typeof(IWeixinReceivedMessageStore), typeof(WeixinReceivedMessageStore<>).MakeGenericType(contextType));
+        }
+        if (receivedEventType == typeof(WeixinReceivedEventEntity))
+        {
+            services.TryAddScoped(typeof(IWeixinReceivedEventStore), typeof(WeixinReceivedEventStore<>).MakeGenericType(contextType));
+        }
+        if (responseMessageType == typeof(WeixinResponseMessageEntity))
+        {
+            services.TryAddScoped(typeof(IWeixinResponseMessageStore), typeof(WeixinResponseMessageStore<>).MakeGenericType(contextType));
+        }
+        if (sendMessageType == typeof(WeixinSendMessageEntity))
+        {
+            services.TryAddScoped(typeof(IWeixinSendMessageStore), typeof(WeixinSendMessageStore<>).MakeGenericType(contextType));
+        }
 
         // Add event sink
         services.Where(x => x.ServiceType == typeof(IWeixinEventSink)).ToList()
             .ForEach(x => services.Remove(x));
-        var eventSinkImplType = typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType);
-        services.TryAddTransient(typeof(IWeixinEventSink), eventSinkImplType);
+        services.TryAddEnumerable(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType)));
 
         // Add hosted service
         services.TryAddScoped(typeof(DbContextFactory<>).MakeGenericType(contextType));

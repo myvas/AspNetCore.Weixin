@@ -2,9 +2,9 @@ using System;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public interface IWeixinSubscriber : IWeixinSubscriber<string> { }
+public interface IWeixinSubscriberEntity : IWeixinSubscriberEntity<string> { }
 
-public interface IWeixinSubscriber<TKey>
+public interface IWeixinSubscriberEntity<TKey> : IEntity
     where TKey : IEquatable<TKey>
 {
     /// <summary>
@@ -44,7 +44,7 @@ public interface IWeixinSubscriber<TKey>
     /// <summary>
     /// The Unix time of action to subscribe.
     /// </summary>
-    long? SubscribedTime { get; set; }
+    long? SubscribeTime { get; set; }
 
     /// <summary>
     /// Whether this subscriber is subscribed.
@@ -54,7 +54,7 @@ public interface IWeixinSubscriber<TKey>
     /// <summary>
     /// The Unix time of action to unsubscribe
     /// </summary>
-    long? UnsubscribedTime { get; set; }
+    long? UnsubscribeTime { get; set; }
 
     /// <summary>
     /// The nickname of subscriber.
@@ -71,12 +71,12 @@ public interface IWeixinSubscriber<TKey>
     /// The gender of subscriber.
     /// </summary>
     /// <seealso cref="WeixinGender"/>
-    int? Gender { get; set; }
+    int? Sex { get; set; }
 
     /// <summary>
     /// The image url of subscriber's avator.
     /// </summary>
-    string AvatorImageUrl { get; set; }
+    string HeadImgUrl { get; set; }
 
     /// <summary>
     /// The city name of subscriber declared.

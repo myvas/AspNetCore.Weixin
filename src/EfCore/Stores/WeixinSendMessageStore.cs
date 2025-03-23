@@ -14,8 +14,8 @@ public class WeixinSendMessageStore<TContext> : WeixinSendMessageStore<WeixinSen
     }
 }
 
-public class WeixinSendMessageStore<TWeixinSendMessage, TContext> : WeixinSendMessageStoreBase<TWeixinSendMessage>
-    where TWeixinSendMessage : WeixinSendMessageEntity
+public class WeixinSendMessageStore<TWeixinSendMessageEntity, TContext> : WeixinSendMessageStoreBase<TWeixinSendMessageEntity>
+    where TWeixinSendMessageEntity : class, IWeixinSendMessageEntity
     where TContext : DbContext
 {
     public WeixinSendMessageStore(TContext context, WeixinErrorDescriber describer = null)
@@ -28,14 +28,12 @@ public class WeixinSendMessageStore<TWeixinSendMessage, TContext> : WeixinSendMe
         Context = context;
     }
 
-
     /// <summary>
     /// Gets the database context for this store.
     /// </summary>
     public virtual TContext Context { get; private set; }
 
-    private DbSet<TWeixinSendMessage> MessagesSet { get { return Context.Set<TWeixinSendMessage>(); } }
-    public override IQueryable<TWeixinSendMessage> Items => Context.Set<TWeixinSendMessage>();
+    public override IQueryable<TWeixinSendMessageEntity> Items => Context.Set<TWeixinSendMessageEntity>();
 
     /// <summary>
     /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -53,18 +51,58 @@ public class WeixinSendMessageStore<TWeixinSendMessage, TContext> : WeixinSendMe
         return AutoSaveChanges ? Context.SaveChangesAsync(cancellationToken) : Task.CompletedTask;
     }
 
-    public override Task<WeixinResult> CreateAsync(TWeixinSendMessage item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> CreateAsync(TWeixinSendMessageEntity item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        Context.Add(item);
+        await SaveChanges(cancellationToken);
+        return WeixinResult.Success;
     }
 
-    public override Task<WeixinResult> UpdateAsync(TWeixinSendMessage item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> UpdateAsync(TWeixinSendMessageEntity item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        Context.Attach(item);
+        item.ConcurrencyStamp = Guid.NewGuid().ToString();
+        Context.Update(item);
+        try
+        {
+            await SaveChanges(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return WeixinResult.Failed(ErrorDescriber.ConcurrencyFailure());
+        }
+        return WeixinResult.Success;
     }
 
-    public override Task<WeixinResult> DeleteAsync(TWeixinSendMessage item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> DeleteAsync(TWeixinSendMessageEntity item, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+        ThrowIfDisposed();
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        Context.Remove(item);
+        try
+        {
+            await SaveChanges(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return WeixinResult.Failed(ErrorDescriber.ConcurrencyFailure());
+        }
+        return WeixinResult.Success;
     }
 }

@@ -108,7 +108,7 @@ services.AddWeixin(o => {
 		// 启用订阅者名单同步服务
 		o.EnableSyncForWeixinSubscribers = true; // default is false
     // 执行同步服务的时间间隔
-    o.SyncIntervalInMinutesForWeixinSubscribers = 10; // min is 1 minute
+    o.SyncIntervalInMinutesForWeixinSubscribers = 10; // min is 3 minute
 	})
 	// 使用自定义数据类型
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber>(o => ...)
@@ -129,6 +129,16 @@ services.AddWeixin(o => {
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
 
 ## For Developers
+### samples/WeixinSiteSample
+1. Install the EF Core Tools (globally)
+```
+dotnet tool install --global dotnet-ef
+```
+2. Create Migrations (Run in dir: samples/WeixinSiteSample)
+```
+dotnet ef migrations add InitialCreate
+```
+
 * [Visual Studio 2022](https://visualstudio.microsoft.com)  
   - [Tools/ResX Manager](https://marketplace.visualstudio.com/items?itemName=TomEnglert.ResXManager)
 * [Visual Studio Code](https://code.visualstudio.com)
