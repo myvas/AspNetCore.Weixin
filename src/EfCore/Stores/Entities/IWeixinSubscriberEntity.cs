@@ -44,7 +44,7 @@ public interface IWeixinSubscriberEntity<TKey> : IEntity
     /// <summary>
     /// The Unix time of action to subscribe.
     /// </summary>
-    long? SubscribedTime { get; set; }
+    long? SubscribeTime { get; set; }
 
     /// <summary>
     /// Whether this subscriber is subscribed.
@@ -54,7 +54,7 @@ public interface IWeixinSubscriberEntity<TKey> : IEntity
     /// <summary>
     /// The Unix time of action to unsubscribe
     /// </summary>
-    long? UnsubscribedTime { get; set; }
+    long? UnsubscribeTime { get; set; }
 
     /// <summary>
     /// The nickname of subscriber.
@@ -71,12 +71,12 @@ public interface IWeixinSubscriberEntity<TKey> : IEntity
     /// The gender of subscriber.
     /// </summary>
     /// <seealso cref="WeixinGender"/>
-    int? Gender { get; set; }
+    int? Sex { get; set; }
 
     /// <summary>
     /// The image url of subscriber's avator.
     /// </summary>
-    string AvatorImageUrl { get; set; }
+    string HeadImgUrl { get; set; }
 
     /// <summary>
     /// The city name of subscriber declared.
