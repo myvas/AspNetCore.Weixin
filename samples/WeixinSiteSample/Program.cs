@@ -39,16 +39,16 @@ Services.AddWeixin(o =>
 })
 .AddWeixinEfCore<AppDbContext>(o =>
 {
-    o.EnableSyncForWeixinSubscribers = Configuration.GetValue<bool>("Weixin:EnableSync", false); // Default: false
-    o.SyncIntervalInMinutesForWeixinSubscribers = Configuration.GetValue<int>("Weixin:SyncIntervalInMinutes", 60 * 24); // Set Default: 1 day
+    o.EnableSyncForWeixinSubscribers = Configuration.GetValue<bool>("Weixin:EnableSync", true); // Default: true
+    o.SyncIntervalInMinutesForWeixinSubscribers = Configuration.GetValue<int>("Weixin:SyncIntervalInMinutes", 3); // Set Default: 3 minutes
 });
 
 var app = builder.Build();
 
 // Migrate the database, and seed the admin user and email.
 // (The initial password is exactly this email.)
-var adminUserName = Configuration.GetValue("Weixin:AdminUserName", "demo"); // Default: demo
-var adminEmail = Configuration.GetValue("Weixin:AdminEmail", "demo@myvas.com"); // Default: demo@myvas.com
+var adminUserName = Configuration.GetValue("Weixin:AdminUserName", "demo") ?? "demo"; // Default: demo
+var adminEmail = Configuration.GetValue("Weixin:AdminEmail", "demo@myvas.com") ?? "demo@myvas.com"; // Default: demo@myvas.com
 app.MigrateDatabase().SeedDatabase(adminUserName, adminEmail);
 
 // Configure the HTTP request pipeline.
@@ -56,23 +56,20 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    //app.UseHsts();    
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
-
 app.UseAuthorization();
-
-app.MapStaticAssets();
 
 // Use the WeixinSiteMiddleware.
 app.UseWeixinSite();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 app.Run();
