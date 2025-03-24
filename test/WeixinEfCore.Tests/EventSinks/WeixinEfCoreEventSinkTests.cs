@@ -56,14 +56,14 @@ public class WeixinEfCoreEventSinkTests
     }
 
     [Theory]
-    [InlineData("uplink/msg/image.xml", "OnImageMessageReceived: MediaId: media_id, PicUrl: https://mp.weixin.qq.com/fake.png", "from-msg-image")]
-    [InlineData("uplink/msg/link.xml", "OnLinkMessageReceived: Url: https://mp.weixin.qq.com", "from-msg-link")]
-    [InlineData("uplink/msg/location.xml", "OnLocationMessageReceived: Longitude: 113.358803, Latitude: 23.134521, Label: Somewhere", "from-msg-location")]
-    [InlineData("uplink/msg/short_video.xml", "OnShortVideoMessageReceived: MediaId: media_id, ThumbMediaId: thumb_media_id", "from-msg-short_video")]
-    [InlineData("uplink/msg/text.xml", "OnTextMessageReceived: Content: content", "from-msg-text")]
-    [InlineData("uplink/msg/video.xml", "OnVideoMessageReceived: MediaId: media_id, ThumbMediaId: thumb_media_id", "from-msg-video")]
-    [InlineData("uplink/msg/voice-recognition.xml", "OnVoiceMessageReceived: Format: format, MediaId: media_id, Recognition: recognition", "from-msg-voice-recognition")]
-    [InlineData("uplink/msg/voice.xml", "OnVoiceMessageReceived: Format: format, MediaId: media_id, Recognition: ", "from-msg-voice")]
+    [InlineData("uplink/msg/image.xml", "<PicUrl>https://mp.weixin.qq.com/fake.png</PicUrl>", "from-msg-image")]
+    [InlineData("uplink/msg/link.xml", "<Url>https://mp.weixin.qq.com</Url>", "from-msg-link")]
+    [InlineData("uplink/msg/location.xml", "<Description>Longitude: 113.358803, Latitude: 23.134521, Scale: 20, Label: Somewhere</Description>", "from-msg-location")]
+    [InlineData("uplink/msg/short_video.xml", "<Content>OnShortVideoMessageReceived: MediaId: media_id, ThumbMediaId: thumb_media_id</Content>", "from-msg-short_video")]
+    [InlineData("uplink/msg/text.xml", "<Content>OnTextMessageReceived: Content: content</Content>", "from-msg-text")]
+    [InlineData("uplink/msg/video.xml", "<Content>OnVideoMessageReceived: MediaId: media_id, ThumbMediaId: thumb_media_id</Content>", "from-msg-video")]
+    [InlineData("uplink/msg/voice-recognition.xml", "<Content>OnVoiceMessageReceived: Format: format, MediaId: media_id, Recognition: recognition</Content>", "from-msg-voice-recognition")]
+    [InlineData("uplink/msg/voice.xml", "<Content>OnVoiceMessageReceived: Format: format, MediaId: media_id, Recognition: </Content>", "from-msg-voice")]
     public async Task HttpPost_WeixinMessages(string fileName, string result, string fromUserName)
     {
         var testClient = testServer.CreateClient();
@@ -86,7 +86,7 @@ public class WeixinEfCoreEventSinkTests
         // Assert message on client-side
         var s = await response.Content.ReadAsStringAsync();
         Assert.StartsWith("<xml>", s);
-        Assert.Contains($"<Content>{result}</Content>", s);
+        Assert.Contains(result, s);
         Assert.EndsWith("</xml>", s);
 
         // Assert db on server-side
@@ -98,10 +98,10 @@ public class WeixinEfCoreEventSinkTests
     }
 
     [Theory]
-    [InlineData("uplink/event/location.xml", "OnLocationEventReceived: Longitude: 113.358803, Latitude: 23.134521, Precision: 119.385040", "from-event-location")]
-    [InlineData("uplink/event/menu_click.xml", "OnClickMenuEventReceived: EventKey: EVENTKEY", "from-event-menu_click")]
-    [InlineData("uplink/event/menu_view.xml", "OnViewMenuEventReceived: EventKey: www.qq.com", "from-event-menu_view")]
-    [InlineData("uplink/event/scan.xml", "OnQrscanEventReceived: EventKey: SCENE_VALUE, Ticket: TICKET", "from-event-scan")]
+    [InlineData("uplink/event/location.xml", "<Description>Longitude: 113.358803, Latitude: 23.134521, Precision: 119.385040</Description>", "from-event-location")]
+    [InlineData("uplink/event/menu_click.xml", "<Content>OnClickMenuEventReceived: EventKey: EVENTKEY</Content>", "from-event-menu_click")]
+    [InlineData("uplink/event/menu_view.xml", "<Content>OnViewMenuEventReceived: EventKey: www.qq.com</Content>", "from-event-menu_view")]
+    [InlineData("uplink/event/scan.xml", "<Content>OnQrscanEventReceived: EventKey: SCENE_VALUE, Ticket: TICKET</Content>", "from-event-scan")]
     public async Task HttpPost_WeixinEvents(string fileName, string result, string fromUserName)
     {
         var testClient = testServer.CreateClient();
@@ -124,7 +124,7 @@ public class WeixinEfCoreEventSinkTests
         // Assert message on client-side
         var s = await response.Content.ReadAsStringAsync();
         Assert.StartsWith("<xml>", s);
-        Assert.Contains($"<Content>{result}</Content>", s);
+        Assert.Contains(result, s);
         Assert.EndsWith("</xml>", s);
 
         // Assert db on server-side
@@ -135,8 +135,8 @@ public class WeixinEfCoreEventSinkTests
         }
     }
     [Theory]
-    [InlineData("uplink/event/subscribe.xml", "OnSubscribeEventReceived: EventKey: , Ticket: ", "from-event-subscribe")]
-    [InlineData("uplink/event/subscribe_qrscene.xml", "OnSubscribeEventReceived: EventKey: qrscene_123123, Ticket: TICKET", "from-event-subscribe-qrscene")]
+    [InlineData("uplink/event/subscribe.xml", "<Content>OnSubscribeEventReceived: EventKey: , Ticket: </Content>", "from-event-subscribe")]
+    [InlineData("uplink/event/subscribe_qrscene.xml", "<Content>OnSubscribeEventReceived: EventKey: qrscene_123123, Ticket: TICKET</Content>", "from-event-subscribe-qrscene")]
     public async Task HttpPost_WeixinEvent_Subscribe(string fileName, string result, string fromUserName)
     {
         var testClient = testServer.CreateClient();
@@ -159,7 +159,7 @@ public class WeixinEfCoreEventSinkTests
         // Assert message on client-side
         var s = await response.Content.ReadAsStringAsync();
         Assert.StartsWith("<xml>", s);
-        Assert.Contains($"<Content>{result}</Content>", s);
+        Assert.Contains(result, s);
         Assert.EndsWith("</xml>", s);
 
         // Assert db on server-side
