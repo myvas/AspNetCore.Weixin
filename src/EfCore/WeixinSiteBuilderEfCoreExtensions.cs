@@ -160,7 +160,21 @@ public static class WeixinSiteBuilderEfCoreExtensions
         }
 
         // Add event sink
-        services.TryAddScoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType));
+        if (keyType == typeof(string))
+        {
+            if (subscriberType == typeof(WeixinSubscriberEntity))
+            {
+                services.Replace(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink)));
+            }
+            else
+            {
+                services.Replace(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<>).MakeGenericType(subscriberType)));
+            }
+        }
+        else
+        {
+            services.Replace(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType)));
+        }
 
         // Add hosted service
         services.TryAddScoped(typeof(DbContextFactory<>).MakeGenericType(contextType));
