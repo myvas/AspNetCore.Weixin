@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,7 +16,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// <seealso cref="JsonConverter"/>
 /// <seealso cref="XmlElementAttribute"/>
 /// <seealso cref="XmlIgnoreAttribute"/> 
-public class BaseClassFirstXmlConverter<T> : JsonConverter<T>
+public partial class BaseClassFirstXmlConverter<T> : JsonConverter<T>
     where T : class
 {
     /// <inheritdoc />
@@ -121,11 +123,11 @@ public class BaseClassFirstXmlConverter<T> : JsonConverter<T>
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    private static IEnumerable<Type> GetTypeHierarchy(Type type)
+    private static List<Type> GetTypeHierarchy(Type type)
     {
         var hierarchy = new List<Type>();
 
-        while (type != null && type != typeof(object))
+        while (type != null && !TypeHelper.IsBasicType(type))
         {
             hierarchy.Insert(0, type); // Insert at the beginning to maintain order
             type = type.BaseType;

@@ -135,6 +135,17 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
         }
 
         /// <summary>
+        ///   Failed to read request body.
+        /// </summary>
+        internal static string FailedToReadRequestBody
+        {
+            get
+            {
+                return ResourceManager.GetString("FailedToReadRequestBody", resourceCulture);
+            }
+        }
+
+        /// <summary>
         /// The system is unable to recognize and process this event message.
         /// </summary>
         internal static string UnknownRequestMessageEvent
@@ -166,7 +177,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
                 return ResourceManager.GetString("ExceptionOnHandler", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// An error occurred on the server when calling a handler. Please contact the system adminator.
         /// </summary>
@@ -175,6 +186,28 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
             get
             {
                 return ResourceManager.GetString("ErrorOnCallingHandler", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// A critical failure occured on the server.
+        /// </summary>
+        internal static string Response500InternalServerError
+        {
+            get
+            {
+                return ResourceManager.GetString("Response500InternalServerError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// The server lacks the ability to fulfill the request.
+        /// </summary>
+        internal static string Response501NotImplemented
+        {
+            get
+            {
+                return ResourceManager.GetString("Response501NotImplemented", resourceCulture);
             }
         }
     }

@@ -160,14 +160,33 @@ public static class WeixinSiteBuilderEfCoreExtensions
         }
 
         // Add event sink
-        services.Where(x => x.ServiceType == typeof(IWeixinEventSink)).ToList()
-            .ForEach(x => services.Remove(x));
-        services.TryAddEnumerable(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType)));
+        if (keyType == typeof(string))
+        {
+            if (subscriberType == typeof(WeixinSubscriberEntity))
+            {
+                services.Replace(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink)));
+            }
+            else
+            {
+                services.Replace(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<>).MakeGenericType(subscriberType)));
+            }
+        }
+        else
+        {
+            services.Replace(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinEfCoreEventSink<,>).MakeGenericType(subscriberType, keyType)));
+        }
 
         // Add hosted service
         services.TryAddScoped(typeof(DbContextFactory<>).MakeGenericType(contextType));
         services.TryAddScoped(typeof(IWeixinSubscriberSyncService), typeof(WeixinSubscriberSyncService<,,>).MakeGenericType(contextType, subscriberType, keyType));
         services.AddHostedService<WeixinSubscriberSyncHostedService>();
+    }
+
+    public static WeixinSiteBuilder AddWeixinEventSink<TWeixinEventSink>(this WeixinSiteBuilder builder)
+        where TWeixinEventSink : class, IWeixinEventSink
+    {
+        builder.Services.Replace(ServiceDescriptor.Scoped<IWeixinEventSink, TWeixinEventSink>());
+        return builder;
     }
 
     /// <summary>

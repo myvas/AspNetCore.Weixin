@@ -103,7 +103,7 @@ services.AddWeixin(o => {
 		// （2）若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或不配置。
 	})
 
-	// 自动存储上行消息及事件（将替换WeixinDebugEventSink）
+	// 自动存储上行消息及事件（Replace the WeixinDebugEventSink with WeixinEfCoreEventSink to replace the WeixinDebugEventSink）
 	.AddWeixinEfCore<TWeixinDbContext>(o => {
 		// 启用订阅者名单同步服务
 		o.EnableSyncForWeixinSubscribers = true; // default is false
@@ -113,6 +113,9 @@ services.AddWeixin(o => {
 	// 使用自定义数据类型
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber>(o => ...)
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(o => ...)
+
+  // Add your own implementation of IWeixinEventSink, replace the WeixinEfCoreEventSink.
+  //.AddWeixinEventSink<YourEventSink>()
 
 	// 接口服务：发送客服响应消息
 	.AddWeixinPassiveResponseMessaging(o => {
