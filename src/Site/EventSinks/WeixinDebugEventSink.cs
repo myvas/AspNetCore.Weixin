@@ -21,7 +21,7 @@ public class WeixinDebugEventSink : WeixinTraceEventSink
     /// <param name="context"></param>
     /// <param name="entityInfo"></param>
     /// <returns></returns>
-    protected async Task<bool> ResponseWithText(WeixinContext context, ReceivedXml xml, string entityInfo)
+    protected async Task ResponseWithText(WeixinContext context, ReceivedXml xml, string entityInfo)
     {
         // Get the caller method name from the stack trace, which is also async
         var stackTrace = new StackTrace();
@@ -74,104 +74,117 @@ public class WeixinDebugEventSink : WeixinTraceEventSink
             Content = entity.ToXml()
         };
         await responseBuilder.FlushAsync();
-        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnImageMessageReceived(object sender, WeixinEventArgs<ImageMessageReceivedXml> e)
     {
         await base.OnImageMessageReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"MediaId: {e.Xml.MediaId}, PicUrl: {e.Xml.PicUrl}");
+        await ResponseWithText(e.Context, e.Xml, $"MediaId: {e.Xml.MediaId}, PicUrl: {e.Xml.PicUrl}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnLinkMessageReceived(object sender, WeixinEventArgs<LinkMessageReceivedXml> e)
     {
         await base.OnLinkMessageReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"Url: {e.Xml.Url}");
+        await ResponseWithText(e.Context, e.Xml, $"Url: {e.Xml.Url}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnLocationMessageReceived(object sender, WeixinEventArgs<LocationMessageReceivedXml> e)
     {
         await base.OnLocationMessageReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"Longitude: {e.Xml.Longitude}, Latitude: {e.Xml.Latitude}, Label: {e.Xml.Label}");
+        await ResponseWithText(e.Context, e.Xml, $"Longitude: {e.Xml.Longitude}, Latitude: {e.Xml.Latitude}, Label: {e.Xml.Label}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnShortVideoMessageReceived(object sender, WeixinEventArgs<ShortVideoMessageReceivedXml> e)
     {
         await base.OnShortVideoMessageReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"MediaId: {e.Xml.MediaId}, ThumbMediaId: {e.Xml.ThumbMediaId}");
+        await ResponseWithText(e.Context, e.Xml, $"MediaId: {e.Xml.MediaId}, ThumbMediaId: {e.Xml.ThumbMediaId}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnTextMessageReceived(object sender, WeixinEventArgs<TextMessageReceivedXml> e)
     {
         await base.OnTextMessageReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"Content: {e.Xml.Content}");
+        await ResponseWithText(e.Context, e.Xml, $"Content: {e.Xml.Content}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnVideoMessageReceived(object sender, WeixinEventArgs<VideoMessageReceivedXml> e)
     {
         await base.OnVideoMessageReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"MediaId: {e.Xml.MediaId}, ThumbMediaId: {e.Xml.ThumbMediaId}");
+        await ResponseWithText(e.Context, e.Xml, $"MediaId: {e.Xml.MediaId}, ThumbMediaId: {e.Xml.ThumbMediaId}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnVoiceMessageReceived(object sender, WeixinEventArgs<VoiceMessageReceivedXml> e)
     {
         await base.OnVoiceMessageReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"Format: {e.Xml.Format}, MediaId: {e.Xml.MediaId}, Recognition: {e.Xml.Recognition}");
+        await ResponseWithText(e.Context, e.Xml, $"Format: {e.Xml.Format}, MediaId: {e.Xml.MediaId}, Recognition: {e.Xml.Recognition}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnClickMenuEventReceived(object sender, WeixinEventArgs<ClickMenuEventReceivedXml> e)
     {
         await base.OnClickMenuEventReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}");
+        await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnEnterEventReceived(object sender, WeixinEventArgs<EnterEventReceivedXml> e)
     {
         await base.OnEnterEventReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"");
+        await ResponseWithText(e.Context, e.Xml, $"");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnLocationEventReceived(object sender, WeixinEventArgs<LocationEventReceivedXml> e)
     {
         await base.OnLocationEventReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"Longitude: {e.Xml.Longitude}, Latitude: {e.Xml.Latitude}, Precision: {e.Xml.Precision}");
+        await ResponseWithText(e.Context, e.Xml, $"Longitude: {e.Xml.Longitude}, Latitude: {e.Xml.Latitude}, Precision: {e.Xml.Precision}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnQrscanEventReceived(object sender, WeixinEventArgs<QrscanEventReceivedXml> e)
     {
         await base.OnQrscanEventReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket}");
+        await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnSubscribeEventReceived(object sender, WeixinEventArgs<SubscribeEventReceivedXml> e)
     {
         await base.OnSubscribeEventReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket}");
+        await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket}");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnUnsubscribeEventReceived(object sender, WeixinEventArgs<UnsubscribeEventReceivedXml> e)
     {
         await base.OnUnsubscribeEventReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"");
+        await ResponseWithText(e.Context, e.Xml, $"");
+        return true;
     }
 
     /// <inheritdoc/>
     public override async Task<bool> OnViewMenuEventReceived(object sender, WeixinEventArgs<ViewMenuEventReceivedXml> e)
     {
         await base.OnViewMenuEventReceived(sender, e);
-        return await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}");
+        await ResponseWithText(e.Context, e.Xml, $"EventKey: {e.Xml.EventKey}");
+        return true;
     }
 }
