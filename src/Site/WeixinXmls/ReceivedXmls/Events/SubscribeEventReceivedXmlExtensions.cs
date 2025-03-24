@@ -6,9 +6,9 @@ public static class SubscribeEventReceivedXmlExtensions
 
     public static string EventKeyAsScene(this SubscribeEventReceivedXml o)
     {
-        if (o.EventKey.StartsWith(EventKeyPrefix))
+        if (o.EventKey?.StartsWith(EventKeyPrefix) ?? false)
         {
-            return o.EventKey.Substring(EventKeyPrefix.Length);
+            return o.EventKey?.Substring(EventKeyPrefix.Length) ?? "";
         }
         else
         {
@@ -18,7 +18,7 @@ public static class SubscribeEventReceivedXmlExtensions
 
     public static SubscribeEventReceivedXml EventKeyFromScene(this SubscribeEventReceivedXml o, string value)
     {
-        if (value.StartsWith(EventKeyPrefix))
+        if (value?.StartsWith(EventKeyPrefix)??false)
         {
             o.EventKey = value;
         }
@@ -26,7 +26,7 @@ public static class SubscribeEventReceivedXmlExtensions
         {
             o.EventKey = EventKeyPrefix + value;
         }
-        
+
         return o;
     }
 }
