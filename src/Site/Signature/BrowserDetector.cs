@@ -9,40 +9,39 @@ public static class BrowserDetector
 {
     public static (bool IsMicroMessenger, string Version) DetectMicroMessenger(this HttpContext context)
     {
-        var key = "MicroMessenger";
+        const string MicroMessengerKey = "MicroMessenger/";
 
-        bool isMicroMessenger = false;
         string version = "";
         try
         {
-            var userAgentHeader = context.Request.Headers?.FirstOrDefault(x => x.Key.ToLower() == "User-Agent".ToLower()).Value;
-            if (userAgentHeader.HasValue)
+            if (context?.Request?.Headers != null)
             {
-                var userAgent = userAgentHeader.ToString().AsSpan();
-                var microMessengerIndex = userAgent.IndexOf((key + "/").AsSpan());
-                if (microMessengerIndex > -1)
+                var userAgentHeader = context.Request.Headers["User-Agent"];
+                if (userAgentHeader.Any())
                 {
-                    isMicroMessenger = true;
-
-                    var versionIndexStart = microMessengerIndex + key.Length + 1;
-                    var versionSlice = userAgent.Slice(versionIndexStart);
-                    var versionIndexEnd = versionSlice.IndexOf(' ');
-                    if (versionIndexEnd > -1)
+                    var userAgentHeader0 = userAgentHeader[0];
+                    if (!string.IsNullOrEmpty(userAgentHeader0))
                     {
-                        version = versionSlice.Slice(0, versionIndexEnd).ToString();
-                    }
-                    else
-                    {
-                        version = versionSlice.ToString();
+                        var microMessengerIndex = userAgentHeader0.IndexOf(MicroMessengerKey, StringComparison.OrdinalIgnoreCase);
+                        if (microMessengerIndex >= 0)
+                        {
+                            var versionStart = microMessengerIndex + MicroMessengerKey.Length;
+                            var remainingString = userAgentHeader0.AsSpan(versionStart);
+                            var spaceIndex = remainingString.IndexOf(' ');
+                            version = spaceIndex > -1
+                                ? remainingString.Slice(0, spaceIndex).ToString()
+                                : remainingString.ToString();
+                            return (true, version);
+                        }
                     }
                 }
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex);
+            Debug.WriteLine($"Error detecting MicroMessenger: {ex}");
         }
 
-        return (isMicroMessenger, version);
+        return (false, "");
     }
 }
