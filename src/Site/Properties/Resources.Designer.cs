@@ -135,6 +135,17 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
         }
 
         /// <summary>
+        ///   Failed to read request body.
+        /// </summary>
+        internal static string FailedToReadRequestBody
+        {
+            get
+            {
+                return ResourceManager.GetString("FailedToReadRequestBody", resourceCulture);
+            }
+        }
+
+        /// <summary>
         /// The system is unable to recognize and process this event message.
         /// </summary>
         internal static string UnknownRequestMessageEvent
@@ -166,7 +177,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
                 return ResourceManager.GetString("ExceptionOnHandler", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// An error occurred on the server when calling a handler. Please contact the system adminator.
         /// </summary>
@@ -177,7 +188,7 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
                 return ResourceManager.GetString("ErrorOnCallingHandler", resourceCulture);
             }
         }
-        
+
         /// <summary>
         /// A critical failure occured on the server.
         /// </summary>
