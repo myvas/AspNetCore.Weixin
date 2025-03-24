@@ -141,4 +141,8 @@
     <value>无法识别的请求，无法处理。</value>
     <comment/>
   </data>
+  <data name="Response501NotImplemented" xml:space="preserve">
+    <value>没有实现处理该请求的程序。</value>
+    <comment/>
+  </data>
 </root>

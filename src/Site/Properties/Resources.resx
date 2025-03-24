@@ -157,4 +157,12 @@
     <value>An error occurred on the server when calling a handler. Please contact the system adminator.</value>
     <comment/>
   </data>
+  <data name="Response501NotImplemented" xml:space="preserve">
+    <value>The server lacks the ability to fulfill the request.</value>
+    <comment/>
+  </data>
+  <data name="Response500InternalServerError" xml:space="preserve">
+    <value>A critical failure occured on the server.</value>
+    <comment/>
+  </data>
 </root>

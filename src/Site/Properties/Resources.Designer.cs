@@ -177,5 +177,27 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
                 return ResourceManager.GetString("ErrorOnCallingHandler", resourceCulture);
             }
         }
+        
+        /// <summary>
+        /// A critical failure occured on the server.
+        /// </summary>
+        internal static string Response500InternalServerError
+        {
+            get
+            {
+                return ResourceManager.GetString("Response500InternalServerError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        /// The server lacks the ability to fulfill the request.
+        /// </summary>
+        internal static string Response501NotImplemented
+        {
+            get
+            {
+                return ResourceManager.GetString("Response501NotImplemented", resourceCulture);
+            }
+        }
     }
 }
