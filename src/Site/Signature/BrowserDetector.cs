@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Diagnostics;
+using Microsoft.Extensions.Primitives;
 
 namespace Myvas.AspNetCore.Weixin;
 
@@ -16,23 +17,19 @@ public static class BrowserDetector
         {
             if (context?.Request?.Headers != null)
             {
-                var userAgentHeader = context.Request.Headers["User-Agent"];
-                if (userAgentHeader.Any())
+                var userAgentHeader = context.Request.Headers["User-Agent"].ToString();
+                if (!string.IsNullOrEmpty(userAgentHeader))
                 {
-                    var userAgentHeader0 = userAgentHeader[0];
-                    if (!string.IsNullOrEmpty(userAgentHeader0))
+                    var microMessengerIndex = userAgentHeader.IndexOf(MicroMessengerKey, StringComparison.OrdinalIgnoreCase);
+                    if (microMessengerIndex >= 0)
                     {
-                        var microMessengerIndex = userAgentHeader0.IndexOf(MicroMessengerKey, StringComparison.OrdinalIgnoreCase);
-                        if (microMessengerIndex >= 0)
-                        {
-                            var versionStart = microMessengerIndex + MicroMessengerKey.Length;
-                            var remainingString = userAgentHeader0.AsSpan(versionStart);
-                            var spaceIndex = remainingString.IndexOf(' ');
-                            version = spaceIndex > -1
-                                ? remainingString.Slice(0, spaceIndex).ToString()
-                                : remainingString.ToString();
-                            return (true, version);
-                        }
+                        var versionStart = microMessengerIndex + MicroMessengerKey.Length;
+                        var remainingString = userAgentHeader.AsSpan(versionStart);
+                        var spaceIndex = remainingString.IndexOf(' ');
+                        version = spaceIndex > -1
+                            ? remainingString.Slice(0, spaceIndex).ToString()
+                            : remainingString.ToString();
+                        return (true, version);
                     }
                 }
             }
