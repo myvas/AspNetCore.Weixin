@@ -466,7 +466,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinTraceE
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
         }
 
-        var echo = $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket})";
+        var echo = $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket}";
         await ResponseWithText(e.Context, e.Xml, echo);
         return true;
     }
@@ -507,7 +507,7 @@ public class WeixinEfCoreEventSink<TWeixinSubscriberEntity, TKey> : WeixinTraceE
             _logger.LogTrace(ex.InnerException ?? ex, ex.InnerException?.Message ?? ex.Message);
         }
 
-        var echo = $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket})";
+        var echo = $"EventKey: {e.Xml.EventKey}, Ticket: {e.Xml.Ticket}";
         await ResponseWithText(e.Context, e.Xml, echo);
         return true;
     }
