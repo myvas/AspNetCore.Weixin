@@ -1,33 +1,41 @@
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Myvas.AspNetCore.Weixin.Site.Tests.TestServers;
 using System.Diagnostics;
 
 namespace Myvas.AspNetCore.Weixin.Site.Tests.MessageEncryptorTests;
 
 public class WeixinMessageEncryptorDecryptTests
 {
-	IServiceCollection services = new ServiceCollection();
+	TestServer testServer;
+
 	public WeixinMessageEncryptorDecryptTests()
 	{
-		services.AddWeixin(options =>
+		testServer = TestServerBuilder.CreateServer(app =>
 		{
-			options.AppId = "wxaf5aa2d87ff3b700";
-			options.AppSecret = "USELESS_IN_THIS_TEST";
-		})
-		.AddWeixinSite(options =>
+			app.UseWeixinSite();
+		}, services =>
 		{
-			options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
-		})
-		.AddMessageProtection(options =>
-		{
-			options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
-		});
+			services.AddWeixin(options =>
+			{
+				options.AppId = "wxaf5aa2d87ff3b700";
+				options.AppSecret = "USELESS_IN_THIS_TEST";
+			})
+			.AddWeixinSite(options =>
+			{
+				options.WebsiteToken = "MdPhLRFuJ9X48WWQDHJA3nxIK";
+			})
+			.AddMessageProtection(options =>
+			{
+				options.EncodingAESKey = "5o7tcB4nbWtcX76QyF1fi90FBt4ZxFD8N6oND0tHVa4";
+			});
+		}, null);
 	}
 
 	[Fact]
 	public void ReceivedEventArgs_Compatible()
 	{
-		var sp = services.BuildServiceProvider();
-		var _encryptor = sp.GetRequiredService<IWeixinMessageEncryptor>();
+		var _encryptor = testServer.Services.GetRequiredService<IWeixinMessageEncryptor>();
 
 		var xml = @" <xml>
 <ToUserName><![CDATA[gh_08dc1481d8cc]]></ToUserName>
@@ -62,8 +70,7 @@ public class WeixinMessageEncryptorDecryptTests
 	[Fact]
 	public void ReceivedEventArgs_aes()
 	{
-		var sp = services.BuildServiceProvider();
-		var _encryptor = sp.GetRequiredService<IWeixinMessageEncryptor>();
+		var _encryptor = testServer.Services.GetRequiredService<IWeixinMessageEncryptor>();
 
 		var xml = @"<xml>
 <ToUserName><![CDATA[gh_08dc1481d8cc]]></ToUserName>
