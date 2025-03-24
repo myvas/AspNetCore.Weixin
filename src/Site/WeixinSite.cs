@@ -115,12 +115,14 @@ public class WeixinSite : IWeixinSite
             var handler = scope.ServiceProvider.GetRequiredService<IWeixinEventSink>();
             if (handler != null)
             {
+                // If response is already sent, handled is true.
                 handled = await CallHandlerMethodAsync(handler, methodName, ctx);
                 if (handled) return true;
             }
         }
         if (!handled)
         {
+            // TODO: response 500 or 503?
             _logger.LogWarning($"Probably missing a handler when processing the received xml: {receivedXml}");
             return await DefaultResponseAsync();
         }
