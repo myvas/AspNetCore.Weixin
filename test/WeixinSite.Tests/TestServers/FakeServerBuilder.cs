@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
@@ -24,8 +23,7 @@ public static class FakeServerBuilder
             {
                 o.WebsiteToken = "WEIXINSITETOKEN";
             })
-            .AddMessageProtection()
-            .AddDebugEventSink();
+            .AddMessageProtection();
         }, async context =>
         {
             var req = context.Request;
