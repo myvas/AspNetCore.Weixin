@@ -20,7 +20,7 @@ public class WeixinMenuItemMiniprogram : WeixinMenuItem, IWeixinMenuItemHasUrl
     public string Url { get; set; }
 
     /// <summary>
-    /// 小程序AppId。eg. wx286b93c14bbf93aa
+    /// 小程序AppId。eg. wx2***************a
     /// </summary>
     [JsonPropertyName("appid")]
     public string AppId { get; set; }
