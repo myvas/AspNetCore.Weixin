@@ -1,43 +1,43 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-    <Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
-    <PackageTags>myvas;AspNetCore;Weixin;UseWeixinSite</PackageTags>
-    <IsShippingAssembly>true</IsShippingAssembly>
-    <IsPackable>true</IsPackable>
-    <RootNamespace>Myvas.AspNetCore.Weixin.Site</RootNamespace>
-    <PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
-    <AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
-    <PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<Description>An ASP.NET Core middleware to build a Tencent Weixin/Wechat service site.</Description>
+		<PackageTags>myvas;AspNetCore;Weixin;UseWeixinSite</PackageTags>
+		<IsShippingAssembly>true</IsShippingAssembly>
+		<IsPackable>true</IsPackable>
+		<RootNamespace>Myvas.AspNetCore.Weixin.Site</RootNamespace>
+		<PackageId>Myvas.AspNetCore.Weixin.Site</PackageId>
+		<AssemblyName>Myvas.AspNetCore.Weixin.Site</AssemblyName>
+		<PackageProjectUrl>https://github.com/myvas/AspNetCore.Weixin</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/myvas/AspNetCore.Weixin</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../Api/Myvas.AspNetCore.Weixin.Api.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="Properties/Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Properties/Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties/Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties/Resources.zh-Hans.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="../Api/Myvas.AspNetCore.Weixin.Api.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties/Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Properties/Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties/Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties/Resources.zh-Hans.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Properties/Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>
