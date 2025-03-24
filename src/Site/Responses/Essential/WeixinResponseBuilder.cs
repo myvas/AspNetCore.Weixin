@@ -9,6 +9,7 @@ public abstract class WeixinResponseBuilder : IWeixinResponseBuilder
     public HttpContext Context { get; }
     public string ContentType { get; set; }
     public string Content { get; set; }
+    public int StatusCode { get; set; } = StatusCodes.Status200OK;
 
     public WeixinResponseBuilder(HttpContext context)
     {
@@ -17,6 +18,7 @@ public abstract class WeixinResponseBuilder : IWeixinResponseBuilder
 
     public virtual async Task FlushAsync()
     {
+        Context.Response.StatusCode = StatusCode;
         Context.Response.ContentType = ContentType;
         await Context.Response.WriteAsync(Content);
         Debug.WriteLine($"Response via {this.GetType().Name}:");
