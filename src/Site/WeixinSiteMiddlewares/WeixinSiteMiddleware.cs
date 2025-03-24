@@ -129,24 +129,23 @@ public class WeixinSiteMiddleware
     {
         if (!_options.Debug)
         {
-            var websiteToken = _options.WebsiteToken;
-            HttpRequest request = context.Request;
-            var signature = request.Query["signature"];
-            var timestamp = request.Query["timestamp"];
-            var nonce = request.Query["nonce"];
-
-            // Validate the signature in query string
-            if (!SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken))
-            {
-                await ResponsePlainTextAsync(context, Resources.InvalidSignatureDenied, StatusCodes.Status400BadRequest);
-                return;
-            }
-
             // Validate the User-Agent in request headers
             (bool isMicroMessenger, string version) = BrowserDetector.DetectMicroMessenger(context);
             if (!isMicroMessenger)
             {
                 await ResponsePlainTextAsync(context, Resources.NonMicroMessengerDenied, StatusCodes.Status400BadRequest);
+                return;
+            }
+
+            var websiteToken = _options.WebsiteToken;
+            HttpRequest request = context.Request;
+            var signature = request.Query["signature"];
+            var timestamp = request.Query["timestamp"];
+            var nonce = request.Query["nonce"];
+            // Validate the signature in query string
+            if (!SignatureHelper.ValidateSignature(signature, timestamp, nonce, websiteToken))
+            {
+                await ResponsePlainTextAsync(context, Resources.InvalidSignatureDenied, StatusCodes.Status400BadRequest);
                 return;
             }
         }
