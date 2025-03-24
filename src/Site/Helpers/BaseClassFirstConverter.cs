@@ -105,11 +105,11 @@ public class BaseClassFirstConverter<T> : JsonConverter<T>
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    private static IEnumerable<Type> GetTypeHierarchy(Type type)
+    private static List<Type> GetTypeHierarchy(Type type)
     {
         var hierarchy = new List<Type>();
 
-        while (type != null && type != typeof(object))
+        while (type != null && !TypeHelper.IsBasicType(type))
         {
             hierarchy.Insert(0, type); // Insert at the beginning to maintain order
             type = type.BaseType;
