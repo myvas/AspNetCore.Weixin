@@ -113,6 +113,7 @@ public class WeixinSite : IWeixinSite
         using (var scope = _serviceProvider.CreateScope())
         {
             var handler = scope.ServiceProvider.GetRequiredService<IWeixinEventSink>();
+            if (handler != null)
             {
                 handled = await CallHandlerMethodAsync(handler, methodName, ctx);
                 if (handled) return true;
