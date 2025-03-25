@@ -97,9 +97,9 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
     /// <para>公众号可以使用AppID和AppSecret调用本接口来获取access_token。AppID和AppSecret可在开发模式中获得（需要已经成为开发者，且帐号没有异常状态）。注意调用所有微信接口时均需使用https协议。</para>
     /// </summary>
     /// <param name="appid">开发者ID之AppId。
-    /// <para>例如：<code>wxd8fb1eb9ecf48d15</code></para></param>
+    /// <para>例如：<code>wx***************5</code></para></param>
     /// <param name="secret">开发者ID之AppSecret。
-    /// <para>例如：<code>b7ffe201d9f7db183b8827ebe789aa88</code></para></param>
+    /// <para>例如：<code>b7*****************************8</code></para></param>
     /// <param name="grantType">默认为：<code>client_credential</code></param>
     /// <returns>微信凭证数据
     /// <para>正常情况下，微信会返回下述JSON数据包给公众号。例如：</para>
