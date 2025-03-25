@@ -18,17 +18,18 @@ public class WeixinSiteMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger _logger;
     private readonly WeixinSiteOptions _options;
-    private readonly IWeixinSite _site;
+    private readonly IServiceProvider _serviceProvider;
 
     public WeixinSiteMiddleware(
         RequestDelegate next,
-        IWeixinSite site,
         IOptions<WeixinSiteOptions> optionsAccessor,
+        IServiceProvider serviceProvider,
         ILoggerFactory loggerFactory)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
         _logger = loggerFactory?.CreateLogger<WeixinSiteMiddleware>() ?? throw new ArgumentNullException(nameof(loggerFactory));
         _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
         if (string.IsNullOrEmpty(_options.WebsiteToken))
         {
@@ -39,10 +40,6 @@ public class WeixinSiteMiddleware
         {
             throw new ArgumentException($"Options '{nameof(_options.Path)}' cannot be null or empty");
         }
-
-        // _options.Debug
-
-        _site = site ?? throw new ArgumentNullException(nameof(site));
     }
 
     /// <summary>
@@ -183,8 +180,11 @@ public class WeixinSiteMiddleware
 
         LogRequestBody(text); // Debug logging
 
-        _site.Context = new WeixinContext(context, text);
-        var handled = await _site.HandleAsync();
+        var site = new WeixinSite(_serviceProvider)
+        {
+            Context = new WeixinContext(context, text)
+        };
+        var handled = await site.HandleAsync();
         if (!handled)
         {
             await ResponsePlainTextAsync(context, Resources.Response501NotImplemented, StatusCodes.Status501NotImplemented);

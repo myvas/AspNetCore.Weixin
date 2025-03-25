@@ -19,17 +19,6 @@ public class WeixinSiteBuilder
 
     public IServiceCollection Services { get => WeixinBuilder.Services; }
 
-    private IList<IWeixinSite> _handlers = new List<IWeixinSite>();
-    public IReadOnlyList<IWeixinSite> WeixinHandlers { get { return (IReadOnlyList<IWeixinSite>)_handlers; } }
-    public IWeixinSite AddHandler(IWeixinSite handler)
-    {
-        if (!_handlers.Contains(handler))
-        {
-            _handlers.Add(handler);
-        }
-        return handler;
-    }
-
     /// <summary>
     /// Gets the <see cref="Type"/> used for Weixin subscriber.
     /// </summary>

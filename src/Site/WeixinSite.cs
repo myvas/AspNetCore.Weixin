@@ -12,22 +12,19 @@ using System.Xml.Linq;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinSite : IWeixinSite
+public class WeixinSite
 {
+    protected IServiceProvider _serviceProvider;
+
     private readonly ILogger _logger;
     private readonly WeixinSiteOptions _options;
 
     public WeixinContext Context { get; set; }
 
-    private readonly IServiceProvider _serviceProvider;
-
-    public WeixinSite(ILoggerFactory logger,
-        IOptions<WeixinSiteOptions> optionsAccessor,
-        IServiceProvider serviceProvider)
+    public WeixinSite(IServiceProvider serviceProvider)
     {
-        _logger = logger?.CreateLogger<WeixinSite>() ?? throw new ArgumentNullException(nameof(logger));
-        _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        _logger = serviceProvider.GetRequiredService<ILogger<WeixinSite>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
+        _options = serviceProvider.GetRequiredService<IOptions<WeixinSiteOptions>>()?.Value ?? throw new ArgumentNullException(nameof(serviceProvider));
     }
 
     /// <summary>
