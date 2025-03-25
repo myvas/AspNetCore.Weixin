@@ -135,6 +135,17 @@ namespace Myvas.AspNetCore.Weixin.Site.Properties
         }
 
         /// <summary>
+        ///   A weixin request body should not be empty.
+        /// </summary>
+        internal static string ResponseEmptyRequestBody
+        {
+            get
+            {
+                return ResourceManager.GetString("ResponseEmptyRequestBody", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Failed to read request body.
         /// </summary>
         internal static string FailedToReadRequestBody

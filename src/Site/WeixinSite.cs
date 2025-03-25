@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Myvas.AspNetCore.Weixin.Site.Properties;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,22 +11,34 @@ using System.Xml.Linq;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinSite : IWeixinSite
+public class WeixinSite
 {
+    /// <summary>
+    /// The context of the current request and its request body.
+    /// </summary>
+    protected WeixinContext Context;
+
+    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger _logger;
     private readonly WeixinSiteOptions _options;
 
-    public WeixinContext Context { get; set; }
 
-    private readonly IServiceProvider _serviceProvider;
-
-    public WeixinSite(ILoggerFactory logger,
-        IOptions<WeixinSiteOptions> optionsAccessor,
-        IServiceProvider serviceProvider)
+    /// <summary>
+    /// Construct a new instance of <see cref="WeixinSite"/>.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="text">the text get from the request stream should not be empty</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    public WeixinSite(HttpContext context, string text)
     {
-        _logger = logger?.CreateLogger<WeixinSite>() ?? throw new ArgumentNullException(nameof(logger));
-        _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        if (context == null) throw new ArgumentNullException(nameof(context));
+        if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException(nameof(text));
+        Context = new WeixinContext(context, text);
+
+        _serviceProvider = context.RequestServices;
+        _logger = _serviceProvider?.GetRequiredService<ILogger<WeixinSite>>() ?? throw new ArgumentNullException(nameof(_logger));
+        _options = _serviceProvider?.GetRequiredService<IOptions<WeixinSiteOptions>>()?.Value ?? throw new ArgumentNullException(nameof(_options));
     }
 
     /// <summary>
