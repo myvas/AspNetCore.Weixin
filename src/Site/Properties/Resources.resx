@@ -169,4 +169,8 @@
     <value>Failed to read request body.</value>
     <comment/>
   </data>
+  <data name="ResponseEmptyRequestBody" xml:space="preserve">
+    <value>A weixin request body should not be empty.</value>
+    <comment/>
+  </data>
 </root>
