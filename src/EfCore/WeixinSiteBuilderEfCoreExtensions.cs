@@ -182,13 +182,6 @@ public static class WeixinSiteBuilderEfCoreExtensions
         services.AddHostedService<WeixinSubscriberSyncHostedService>();
     }
 
-    public static WeixinSiteBuilder AddWeixinEventSink<TWeixinEventSink>(this WeixinSiteBuilder builder)
-        where TWeixinEventSink : class, IWeixinEventSink
-    {
-        builder.Services.Replace(ServiceDescriptor.Scoped<IWeixinEventSink, TWeixinEventSink>());
-        return builder;
-    }
-
     /// <summary>
     /// Finds a specific base type (generic or non-generic) in the inheritance hierarchy of a given type.
     /// </summary>
