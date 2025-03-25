@@ -18,18 +18,14 @@ public class WeixinSiteMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger _logger;
     private readonly WeixinSiteOptions _options;
-    private readonly IServiceProvider _serviceProvider;
-
     public WeixinSiteMiddleware(
         RequestDelegate next,
         IOptions<WeixinSiteOptions> optionsAccessor,
-        IServiceProvider serviceProvider,
         ILoggerFactory loggerFactory)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
         _logger = loggerFactory?.CreateLogger<WeixinSiteMiddleware>() ?? throw new ArgumentNullException(nameof(loggerFactory));
         _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
         if (string.IsNullOrEmpty(_options.WebsiteToken))
         {
@@ -180,10 +176,13 @@ public class WeixinSiteMiddleware
 
         LogRequestBody(text); // Debug logging
 
-        var site = new WeixinSite(_serviceProvider)
+        if (string.IsNullOrEmpty(text))
         {
-            Context = new WeixinContext(context, text)
-        };
+            await ResponsePlainTextAsync(context, Resources.ResponseEmptyRequestBody, StatusCodes.Status400BadRequest);
+            return;
+        }
+
+        var site = new WeixinSite(context, text);
         var handled = await site.HandleAsync();
         if (!handled)
         {
