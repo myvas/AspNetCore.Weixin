@@ -1,0 +1,46 @@
+@model ShareJweixinViewModel
+@{
+    Layout = "_LayoutJweixin";
+    ViewData["Title"] = "Weixin Jssdk";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div id="checkJsApi">Check JsApi</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            wx.config(@Html.Raw(Model.ConfigJson));
+            wx.ready(function () {
+                $('#checkJsApi').onclick = function () {
+                    wx.checkJsApi({
+                        jsApiList: [
+                            'getNetworkType',
+                            'previewImage',
+                            'updateAppMessageShareData'
+                        ],
+                        success: function (res) {
+                            alert(JSON.stringify(res));
+                        }
+                    })
+                };
+
+                wx.updateAppMessageShareData({
+                    title: '@Html.Raw(Model.Title)', // 分享标题
+                    desc: '@Html.Raw(Model.Description)', // 分享描述
+                    link: '@Html.Raw(Model.Url)', // 分享链接
+                    imgUrl: '@Html.Raw(Model.ImgUrl)', // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        alert("分享");
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        alert("取消分享");
+                    }
+                });
+            });
+        });
+    </script>
+}

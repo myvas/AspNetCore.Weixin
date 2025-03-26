@@ -1,0 +1,65 @@
+@model ReturnableViewModel<IList<WeixinSubscriberEntity>>
+
+@{
+	ViewData["Title"] = "Subscribers";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Item == null)
+{
+	<div class="alert alert-info" role="alert">No subscribers in database. </div>
+	<div>The reason might be the Sync service for Weixin subscribers is not enable.</div>
+}
+else
+{
+	@foreach (var item in Model.Item)
+	{
+		<div class="media">
+			<img class="mr-3" src="@item.HeadImgUrl" style="width:64px;" />
+			<div class="media-body">
+				<h5 class="mt-0">
+					<span>@item.Nickname</span>
+					@{
+						switch (item.Sex)
+						{
+							case 1:
+								<i class="fas fa-mars text-primary"></i>
+								break;
+							case 2:
+								<i class="fas fa-venus text-danger"></i>
+								break;
+							default:
+								break;
+						}
+					}
+				</h5>
+				<dl class="dl-horizontal">
+					<dt>OpenId</dt>
+					<dd>
+						<div class="text-truncate" style="width:150px;" data-container="body" data-toggle="popover"
+							data-placement="bottom" data-content="@item.OpenId">@item.OpenId</div>
+					</dd>
+					<dt>UnionId</dt>
+					<dd>@item.UnionId</dd>
+					<dt>Province</dt>
+					<dd>@item.Province</dd>
+					<dt>City</dt>
+					<dd>@item.City</dd>
+					@if (item.SubscribeTime.HasValue)
+					{
+						<dt>Subscribe Time</dt>
+						<dd>@(new UnixDateTime(item.SubscribeTime ?? 0).DateTime.ToString("yyyy-MM-dd HH:mm:ss"))</dd>
+					}
+					@if (!item.Subscribed && item.UnsubscribeTime.HasValue)
+					{
+						<dt>Unsubscribe Time</dt>
+						<dd>@(new UnixDateTime(item.UnsubscribeTime ?? 0).DateTime.ToString("yyyy-MM-dd HH:mm:ss"))</dd>
+					}
+				</dl>
+				<a asp-action="SendWeixin" asp-route-openid="@item.OpenId">发送微信消息</a>
+			</div>
+		</div>
+		<hr />
+	}
+}

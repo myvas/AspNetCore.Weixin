@@ -1,0 +1,57 @@
+@*
+	WeixinMenu.cshtml
+*@
+
+@model WeixinJsonViewModel
+
+@{
+	ViewData["Title"] = "微信菜单管理";
+}
+
+
+<div class="row mt-3">
+	<dl>
+		<dt>WeixinAccessToken</dt>
+		<dd>
+			<div class="text-truncate" style="width:300px;" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Model.Token">@Model.Token</div>
+
+
+		</dd>
+	</dl>
+</div>
+
+<form asp-controller="WeixinMenu" asp-action="UpdateWeixinMenu" method="post">
+	<div class="row">
+		<div class="form-group col-xs-6">
+			<label class="control-label">当前菜单</label>
+			<textarea rows="12" class="form-control" style="min-width:100%">@Model.Json</textarea>
+		</div>
+		<div class="form-group col-xs-6">
+			<label asp-for="Json">新菜单</label>
+			<textarea rows="12" class="form-control" asp-for="Json" style="min-width:100%"></textarea>
+		</div>
+	</div>
+	<div class="row">
+		<input type="submit" class="btn btn-primary" value="提交" />
+	</div>
+</form>
+
+<div class="row">
+	<p class="help-block">菜单获取的Json格式与菜单更新的Json不一样，请手动复制以下内容粘贴到[新菜单]输入框，然后点击提交。</p>
+<pre><code>
+{
+	"button": [
+	{
+			"type": "view",
+			"name": "Home",
+			"url": "http://weixin.myvas.com/"
+	},
+	{
+			"type": "view",
+			"name": "About",
+			"url": "http://weixin.myvas.com/Home/About"
+		
+	}]
+}</code>
+    </pre>
+</div>
