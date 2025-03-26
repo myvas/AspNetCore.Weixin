@@ -106,8 +106,14 @@ public static class HostExtensions
         });
 
         // Add IEmailSender
-        logger?.LogInformation("Email:ApiKey=" + Configuration["Email:ApiKey"]);
-
+        logger?.LogInformation("Email:SenderAccount" + Configuration["Email:SenderAccount"]);
+        Services.AddEmail(o =>
+        {
+            o.SmtpServerAddress = Configuration["Email:SmtpServerAddress"];
+            o.SenderAccount = Configuration["Email:SenderAccount"];
+            o.SenderPassword = Configuration["Email:SenderPassword"];
+            o.SenderDisplayName = Configuration["Email:SenderDisplayName"];
+        });
 
         // Add ISmsSender
         logger?.LogInformation("TencensSms:SdkAppId=" + Configuration["TencentSms:SdkAppId"]);
