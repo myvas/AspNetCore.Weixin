@@ -28,7 +28,7 @@ public class Nullable_Tests
 
         Assert.False(IsNullable(typeof(string)), "string is non-nullable value type");
         // The typeof operator cannot be used on a nullable reference type.
-        // Assert.True(IsNullable(typeof(string?)), "string? is nullable value type");
+        // Assert.True(IsNullable(typeof(string)), "string is nullable value type");
 
         Assert.True(IsOfNullableType(a), "int? is of nullable type");
         int d = 17;

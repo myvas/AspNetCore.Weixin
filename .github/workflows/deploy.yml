@@ -1,0 +1,82 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: deploy
+permissions:
+  contents: read
+on:
+  workflow_dispatch:
+
+env:
+  PUBLISH_OUTPUT_DIR: './publish'
+  REMOTE_APP_DIR: '/www/wx.myvas.com'
+  SERVICE_NAME: 'wx.myvas.com'
+  SSH_HOST: 'wx.myvas.com'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish samples/WeixinSiteSample --configuration Release --runtime linux-x64 --output ${{ env.PUBLISH_OUTPUT_DIR }}
+
+      - name: Stop the service
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Stop the service (if applicable)
+            sudo systemctl stop ${{ env.SERVICE_NAME }} || true
+
+      - name: Save the SSH private key to a file
+        run: |
+          if [ ! -f ~/.ssh/id_rsa ]; then
+            echo "Save the SSH private key to a file"
+            mkdir -p ~/.ssh
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+          fi
+
+      - name: Add remote server to known_hosts
+        run: |
+          if ! grep -q "${{ env.SSH_HOST }}" ~/.ssh/known_hosts; then
+            echo "Add remote server to known_hosts"
+            ssh-keyscan ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
+          fi
+
+      - name: Copy the published app to the server
+        run: |
+          rsync --version
+          rsync -avz --exclude 'app.sqlite' -e "ssh -i ~/.ssh/id_rsa" ${{ env.PUBLISH_OUTPUT_DIR }}/ ${{ secrets.SSH_USERNAME }}@${{ env.SSH_HOST }}:${{ env.REMOTE_APP_DIR }}/
+
+      - name: Start the service
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Set permissions
+            sudo chown -R ${{ secrets.SSH_USERNAME }}:www-data ${{ env.REMOTE_APP_DIR }}
+            sudo chmod -R 775 ${{ env.REMOTE_APP_DIR }}
+
+            # Restart the service (if applicable)
+            sudo systemctl start ${{ env.SERVICE_NAME }}
+      

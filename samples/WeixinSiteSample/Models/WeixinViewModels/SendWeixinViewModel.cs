@@ -5,11 +5,11 @@ namespace WeixinSiteSample.Models;
 
 public class SendWeixinViewModel
 {
-    public IList<WeixinResponseMessageEntity>? Responsed { get; set; }
+    public IList<WeixinResponseMessageEntity> Responsed { get; set; }
 
     [Required]
-    public string? OpenId { get; set; }
+    public string OpenId { get; set; }
 
     [Required]
-    public string? Content { get; set; }
+    public string Content { get; set; }
 }
