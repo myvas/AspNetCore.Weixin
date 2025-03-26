@@ -4,16 +4,10 @@
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
-updates:
-  - package-ecosystem: "github-actions"
-    # Look for workflow files stored in the default location of `/.github/workflows`
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      
+updates:      
   - package-ecosystem: "nuget"
     directories:
-      - "/src/*"
       - "/test/*"
+      - "/samples/*
     schedule:
       interval: "weekly"
