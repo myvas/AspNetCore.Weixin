@@ -28,11 +28,11 @@ namespace Microsoft.AspNetCore.Mvc
         /// <param name="controllerName">The name of the controller.</param>
         /// <param name="routeValues">The route values.</param>
         /// <returns>The absolute URL.</returns>
-        public static string? AbsoluteAction(
+        public static string AbsoluteAction(
             this IUrlHelper url,
-            string? actionName,
-            string? controllerName,
-            object? routeValues = null)
+            string actionName,
+            string controllerName,
+            object routeValues = null)
         {
             return url.Action(actionName, controllerName, routeValues, url.ActionContext?.HttpContext?.Request?.Scheme);
         }
@@ -59,10 +59,10 @@ namespace Microsoft.AspNetCore.Mvc
         /// <param name="routeName">Name of the route.</param>
         /// <param name="routeValues">The route values.</param>
         /// <returns>The absolute URL.</returns>
-        public static string? AbsoluteRouteUrl(
+        public static string AbsoluteRouteUrl(
             this IUrlHelper url,
-            string? routeName,
-            object? routeValues = null)
+            string routeName,
+            object routeValues = null)
         {
             return url.RouteUrl(routeName, routeValues, url.ActionContext?.HttpContext?.Request?.Scheme);
         }

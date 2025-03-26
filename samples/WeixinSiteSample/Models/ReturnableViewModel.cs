@@ -2,12 +2,12 @@
 
 public class ReturnableViewModel
 {
-    public string? ReturnUrl { get; set; }
+    public string ReturnUrl { get; set; }
 }
 
 public class ReturnableViewModel<TModel>
     where TModel : class
 {
-    public string? ReturnUrl { get; set; }
-    public TModel? Item { get; set; }
+    public string ReturnUrl { get; set; }
+    public TModel Item { get; set; }
 }
