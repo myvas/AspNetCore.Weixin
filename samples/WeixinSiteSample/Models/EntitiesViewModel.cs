@@ -1,7 +1,9 @@
 using Myvas.AspNetCore.Weixin;
 
+namespace WeixinSiteSample.Models;
+
 public class EntitiesViewModel<TEntity>
-    where TEntity: class, IEntity
+    where TEntity : class, IEntity
 {
     public IList<TEntity> Items { get; set; } = [];
     public int PageSize { get; set; }

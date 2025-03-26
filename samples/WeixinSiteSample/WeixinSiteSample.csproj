@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>WeixinSiteSample</UserSecretsId>
 
@@ -13,13 +13,35 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" PrivateAssets="All">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="3.0.71" PrivateAssets="all">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.*" />
+    <PackageReference Include="Myvas.AspNetCore.Authentication.QQConnect" Version="9.0.*" />
+    <PackageReference Include="Myvas.AspNetCore.Authentication.WeixinAuth" Version="9.0.*" />
+    <PackageReference Include="Myvas.AspNetCore.Authentication.WeixinOpen" Version="9.0.*" />
+    <PackageReference Include="Myvas.AspNetCore.Email" Version="9.0.*" />
+    <PackageReference Include="Myvas.AspNetCore.TencentSms" Version="9.0.*" />
+    <PackageReference Include="Myvas.AspNetCore.ViewDivert" Version="9.0.*" />
   </ItemGroup>
+    
+	<ItemGroup>
+		<Using Include="WeixinSiteSample" />
+		<Using Include="WeixinSiteSample.Models" />
+		<Using Include="WeixinSiteSample.Controllers" />
+	</ItemGroup>
 
-  </Project>
+</Project>

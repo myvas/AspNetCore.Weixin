@@ -50,7 +50,7 @@ public class WeixinSite
         var doc = XDocument.Parse(Context.Text);
 
         RequestMsgType msgType = RequestMsgType.Unknown;
-        RequestEventType? eventType = RequestEventType.Unknown;
+        RequestEventType eventType = RequestEventType.Unknown;
         try
         {
             string sMsgType = doc.Root.Element("MsgType").Value;

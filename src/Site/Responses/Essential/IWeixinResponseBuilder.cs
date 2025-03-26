@@ -8,5 +8,6 @@ public interface IWeixinResponseBuilder
     HttpContext Context { get; }
     string ContentType { get; set; }
     string Content { get; set; }
+    int StatusCode { get; set; }
     Task FlushAsync();
 }
