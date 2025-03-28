@@ -46,19 +46,7 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
         var jsonBody = JsonSerializer.Serialize(body);
         var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-        try
-        {
-            var result = await PostContentAsJsonAsync<WeixinAccessTokenJson>(url, content, cancellationToken);
-            return result.Succeeded ? result : throw new WeixinAccessTokenException(result);
-        }
-        catch (WeixinAccessTokenException)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            throw WeixinAccessTokenErrors.GenericError(ex);
-        }
+        return await PostContentAsJsonAsync<WeixinAccessTokenJson>(url, content, cancellationToken);
     }
 
     /// <summary>
@@ -125,19 +113,7 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
         };
         var requestUri = url + query.ToString();
 
-        try
-        {
-            var result = await GetFromJsonAsync<WeixinAccessTokenJson>(requestUri, cancellationToken);
-            return result.Succeeded ? result : throw new WeixinAccessTokenException(result);
-        }
-        catch (WeixinAccessTokenException)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            throw WeixinAccessTokenErrors.GenericError(ex);
-        }
+        return await GetFromJsonAsync<WeixinAccessTokenJson>(requestUri, cancellationToken);
     }
     #endregion
 }
