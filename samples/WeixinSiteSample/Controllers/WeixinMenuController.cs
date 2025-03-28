@@ -10,7 +10,6 @@ namespace WeixinSiteSample.Controllers;
 [Authorize]//(Policy = "WeixinMenuManager")]
 public class WeixinMenuController : Controller
 {
-    private readonly AppDbContext _context;
     private readonly ILogger<WeixinMenuController> _logger;
     private readonly IWeixinMenuApi _api;
 
@@ -18,7 +17,6 @@ public class WeixinMenuController : Controller
         IWeixinMenuApi api,
         ILogger<WeixinMenuController> logger)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
         _api = api ?? throw new ArgumentNullException(nameof(api));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -29,28 +27,33 @@ public class WeixinMenuController : Controller
 
         var vm = new WeixinJsonViewModel
         {
-            Json = JsonSerializer.Serialize(menu)// JsonConvert.SerializeObject(resultJson, Formatting.Indented)
+            Json = JsonSerializer.Serialize(menu)
         };
         return View(vm);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateWeixinMenu(WeixinJsonViewModel vm)
+    public async Task<IActionResult> UpdateWeixinMenu(WeixinJsonViewModel input)
     {
         if (ModelState.IsValid)
         {
-            if (!string.IsNullOrEmpty(vm.Json))
+            if (!string.IsNullOrEmpty(input.Json))
             {
-                var result = await _api.PublishMenuAsync(vm.Json);
+                var result = await _api.PublishMenuAsync(input.Json);
 
                 _logger.LogDebug(result.ToString());
 
-                return View("UpdateMenuResult", result);
+                var vm = new ReturnableViewModel<IWeixinErrorJson>()
+                {
+                    Item = result,
+                    ReturnUrl = Url.Action(nameof(Index))
+                };
+                return View("UpdateMenuResult", vm);
             }
         }
 
         // If we got this far, something failed; redisplay form.
-        return RedirectToAction(nameof(Index), new { input = vm.Json });
+        return RedirectToAction(nameof(Index), new { input = input.Json });
     }
 }
