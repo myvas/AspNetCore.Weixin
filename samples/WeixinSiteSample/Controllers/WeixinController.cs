@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Myvas.AspNetCore.Weixin;
-using WeixinSiteSample.Models;
 
 namespace WeixinSiteSample.Controllers;
 
@@ -28,7 +27,7 @@ public class WeixinController : Controller
         _api = api;
         _csApi = csApi;
         _subscriberStore = subscriberStore ?? throw new ArgumentNullException(nameof(subscriberStore));
-        _responseStore=responseStore ?? throw new ArgumentNullException(nameof(responseStore));
+        _responseStore = responseStore ?? throw new ArgumentNullException(nameof(responseStore));
         _messageStore = messageStore ?? throw new ArgumentNullException(nameof(messageStore));
         _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
     }
@@ -59,11 +58,10 @@ public class WeixinController : Controller
         var subscribers = await _subscriberStore.GetItemsAsync(pageSize, pageIndex);
         _logger.LogDebug($"微信订阅者在数据库中共{totalRecords}条记录。");
         vm.Item = subscribers;
-        vm.ReturnUrl=Url.Action(nameof(Subscribers), new { n });
+        vm.ReturnUrl = Url.Action(nameof(Subscribers), new { n });
 
         return View(vm);
     }
-
 
     public async Task<IActionResult> ReceivedText(int? n)
     {
@@ -98,6 +96,8 @@ public class WeixinController : Controller
             Responsed = await _responseStore.Items.Where(x => x.ToUserName == openId).ToListAsync(),
             OpenId = openId
         };
+        // Get nickname
+        vm.Nickname = "Somebody";
         return View(vm);
     }
 
