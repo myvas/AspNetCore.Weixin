@@ -1,0 +1,64 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "jsdelivr",
+      "library": "bootstrap@4.3.1",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "dist/css/bootstrap.min.css",
+        "dist/css/bootstrap-grid.min.css.map",
+        "dist/js/bootstrap.bundle.min.js",
+        "dist/js/bootstrap.bundle.min.js.map"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.min.js",
+        "jquery.min.map"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "jquery-validation-unobtrusive@3.2.6",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
+      "files": [
+        "jquery.validate.unobtrusive.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "open-iconic@1.1.1",
+      "destination": "wwwroot/lib/open-iconic/",
+      "files": [
+        "font/css/open-iconic-bootstrap.min.css",
+        "font/css/open-iconic.min.css",
+        "font/fonts/open-iconic.eot",
+        "font/fonts/open-iconic.svg",
+        "font/fonts/open-iconic.ttf",
+        "font/fonts/open-iconic.otf",
+        "font/fonts/open-iconic.woff"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "jquery-validation@1.19.1",
+      "destination": "wwwroot/lib/jquery-validation/",
+      "files": [
+        "dist/jquery.validate.min.js"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "jquery-qrcode2@1.0.0",
+      "destination": "wwwroot/lib/jquery-qrcode2/",
+      "files": [
+        "dist/jquery-qrcode.min.js"
+      ]
+    }
+  ]
+}

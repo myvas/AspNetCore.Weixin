@@ -7,7 +7,7 @@ namespace Myvas.AspNetCore.Weixin;
 /// 微信WiFi相关API返回值（JSON）
 /// </summary>
 /// <remarks>注意：微信WiFi相关API与微信基础API的JSON属性名不一样!</remarks>
-public class WeixinWifiErrorJson : WeixinJson, IWeixinError
+public class WeixinWifiErrorJson : WeixinJson, IWeixinErrorJson
 {
     public WeixinWifiErrorJson()
     {
@@ -20,7 +20,7 @@ public class WeixinWifiErrorJson : WeixinJson, IWeixinError
     }
 
     [JsonIgnore]
-    public bool Succeeded { get { return !ErrorCode.HasValue || ErrorCode == WeixinErrorCodes.OK; } }
+    public virtual bool Succeeded => (ErrorCode ?? 0) == 0 && Exception is null;
 
     /// <summary>
     /// 微信错误代码
@@ -44,5 +44,8 @@ public class WeixinWifiErrorJson : WeixinJson, IWeixinError
     [Obsolete("Use ErrorMessage instead.")]
     [JsonIgnore]
     public string errmsg { get => ErrorMessage; }
+
+    [JsonIgnore]
+    public Exception Exception { get; set; }
     #endregion
 }

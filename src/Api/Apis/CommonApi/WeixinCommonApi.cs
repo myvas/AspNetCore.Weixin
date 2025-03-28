@@ -24,11 +24,7 @@ public class WeixinCommonApi : WeixinSecureApiClient, IWeixinCommonApi
         var pathAndQuery = "/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
 
-        var result = await SecureGetFromJsonAsync<WeixinIpResponseJson>(url);
-        if (result.Succeeded)
-            return result;
-        else
-            throw new WeixinException(result);
+        return await SecureGetFromJsonAsync<WeixinIpResponseJson>(url);
     }
 
     /// <summary>
@@ -42,11 +38,7 @@ public class WeixinCommonApi : WeixinSecureApiClient, IWeixinCommonApi
         var pathAndQuery = "/cgi-bin/get_api_domain_ip?access_token=ACCESS_TOKEN";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
 
-        var result = await SecureGetFromJsonAsync<WeixinIpResponseJson>(url);
-        if (result.Succeeded)
-            return result;
-        else
-            throw new WeixinException(result);
+        return await SecureGetFromJsonAsync<WeixinIpResponseJson>(url);
     }
 
 
@@ -66,11 +58,7 @@ public class WeixinCommonApi : WeixinSecureApiClient, IWeixinCommonApi
         //    action = "all",
         //    check_operator = "DEFAULT"
         //};
-        var result = await SecurePostAsJsonAsync<WeixinCheckNetworkRequestJson, WeixinCheckNetworkResponseJson>(url, data);
-        if (result.Succeeded)
-            return result;
-        else
-            throw new WeixinException(result);
+        return await SecurePostAsJsonAsync<WeixinCheckNetworkRequestJson, WeixinCheckNetworkResponseJson>(url, data);
     }
 
     public Task<WeixinCheckNetworkResponseJson> CheckNetworkAsync(string action, string check_operator, CancellationToken cancellationToken = default)

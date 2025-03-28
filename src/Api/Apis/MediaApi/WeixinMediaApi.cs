@@ -90,7 +90,7 @@ public class WeixinMediaApi : WeixinSecureApiClient, IWeixinMediaApi
             offset = offset,
             count = count
         };
-        return await PostAsJsonAsync<object, WeixinBatchGetMaterialsJson>(url, content);
+        return await PostAsJsonAsync<object, WeixinBatchGetMaterialsJson>(url, content, null, cancellationToken);
     }
 
     /// <summary>

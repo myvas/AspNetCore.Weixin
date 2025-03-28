@@ -31,11 +31,7 @@ public class WeixinCardTicketDirectApi : WeixinSecureApiClient, IWeixinCardTicke
         var pathAndQuery = "/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=wx_card";
         var url = Options?.BuildWeixinApiUrl(pathAndQuery);
 
-        var result = await SecureGetFromJsonAsync<WeixinCardTicketJson>(url);
-        if (result.Succeeded)
-            return result;
-        else
-            throw new WeixinException(result);
+        return await SecureGetFromJsonAsync<WeixinCardTicketJson>(url);
     }
 
     public WeixinCardTicketJson GetTicket()

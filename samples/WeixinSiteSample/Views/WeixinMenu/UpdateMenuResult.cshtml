@@ -1,0 +1,10 @@
+﻿@*
+    微信菜单管理
+*@
+@model ReturnableViewModel<IWeixinErrorJson>
+@{
+    ViewData["Title"] = "微信菜单更新结果";
+}
+
+<p>[@Model.Item.ErrorCode] @Model.Item.ErrorMessage</p>
+<a href="@(Model.ReturnUrl)">Return back</a>

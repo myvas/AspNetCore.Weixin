@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*BingSiteAuth.xml: SEO for Bing*@
+    <meta name="msvalidate.01" content="2DCEFB4A3920497180B9485B25F81B70" />
     <title>@ViewData["Title"] - WeixinSiteSample</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WeixinSiteSample.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/app/css/site.min.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -21,21 +22,22 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Weixin" asp-action="@nameof(WeixinController.Index)">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Subscribers" asp-action="Index">Subscribers</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Weixin" asp-action="@nameof(WeixinController.Subscribers)">Subscribers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Messages" asp-action="Index">Messages</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Weixin" asp-action="@nameof(WeixinController.ReceivedText)">Received Messages</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="WeixinMenu" asp-action="@nameof(WeixinMenuController.Index)">Weixin Menu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.About)">About</a>
                         </li>
                     </ul>
+                    @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
         </nav>
@@ -46,14 +48,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - WeixinSiteSample - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/app/js/site.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

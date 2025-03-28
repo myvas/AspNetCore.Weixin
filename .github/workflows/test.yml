@@ -12,11 +12,13 @@ on:
     paths-ignore:
       - "*.md"
       - ".github/**"
+      - "samples/**"
   pull_request:
     branches: [ master ]
     paths-ignore:
       - "*.md"
       - ".github/**"
+      - "samples/**"
 
 jobs:
   build-and-test:

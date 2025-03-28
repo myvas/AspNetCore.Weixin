@@ -47,8 +47,9 @@ public class WeixinAccessTokenApiTests
 
         var api = serviceProvider.GetRequiredService<IWeixinAccessTokenApi>();
 
-        var ex = await Assert.ThrowsAsync<WeixinAccessTokenException>(() => api.GetTokenAsync());
-        Assert.Equal(40013, ex.ErrorCode);
-        Assert.StartsWith("invalid appid", ex.ErrorMessage);
+        var result = await api.GetTokenAsync();
+        Assert.NotNull(result);
+        Assert.Equal(40013, result.ErrorCode);
+        Assert.StartsWith("invalid appid", result.ErrorMessage);
     }
 }

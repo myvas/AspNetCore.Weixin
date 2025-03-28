@@ -11,13 +11,13 @@ namespace Myvas.AspNetCore.Weixin;
 public class WeixinResponseMessageBuilder<TWeixinResponseMessage> : WeixinResponseXmlBuilder
     where TWeixinResponseMessage : IWeixinResponseMessage, new()
 {
-    public WeixinResponseMessageBuilder(HttpContext context, ReceivedXml receivedXml) : base(context)
+    public WeixinResponseMessageBuilder(HttpContext context, ReceivedXml receivedXml, long? createTime = null) : base(context)
     {
         ReceivedXml = receivedXml;
         ResponseMessage = new TWeixinResponseMessage();
         ResponseMessage.FromUserName = receivedXml.ToUserName;
         ResponseMessage.ToUserName = receivedXml.FromUserName;
-        ResponseMessage.CreateTime = DateTime.Now;
+        ResponseMessage.CreateTime = new UnixDateTime(createTime ?? DateTime.Now.ToUnixTime());
     }
 
     public ReceivedXml ReceivedXml { get; private set; }

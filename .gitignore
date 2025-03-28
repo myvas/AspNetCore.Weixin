@@ -247,11 +247,10 @@ _Pvt_Extensions
 bootstrap
 
 # sqlite db files
-app.sqlitedb
-app.sqlitedb-shm
-app.sqlitedb-wal
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 # Unnecessary files created by MVC template
 appsettings.Development.json
 launchSettings.json
-samples/WeixinSiteSample/Migrations/
