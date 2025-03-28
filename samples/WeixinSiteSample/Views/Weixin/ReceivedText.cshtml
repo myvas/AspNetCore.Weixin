@@ -17,7 +17,7 @@ else
         <div class="media">
             <div class="media-body">
                 <dl class="dl-horizontal">
-                    <dt>OpenId</dt>
+                    <dt>FromUserName</dt>
                     <dd>
                         <div class="text-truncate" style="width:150px;" data-container="body" data-toggle="popover"
                             data-placement="bottom" data-content="@item.FromUserName">@item.FromUserName</div>
@@ -25,17 +25,17 @@ else
                     @if (!string.IsNullOrEmpty(item.Content))
                     {
                         <dt>Content</dt>
-                        <dd>@item.Content</dd>
+                        <dd><div class="alert alert-primary" role="alert">@item.Content</div></dd>
                     }
                     @if (!string.IsNullOrEmpty(item.Url))
                     {
                         <dt>Url</dt>
-                        <dd>@item.Url</dd>
+                        <dd><img alt="@item.Title" src="@item.Url" /></dd>
                     }
                     @if (!string.IsNullOrEmpty(item.PicUrl))
                     {
                         <dt>PicUrl</dt>
-                        <dd>@item.PicUrl</dd>
+                        <dd><img alt="@item.Title" src="@item.PicUrl" /></dd>
                     }
                     @if (!string.IsNullOrEmpty(item.MediaId))
                     {
@@ -44,7 +44,7 @@ else
                     }
                     @if (!string.IsNullOrEmpty(item.ThumbMediaId))
                     {
-                        <dt>mThumbmedia Id</dt>
+                        <dt>Thumbmedia Id</dt>
                         <dd>@item.ThumbMediaId</dd>
                     }
                     <dt>Received Time</dt>
