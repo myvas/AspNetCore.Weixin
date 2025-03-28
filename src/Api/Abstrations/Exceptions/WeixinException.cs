@@ -10,7 +10,7 @@ public class WeixinException : Exception
     /// <summary>
     /// 微信错误
     /// </summary>
-    public IWeixinError ErrorJson { get; private set; }
+    public IWeixinErrorJson ErrorJson { get; private set; }
     public int? ErrorCode { get { return ErrorJson?.ErrorCode; } }
     public string ErrorMessage { get { return ErrorJson?.ErrorMessage; } }
 
@@ -18,14 +18,14 @@ public class WeixinException : Exception
     {
     }
 
-    public WeixinException(IWeixinError errorJson)
+    public WeixinException(IWeixinErrorJson errorJson)
         : base(errorJson.ErrorMessage)
     {
         ErrorJson = errorJson;
     }
 
 
-    public WeixinException(IWeixinError errorJson, Exception innerException)
+    public WeixinException(IWeixinErrorJson errorJson, Exception innerException)
         : base(errorJson.ErrorMessage, innerException)
     {
         ErrorJson = errorJson;
