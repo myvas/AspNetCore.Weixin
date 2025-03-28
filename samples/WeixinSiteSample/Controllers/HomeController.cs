@@ -18,7 +18,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        // redirect to about
+        return RedirectToAction(nameof(WeixinController.Index), ControllerName.Of<WeixinController>());
     }
 
     //[Authorize]
