@@ -52,8 +52,8 @@ public class WeixinAccessTokenDirectApiTests
         var optionsAccessor = sp.GetRequiredService<IOptions<WeixinOptions>>();
         var api = new WeixinAccessTokenDirectApi(optionsAccessor);
 
-        var ex = await Assert.ThrowsAsync<WeixinAccessTokenException>(() => api.GetTokenAsync());
-        Assert.Equal(40013, ex.ErrorCode);
-        Assert.StartsWith("invalid appid", ex.ErrorMessage);
+        var result=await api.GetTokenAsync();
+        Assert.Equal(40013, result.ErrorCode);
+        Assert.StartsWith("invalid appid", result.ErrorMessage);
     }
 }

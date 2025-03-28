@@ -53,10 +53,15 @@ public class WeixinExpirationMemoryCacheProvider<T> : IWeixinCacheProvider<T>
 
     public bool Replace(string appId, T expirableValue)
     {
+        if (string.IsNullOrEmpty(appId)) return false;
+
         var cacheKey = GenerateCacheKey(appId);
-        // Cut off 1s for this Set operation
+        // Cut off 1s for this Set operation.
+        // The relative expiration value must be positive.
+        var expiresIn = expirableValue.ExpiresIn - 1;
+        if (expiresIn < 1) expiresIn = 1;
         var cacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetAbsoluteExpiration(TimeSpan.FromSeconds(expirableValue.ExpiresIn - 1));
+            .SetAbsoluteExpiration(TimeSpan.FromSeconds(expiresIn));
         _cache.Set(cacheKey, expirableValue.Value, cacheEntryOptions);
 
         // To ensure the value stored        
