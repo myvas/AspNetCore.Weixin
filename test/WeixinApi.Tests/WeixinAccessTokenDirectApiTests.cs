@@ -11,7 +11,7 @@ public class WeixinAccessTokenDirectApiTests
     private readonly TestServer _server;
     public WeixinAccessTokenDirectApiTests()
     {
-        _server = FakeServerBuilder.CreateTencentServer();
+        _server = FakeTencentServerBuilder.CreateTencentServer();
     }
 
     [Fact]
