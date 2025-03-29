@@ -13,8 +13,7 @@ public class WeixinMenuController : Controller
     private readonly ILogger<WeixinMenuController> _logger;
     private readonly IWeixinMenuApi _api;
 
-    public WeixinMenuController(AppDbContext context,
-        IWeixinMenuApi api,
+    public WeixinMenuController(IWeixinMenuApi api,
         ILogger<WeixinMenuController> logger)
     {
         _api = api ?? throw new ArgumentNullException(nameof(api));
@@ -23,7 +22,7 @@ public class WeixinMenuController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var menu = await _api.GetMenuAsync();
+        var menu = await _api.GetCurrentMenuAsync();
 
         var vm = new WeixinJsonViewModel
         {
@@ -40,7 +39,8 @@ public class WeixinMenuController : Controller
         {
             if (!string.IsNullOrEmpty(input.Json))
             {
-                var result = await _api.PublishMenuAsync(input.Json);
+                var menu = JsonSerializer.Deserialize<WeixinMenuCreateJson>(input.Json);
+                var result = await _api.PublishMenuAsync(menu);
 
                 _logger.LogDebug(result.ToString());
 

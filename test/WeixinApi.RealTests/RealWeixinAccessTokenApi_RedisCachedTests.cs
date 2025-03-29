@@ -5,7 +5,7 @@ namespace Myvas.AspNetCore.Weixin.Api.RealTests;
 public class RealWeixinAccessTokenApi_RedisCachedTests : RealWeixinTestBase
 {
     [Fact]
-    public void GetToken_ShouldSuccess()
+    public void GetToken()
     {
         IServiceCollection services = new ServiceCollection();
         services.AddWeixin(options =>
@@ -37,5 +37,29 @@ public class RealWeixinAccessTokenApi_RedisCachedTests : RealWeixinTestBase
         // This time, we should get cached value from Redis.
         var result2 = api.GetToken();
         Assert.Equal(result.AccessToken, result2.AccessToken);
+    }
+
+    [Fact]
+    public async Task GetCurrentMenuAsync()
+    {
+        IServiceCollection services = new ServiceCollection();
+        services.AddWeixin(options =>
+        {
+            options.AppId = Configuration["Weixin:AppId"];
+            options.AppSecret = Configuration["Weixin:AppSecret"];
+        })
+        .AddAccessTokenRedisCacheProvider(options =>
+        {
+            options.Configuration = Configuration["Weixin:RedisConnection"];
+        });
+        var sp = services.BuildServiceProvider();
+
+        // Get the service we need.
+        var api = sp.GetRequiredService<IWeixinMenuApi>();
+
+        // We want a new token from Tencent? No.
+        var result = await api.GetCurrentMenuAsync(); 
+        Assert.NotNull(result);       
+        Assert.True(result.Succeeded);
     }
 }
