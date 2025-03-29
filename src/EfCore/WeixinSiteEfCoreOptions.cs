@@ -10,7 +10,7 @@ public class WeixinSiteEfCoreOptions
     /// </summary>
     /// <remarks>
     /// For a service account has less than 1000 subscribers, it is ok for common use cases.
-    /// <list type="bullet">
+    /// <list type="number">
     /// <item> the quota of user/get is 500 times per day</item>
     /// <item> the quota of user/info is 500000 times per day</item>
     /// </list>
