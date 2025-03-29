@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 
-public static class FakeServerBuilder
+public static class FakeTencentServerBuilder
 {
     public static TestServer CreateTencentServer()
     {
@@ -24,14 +24,14 @@ public static class FakeServerBuilder
                         if (appId != "APPID")
                         {
                             context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                            var content = TestFile.ReadTestJsonFile("AccessToken/invalid_appid.json");
+                            var content = TestFile.ReadAllText("AccessToken/invalid_appid.json");
                             await context.Response.WriteAsync(content);
                             return true;
                         }
                         else
                         {
                             context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                            var content = TestFile.ReadTestJsonFile("AccessToken/ok.json");
+                            var content = TestFile.ReadAllText("AccessToken/ok.json");
                             await context.Response.WriteAsync(content);
                             return true;
                         }
@@ -58,14 +58,14 @@ public static class FakeServerBuilder
                         if (!s.Contains(@"""appid"":""APPID"""))
                         {
                             context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                            var content = TestFile.ReadTestJsonFile("AccessToken/invalid_appid.json");
+                            var content = TestFile.ReadAllText("AccessToken/invalid_appid.json");
                             await context.Response.WriteAsync(content);
                             return true;
                         }
                         else
                         {
                             context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                            var content = TestFile.ReadTestJsonFile("AccessToken/ok.json");
+                            var content = TestFile.ReadAllText("AccessToken/ok.json");
                             await context.Response.WriteAsync(content);
                             return true;
                         }
@@ -73,44 +73,100 @@ public static class FakeServerBuilder
                 case "/cgi-bin/getcallbackip":
                     {
                         context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                        var content = TestFile.ReadTestJsonFile("Common/getcallbackip.json");
+                        var content = TestFile.ReadAllText("Common/getcallbackip.json");
                         await context.Response.WriteAsync(content);
                         return true;
                     }
                 case "/cgi-bin/get_api_domain_ip":
                     {
                         context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                        var content = TestFile.ReadTestJsonFile("Common/get_api_domain_ip.json");
+                        var content = TestFile.ReadAllText("Common/get_api_domain_ip.json");
                         await context.Response.WriteAsync(content);
                         return true;
                     }
                 case "/cgi-bin/callback/check":
                     {
                         context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                        var content = TestFile.ReadTestJsonFile("Common/callback_check.json");
+                        var content = TestFile.ReadAllText("Common/callback_check.json");
                         await context.Response.WriteAsync(content);
                         return true;
                     }
                 case "/cgi-bin/menu/create":
                     {
                         context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                        var content = TestFile.ReadTestJsonFile("Menu/menu_create.json");
+                        var content = TestFile.ReadAllText("Menu/menu_create.json");
                         await context.Response.WriteAsync(content);
                         return true;
                     }
                 case "/cgi-bin/get_current_selfmenu_info":
                     {
-                        context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                        var content = TestFile.ReadTestJsonFile("Menu/get_current_selfmenu_info.api.json");
-                        await context.Response.WriteAsync(content);
-                        return true;
+                        var version = req.Query["v"].ToString();
+                        if (string.IsNullOrEmpty(version)) version = (new Random().Next(0, 2) == 0) ? "0" : "1";
+                        if (version == "0")
+                        {
+                            context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
+                            var content = TestFile.ReadAllText("Menu/get_current_selfmenu_info.api.json");
+                            await context.Response.WriteAsync(content);
+                            return true;
+                        }
+                        else if (version == "1")
+                        {
+                            context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
+                            var content = TestFile.ReadAllText("Menu/get_current_selfmenu_info.web.json");
+                            await context.Response.WriteAsync(content);
+                            return true;
+                        }
+                        else
+                        {
+                            // Impossible here!
+                            throw new InvalidOperationException();
+                        }
                     }
                 case "/cgi-bin/menu/delete":
                     {
                         context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
-                        var content = TestFile.ReadTestJsonFile("Menu/menu_delete.json");
+                        var content = TestFile.ReadAllText("Menu/menu_delete.json");
                         await context.Response.WriteAsync(content);
                         return true;
+                    }
+                case "/cgi-bin/menu/addconditional":
+                    {
+                        context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
+                        var content = TestFile.ReadAllText("Menu/menu_addconditional.json");
+                        await context.Response.WriteAsync(content);
+                        return true;
+                    }
+                case "/cgi-bin/menu/trymatch":
+                    {
+                        context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
+                        var content = TestFile.ReadAllText("Menu/menu_trymatch.json");
+                        await context.Response.WriteAsync(content);
+                        return true;
+                    }
+                case "/cgi-bin/menu/delconditional":
+                    {
+                        context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
+                        var content = TestFile.ReadAllText("Menu/0.json");
+                        await context.Response.WriteAsync(content);
+                        return true;
+                    }
+                case "/cgi-bin/menu/get":
+                    {
+                        var version = (new Random().Next(0, 2) == 0) ? "0" : "1";
+                        if (version == "0")
+                        {
+                            context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
+                            var content = TestFile.ReadAllText("Menu/menu_get.json");
+                            await context.Response.WriteAsync(content);
+                            return true;
+                        }
+                        else
+                        {
+                            context.Response.Headers.TryAdd(HeaderNames.ContentType, "application/json");
+                            var content = TestFile.ReadAllText("Menu/menu_get_with_conditional.json");
+                            await context.Response.WriteAsync(content);
+                            return true;
+                        }
                     }
                 default:
                     throw new NotImplementedException();

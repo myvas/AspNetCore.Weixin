@@ -14,7 +14,7 @@
             {
               "type": "news",
               "name": "news",
-              "value": "KQb_w_Tiz-nSdVLoTV35Psmty8hGBulGhEdbb9SKs-o",
+              "value": "media_id",
               "news_info": {
                 "list": [
                   {
@@ -22,8 +22,8 @@
                     "author": "JIMZHENG",
                     "digest": "text",
                     "show_cover": 0,
-                    "cover_url": "http://mmbiz.qpic.cn/mmbiz/GE7et87vE9vicuCibqXsX9GPPLuEtBfXfK0HKuBIa1A1cypS0uY1wickv70iaY1gf3I1DTszuJoS3lAVLvhTcm9sDA/0",
-                    "content_url": "http://mp.weixin.qq.com/s?__biz=MjM5ODUwNTM3Ng==&mid=204013432&idx=1&sn=80ce6d9abcb832237bf86c87e50fda15#rd",
+                    "cover_url": "http://mmbiz.qpic.cn/mmbiz/media_id/0",
+                    "content_url": "http://mp.weixin.qq.com/s?biz=MjM5ODUwNTM3Ng==&mid=204013432&idx=1&sn=content_sn#rd",
                     "source_url": ""
                   },
                   {
@@ -31,8 +31,8 @@
                     "author": "JIMZHENG",
                     "digest": "MULTI_NEWS1",
                     "show_cover": 1,
-                    "cover_url": "http://mmbiz.qpic.cn/mmbiz/GE7et87vE9vicuCibqXsX9GPPLuEtBfXfKnmnpXYgWmQD5gXUrEApIYBCgvh2yHsu3ic3anDUGtUCHwjiaEC5bicd7A/0",
-                    "content_url": "http://mp.weixin.qq.com/s?__biz=MjM5ODUwNTM3Ng==&mid=204013432&idx=2&sn=8226843afb14ecdecb08d9ce46bc1d37#rd",
+                    "cover_url": "http://mmbiz.qpic.cn/mmbiz/media_id/0",
+                    "content_url": "http://mp.weixin.qq.com/s?__biz=MjM5ODUwNTM3Ng==&mid=204013432&idx=2&sn=content_sn#rd",
                     "source_url": ""
                   }
                 ]

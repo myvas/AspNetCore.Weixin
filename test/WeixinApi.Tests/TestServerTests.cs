@@ -12,7 +12,7 @@ public class TestServerTests
     private readonly TestServer _server;
     public TestServerTests()
     {
-        _server = FakeServerBuilder.CreateTencentServer();
+        _server = FakeTencentServerBuilder.CreateTencentServer();
     }
 
     [Fact]
