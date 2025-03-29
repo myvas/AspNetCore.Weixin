@@ -23,7 +23,7 @@ public class WeixinMenuController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var menu = await _api.GetMenuAsync();
+        var menu = await _api.GetCurrentMenuAsync();
 
         var vm = new WeixinJsonViewModel
         {
