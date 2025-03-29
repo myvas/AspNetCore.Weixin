@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Myvas.AspNetCore.Weixin;
 
 public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
-    where T : IWeixinCacheJson
+    where T : IWeixinExpirableValue
 {
     //private static readonly string CachePrefix = Guid.NewGuid().ToString("N");
     //private static readonly string CachePrefix = "WX_A_TOKEN";
@@ -28,9 +28,9 @@ public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
     public async Task<T> GetAsync(string appId, CancellationToken cancellationToken = default)
     {
         var cacheKey = GenerateCacheKey(appId);
-        var accessToken = await _cache.GetAsync<T>(cacheKey, cancellationToken);
+        var accessToken = await _cache.GetFromJsonAsync<T>(cacheKey, cancellationToken);
         // If the expiration window is less than 2 seconds, then we need fetch new one.
-        if (accessToken?.Succeeded ?? false)
+        if (accessToken?.Validate() ?? false)
         {
             if (accessToken.ExpiresIn > 2) return accessToken;
         }
@@ -43,10 +43,10 @@ public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
         _cache.Remove(cacheKey);
     }
 
-    public void Replace(string appId, T json)
-        => Task.Run(async () => await ReplaceAsync(appId, json));
+    public bool Replace(string appId, T json)
+        => Task.Run(async () => await ReplaceAsync(appId, json)).Result;
 
-    public async Task ReplaceAsync(string appId, T json, CancellationToken cancellationToken = default)
+    public async Task<bool> ReplaceAsync(string appId, T json, CancellationToken cancellationToken = default)
     {
         var entryOptions = new DistributedCacheEntryOptions
         {
@@ -54,6 +54,10 @@ public class WeixinRedisCacheProvider<T> : IWeixinCacheProvider<T>
             AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(json.ExpiresIn - 2)
         };
         var cacheKey = GenerateCacheKey(appId);
-        await _cache.SetAsync(cacheKey, json, entryOptions, cancellationToken);
+        await _cache.SetAsJsonAsync(cacheKey, json, entryOptions, cancellationToken);
+
+        // To ensure the value stored
+        var storedJson = await _cache.GetFromJsonAsync<T>(cacheKey, cancellationToken);
+        return storedJson?.Value == json.Value;
     }
 }

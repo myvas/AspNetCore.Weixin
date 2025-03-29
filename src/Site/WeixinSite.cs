@@ -2,32 +2,43 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Myvas.AspNetCore.Weixin.Site.Properties;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Myvas.AspNetCore.Weixin;
 
-public class WeixinSite : IWeixinSite
+public class WeixinSite
 {
+    /// <summary>
+    /// The context of the current request and its request body.
+    /// </summary>
+    protected WeixinContext Context;
+
+    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger _logger;
     private readonly WeixinSiteOptions _options;
 
-    public WeixinContext Context { get; set; }
 
-    private readonly IServiceProvider _serviceProvider;
-
-    private readonly IEnumerable<IWeixinEventSink> _handlers;
-
-    public WeixinSite(ILoggerFactory logger,
-        IOptions<WeixinSiteOptions> optionsAccessor,
-        IServiceProvider serviceProvider)
+    /// <summary>
+    /// Construct a new instance of <see cref="WeixinSite"/>.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="text">the text get from the request stream should not be empty</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    public WeixinSite(HttpContext context, string text)
     {
-        _logger = logger?.CreateLogger<WeixinSite>() ?? throw new ArgumentNullException(nameof(logger));
-        _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-        _handlers = _serviceProvider.GetServices<IWeixinEventSink>();
+        if (context == null) throw new ArgumentNullException(nameof(context));
+        if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException(nameof(text));
+        Context = new WeixinContext(context, text);
+
+        _serviceProvider = context.RequestServices;
+        _logger = _serviceProvider?.GetRequiredService<ILogger<WeixinSite>>() ?? throw new ArgumentNullException(nameof(_logger));
+        _options = _serviceProvider?.GetRequiredService<IOptions<WeixinSiteOptions>>()?.Value ?? throw new ArgumentNullException(nameof(_options));
     }
 
     /// <summary>
@@ -39,7 +50,7 @@ public class WeixinSite : IWeixinSite
         var doc = XDocument.Parse(Context.Text);
 
         RequestMsgType msgType = RequestMsgType.Unknown;
-        RequestEventType? eventType = RequestEventType.Unknown;
+        RequestEventType eventType = RequestEventType.Unknown;
         try
         {
             string sMsgType = doc.Root.Element("MsgType").Value;
@@ -109,18 +120,33 @@ public class WeixinSite : IWeixinSite
     private async Task<bool> FireEventAsync<TReceivedXml>(string methodName)
         where TReceivedXml : ReceivedXml
     {
-        var receivedXml = MyvasXmlConvert.DeserializeObject<TReceivedXml>(Context.Text);
+        var msg = "";
+        var receivedXml = WeixinXmlConvert.DeserializeObject<TReceivedXml>(Context.Text);
         var ctx = new WeixinEventArgs<TReceivedXml>(Context, receivedXml);
         var handled = false;
-        foreach (var handler in _handlers)
+        using (var scope = _serviceProvider.CreateScope())
         {
-            handled = await CallHandlerMethodAsync(handler, methodName, ctx);
-            if (handled) return true;
+            var handler = scope.ServiceProvider.GetRequiredService<IWeixinEventSink>();
+            if (handler != null)
+            {
+                // If response is already sent, handled is true.
+                handled = await CallHandlerMethodAsync(handler, methodName, ctx);
+                if (handled) return true;
+            }
+            else
+            {
+                msg = $"No handler found in the service provider.";
+                Trace.WriteLine(msg);
+                _logger.LogError(msg);
+                return await Response501NotImplementedAsync();
+            }
         }
         if (!handled)
         {
-            _logger.LogWarning($"Probably missing a handler when processing the received xml: {receivedXml}");
-            return await DefaultResponseAsync();
+            msg = $"Probably the handler does not correctly process the received xml: {receivedXml}";
+            Trace.WriteLine(msg);
+            _logger.LogError(msg);
+            return await Response501NotImplementedAsync();
         }
         return false;
     }
@@ -128,24 +154,42 @@ public class WeixinSite : IWeixinSite
     private async Task<bool> CallHandlerMethodAsync<TReceivedXml>(IWeixinEventSink handler, string methodName, WeixinEventArgs<TReceivedXml> ctx)
         where TReceivedXml : ReceivedXml
     {
+        var msg = "";
         try
         {
             var type = handler.GetType();
             var method = type.GetMethod(methodName);
             if (method == null)
             {
-                _logger.LogError($"An error occurred on the server when calling a handler without a specific method [{methodName}]");
+                msg = $"Method '{methodName}' not found in handler.";
+                Debug.WriteLine(msg);
+                _logger.LogTrace(msg);
+                return false;
+            }
+            if (method.ReturnType != typeof(Task<bool>))
+            {
+                msg = $"Method '{methodName}' does not return Task<bool>.";
+                Trace.WriteLine(msg);
+                _logger.LogError(msg);
+                return false;
             }
             var task = (Task<bool>)method.Invoke(handler, [this, ctx]);
             return await task;
         }
+        catch (TargetInvocationException tie)
+        {
+            msg = $"Method '{methodName}' threw an exception: {tie.InnerException?.Message}";
+            Trace.WriteLine(msg);
+            _logger.LogError(msg);
+            return false;
+        }
         catch (Exception ex)
         {
-            _logger.LogWarning($"An error occurred on the server when the handler [{handler.GetType().Name}] try to process the received xml: {ctx.Xml}.");
-            _logger.LogError(ex.Message);
-            _logger.LogTrace(ex.StackTrace);
+            msg = $"Unexpected error calling '{methodName}': {ex.Message}";
+            Trace.WriteLine(msg);
+            _logger.LogError(msg);
+            return false;
         }
-        return false;
     }
 
     /// <summary>
@@ -154,8 +198,26 @@ public class WeixinSite : IWeixinSite
     /// <returns></returns>
     protected virtual async Task<bool> DefaultResponseAsync()
     {
-        var responseBuilder = new PlainTextResponseBuilder(Context.Context);
+        var responseBuilder = new WeixinResponsePlainTextBuilder(Context.Context);
         responseBuilder.Content = Resources.ErrorOnCallingHandler;
+        await responseBuilder.FlushAsync();
+        return true;
+    }
+
+    protected virtual async Task<bool> Response500InternalServerErrorAsync(string content = null)
+    {
+        var responseBuilder = new WeixinResponsePlainTextBuilder(Context.Context);
+        responseBuilder.StatusCode = StatusCodes.Status500InternalServerError;
+        responseBuilder.Content = content ?? Resources.Response500InternalServerError;
+        await responseBuilder.FlushAsync();
+        return true;
+    }
+
+    protected virtual async Task<bool> Response501NotImplementedAsync(string content = null)
+    {
+        var responseBuilder = new WeixinResponsePlainTextBuilder(Context.Context);
+        responseBuilder.StatusCode = StatusCodes.Status501NotImplemented;
+        responseBuilder.Content = content ?? Resources.Response501NotImplemented;
         await responseBuilder.FlushAsync();
         return true;
     }

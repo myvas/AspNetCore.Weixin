@@ -1,4 +1,3 @@
-
 # UseCase: WeixinBuilder
 
 ## IWeixinAccessTokenApi

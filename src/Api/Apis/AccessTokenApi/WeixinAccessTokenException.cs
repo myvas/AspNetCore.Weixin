@@ -4,7 +4,7 @@ namespace Myvas.AspNetCore.Weixin;
 
 public class WeixinAccessTokenException : WeixinException
 {
-    public WeixinAccessTokenException(IWeixinError errorJson) : base(errorJson)
+    public WeixinAccessTokenException(IWeixinErrorJson errorJson) : base(errorJson)
     {
     }
 

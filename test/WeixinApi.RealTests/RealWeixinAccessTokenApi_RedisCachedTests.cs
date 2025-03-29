@@ -24,14 +24,12 @@ public class RealWeixinAccessTokenApi_RedisCachedTests : RealWeixinTestBase
 
         // We want a new token from Tencent? No.
         var result = api.GetToken();
-        Assert.NotNull(result);
         Assert.True(result.Succeeded);
         Assert.True(result.ExpiresIn > 0);
 
         if (result.ExpiresIn < 5)
         {
             result = api.GetToken(true);
-            Assert.NotNull(result);
             Assert.True(result.Succeeded);
             Assert.True(result.ExpiresIn > 5);
         }

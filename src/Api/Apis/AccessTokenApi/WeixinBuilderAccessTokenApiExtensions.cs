@@ -21,16 +21,14 @@ public static class WeixinBuilderAccessTokenApiExtensions{
 
     public static WeixinBuilder AddAccessTokenRedisCacheProvider(this WeixinBuilder builder, Action<RedisCacheOptions> setupAction = null)
     {
-        //builder.Services.Add(ServiceDescriptor.Singleton<IDistributedCache, Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache>());
-        builder.Services.AddStackExchangeRedisCache(setupAction); // IDistributedCache
-        builder.AddRedisCacheProvider<WeixinAccessTokenJson>();
+        builder.AddRedisCacheProvider<WeixinAccessTokenJson>(setupAction);
         return builder;
     }
 
     public static WeixinBuilder AddAccessTokenCacheProvider<TWeixinCacheProvider>(this WeixinBuilder builder)
         where TWeixinCacheProvider : class, IWeixinCacheProvider<WeixinAccessTokenJson>
     {
-        builder.AddCacheProvider<WeixinAccessTokenJson, TWeixinCacheProvider>();
+        builder.AddWeixinCacheProvider<WeixinAccessTokenJson, TWeixinCacheProvider>();
         return builder;
     }
 }

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+    <title>@ViewData["Title"] - Demo</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" crossorigin="anonymous" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">AspNetCore.Weixin Demo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a></li>
+                <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Subscribers" class="nav-link">Subscribers</a></li>
+                <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="ReceivedText" class="nav-link">Messages</a></li>
+                <li class="nav-item"><a asp-area="" asp-controller="WeixinMenu" asp-action="Index" class="nav-link">WeixinMenu</a></li>
+            </ul>
+            @*@await Html.PartialAsync("_LoginPartial")*@
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.4.0.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

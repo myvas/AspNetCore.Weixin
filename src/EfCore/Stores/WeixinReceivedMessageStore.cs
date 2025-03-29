@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.EntityFrameworkCore;
+namespace Myvas.AspNetCore.Weixin.EfCore;
 
-public class WeixinReceivedMessageStore<TContext> : WeixinReceivedMessageStore<WeixinReceivedMessage, TContext>, IWeixinReceivedMessageStore
+public class WeixinReceivedMessageStore<TContext> : WeixinReceivedMessageStore<WeixinReceivedMessageEntity, TContext>, IWeixinReceivedMessageStore
     where TContext : DbContext
 {
     public WeixinReceivedMessageStore(TContext context, WeixinErrorDescriber describer = null) : base(context, describer)
@@ -14,8 +14,8 @@ public class WeixinReceivedMessageStore<TContext> : WeixinReceivedMessageStore<W
     }
 }
 
-public class WeixinReceivedMessageStore<TWeixinReceivedMessage, TContext> : WeixinReceivedMessageStoreBase<TWeixinReceivedMessage>
-    where TWeixinReceivedMessage : WeixinReceivedMessage
+public class WeixinReceivedMessageStore<TWeixinReceivedMessageEntity, TContext> : WeixinReceivedMessageStoreBase<TWeixinReceivedMessageEntity>
+    where TWeixinReceivedMessageEntity : class, IWeixinReceivedMessageEntity
     where TContext : DbContext
 {
     public WeixinReceivedMessageStore(TContext context, WeixinErrorDescriber describer = null)
@@ -34,7 +34,7 @@ public class WeixinReceivedMessageStore<TWeixinReceivedMessage, TContext> : Weix
     /// </summary>
     public virtual TContext Context { get; private set; }
 
-    public override IQueryable<TWeixinReceivedMessage> Items => Context.Set<TWeixinReceivedMessage>();
+    public override IQueryable<TWeixinReceivedMessageEntity> Items => Context.Set<TWeixinReceivedMessageEntity>();
 
     /// <summary>
     /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -52,7 +52,7 @@ public class WeixinReceivedMessageStore<TWeixinReceivedMessage, TContext> : Weix
         return AutoSaveChanges ? Context.SaveChangesAsync(cancellationToken) : Task.CompletedTask;
     }
 
-    public override async Task<WeixinResult> CreateAsync(TWeixinReceivedMessage item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> CreateAsync(TWeixinReceivedMessageEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -65,7 +65,7 @@ public class WeixinReceivedMessageStore<TWeixinReceivedMessage, TContext> : Weix
         return WeixinResult.Success;
     }
 
-    public override async Task<WeixinResult> UpdateAsync(TWeixinReceivedMessage item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> UpdateAsync(TWeixinReceivedMessageEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
@@ -88,7 +88,7 @@ public class WeixinReceivedMessageStore<TWeixinReceivedMessage, TContext> : Weix
         return WeixinResult.Success;
     }
 
-    public override async Task<WeixinResult> DeleteAsync(TWeixinReceivedMessage item, CancellationToken cancellationToken = default)
+    public override async Task<WeixinResult> DeleteAsync(TWeixinReceivedMessageEntity item, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();

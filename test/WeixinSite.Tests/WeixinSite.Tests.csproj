@@ -58,7 +58,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="../../src/Api/Myvas.AspNetCore.Weixin.Api.csproj" />
 		<ProjectReference Include="../../src/Site/Myvas.AspNetCore.Weixin.Site.csproj" />
 	</ItemGroup>
 

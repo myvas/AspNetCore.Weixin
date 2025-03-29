@@ -20,7 +20,7 @@ public class WeixinLinkMessageReceivedXmlTests
             Url = "http://url.com/q?something",
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
@@ -41,7 +41,7 @@ public class WeixinLinkMessageReceivedXmlTests
             Url = "http://url.com/q?something",
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<LinkMessageReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<LinkMessageReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);

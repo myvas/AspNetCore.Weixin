@@ -32,8 +32,7 @@ public static class WeixinBuilderExtensions
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinSiteOptions>, WeixinSitePostConfigureOptions<WeixinSiteOptions>>());
 
-        builder.Services.AddTransient<IWeixinSite, WeixinSite>();
-        builder.Services.AddTransient<IWeixinEventSink,WeixinDebugEventSink>();
+        builder.Services.Replace(ServiceDescriptor.Scoped(typeof(IWeixinEventSink), typeof(WeixinDebugEventSink)));
 
         return new WeixinSiteBuilder(builder);
     }

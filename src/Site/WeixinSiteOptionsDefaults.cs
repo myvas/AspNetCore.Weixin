@@ -27,11 +27,6 @@ public static class WeixinSiteOptionsDefaults
     public const bool StrictMode = false;
 
     /// <summary>
-    /// default is ClearText
-    /// </summary>
-    public const string EncryptionMode = EncryptionModes.ClearText;
-
-    /// <summary>
     /// The default max length of Weixin request content, default is 32MB.
     /// </summary>
     public const long MaxRequestContentLength = 1024 * 1024 * 32;

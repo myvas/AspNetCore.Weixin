@@ -1,16 +1,13 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Myvas.AspNetCore.Weixin.Site.Tests.TestServers;
 using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace Myvas.AspNetCore.Weixin.Site.Tests;
 
@@ -22,7 +19,34 @@ public class WeixinSiteMiddlewareTests
 
     public WeixinSiteMiddlewareTests()
     {
-        testServer = FakeServerBuilder.CreateTencentServer();
+        testServer = TestServerBuilder.CreateServer(app =>
+        {
+            app.UseWeixinSite();
+        }, services =>
+        {
+            services.AddWeixin(o =>
+            {
+                o.AppId = "APPID";
+                o.AppSecret = "APPSECRET";
+            })
+            .AddWeixinSite(o =>
+            {
+                o.WebsiteToken = "WEIXINSITETOKEN";
+            })
+            .AddMessageProtection();
+        }, async context =>
+        {
+            var req = context.Request;
+            if (req.Path.Value != WeixinSiteOptionsDefaults.Path)
+            {
+
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                var content = "404 NOT FOUND";
+                await context.Response.WriteAsync(content);
+                return true;
+            }
+            return false;
+        });
     }
 
     [Fact]
@@ -33,9 +57,6 @@ public class WeixinSiteMiddlewareTests
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var s = await response.Content.ReadAsStringAsync();
-        Assert.NotNull(s);
-        Assert.NotEmpty(s);
-        Debug.WriteLine(s);
         Assert.StartsWith("You are now trying to visit a verification URL", s);
     }
 
@@ -46,14 +67,12 @@ public class WeixinSiteMiddlewareTests
         var textXml = TestFile.ReadTestFile("uplink/msg/text.xml");
         // We intentionally do NOT prepare a query string with signature|timestamp|nonce here!
         var url = WeixinSiteOptionsDefaults.Path;
+        testClient.DefaultRequestHeaders.Add("User-Agent", MicroMessengerUserAgent);
 
         var response = await testClient.PostAsync(url, new StringContent(textXml));
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
         var s = await response.Content.ReadAsStringAsync();
-        Assert.NotNull(s);
-        Assert.NotEmpty(s);
-        Debug.WriteLine(s);
         Assert.Contains("Failed on WeChat message signature verification!", s);
     }
 
@@ -78,9 +97,6 @@ public class WeixinSiteMiddlewareTests
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
         var s = await response.Content.ReadAsStringAsync();
-        Assert.NotNull(s);
-        Assert.NotEmpty(s);
-        Debug.WriteLine(s);
         Assert.StartsWith("Please access this page via the WeChat client", s);
     }
 
@@ -104,9 +120,6 @@ public class WeixinSiteMiddlewareTests
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
         var s = await response.Content.ReadAsStringAsync();
-        Assert.NotNull(s);
-        Assert.NotEmpty(s);
-        Debug.WriteLine(s);
         Assert.StartsWith("Please access this page via the WeChat client", s);
     }
 

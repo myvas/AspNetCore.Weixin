@@ -1,0 +1,58 @@
+@model ReturnableViewModel<IList<WeixinReceivedMessageEntity>>
+
+@{
+    ViewData["Title"] = "Received Text";
+}
+
+<h2>@ViewData["Title"] (@Model.Item?.Count()??0)</h2>
+
+@if (Model.Item == null || Model.Item.Count == 0)
+{
+	<div class="alert alert-info" role="alert">No messages in database. </div>
+}
+else
+{
+    foreach (var item in Model.Item)
+    {
+        <div class="media">
+            <div class="media-body">
+                <dl class="dl-horizontal">
+                    <dt>FromUserName</dt>
+                    <dd>
+                        <div class="text-truncate" style="width:150px;" data-container="body" data-toggle="popover"
+                            data-placement="bottom" data-content="@item.FromUserName">@item.FromUserName</div>
+                    </dd>
+                    @if (!string.IsNullOrEmpty(item.Content))
+                    {
+                        <dt>Content</dt>
+                        <dd><div class="alert alert-primary" role="alert">@item.Content</div></dd>
+                    }
+                    @if (!string.IsNullOrEmpty(item.Url))
+                    {
+                        <dt>Url</dt>
+                        <dd><img alt="@item.Title" src="@item.Url" /></dd>
+                    }
+                    @if (!string.IsNullOrEmpty(item.PicUrl))
+                    {
+                        <dt>PicUrl</dt>
+                        <dd><img alt="@item.Title" src="@item.PicUrl" /></dd>
+                    }
+                    @if (!string.IsNullOrEmpty(item.MediaId))
+                    {
+                        <dt>media Id</dt>
+                        <dd>@item.MediaId</dd>
+                    }
+                    @if (!string.IsNullOrEmpty(item.ThumbMediaId))
+                    {
+                        <dt>Thumbmedia Id</dt>
+                        <dd>@item.ThumbMediaId</dd>
+                    }
+                    <dt>Received Time</dt>
+                    <dd>@(new UnixDateTime(item.CreateTime ?? 0).DateTime.ToLocalTime().ToString("yyyy-MM-dd hh:mm:ss"))</dd>
+                </dl>
+                <a asp-action="SendWeixin" asp-route-openid="@item.FromUserName">发送微信消息</a>
+            </div>
+        </div>
+        <hr />
+    }
+}

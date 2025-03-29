@@ -19,7 +19,7 @@ public class WeixinVoiceMessageReceivedXmlTests
             Format = "Format"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
@@ -39,7 +39,7 @@ public class WeixinVoiceMessageReceivedXmlTests
             Format = "Format",
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<VoiceMessageReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<VoiceMessageReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);

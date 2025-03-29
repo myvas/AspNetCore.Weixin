@@ -19,21 +19,6 @@ public class WeixinSiteBuilder
 
     public IServiceCollection Services { get => WeixinBuilder.Services; }
 
-    private IList<IWeixinSite> _handlers = new List<IWeixinSite>();
-    public IReadOnlyList<IWeixinSite> WeixinHandlers { get { return (IReadOnlyList<IWeixinSite>)_handlers; } }
-    public IWeixinSite AddHandler(IWeixinSite handler)
-    {
-        if (!_handlers.Contains(handler))
-        {
-            _handlers.Add(handler);
-        }
-        return handler;
-    }
-
-    //public OptionsBuilder<WeixinOptions> ApiOptions { get=>WeixinBuilder.Options; }
-    public OptionsBuilder<WeixinSiteOptions> SiteOptions { get; set; }
-    public OptionsBuilder<WeixinSiteEncodingOptions> EncodingOptions { get; set; }
-
     /// <summary>
     /// Gets the <see cref="Type"/> used for Weixin subscriber.
     /// </summary>

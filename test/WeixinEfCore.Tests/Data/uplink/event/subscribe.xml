@@ -1,0 +1,7 @@
+﻿<xml>
+  <ToUserName><![CDATA[to-event-subscribe]]></ToUserName>
+  <FromUserName><![CDATA[from-event-subscribe]]></FromUserName>
+  <CreateTime>123456789</CreateTime>
+  <MsgType><![CDATA[event]]></MsgType>
+  <Event><![CDATA[subscribe]]></Event>
+</xml>

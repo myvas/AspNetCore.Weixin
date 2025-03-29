@@ -1,0 +1,27 @@
+@model SendWeixinViewModel
+
+@{
+    ViewData["Title"] = "Send Weixin Message";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" action="SendWeixin">
+    @Html.AntiForgeryToken()
+    <input hidden asp-for="OpenId" type="text" />
+    <dl>
+        <dt>
+            openid
+        </dt>
+        <dd>
+            <div>@(Model.Nickname)</div>
+        </dd>
+        <dt>
+            content
+        </dt>
+        <dd>
+            <input type="text" asp-for="Content" />
+        </dd>
+    </dl>
+    <input type="submit" value="Submit" />
+</form>

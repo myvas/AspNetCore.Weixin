@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Myvas.AspNetCore.Weixin;
@@ -8,10 +9,9 @@ namespace Myvas.AspNetCore.Weixin;
 public static class WeixinSiteBuilderExtensions
 {
     public static WeixinSiteBuilder AddWeixinEventSink<TWeixinEventSink>(this WeixinSiteBuilder builder)
-         where TWeixinEventSink : class, IWeixinEventSink
+        where TWeixinEventSink : class, IWeixinEventSink
     {
-        builder.Services.TryAddScoped<IWeixinEventSink, TWeixinEventSink>();
-
+        builder.Services.Replace(ServiceDescriptor.Scoped<IWeixinEventSink, TWeixinEventSink>());
         return builder;
     }
 }

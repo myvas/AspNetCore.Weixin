@@ -17,7 +17,7 @@ public class WeixinSubscribeEventReceivedXmlTests
             Event = "subscribe"
         };
 
-        var result = MyvasXmlConvert.SerializeObject(o);
+        var result = WeixinXmlConvert.SerializeObject(o);
         var s2 = WeixinXmlStringNormalizer.Normalize(s);
         Assert.Equal(s2, result);
     }
@@ -35,7 +35,7 @@ public class WeixinSubscribeEventReceivedXmlTests
             Event = "subscribe"
         };
 
-        var result = MyvasXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(s);
+        var result = WeixinXmlConvert.DeserializeObject<SubscribeEventReceivedXml>(s);
         Assert.Equal(o.FromUserName, result.FromUserName);
         Assert.Equal(o.ToUserName, result.ToUserName);
         Assert.Equal(o.CreateTime, result.CreateTime);
