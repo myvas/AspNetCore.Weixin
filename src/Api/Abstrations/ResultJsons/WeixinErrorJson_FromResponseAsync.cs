@@ -47,7 +47,7 @@ public partial class WeixinErrorJson
         }
         catch (HttpRequestException httpEx)
         {
-            result.ErrorCode = GetStatusCode(httpEx);
+            result.ErrorCode = httpEx.GetStatusCode() ?? (int)HttpStatusCode.BadRequest;
             result.ErrorMessage = httpEx.Message;
             result.Exception = httpEx;
             return result;
@@ -73,17 +73,5 @@ public partial class WeixinErrorJson
             result.Exception = ex;
             return result;
         }
-    }
-
-    private static int GetStatusCode(HttpRequestException httpEx)
-    {
-
-#if NET5_0_OR_GREATER
-        return (int)(httpEx.StatusCode ?? HttpStatusCode.InternalServerError);
-#else
-        return (int)(httpEx.Data.Contains("StatusCode")
-            ? (HttpStatusCode?)httpEx.Data["StatusCode"]
-            : HttpStatusCode.InternalServerError);
-#endif
     }
 }
