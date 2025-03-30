@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using IEmailSender=Myvas.AspNetCore.Email.IEmailSender;
 
 namespace WeixinSiteSample.Areas.Identity.Pages.Account
 {
@@ -58,7 +59,7 @@ namespace WeixinSiteSample.Areas.Identity.Pages.Account
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return new ChallengeResult(provider, properties);
+            return new ChallengeResult(provider, properties);//Challenge(properties, provider);
         }
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
@@ -69,6 +70,7 @@ namespace WeixinSiteSample.Areas.Identity.Pages.Account
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
