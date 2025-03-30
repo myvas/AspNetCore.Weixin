@@ -35,4 +35,9 @@ public partial class WeixinErrorJson : WeixinJson, IWeixinErrorJson
 
     [JsonIgnore]
     public virtual bool Succeeded => (ErrorCode ?? 0) == 0 && Exception is null;
+
+    public override string ToString()
+    {
+        return $"[{ErrorCode}] {ErrorMessage}";
+    }
 }
