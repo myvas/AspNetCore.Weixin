@@ -18,42 +18,36 @@ public partial class WeixinErrorJson
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <noexception/>
-    public static async Task<TResult> FromResponseAsync<TResult>(Func<CancellationToken, Task<HttpResponseMessage>> GetResponseAction, CancellationToken cancellationToken = default)
+    public static async Task<TResult> FromResponseAsync<TResult>(Func<CancellationToken, Task<HttpResponseMessage>> getResponseAsync, CancellationToken cancellationToken = default)
         where TResult : IWeixinErrorJson, new()
     {
         var result = new TResult();
 
         try
         {
-            using var response = await GetResponseAction(cancellationToken);
+            // ConfigureAwait(false) tells the runtime:
+            // "You don’t need to return to the original context. Resume on any available thread from the thread pool."
+            using var response = await getResponseAsync(cancellationToken).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
                 result.ErrorCode = (int)response.StatusCode;
-                result.ErrorMessage = $"HTTP request failed with status code: {response.StatusCode}";
+                result.ErrorMessage = $"HTTP request failed with status: {response.StatusCode}";
                 return result;
             }
 
-            var responseData = await response.Content.ReadFromJsonAsync<TResult>(cancellationToken: cancellationToken);
-            if (responseData == null)
-            {
-                result.ErrorCode = (int)HttpStatusCode.InternalServerError;
-                result.ErrorMessage = "Failed to deserialize response";
-                return result;
-            }
-
-            return responseData;
+            var responseData = await response.Content.ReadFromJsonAsync<TResult>(cancellationToken: cancellationToken).ConfigureAwait(false);
+            return responseData ?? throw new JsonException("Null response received");
+        }
+        catch (OperationCanceledException)
+        {
+            result.ErrorCode = (int)HttpStatusCode.RequestTimeout;
+            result.ErrorMessage = "Request was canceled";
+            return result;
         }
         catch (HttpRequestException httpEx)
         {
-#if NET5_0_OR_GREATER
-            result.ErrorCode = (int)(httpEx.StatusCode ?? HttpStatusCode.InternalServerError);
-#else
-            var statusCode = httpEx.Data.Contains("StatusCode")
-                ? (HttpStatusCode?)httpEx.Data["StatusCode"]
-                : null;
-            result.ErrorCode = (int)(statusCode??HttpStatusCode.InternalServerError);
-#endif
+            result.ErrorCode = GetStatusCode(httpEx);
             result.ErrorMessage = httpEx.Message;
             result.Exception = httpEx;
             return result;
@@ -65,19 +59,31 @@ public partial class WeixinErrorJson
             result.Exception = jsonEx;
             return result;
         }
-        catch (NotSupportedException supportEx)
+        catch (NotSupportedException notSuppEx)
         {
-            result.ErrorCode = (int)HttpStatusCode.BadRequest;
-            result.ErrorMessage = "Invalid response format";
-            result.Exception = supportEx;
+            result.ErrorCode = (int)HttpStatusCode.UnsupportedMediaType;
+            result.ErrorMessage = "Unsupported response format";
+            result.Exception = notSuppEx;
             return result;
         }
         catch (Exception ex)
         {
             result.ErrorCode = (int)HttpStatusCode.InternalServerError;
-            result.ErrorMessage = "Request failed for an unexpected error occurred";
+            result.ErrorMessage = "An unexpected error occurred";
             result.Exception = ex;
             return result;
         }
+    }
+
+    private static int GetStatusCode(HttpRequestException httpEx)
+    {
+
+#if NET5_0_OR_GREATER
+        return (int)(httpEx.StatusCode ?? HttpStatusCode.InternalServerError);
+#else
+        return (int)(httpEx.Data.Contains("StatusCode")
+            ? (HttpStatusCode?)httpEx.Data["StatusCode"]
+            : HttpStatusCode.InternalServerError);
+#endif
     }
 }
