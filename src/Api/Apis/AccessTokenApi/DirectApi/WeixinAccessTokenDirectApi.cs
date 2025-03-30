@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
-using System;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -43,10 +43,13 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
             secret = Options.AppSecret,
             force_refresh = forceRefresh
         };
-        var jsonBody = JsonSerializer.Serialize(body);
-        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-        return await PostContentAsJsonAsync<WeixinAccessTokenJson>(url, content, cancellationToken);
+        // var jsonBody = JsonSerializer.Serialize(body);
+        // var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+        // return await WeixinErrorJson.FromResponseAsync<WeixinAccessTokenJson>(async ct =>
+        // {
+        //     return await Http.PostAsync(url, content, ct).ConfigureAwait(false);
+        // }, cancellationToken);
+        return await PostAsJsonAsync<object, WeixinAccessTokenJson>(url, body, null, cancellationToken);
     }
 
     /// <summary>
@@ -68,14 +71,14 @@ public sealed class WeixinAccessTokenDirectApi : WeixinApiClient, IWeixinAccessT
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
     /// <remarks>至少5分钟内可用，除非用户调用<see cref="GetAndRefreshTokenAsync"/>强制刷新。</remarks>
-    public WeixinAccessTokenJson GetToken() => Task.Run(async () => await GetTokenAsync()).Result;
+    public WeixinAccessTokenJson GetToken() => GetTokenAsync().ConfigureAwait(false).GetAwaiter().GetResult();
 
     /// <summary>
     /// 强制刷新微信公众号全局接口调用凭证(access_token)。
     /// </summary>
     /// <returns>微信公众号全局接口调用凭证(access_token)</returns>
     /// <remarks>注意：本接口调用限制为20次/日。若在30秒内重复调用不会有效作废旧凭证！</remarks>
-    public WeixinAccessTokenJson GetAndRefreshToken() => Task.Run(async () => await GetAndRefreshTokenAsync()).Result;
+    public WeixinAccessTokenJson GetAndRefreshToken() => GetAndRefreshTokenAsync().ConfigureAwait(false).GetAwaiter().GetResult();
 
     #region This code is deprecated but kept here for reference and memorization purposes.
     /// <summary>
