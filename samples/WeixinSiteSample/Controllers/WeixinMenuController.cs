@@ -22,11 +22,34 @@ public class WeixinMenuController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var menu = await _api.GetCurrentMenuAsync();
+        var json = await _api.GetCurrentMenuAsync();
+
+        // Convert WeixinMenuJson to WeixinMenuCreateJson
+        var createJson = new WeixinMenuCreateJson();
+        foreach (var button in json.SelfMenuInfo.Buttons)
+        {
+            if (button is WeixinMenuJson.Button.ContainerWithList containerWithList)
+            {
+                var container = new WeixinMenuJson.Button.Container()
+                {
+                    Name = button.Name
+                };
+                foreach (var child in containerWithList.SubButton.Buttons)
+                {
+                    container.AddButton(child);
+                }
+                createJson.AddButton(container);
+            }
+            else
+            {
+                createJson.AddButton(button);
+            }
+        }
 
         var vm = new WeixinJsonViewModel
         {
-            Json = JsonSerializer.Serialize(menu)
+            Json = JsonSerializer.Serialize(json),
+            CreateJson = JsonSerializer.Serialize(createJson)
         };
         return View(vm);
     }
