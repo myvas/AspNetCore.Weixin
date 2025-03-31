@@ -3,15 +3,14 @@
     var assembly = typeof(Program).Assembly;
     var assemblyName = assembly.GetName().Name;
     var assemblyVersion = assembly.GetName().Version?.ToString()
-        ?? assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+    ?? assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
 
     ViewData["Title"] = assemblyName;
 }
 
 <h2 title="Myvas.AspNetCore.Authentication.Demo">@assemblyName v<small>@assemblyVersion</small></h2>
 
-<p>这是一组github开源项目的演示网站。本网站源代码在此：<a
-        href="https://github.com/myvas/AspNetCore.Weixin">Myvas.AspNetCore.Weixin</a></p>
+<p>这是一组github开源项目的演示网站。本网站源代码在此：<a href="https://github.com/myvas/AspNetCore.Weixin">Myvas.AspNetCore.Weixin</a></p>
 <ul>
     <li>WeixinOpen (open.weixin.qq.com)</li>
     <li>WeixinAuth (mp.weixin.qq.com)</li>
@@ -30,8 +29,9 @@
 <p>--- 或 ---</p>
 (3)直接扫码进入微信公众号测试，然后点击菜单[UserInfo]
 <p>
-    <img src="~/img/mp-test.jpg" height="300" />
-<div class="help-block">（注：以上微信公众号的源码在<a href="https://github.com/myvas/AspNetCore.Weixin">Myvas.AspNetCore.Weixin</a>，其<a
+    <img src="~/img/wx/mp-myvas.jpg" height="300" />
+<div class="help-block">（注：以上微信公众号的源码在<a
+        href="https://github.com/myvas/AspNetCore.Weixin">Myvas.AspNetCore.Weixin</a>，其<a
         href="http://wx.myvas.com">Demo程序</a>可以修改这些菜单）</div>
 </p>
 <hr />

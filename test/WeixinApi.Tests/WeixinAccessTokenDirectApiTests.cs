@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
@@ -11,7 +10,7 @@ public class WeixinAccessTokenDirectApiTests
     private readonly TestServer _server;
     public WeixinAccessTokenDirectApiTests()
     {
-        _server = FakeServerBuilder.CreateTencentServer();
+        _server = FakeTencentServerBuilder.CreateTencentServer();
     }
 
     [Fact]
@@ -52,8 +51,8 @@ public class WeixinAccessTokenDirectApiTests
         var optionsAccessor = sp.GetRequiredService<IOptions<WeixinOptions>>();
         var api = new WeixinAccessTokenDirectApi(optionsAccessor);
 
-        var ex = await Assert.ThrowsAsync<WeixinAccessTokenException>(() => api.GetTokenAsync());
-        Assert.Equal(40013, ex.ErrorCode);
-        Assert.StartsWith("invalid appid", ex.ErrorMessage);
+        var result=await api.GetTokenAsync();
+        Assert.Equal(40013, result.ErrorCode);
+        Assert.StartsWith("invalid appid", result.ErrorMessage);
     }
 }

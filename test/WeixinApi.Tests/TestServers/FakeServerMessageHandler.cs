@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class FakeServerMessageHandler : DelegatingHandler
 {
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        return FakeServerBuilder.CreateTencentServer().CreateClient().SendAsync(request, cancellationToken);
+        return FakeTencentServerBuilder.CreateTencentServer().CreateClient().SendAsync(request, cancellationToken);
     }
 }

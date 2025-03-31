@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +10,7 @@ public class WeixinCommonApiTests
     private readonly TestServer _server;
     public WeixinCommonApiTests()
     {
-        _server = FakeServerBuilder.CreateTencentServer();
+        _server = FakeTencentServerBuilder.CreateTencentServer();
     }
 
     [Fact]

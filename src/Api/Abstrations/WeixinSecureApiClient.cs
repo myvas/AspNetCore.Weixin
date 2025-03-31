@@ -38,13 +38,13 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// <summary>
     /// Sends an HTTP GET request to the specified URL, retrieves the response as JSON, deserializes it into a TValue object, and returns the object.
     /// </summary>
-    /// <typeparam name="TValue">The type of object to which the JSON response is deserializd.</typeparam>
+    /// <typeparam name="TResult">The type of object to which the JSON response is deserializd.</typeparam>
     /// <param name="requestUriFormat">The URL to which the HTTP GET request is sent, included a placeholder of 'access_token=ACCESS_TOKEN' or '{0}'</param>
     /// <param name="cancellationToken"></param>
     /// <returns>The deserialized object of type TValue.</returns>
-    public async Task<TValue> SecureGetFromJsonAsync<TValue>(string requestUriFormat, CancellationToken cancellationToken = default)
-        where TValue : IWeixinError
-        => await GetFromJsonAsync<TValue>(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), cancellationToken);
+    public async Task<TResult> SecureGetFromJsonAsync<TResult>(string requestUriFormat, CancellationToken cancellationToken = default)
+        where TResult : IWeixinErrorJson, new()
+        => await GetFromJsonAsync<TResult>(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), cancellationToken);
 
     /// <summary>
     /// Sends an HTTP POST request to the specified URL, which include a request body in JSON that serialized from TValue object, retrieves the response as JSON, deserializes it into a TResult object, and returns the object.
@@ -56,7 +56,7 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// <returns>The deserialized object of type TResult.</returns>
     public async Task<TResult> SecurePostAsJsonAsync<TValue, TResult>(string requestUriFormat, TValue value,
         JsonSerializerOptions options = null, CancellationToken cancellationToken = default)
-        where TResult : WeixinErrorJson
+        where TResult : IWeixinErrorJson, new()
         => await PostAsJsonAsync<TValue, TResult>(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), value, options, cancellationToken);
 
     /// <summary>
@@ -69,6 +69,7 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// <returns>The deserialized object of type TResult.</returns>
     // Post Files
     public async Task<TResult> SecurePostMultipleFilesAsJsonAsync<TResult>(string requestUriFormat, Dictionary<string, string> fileKeyAndPaths, CancellationToken cancellationToken = default)
+     where TResult : IWeixinErrorJson, new()
         => await PostMultipleFilesAsJsonAsync<TResult>(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), fileKeyAndPaths, cancellationToken);
 
     /// <summary>
@@ -80,6 +81,7 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<TResult> SecurePostFileAsJsonAsync<TResult>(string requestUriFormat, Stream file, CancellationToken cancellationToken = default)
+        where TResult : IWeixinErrorJson, new()
         => await PostFileAsJsonAsync<TResult>(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), file, cancellationToken);
 
     /// <summary>
@@ -91,6 +93,7 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<TResult> SecurePostContentAsJsonAsync<TResult>(string requestUriFormat, HttpContent content, CancellationToken cancellationToken = default)
+        where TResult : IWeixinErrorJson, new()
     => await PostContentAsJsonAsync<TResult>(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), content, cancellationToken);
 
     /// <summary>
@@ -98,7 +101,7 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// </summary>
     /// <param name="requestUriFormat">The URL to which the HTTP GET request is sent, included a placeholder of 'access_token=ACCESS_TOKEN' or '{0}'</param>
     /// <returns></returns>
-    public async Task<Dictionary<string, string>> SecureDownload(string requestUriFormat, Stream file, int bufferSize = 81920, CancellationToken cancellationToken = default)
+    public async Task<WeixinDownloadResultJson> SecureDownload(string requestUriFormat, Stream file, int bufferSize = 81920, CancellationToken cancellationToken = default)
     => await Download(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), file, bufferSize, cancellationToken);
 
     /// <summary>
@@ -110,5 +113,6 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<TResult> SecurePostFormAsJsonAsync<TResult>(string requestUriFormat, Dictionary<string, string> form, CancellationToken cancellationToken = default)
+        where TResult : IWeixinErrorJson, new()
         => await PostFormAsJsonAsync<TResult>(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), form, cancellationToken);
 }

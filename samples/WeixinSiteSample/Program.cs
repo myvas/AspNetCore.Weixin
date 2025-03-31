@@ -29,3 +29,5 @@ finally
 {
     Console.WriteLine($"{assemblyName} v{assemblyVersion} shutdown.");
 }
+
+public partial class Program { }
