@@ -53,7 +53,7 @@ public class WeixinMemoryCacheProviderTests
 
         Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
         var accessToken3 = api.Get<WeixinAccessTokenJson>(randomAppId);
-        Debug.WriteLineIf(accessToken3.Succeeded, JsonSerializer.Serialize(accessToken3));
+        Debug.WriteLineIf(accessToken3?.Succeeded ?? false, JsonSerializer.Serialize(accessToken3));
         Assert.False(accessToken3?.Succeeded ?? false);
     }
 }
