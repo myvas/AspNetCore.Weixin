@@ -8,26 +8,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
-public class WeixinRedisCacheProviderTests
+public class WeixinRedisCacheProviderTests : RealRedisServerBase
 {
-    protected IConfiguration Configuration { get; }
-    public WeixinRedisCacheProviderTests()
-    {
-        Configuration = new ConfigurationBuilder()
-            .AddUserSecrets("Myvas.AspNetCore.Weixin.Tests")  // The UserSecretsId specified by this xunit test project.
-            .AddEnvironmentVariables()
-            .Build();
-    }
-
     [Fact]
     public void Test()
     {
+        if(!EnableRealRedisTests) return;
+
         var randomAppId = Guid.NewGuid().ToString("N");
 
         IServiceCollection services = new ServiceCollection();
         services.Configure<RedisCacheOptions>(o =>
         {
-            o.Configuration = Configuration["Weixin:RedisConnection"];
+            o.Configuration = RedisConnectionString;
         });
         services.AddSingleton<IWeixinCacheProvider, WeixinRedisCacheProvider>();
         var sp = services.BuildServiceProvider();
