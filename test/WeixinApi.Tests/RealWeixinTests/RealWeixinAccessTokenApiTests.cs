@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Myvas.AspNetCore.Weixin.Api.RealTests;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class RealWeixinAccessTokenApiTests : RealWeixinServerBase
 {
@@ -16,8 +16,7 @@ public class RealWeixinAccessTokenApiTests : RealWeixinServerBase
             options.AppId = Configuration["Weixin:AppId"];
             options.AppSecret = Configuration["Weixin:AppSecret"];
         })
-        // .AddWeixinAccessTokenMemoryCacheProvider() implicitly
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });

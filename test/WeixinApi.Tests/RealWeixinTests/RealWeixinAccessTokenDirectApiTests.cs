@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Myvas.AspNetCore.Weixin;
-using Myvas.AspNetCore.Weixin.Api.RealTests;
+
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class RealWeixinAccessTokenDirectApiTests : RealWeixinServerBase
 {
@@ -24,7 +24,7 @@ public class RealWeixinAccessTokenDirectApiTests : RealWeixinServerBase
         var result = api.GetToken();
 
         Assert.NotNull(result);
-        Debug.WriteLineIf(!(result?.Succeeded ?? false), result);
+        Debug.WriteLineIf(!result.Succeeded, result);
         Assert.True(result.Succeeded);
     }
 }

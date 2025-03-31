@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Myvas.AspNetCore.Weixin.Api.RealTests;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class RealWeixinServerBase : RealRedisServerBase
 {

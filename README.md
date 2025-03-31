@@ -29,16 +29,20 @@ This solution is working around the Tencent WeChat (also known as Weixin) platfo
 ## 微信接口服务容器 `WeixinBuilder`
 
 ```csharp
-// Optional: AddWeixinCore(...) for IWeixinAccessTokenApi and WeixinMemoryCacheProvider only.
+// (1.1) AddWeixinCore(...) to inject WeixinMemoryCacheProvider, IWeixinAccessTokenApi, IWeixinJsapiTicketApi, IWeixinCardTicketApi.
+// (1.2) AddWeixin(...) to inject WeixinMemoryCachProvider and all APIs (see the list below).
 services.AddWeixin(o => {
 	o.AppId = Configuration["Weixin:AppId"];
 	o.AppSecret = Configuration["Weixin:AppSecret"];
-	//o.Backchannel = _testServer.CreateClient(); // For testing on your FakeServer
+	//o.Backchannel = _testServer.CreateClient(); // For testing using a fake TestServer
 })
-// WeixinMemoryCacheProvider has already injected as the default.
-// WeixinRedisCacheProvider is also a better choice for distribution cache.
-// or replace by your customized implementation of IWeixinCacheProvider.
-//.AddWeixinCacheProvider<YourCacheProvider>()
+
+//(2.1) The default injection in AddWeixinCore and AddWeixin to provide a memory cache provider implemented IWeixinCacheProvider as default.
+//.AddWeixinMemoryCacheProvider() 
+// (2.2) To replace with a better distribution cache provider. (recommended)
+.AddWeixinRedisCacheProvider(...)
+// (2.3) Or, replace with your implementation of IWeixinCacheProvider.
+//.AddWeixinCacheProvider<TWeixinCacheProvider>()
 ;
 ```
 
@@ -62,16 +66,14 @@ services.AddWeixin(o => {
   - `IWeixinGroupMessageApi`: 
   - `IWeixinQrcodeApi`: 
   - `IWeixinWifiApi`: 
-- Generic cache providers: 
-  - Cache object: `IWeixinExpirableValue`
-  - Memory cache provider: `WeixinMemoryCacheProvider<TWeixinCacheJson>` (Default injected in `AddWeixin(...)` and `AddWeixinCore(...)`)
-  - Redis cache provider: `WeixinRedisCacheProvider<TWeixinCacheJson>`
-  - `<WeixinBuilder>.AddWeixinRedisCacheProvider<TWeixinCacheJson>(Action<RedisCacheOptions>)`
-  - Customized cache provider type: `IWeixinCacheProvider<TWeixinCacheJson> where TWeixinCacheJson : IWeixinExpirableValue`
+- Cache providers:
+  - Memory cache provider: `AddWeixinMemoryCacheProvider` (Default injected in `AddWeixin(...)` and `AddWeixinCore(...)`)
+  - Redis cache provider: `AddWeixinRedisCacheProvider(Action<RedisCacheOptions>)`
+  - Customization of cache provider: `AddWeixinCacheProvider<TWeixinCacheProvider>` where `TWeixinCacheProvider` should implement `IWeixinCacheProvider` for `IWeixinExpirableValue` type.
 
 ## 微信公众号服务站点-中间件 `WeixinSiteMiddleware`
 
-- Use `WeixinSiteMiddleware`: 
+- Use the `WeixinSiteMiddleware`: 
 
 	```csharp
 	app.UseWeixinSite();
@@ -88,41 +90,45 @@ services.AddWeixin(o => {
 
 	```csharp
 	// <WeixinBuilder>
+  // (1) Add services for 
 	.AddWeixinSite(o => {
-		o.Path = Configuration["Weixin:Path"];
+		o.Path = Configuration.GetValue("Weixin:Path", "/wx"); // optional, default is "/wx"
 		o.WebsiteToken = Configuration["Weixin:WebsiteToken"];
-		o.Debug = false; //默认为false，即不允许微信web开发者工具(wechatdevtools)等客户端访问。若修改为true则允许。
+		o.Debug = Configuration.GetValue<bool>("Weixin:Debug", false); // optional, default is false (Do NOT allow `微信web开发者工具(wechatdevtools)` and other browsers to access)
 	})
-	// AddWeixinSite默认注入 WeixinDebugEventSink (测试用，上行消息及事件通知）
-
-	// 上下行消息加解密
+  
+	// (2) 上下行消息加解密
 	.AddMessageProtection(o => {
-		o.StrictMode = true; // default is false (compatible with ClearText)
-		o.EncodingAESKey = Configuration["Weixin:EncodingAESKey"];//请注意检查该值正确无误！
-		// （1）若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；
-		// （2）若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或不配置。
+		o.EncodingAESKey = Configuration["Weixin:EncodingAESKey"];    
+		o.StrictMode = Configuration.GetValue<bool>("Weixin:StrictMode", false); // default is false (compatible with ClearText)
+		// (1) 若填写错误，将导致您在启用“兼容模式”或“安全模式”时无法正确解密（及加密）；
+		// (2) 若您使用“微信公众平台测试号”部署，您应当注意到其不支持消息加解密，此时须用空字符串或不配置。
 	})
 
-	// 自动存储上行消息及事件（Replace the WeixinDebugEventSink with WeixinEfCoreEventSink to replace the WeixinDebugEventSink）
+  // (3.1) The default injection in AddWeixinSite to provide a debug output on received Weixin messages and events.
+  //.AddWeixinDebugEventSink() 
+
+  // (3.2) To replace with an implementation with persistance in database. 
+	// 自动存储上行消息及事件
 	.AddWeixinEfCore<TWeixinDbContext>(o => {
 		// 启用订阅者名单同步服务
 		o.EnableSyncForWeixinSubscribers = true; // default is false
-    // 执行同步服务的时间间隔
-    o.SyncIntervalInMinutesForWeixinSubscribers = 10; // min is 3 minute
+		// 执行同步服务的时间间隔
+		o.SyncIntervalInMinutesForWeixinSubscribers = 10; // min is 3 minutes
 	})
 	// 使用自定义数据类型
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber>(o => ...)
 	//.AddWeixinEfCore<TWeixinDbContext, TWeixinSubscriber, TKey>(o => ...)
 
-  // Add your own implementation of IWeixinEventSink, replace the WeixinEfCoreEventSink.
-  //.AddWeixinEventSink<YourEventSink>()
+  // (3.3) Or, replace with your implementation of IWeixinEventSink.
+  //.AddWeixinEventSink<TWeixinCacheProvider>()
 
-	// 接口服务：发送客服响应消息
+	// (4) 接口服务：发送客服响应消息
 	.AddWeixinPassiveResponseMessaging(o => {
 		o.TrySmsOnFailed = true; // default is false
 	})
 
-	// 接口服务：发送模板消息
+	// (5) 接口服务：发送模板消息
 	.AddWeixinTemplateMessaging(o => {
 		o.MaxRetryTimes = 5; // default is 3
 	});
@@ -132,6 +138,11 @@ services.AddWeixin(o => {
 http://demo.auth.myvas.com (debian.9-x64) [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/myvas/AspNetCore.Authentication.Demo?label=github)](https://github.com/myvas/AspNetCore.Authentication.Demo)
 
 ## For Developers
+### WeixinEfCoreEventSink
+- [WeixinEfCoreEventSink](src/EfCore/EventSinks/WeixinEfCoreEventSink.cs)
+- [WeixinTraceEventSink](src/Site/EventSinks/WeixinTraceEventSink.cs)
+- [WeixinDebugEventSink](src/Site/EventSinks/WeixinDebugEventSink.cs)
+
 ### samples/WeixinSiteSample
 1. Install the EF Core Tools (globally)
 ```

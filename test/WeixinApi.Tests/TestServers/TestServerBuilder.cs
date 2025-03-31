@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public static class TestServerBuilder
 {

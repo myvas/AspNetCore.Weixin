@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.Json;
 
-namespace Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public static class FakeTencentServerBuilder
 {

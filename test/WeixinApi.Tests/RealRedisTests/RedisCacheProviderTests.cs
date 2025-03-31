@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 
-namespace Myvas.AspNetCore.Weixin.Api.RealTests;
-
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class RealRedisCacheProviderTests : RealRedisServerBase
 {
@@ -71,7 +69,7 @@ public class RealRedisCacheProviderTests : RealRedisServerBase
             options.AppSecret = "FAKE_APPSECRET";
             options.Backchannel = FakeTencentServer.CreateClient();
         })
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Myvas.AspNetCore.Weixin.Api.RealTests;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public class RealWeixinMenuApiTests : RealWeixinServerBase
 {
@@ -35,7 +35,7 @@ public class RealWeixinMenuApiTests : RealWeixinServerBase
             options.AppId = Configuration["Weixin:AppId"];
             options.AppSecret = Configuration["Weixin:AppSecret"];
         })
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });
@@ -58,7 +58,7 @@ public class RealWeixinMenuApiTests : RealWeixinServerBase
             options.AppId = Configuration["Weixin:AppId"];
             options.AppSecret = Configuration["Weixin:AppSecret"];
         })
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });
