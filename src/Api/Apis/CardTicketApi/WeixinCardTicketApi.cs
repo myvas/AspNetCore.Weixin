@@ -5,16 +5,16 @@ using System.Threading;
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
-/// 获取微信Card Ticket数据服务接口
+/// Get Weixin Card Ticket
 /// </summary>
 public class WeixinCardTicketApi : IWeixinCardTicketApi
 {
     private readonly WeixinCardTicketDirectApi _api;
-    private readonly IWeixinCacheProvider<WeixinCardTicketJson> _cache;
+    private readonly IWeixinCacheProvider _cache;
 
     public string AppId { get => _api.Options.AppId; }
 
-    public WeixinCardTicketApi(WeixinCardTicketDirectApi api, IWeixinCacheProvider<WeixinCardTicketJson> cacheProvider)
+    public WeixinCardTicketApi(WeixinCardTicketDirectApi api, IWeixinCacheProvider cacheProvider)
     {
         _api = api ?? throw new ArgumentNullException(nameof(api));
         _cache = cacheProvider ?? throw new ArgumentException(nameof(cacheProvider));
@@ -24,27 +24,27 @@ public class WeixinCardTicketApi : IWeixinCardTicketApi
     {
         if (_cache == null) // We allow the cache provider be null
         {
-            var json = await FetchTokenAsync(cancellationToken);
+            var json = await FetchTicketAsync(cancellationToken);
             return json;
         }
 
         if (forceRenew)
         {
-            _cache.Remove(AppId);
-            var json = await FetchTokenAsync(cancellationToken);
+            _cache.Remove<WeixinCardTicketJson>(AppId);
+            var json = await FetchTicketAsync(cancellationToken);
             _cache.Replace(AppId, json);
             return json;
         }
         else
         {
-            var accessToken = _cache.Get(AppId);
-            if (string.IsNullOrEmpty(accessToken?.Ticket))
+            var cardTicket = _cache.Get<WeixinCardTicketJson>(AppId);
+            if (cardTicket==null || !cardTicket!.Succeeded)
             {
-                var json = await FetchTokenAsync(cancellationToken);
+                var json = await FetchTicketAsync(cancellationToken);
                 _cache.Replace(AppId, json);
-                accessToken = json;
+                cardTicket = json;
             }
-            return accessToken;
+            return cardTicket;
         }
     }
 
@@ -54,14 +54,12 @@ public class WeixinCardTicketApi : IWeixinCardTicketApi
 
     #region private methods
     /// <summary>
-    /// 
+    /// Call <see cref="IWeixinCardTicketDirectApi.GetTicketAsync"/> to get a ticket.
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private Task<WeixinCardTicketJson> FetchTokenAsync(CancellationToken cancellationToken = default)
+    private Task<WeixinCardTicketJson> FetchTicketAsync(CancellationToken cancellationToken = default)
     {
-        //var appId = _options.AppId;
-        //var appSecret = _options.AppSecret;
         return _api.GetTicketAsync(cancellationToken);
     }
     #endregion

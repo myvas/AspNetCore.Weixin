@@ -31,6 +31,4 @@ public class WeixinCardTicketJson : WeixinErrorJson, IWeixinExpirableValue
 
     [JsonIgnore]
     public string Value { get => Ticket; set => Ticket = value; }
-
-    public bool Validate() => Succeeded;
 }

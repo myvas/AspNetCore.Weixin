@@ -5,16 +5,16 @@ using System.Threading;
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
-/// 获取微信JSAPI TICKET数据服务接口
+/// Get Weixin JsapiTicket
 /// </summary>
 public class WeixinJsapiTicketApi : IWeixinJsapiTicketApi
 {
     private readonly WeixinJsapiTicketDirectApi _api;
-    private readonly IWeixinCacheProvider<WeixinJsapiTicketJson> _cache;
+    private readonly IWeixinCacheProvider _cache;
 
     public string AppId { get => _api.Options.AppId; }
 
-    public WeixinJsapiTicketApi(WeixinJsapiTicketDirectApi api, IWeixinCacheProvider<WeixinJsapiTicketJson> cacheProvider)
+    public WeixinJsapiTicketApi(WeixinJsapiTicketDirectApi api, IWeixinCacheProvider cacheProvider)
     {
         _api = api ?? throw new ArgumentNullException(nameof(api));
         _cache = cacheProvider ?? throw new ArgumentException(nameof(cacheProvider));
@@ -24,27 +24,27 @@ public class WeixinJsapiTicketApi : IWeixinJsapiTicketApi
     {
         if (_cache == null) // We allow the cache provider be null
         {
-            var json = await FetchTokenAsync(cancellationToken);
+            var json = await FetchTicketAsync(cancellationToken);
             return json;
         }
 
         if (forceRenew)
         {
-            _cache.Remove(AppId);
-            var json = await FetchTokenAsync(cancellationToken);
+            _cache.Remove<WeixinJsapiTicketJson>(AppId);
+            var json = await FetchTicketAsync(cancellationToken);
             _cache.Replace(AppId, json);
             return json;
         }
         else
         {
-            var accessToken = _cache.Get(AppId);
-            if (string.IsNullOrEmpty(accessToken?.Ticket))
+            var jsapiTicket = _cache.Get<WeixinJsapiTicketJson>(AppId);
+            if (jsapiTicket == null || !jsapiTicket!.Succeeded)
             {
-                var json = await FetchTokenAsync(cancellationToken);
+                var json = await FetchTicketAsync(cancellationToken);
                 _cache.Replace(AppId, json);
-                accessToken = json;
+                jsapiTicket = json;
             }
-            return accessToken;
+            return jsapiTicket;
         }
     }
 
@@ -54,15 +54,13 @@ public class WeixinJsapiTicketApi : IWeixinJsapiTicketApi
 
     #region private methods
     /// <summary>
-    /// 
+    /// Call <see cref="IWeixinJsapiTicketDirectApi.GetTicketAsync"/> to get a ticket.
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private Task<WeixinJsapiTicketJson> FetchTokenAsync(CancellationToken cancellationToken = default)
+    private async Task<WeixinJsapiTicketJson> FetchTicketAsync(CancellationToken cancellationToken = default)
     {
-        //var appId = _options.AppId;
-        //var appSecret = _options.AppSecret;
-        return _api.GetTicketAsync(cancellationToken);
+        return await _api.GetTicketAsync(cancellationToken);
     }
     #endregion
 }

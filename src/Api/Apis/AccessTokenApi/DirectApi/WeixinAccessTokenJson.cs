@@ -43,6 +43,4 @@ public class WeixinAccessTokenJson : WeixinErrorJson, IWeixinExpirableValue
 
     [JsonIgnore]
     public string Value { get => AccessToken; set => AccessToken = value; }
-
-    public bool Validate() => Succeeded;
 }
