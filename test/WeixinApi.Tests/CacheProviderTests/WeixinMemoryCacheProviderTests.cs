@@ -2,11 +2,13 @@ using System;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Threading;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
-public class WeixinExpirationMemoryCacheProviderTests
+public class WeixinMemoryCacheProviderTests
 {
     [Fact]
     public void Test()
@@ -14,22 +16,20 @@ public class WeixinExpirationMemoryCacheProviderTests
         var randomAppId = Guid.NewGuid().ToString("N");
 
         IServiceCollection services = new ServiceCollection();
-        services.AddWeixinCore(o =>
-        {
-            o.AppId = randomAppId;
-            o.AppSecret = "FAKE_INVALID_SECRET";
-        })
-        .AddWeixinCacheProvider<WeixinAccessTokenJson, WeixinExpirationMemoryCacheProvider<WeixinAccessTokenJson>>();
+        services.AddMemoryCache();
+        services.AddSingleton<IWeixinCacheProvider, WeixinMemoryCacheProvider>();
         var sp = services.BuildServiceProvider();
-        var api = sp.GetRequiredService<IWeixinCacheProvider<WeixinAccessTokenJson>>();
+        var api = sp.GetRequiredService<IWeixinCacheProvider>();
 
         var randomAccessToken = Guid.NewGuid().ToString("N");
+        Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
         var replaceResult = api.Replace(randomAppId, new WeixinAccessTokenJson { AccessToken = randomAccessToken, ExpiresIn = 15 });
         Assert.True(replaceResult);
 
-        var accessToken = api.Get(randomAppId);
         Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-        Debug.WriteLine(JsonSerializer.Serialize(accessToken));
+        var accessToken = api.Get<WeixinAccessTokenJson>(randomAppId);
+        Assert.NotNull(accessToken);
+        Debug.WriteLineIf(!accessToken.Succeeded, JsonSerializer.Serialize(accessToken));
         Assert.True(accessToken.ExpiresIn > 9);
         Assert.Equal(randomAccessToken, accessToken.AccessToken);
 
@@ -37,21 +37,23 @@ public class WeixinExpirationMemoryCacheProviderTests
         {
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-            var t = api.Get(randomAppId);
-            Debug.WriteLine(JsonSerializer.Serialize(t));
+            var t = api.Get<WeixinAccessTokenJson>(randomAppId);
+            Assert.NotNull(t);
+            Debug.WriteLineIf(!t.Succeeded, JsonSerializer.Serialize(t));
         }
 
-        var accessToken2 = api.Get(randomAppId);
         Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-        Debug.WriteLine(JsonSerializer.Serialize(accessToken2));
+        var accessToken2 = api.Get<WeixinAccessTokenJson>(randomAppId);
+        Assert.NotNull(accessToken2);
+        Debug.WriteLineIf(!accessToken2.Succeeded, JsonSerializer.Serialize(accessToken2));
         Assert.True(accessToken2.ExpiresIn < 11);
         Assert.Equal(randomAccessToken, accessToken2.AccessToken);
 
         Thread.Sleep(TimeSpan.FromSeconds(10));
 
-        var accessToken3 = api.Get(randomAppId);
         Debug.WriteLine($"Time: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-        Debug.WriteLine(JsonSerializer.Serialize(accessToken3));
-        Assert.False(accessToken3?.Validate() ?? false);
+        var accessToken3 = api.Get<WeixinAccessTokenJson>(randomAppId);
+        Debug.WriteLineIf(accessToken3.Succeeded, JsonSerializer.Serialize(accessToken3));
+        Assert.False(accessToken3?.Succeeded ?? false);
     }
 }
