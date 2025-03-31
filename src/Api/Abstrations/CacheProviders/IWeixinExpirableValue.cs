@@ -4,5 +4,5 @@ public interface IWeixinExpirableValue
 {
     string Value { get; set; }
     int ExpiresIn { get; set; }
-    bool Validate();
+    bool Succeeded { get; }
 }
