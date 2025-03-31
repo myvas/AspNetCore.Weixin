@@ -41,6 +41,7 @@ public class WeixinRedisCacheProvider : IWeixinCacheProvider
     public WeixinRedisCacheProvider(IOptions<RedisCacheOptions> optionsAccessor)
     {
         _options = optionsAccessor?.Value ?? throw new ArgumentNullException(nameof(optionsAccessor));
+        if(string.IsNullOrEmpty(_options.Configuration)) throw new ArgumentException($"Configuration in RedisCacheOptions cannot be empty");
         _cache = GetDatabase() ?? throw new ArgumentNullException(nameof(optionsAccessor));
     }
 
