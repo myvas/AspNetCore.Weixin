@@ -131,12 +131,11 @@ public static class HostExtensions
             o.AppId = Configuration["Weixin:AppId"];
             o.AppSecret = Configuration["Weixin:AppSecret"];
         })
-        .AddAccessTokenRedisCacheProvider(o =>
+        .AddWeixinRedisCacheProvider(o =>
         {
             // See: https://stackexchange.github.io/StackExchange.Redis/Configuration.html
             o.Configuration = Configuration.GetValue("ConnectionStrings:RedisConnection", "localhost");
         })
-        .AddJsapiTicketRedisCacheProvider()
         .AddWeixinSite(o =>
         {
             o.Debug = Configuration.GetValue<bool>("Weixin:Debug", true); // for this demo for debugging
