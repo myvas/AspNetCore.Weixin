@@ -1,9 +1,7 @@
 using System.Net;
 using System.Threading.Tasks;
-using Xunit;
 using Microsoft.AspNetCore.TestHost;
 using System.Text.Json;
-using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
