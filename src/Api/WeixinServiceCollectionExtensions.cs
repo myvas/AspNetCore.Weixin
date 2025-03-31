@@ -33,8 +33,12 @@ public static class WeixinServiceCollectionExtensions
 		builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<WeixinOptions>, WeixinPostConfigureOptions<WeixinOptions>>());
 
 		builder.Services.AddLogging();
-		builder.AddAccessTokenMemoryCacheProvider();
+
+		builder.AddWeixinMemoryCacheProvider();
+
 		builder.AddWeixinAccessTokenApi();
+		builder.AddWeixinJsapiTicketApi();
+		builder.AddWeixinCardTicketApi();
 
 		return builder;
 	}
@@ -48,12 +52,6 @@ public static class WeixinServiceCollectionExtensions
 	public static WeixinBuilder AddWeixin(this IServiceCollection services, Action<WeixinOptions> setupAction = null)
 	{
 		var builder = services.AddWeixinCore(setupAction);
-
-		builder.AddJsapiTicketMemoryCacheProvider();
-		builder.AddWeixinJsapiTicketApi();
-		
-		builder.AddCardTicketMemoryCacheProvider();
-		builder.AddWeixinCardTicketApi();
 
         builder.Services.AddTransient<IWeixinCommonApi, WeixinCommonApi>();
         builder.Services.AddTransient<IWeixinMenuApi, WeixinMenuApi>();

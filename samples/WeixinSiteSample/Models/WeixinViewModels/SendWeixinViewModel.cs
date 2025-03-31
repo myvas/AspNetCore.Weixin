@@ -10,6 +10,8 @@ public class SendWeixinViewModel
     [Required]
     public string OpenId { get; set; }
 
+    public string Nickname { get; set; }
+
     [Required]
     public string Content { get; set; }
 }

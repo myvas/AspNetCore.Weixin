@@ -10,4 +10,7 @@ public class WeixinJsonViewModel
 
     [MaxLength(102400)]
     public string Json { get; set; }
+    
+    [MaxLength(102400)]
+    public string CreateJson { get; set; }
 }

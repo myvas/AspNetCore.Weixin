@@ -7,11 +7,11 @@ namespace Myvas.AspNetCore.Weixin;
 public class WeixinAccessTokenApi : IWeixinAccessTokenApi
 {
     private readonly WeixinAccessTokenDirectApi _api;
-    private readonly IWeixinCacheProvider<WeixinAccessTokenJson> _cache;
+    private readonly IWeixinCacheProvider _cache;
 
     public string AppId { get => _api.Options.AppId; }
 
-    public WeixinAccessTokenApi(WeixinAccessTokenDirectApi api, IWeixinCacheProvider<WeixinAccessTokenJson> cacheProvider)
+    public WeixinAccessTokenApi(WeixinAccessTokenDirectApi api, IWeixinCacheProvider cacheProvider)
     {
         _api = api ?? throw new ArgumentNullException(nameof(api));
         _cache = cacheProvider ?? throw new ArgumentException(nameof(cacheProvider));
@@ -27,14 +27,14 @@ public class WeixinAccessTokenApi : IWeixinAccessTokenApi
 
         if (forceRenew)
         {
-            _cache.Remove(AppId);
+            _cache.Remove<WeixinAccessTokenJson>(AppId);
             var json = await FetchTokenAsync(cancellationToken);
             _cache.Replace(AppId, json);
             return json;
         }
         else
         {
-            var accessToken = _cache.Get(AppId);
+            var accessToken = _cache.Get<WeixinAccessTokenJson>(AppId);
             if (accessToken == null || !accessToken!.Succeeded)
             {
                 var json = await FetchTokenAsync(cancellationToken);
@@ -46,20 +46,18 @@ public class WeixinAccessTokenApi : IWeixinAccessTokenApi
     }
 
     public Task<WeixinAccessTokenJson> GetTokenAsync(CancellationToken cancellationToken = default) => GetTokenAsync(false, cancellationToken);
-    public WeixinAccessTokenJson GetToken() => Task.Run(async () => await GetTokenAsync()).Result;
-    public WeixinAccessTokenJson GetToken(bool forceRenew) => Task.Run(async () => await GetTokenAsync(forceRenew)).Result;
+    public WeixinAccessTokenJson GetToken() => GetTokenAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+    public WeixinAccessTokenJson GetToken(bool forceRenew) => GetTokenAsync(forceRenew).ConfigureAwait(false).GetAwaiter().GetResult();
 
     #region private methods
     /// <summary>
-    /// 
+    /// Call <see cref="IWeixinAccessTokenDirectApi.GetTokenAsync"/> to get a token.
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    private Task<WeixinAccessTokenJson> FetchTokenAsync(CancellationToken cancellationToken = default)
+    private async Task<WeixinAccessTokenJson> FetchTokenAsync(CancellationToken cancellationToken = default)
     {
-        //var appId = _options.AppId;
-        //var appSecret = _options.AppSecret;
-        return _api.GetTokenAsync(cancellationToken);
+        return await _api.GetTokenAsync(cancellationToken);
     }
     #endregion
 }

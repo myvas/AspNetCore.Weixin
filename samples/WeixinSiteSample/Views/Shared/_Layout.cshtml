@@ -22,16 +22,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Weixin" asp-action="@nameof(WeixinController.Index)">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Weixin" asp-action="Index">Weixin</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Weixin" asp-action="@nameof(WeixinController.Subscribers)">Subscribers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Jssdk" asp-action="Index">Jssdk</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Weixin" asp-action="@nameof(WeixinController.ReceivedText)">Received Messages</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="WeixinMenu" asp-action="@nameof(WeixinMenuController.Index)">Weixin Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.About)">About</a>
                         </li>
                     </ul>
                     @await Html.PartialAsync("_LoginPartial")

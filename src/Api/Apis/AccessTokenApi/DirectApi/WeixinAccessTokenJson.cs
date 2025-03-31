@@ -3,22 +3,24 @@
 namespace Myvas.AspNetCore.Weixin;
 
 /// <summary>
-/// 微信全局访问票据数据。调用微信API接口时必须。</summary>
+/// 微信全局访问票据数据。调用微信API接口时必须。
+/// </summary>
+/// <remarks>
 /// <example>
 /// 正常情况下，微信会返回下述JSON数据包给公众号：
 /// <code>
 /// {"access_token":"ACCESS_TOKEN","expires_in":7200}</code>
 /// 错误时微信会返回错误码等信息，JSON数据包示例如下（该示例为AppID无效错误）:
 /// <code>
-/// {"errcode":40013,"errmsg":"invalid appid"}</code></example>
-/// <remarks>
-/// <list type="bullet"><item>
-/// 调用所有微信接口时均需使用https协议。
-/// </item><item>
-/// 获取access_token的api调用频率限制：每日限额2000次（测试号为200次）。
-/// </item><item>
-/// 重复获取将导致上次获取的access_token失效。
-/// </item></list></remarks>
+/// {"errcode":40013,"errmsg":"invalid appid"}
+/// </code>
+/// </example>
+/// <list type="bullet">
+/// <item>调用所有微信接口时均需使用https协议。</item>
+/// <item>获取access_token的api调用频率限制：每日限额2000次（测试号为200次）。</item>
+/// <item>重复获取将导致上次获取的access_token失效。</item>
+/// </list>
+/// </remarks>
 public class WeixinAccessTokenJson : WeixinErrorJson, IWeixinExpirableValue
 {
     /// <summary>
@@ -41,6 +43,4 @@ public class WeixinAccessTokenJson : WeixinErrorJson, IWeixinExpirableValue
 
     [JsonIgnore]
     public string Value { get => AccessToken; set => AccessToken = value; }
-
-    public bool Validate() => Succeeded;
 }

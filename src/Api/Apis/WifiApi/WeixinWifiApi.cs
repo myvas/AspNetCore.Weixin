@@ -13,7 +13,8 @@ namespace Myvas.AspNetCore.Weixin;
 /// <para>微信扫一扫只是解决微信用户连接Wi-Fi通过授权认证的一个手段，Wi-Fi的安全性需要Wi-Fi服务提供商负责。</para>
 /// </summary>
 /// <remarks>
-/// <list type="">接口实现说明
+/// 接口实现说明
+/// <list type="bullet">
 /// <item>接口1：已在公共接口(<see cref="WeixinAccessTokenDirectApi"/>)中实现</item>
 /// <item>接口4：通过邮件方式发送</item>
 /// <item>接口8：在网站应用程序中实现</item>

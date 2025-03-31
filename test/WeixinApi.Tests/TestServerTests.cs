@@ -1,9 +1,7 @@
 using System.Net;
 using System.Threading.Tasks;
-using Xunit;
 using Microsoft.AspNetCore.TestHost;
 using System.Text.Json;
-using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
@@ -12,7 +10,7 @@ public class TestServerTests
     private readonly TestServer _server;
     public TestServerTests()
     {
-        _server = FakeServerBuilder.CreateTencentServer();
+        _server = FakeTencentServerBuilder.CreateTencentServer();
     }
 
     [Fact]
