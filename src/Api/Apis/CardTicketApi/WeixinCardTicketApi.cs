@@ -49,8 +49,8 @@ public class WeixinCardTicketApi : IWeixinCardTicketApi
     }
 
     public Task<WeixinCardTicketJson> GetTicketAsync(CancellationToken cancellationToken = default) => GetTicketAsync(false, cancellationToken);
-    public WeixinCardTicketJson GetTicket() => Task.Run(async () => await GetTicketAsync()).Result;
-    public WeixinCardTicketJson GetTicket(bool forceRenew) => Task.Run(async () => await GetTicketAsync(forceRenew)).Result;
+    public WeixinCardTicketJson GetTicket() => GetTicketAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+    public WeixinCardTicketJson GetTicket(bool forceRenew) => GetTicketAsync(forceRenew).ConfigureAwait(false).GetAwaiter().GetResult();
 
     #region private methods
     /// <summary>
