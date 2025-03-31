@@ -71,7 +71,7 @@ public class RealRedisCacheProviderTests : RealRedisServerBase
             options.AppSecret = "FAKE_APPSECRET";
             options.Backchannel = FakeTencentServer.CreateClient();
         })
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });

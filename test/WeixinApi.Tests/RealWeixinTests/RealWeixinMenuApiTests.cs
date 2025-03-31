@@ -35,7 +35,7 @@ public class RealWeixinMenuApiTests : RealWeixinServerBase
             options.AppId = Configuration["Weixin:AppId"];
             options.AppSecret = Configuration["Weixin:AppSecret"];
         })
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });
@@ -58,7 +58,7 @@ public class RealWeixinMenuApiTests : RealWeixinServerBase
             options.AppId = Configuration["Weixin:AppId"];
             options.AppSecret = Configuration["Weixin:AppSecret"];
         })
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });

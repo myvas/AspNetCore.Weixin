@@ -17,7 +17,7 @@ public class RealWeixinAccessTokenApiTests : RealWeixinServerBase
             options.AppSecret = Configuration["Weixin:AppSecret"];
         })
         // .AddWeixinAccessTokenMemoryCacheProvider() implicitly
-        .AddAccessTokenRedisCacheProvider(options =>
+        .AddWeixinRedisCacheProvider(options =>
         {
             options.Configuration = RedisConnectionString;
         });
