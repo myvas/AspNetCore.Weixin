@@ -1,7 +1,7 @@
 using System;
 using StackExchange.Redis;
 
-namespace Myvas.AspNetCore.Weixin.Api.RealTests;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public partial class RealRedisServerTests : RealRedisServerBase
 {

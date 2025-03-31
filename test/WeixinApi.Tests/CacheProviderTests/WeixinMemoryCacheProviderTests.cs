@@ -2,9 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Threading;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
 

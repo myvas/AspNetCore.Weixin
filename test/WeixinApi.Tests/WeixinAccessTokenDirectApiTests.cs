@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
 using System.Threading.Tasks;
 
 namespace Myvas.AspNetCore.Weixin.Api.Tests;
