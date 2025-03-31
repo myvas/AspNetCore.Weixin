@@ -101,7 +101,7 @@ public abstract class WeixinSecureApiClient : WeixinApiClient
     /// </summary>
     /// <param name="requestUriFormat">The URL to which the HTTP GET request is sent, included a placeholder of 'access_token=ACCESS_TOKEN' or '{0}'</param>
     /// <returns></returns>
-    public async Task<Dictionary<string, string>> SecureDownload(string requestUriFormat, Stream file, int bufferSize = 81920, CancellationToken cancellationToken = default)
+    public async Task<WeixinDownloadResultJson> SecureDownload(string requestUriFormat, Stream file, int bufferSize = 81920, CancellationToken cancellationToken = default)
     => await Download(await FormatUrlWithTokenAsync(requestUriFormat, cancellationToken), file, bufferSize, cancellationToken);
 
     /// <summary>

@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public static class TestServerExtensions
 {

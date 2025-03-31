@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Myvas.AspNetCore.Weixin.Api.Tests.TestServers;
+namespace Myvas.AspNetCore.Weixin.Api.Tests;
 
 public static class TestFile
 {

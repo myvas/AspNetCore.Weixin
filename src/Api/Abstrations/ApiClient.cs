@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,9 +16,9 @@ public class ApiClient
 {
     public HttpClient Http { get; }
 
-    public ApiClient(HttpClient client)
+    public ApiClient(HttpClient httpClient)
     {
-        Http = client;
+        Http = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
 
     /// <summary>
@@ -29,6 +31,7 @@ public class ApiClient
     public async Task<TResult> GetFromJsonAsync<TResult>(string requestUri, CancellationToken cancellationToken = default)
         where TResult : IWeixinErrorJson, new()
     {
+        Debug.WriteLine(requestUri);
         return await WeixinErrorJson.FromResponseAsync<TResult>(async cancellationToken =>
         {
             return await Http.GetAsync(requestUri, cancellationToken);
@@ -43,12 +46,58 @@ public class ApiClient
     /// <param name="requestUri">The URL to which the HTTP GET request is sent.</param>
     /// <param name="cancellationToken"></param>
     /// <returns>The deserialized object of type TResult.</returns>
+    /// <remarks>
+    /// </remarks>
     public async Task<TResult> PostAsJsonAsync<TValue, TResult>(string requestUri, TValue value, JsonSerializerOptions options = null, CancellationToken cancellationToken = default)
            where TResult : IWeixinErrorJson, new()
     {
-        return await WeixinErrorJson.FromResponseAsync<TResult>(async cancellationToken =>
+        Debug.WriteLine(requestUri);
+
+        // NOTE: I am not so sure whether the HttpClient.PostAsJsonAsync() supports anonymous object very well.
+        // [412] HTTP request failed with status: PreconditionFailed
+        // But sometimes it does not work as expected, so I make a redirect to another method.
+        //if (typeof(TValue) == typeof(object))
         {
-            return await Http.PostAsJsonAsync(requestUri, value, options, cancellationToken);
+            return await PostAnonymousObjectAsJsonAsync<TResult>(requestUri, value, options, cancellationToken);
+        }
+        
+        // return await WeixinErrorJson.FromResponseAsync<TResult>(async cancellationToken =>
+        // {
+        //     Debug.WriteLine(JsonSerializer.Serialize(value));
+        //     return await Http.PostAsJsonAsync(requestUri, value, options, cancellationToken);
+        // }, cancellationToken);
+    }
+    
+    /// <summary>
+    /// Post an anonymous object, and get the response as TResult json.
+    /// </summary>
+    /// <typeparam name="TResult">A class suitable for Json serializer.</typeparam>
+    /// <param name="requestUri"></param>
+    /// <param name="anonymousObject"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <remarks>
+    /// A sample for anonymous object (or anonymous type):
+    /// <code>
+    /// var body = new
+    /// {
+    ///     grant_type = "client_credential",
+    ///     appid = Options.AppId,
+    ///     secret = Options.AppSecret,
+    ///     force_refresh = forceRefresh
+    /// };
+    /// </code>
+    /// </remarks>
+    public async Task<TResult> PostAnonymousObjectAsJsonAsync<TResult>(string requestUri, object anonymousObject, JsonSerializerOptions options = null, CancellationToken cancellationToken = default)
+        where TResult : IWeixinErrorJson, new()
+    {
+        Debug.WriteLine(requestUri);
+        return await WeixinErrorJson.FromResponseAsync<TResult>(async ct =>
+        {
+            var jsonBody = JsonSerializer.Serialize(anonymousObject, options);
+            Debug.WriteLine(jsonBody);
+            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+            return await Http.PostAsync(requestUri, content, ct).ConfigureAwait(false);
         }, cancellationToken);
     }
 
@@ -64,8 +113,10 @@ public class ApiClient
     public async Task<TResult> PostMultipleFilesAsJsonAsync<TResult>(string requestUri, Dictionary<string, string> fileKeyAndPaths, CancellationToken cancellationToken = default)
         where TResult : IWeixinErrorJson, new()
     {
+        Debug.WriteLine(requestUri);
         return await WeixinErrorJson.FromResponseAsync<TResult>(async cancellationToken =>
         {
+            Debug.WriteLine(JsonSerializer.Serialize(fileKeyAndPaths));
             var boundary = "----" + DateTime.Now.Ticks.ToString("x");
             //byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
             string formdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
@@ -108,6 +159,7 @@ public class ApiClient
     public async Task<TResult> PostFileAsJsonAsync<TResult>(string requestUri, Stream file, CancellationToken cancellationToken = default)
         where TResult : IWeixinErrorJson, new()
     {
+        Debug.WriteLine(requestUri);
         return await WeixinErrorJson.FromResponseAsync<TResult>(async cancellationToken =>
         {
             Http.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
@@ -127,36 +179,86 @@ public class ApiClient
     public async Task<TResult> PostContentAsJsonAsync<TResult>(string requestUri, HttpContent content, CancellationToken cancellationToken = default)
         where TResult : IWeixinErrorJson, new()
     {
-        return await WeixinErrorJson.FromResponseAsync<TResult>(async cancellationToken =>
+        Debug.WriteLine(requestUri);
+        return await WeixinErrorJson.FromResponseAsync<TResult>(async ct =>
         {
-            return await Http.PostAsync(requestUri, content, cancellationToken);
+            return await Http.PostAsync(requestUri, content, ct).ConfigureAwait(false);
         }, cancellationToken);
     }
 
+    public class WeixinDownloadResultJson : WeixinErrorJson
+    {
+        [JsonPropertyName("headers")]
+        public Dictionary<string, string> Headers { get; set; } = [];
+    }
+
     /// <summary>
-    /// Download
+    /// Download file and return the headers in response.
     /// </summary>
     /// <param name="requestUri"></param>
-    /// <returns></returns>
-    public async Task<Dictionary<string, string>> Download(string requestUri, Stream file, int bufferSize = 81920, CancellationToken cancellationToken = default)
+    /// <returns>The headers in response.</returns>
+    public async Task<WeixinDownloadResultJson> Download(string requestUri, Stream file, int bufferSize = 81920, CancellationToken cancellationToken = default)
     {
-        Dictionary<string, string> ret = new Dictionary<string, string>();
+        Debug.WriteLine(requestUri);
+        var result = new WeixinDownloadResultJson();
 
-        var resp = await Http.GetAsync(requestUri)
-            .ContinueWith((getTask) => getTask.Result.EnsureSuccessStatusCode());
-
-        var data = await resp.Content.ReadAsStreamAsync();
-        foreach (var header in resp.Headers)
+        try
         {
-            var key = header.Key;
-            ret.Add(key, string.Join(";", header.Value));
-        }
-        if (data != null)
-        {
-            await data.CopyToAsync(file, bufferSize, cancellationToken);
-        }
+            using var response = await Http.GetAsync(requestUri);
 
-        return ret;
+            if (!response.IsSuccessStatusCode)
+            {
+                result.ErrorCode = (int)response.StatusCode;
+                result.ErrorMessage = $"HTTP request failed with status: {response.StatusCode}";
+                return result;
+            }
+
+            var data = await response.Content.ReadAsStreamAsync();
+            foreach (var header in response.Headers)
+            {
+                var key = header.Key;
+                result.Headers.Add(key, string.Join(";", header.Value));
+            }
+            if (data != null)
+            {
+                await data.CopyToAsync(file, bufferSize, cancellationToken);
+            }
+            return result;
+        }
+        catch (OperationCanceledException)
+        {
+            result.ErrorCode = (int)HttpStatusCode.RequestTimeout;
+            result.ErrorMessage = "Request was canceled";
+            return result;
+        }
+        catch (HttpRequestException httpEx)
+        {
+            result.ErrorCode = httpEx.GetStatusCode() ?? (int)HttpStatusCode.BadRequest;
+            result.ErrorMessage = httpEx.Message;
+            result.Exception = httpEx;
+            return result;
+        }
+        catch (JsonException jsonEx)
+        {
+            result.ErrorCode = (int)HttpStatusCode.BadRequest;
+            result.ErrorMessage = "Invalid JSON response";
+            result.Exception = jsonEx;
+            return result;
+        }
+        catch (NotSupportedException notSuppEx)
+        {
+            result.ErrorCode = (int)HttpStatusCode.UnsupportedMediaType;
+            result.ErrorMessage = "Unsupported response format";
+            result.Exception = notSuppEx;
+            return result;
+        }
+        catch (Exception ex)
+        {
+            result.ErrorCode = (int)HttpStatusCode.InternalServerError;
+            result.ErrorMessage = "An unexpected error occurred";
+            result.Exception = ex;
+            return result;
+        }
     }
 
     /// <summary>
@@ -170,6 +272,7 @@ public class ApiClient
     public async Task<TResult> PostFormAsJsonAsync<TResult>(string requestUri, Dictionary<string, string> form, CancellationToken cancellationToken = default)
         where TResult : IWeixinErrorJson, new()
     {
+        Debug.WriteLine(requestUri);
         return await WeixinErrorJson.FromResponseAsync<TResult>(async cancellationToken =>
         {
             Http.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Myvas.AspNetCore.Weixin;
+﻿using Myvas.AspNetCore.Weixin;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -23,26 +22,6 @@ public static class WeixinBuildJsapiTicketApiExtensions
 
         builder.Services.AddSingleton<WeixinJsapiTicketDirectApi>();
         builder.Services.AddTransient<IWeixinJsapiTicketApi, WeixinJsapiTicketApi>();
-        return builder;
-    }
-
-    public static WeixinBuilder AddJsapiTicketMemoryCacheProvider(this WeixinBuilder builder)
-    {
-        builder.Services.AddMemoryCache();
-        builder.AddMemoryCacheProvider<WeixinJsapiTicketJson>();
-        return builder;
-    }
-
-    public static WeixinBuilder AddJsapiTicketRedisCacheProvider(this WeixinBuilder builder, Action<RedisCacheOptions> setupAction = null)
-    {
-        builder.AddRedisCacheProvider<WeixinJsapiTicketJson>(setupAction);
-        return builder;
-    }
-
-    public static WeixinBuilder AddJsapiTicketCacheProvider<TWeixinCacheProvider>(this WeixinBuilder builder)
-        where TWeixinCacheProvider : class, IWeixinCacheProvider<WeixinJsapiTicketJson>
-    {
-        builder.AddWeixinCacheProvider<WeixinJsapiTicketJson, TWeixinCacheProvider>();
         return builder;
     }
 }
