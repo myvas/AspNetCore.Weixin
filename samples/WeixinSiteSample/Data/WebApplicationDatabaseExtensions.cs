@@ -35,11 +35,8 @@ public static class WebApplicationDatabaseExtensions
 
             try
             {
-                Task.Run(async () =>
-                {
-                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-                    await EnsureAdminUser(userManager, adminUserName, adminInitPassword);
-                });
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                EnsureAdminUser(userManager, adminUserName, adminInitPassword).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
